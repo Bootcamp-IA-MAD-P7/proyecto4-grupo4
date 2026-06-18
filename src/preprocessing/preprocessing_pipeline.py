@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import numpy as np
 from sklearn.base import BaseEstimator, TransformerMixin
@@ -110,3 +111,15 @@ def build_full_pipeline(numeric_cols, categorical_cols):
         ]
     )
     return pipeline
+
+
+def save_clean_data(csv_path: str, output_dir: str = "data", reference_date=None):
+    """Load raw CSV, apply FeatureEngineer, and save clean dataset."""
+    df = pd.read_csv(csv_path)
+    fe = FeatureEngineer(reference_date=reference_date).fit(df)
+    df_clean = fe.transform(df)
+
+    os.makedirs(output_dir, exist_ok=True)
+    output_path = os.path.join(output_dir, "dataset_clean.csv")
+    df_clean.to_csv(output_path, index=False)
+    return output_path, df_clean
