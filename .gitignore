@@ -1,0 +1,7 @@
+venvp4g4/
+__pycache__/
+*.pyc
+.pytest_cache/
+models/
+*.joblib
+.ipynb_checkpoints/
