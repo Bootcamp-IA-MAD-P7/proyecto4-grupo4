@@ -38,7 +38,7 @@ proyecto4-grupo4/
 - Carga y validación del dataset crudo
 - Limpieza de columnas (nombres, encoding)
 - Detección de nulos, duplicados, outliers
-- Feature engineering basico (fechas, inversores)
+- Feature engineering básico (fechas, inversores)
 - Visualizaciones: distribución del target, países, industrias, años
 - Validaciones reutilizables en `src/data/data_validation.py`
 - Documentación en `docs/data_notes.md`
