@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OneHotEncoder, RobustScaler
+from sklearn.preprocessing import OneHotEncoder, RobustScaler, PolynomialFeatures
 from sklearn.impute import SimpleImputer
 
 
@@ -82,6 +82,7 @@ def build_preprocessor(numeric_cols, categorical_cols):
         steps=[
             ("imputer", SimpleImputer(strategy="median")),
             ("scaler", RobustScaler()),
+            ("poly", PolynomialFeatures(degree=2, include_bias=False)),
         ]
     )
 
