@@ -2,6 +2,11 @@ venvp4g4/
 __pycache__/
 *.pyc
 .pytest_cache/
+.vscode/
+.ipynb_checkpoints/
 models/
 *.joblib
-.ipynb_checkpoints/
+data/raw/
+data/processed/
+reports/
+scripts/
