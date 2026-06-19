@@ -53,7 +53,7 @@ def check_nulls(df: pd.DataFrame, max_pct: float = 5.0, exclude: list = None) ->
 def check_valuation_numeric(df: pd.DataFrame, col: str = "valuation_b") -> dict:
     """Check that the valuation column is numeric and has no NaN."""
     if col not in df.columns:
-        return {"passed": False, "error": "Column '{}' not found".format(col)}
+        return {"passed": False, "error": f"Column '{col}' not found"}
     is_numeric = pd.api.types.is_numeric_dtype(df[col])
     n_nan = int(df[col].isna().sum())
     return {
@@ -66,7 +66,7 @@ def check_valuation_numeric(df: pd.DataFrame, col: str = "valuation_b") -> dict:
 def check_dates_parseable(df: pd.DataFrame, col: str = "Date Joined") -> dict:
     """Check that date column can be parsed to datetime."""
     if col not in df.columns:
-        return {"passed": False, "error": "Column '{}' not found".format(col)}
+        return {"passed": False, "error": f"Column '{col}' not found"}
     parsed = pd.to_datetime(df[col], errors="coerce")
     n_failed = int(parsed.isna().sum())
     return {
@@ -101,7 +101,7 @@ def check_no_shifted_rows(df: pd.DataFrame) -> dict:
 def check_target_range(df: pd.DataFrame, col: str = "valuation_b") -> dict:
     """Check that target values are positive and within reasonable range."""
     if col not in df.columns:
-        return {"passed": False, "error": "Column '{}' not found".format(col)}
+        return {"passed": False, "error": f"Column '{col}' not found"}
     vals = df[col].dropna()
     return {
         "passed": bool((vals > 0).all() and (vals < 1000).all()),
@@ -136,13 +136,13 @@ def run_all_checks_clean(df: pd.DataFrame) -> dict:
 
 def print_check_results(name: str, results: dict):
     """Print validation results in a readable format."""
-    print("\n" + "=" * 50)
-    print("  {}".format(name))
-    print("=" * 50)
+    print(f"\n{'=' * 50}")
+    print(f"  {name}")
+    print(f"{'=' * 50}")
     for check, result in results.items():
         status = "PASS" if result["passed"] else "FAIL"
-        print("\n  [{}] {}".format(status, check))
+        print(f"\n  [{status}] {check}")
         for k, v in result.items():
             if k == "passed":
                 continue
-            print("    {}: {}".format(k, v))
+            print(f"    {k}: {v}")
