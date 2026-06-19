@@ -25,6 +25,8 @@ class FeatureEngineer(BaseEstimator, TransformerMixin):
         df = self._extract_date_features(df)
         df = self._count_investors(df)
         df = self._clean_valuation(df)
+        df = self._create_binary_flags(df)
+        df = self._create_log_features(df)
         df = self._drop_unused(df)
         return df
 
@@ -61,6 +63,17 @@ class FeatureEngineer(BaseEstimator, TransformerMixin):
             df["valuation_b"] = pd.to_numeric(df["valuation_b"], errors="coerce")
         return df
 
+    def _create_binary_flags(self, df):
+        df["is_usa"] = (df["Country"] == "United States").astype(int)
+        df["has_investors"] = (df["investors_count"] > 0).astype(int)
+        df["is_fintech"] = (df["Industry"] == "Fintech").astype(int)
+        df["is_ai"] = (df["Industry"] == "Artificial intelligence").astype(int)
+        return df
+
+    def _create_log_features(self, df):
+        df["investor_count_log"] = np.log1p(df["investors_count"])
+        return df
+
     def _drop_unused(self, df):
         cols_to_drop = ["Company", "Date Joined", "Investors", "Valuation ($B)"]
         df = df.drop(columns=[c for c in cols_to_drop if c in df.columns], errors="ignore")
@@ -69,8 +82,8 @@ class FeatureEngineer(BaseEstimator, TransformerMixin):
 
 def get_feature_types(df):
     """Return lists of numeric and categorical column names."""
-    numeric_cols = ["join_year", "join_month", "years_since_joined", "investors_count"]
-    categorical_cols = ["Country", "Industry"]
+    numeric_cols = ["join_year", "join_month", "years_since_joined", "investors_count", "investor_count_log", "is_usa", "has_investors", "is_fintech", "is_ai"]
+    categorical_cols = ["Country", "City", "Industry"]
     numeric_cols = [c for c in numeric_cols if c in df.columns]
     categorical_cols = [c for c in categorical_cols if c in df.columns]
     return numeric_cols, categorical_cols
@@ -89,7 +102,7 @@ def build_preprocessor(numeric_cols, categorical_cols):
     categorical_transformer = Pipeline(
         steps=[
             ("imputer", SimpleImputer(strategy="most_frequent")),
-            ("encoder", OneHotEncoder(handle_unknown="ignore", sparse_output=False, min_frequency=0.01)),
+            ("encoder", OneHotEncoder(handle_unknown="ignore", sparse_output=False, min_frequency=0.03)),
         ]
     )
 
