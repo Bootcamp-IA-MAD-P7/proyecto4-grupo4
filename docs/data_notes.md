@@ -66,26 +66,6 @@
 5. **Encoding inconsistente:** La columna City tiene caracteres no-ASCII
 6. **Sin series de tiempo:** No hay datos historicos de valuacion
 
-## Archivos Generados
-
-```
-data/
-├── raw/
-│   └── dataset_raw.csv          # Dataset crudo original
-├── processed/
-│   └── dataset_clean.csv        # Dataset limpio con features
-└── dataset_clean.csv            # Version de Integrante 2
-
-reports/
-└── figures/
-    ├── 01_valuation_distribution.png
-    ├── 02_valuation_by_country.png
-    ├── 03_valuation_by_industry.png
-    ├── 04_startups_by_year.png
-    ├── 05_outliers_boxplot.png
-    └── 06_correlation_matrix.png
-```
-
 ## Uso del Dataset
 
 ### Para Integrante 2 (Pipeline)
