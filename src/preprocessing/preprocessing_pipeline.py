@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.preprocessing import OneHotEncoder, RobustScaler
 from sklearn.impute import SimpleImputer
 
 
@@ -81,14 +81,14 @@ def build_preprocessor(numeric_cols, categorical_cols):
     numeric_transformer = Pipeline(
         steps=[
             ("imputer", SimpleImputer(strategy="median")),
-            ("scaler", StandardScaler()),
+            ("scaler", RobustScaler()),
         ]
     )
 
     categorical_transformer = Pipeline(
         steps=[
             ("imputer", SimpleImputer(strategy="most_frequent")),
-            ("encoder", OneHotEncoder(handle_unknown="ignore", sparse_output=False)),
+            ("encoder", OneHotEncoder(handle_unknown="ignore", sparse_output=False, min_frequency=0.01)),
         ]
     )
 
