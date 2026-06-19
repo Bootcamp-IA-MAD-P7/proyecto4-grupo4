@@ -21,7 +21,7 @@
 
 ## Estructura Limpia (Procesada)
 
-| Columna | Tipo | Descripcion |
+| Columna | Tipo | Descripción |
 |---------|------|-------------|
 | company | str | Nombre de la empresa |
 | valuation_b | float64 | Valuación en miles de millones USD |
@@ -37,7 +37,7 @@
 ## Transformaciones Aplicadas
 
 1. **Limpieza de columnas:** Se elimina `\\xa0` del nombre `City`
-2. **Valuacion:** Se extrae `$` y `,`, se convierte a float64
+2. **Valuación:** Se extrae `$` y `,`, se convierte a float64
 3. **Fecha:** Se parsea string a datetime, se extraen `join_year` y `join_month`
 4. **Inversores:** Se cuenta la cantidad de inversores por coma
 
@@ -54,14 +54,14 @@
 
 ### Outliers
 - **~150 outliers** en `valuation_b` (por encima de IQR * 1.5)
-- ByteDance ($140B), SpaceX ($127B), SHEIN ($100B) son los mas extremos
+- ByteDance ($140B), SpaceX ($127B), SHEIN ($100B) son los más extremos
 - La distribución es **muy sesgada a la derecha**
 
 ## Limitaciones del Dataset
 
 1. **Fecha de corte:** Solo incluye startups hasta septiembre 2022
-2. **Valuacion auto-declarada:** No hay verificación independiente
-3. **Sin fecha de fundacion:** Solo se tiene la fecha de inclusión como unicornio
+2. **Valuación autodeclarada:** No hay verificación independiente
+3. **Sin fecha de fundación:** Solo se tiene la fecha de inclusión como unicornio
 4. **Inversores no estructurados:** El campo es texto libre, dificulta análisis
 5. **Encoding inconsistente:** La columna City tiene caracteres no-ASCII
 6. **Sin series de tiempo:** No hay datos históricos de valuación
@@ -89,8 +89,8 @@ checks = run_all_checks_clean(df_clean)
 - **Total startups:** 1186
 - **Países:** 48
 - **Industrias:** 34
-- **Valuacóon mediana:** $1.6B
+- **Valuación mediana:** $1.6B
 - **Valuación promedio:** $3.25B
 - **Valuación máxima:** $140B (ByteDance)
-- **País con mas startups:** United States (636)
-- **Industria con mas startups:** Fintech (239)
+- **País con más startups:** United States (636)
+- **Industria con más startups:** Fintech (239)
