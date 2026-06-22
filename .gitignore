@@ -4,11 +4,23 @@ __pycache__/
 .pytest_cache/
 .venv/
 venv/
+venvp4g4/
+.ipynb_checkpoints/
 
 # Local environment
 .env
 *.env
 !frontend/.env.example
+
+# Model artifacts
+models/
+*.joblib
+
+# Generated project outputs
+data/raw/
+data/processed/
+reports/
+scripts/
 
 # Feedback/runtime data
 data/feedback/*.sqlite3
