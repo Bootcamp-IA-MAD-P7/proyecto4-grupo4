@@ -1,3 +1,4 @@
+import React from "react";
 import { RefreshCw, Send } from "lucide-react";
 
 function PredictionForm({ countries, form, industries, loading, onChange, onSubmit }) {

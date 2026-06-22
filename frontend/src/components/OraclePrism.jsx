@@ -1,6 +1,8 @@
-function OraclePrism() {
+import React from "react";
+
+function OraclePrism({ className = "" }) {
   return (
-    <div className="prism-stage" aria-hidden="true">
+    <div className={`prism-stage ${className}`.trim()} aria-hidden="true">
       <span className="circuit-line line-a" />
       <span className="circuit-line line-b" />
       <span className="circuit-line line-c" />

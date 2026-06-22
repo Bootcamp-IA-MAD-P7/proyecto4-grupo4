@@ -1,3 +1,5 @@
+import React from "react";
+
 import { pipelineSteps } from "../data/modelMetrics";
 
 function PipelineSteps() {

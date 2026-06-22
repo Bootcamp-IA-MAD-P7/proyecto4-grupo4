@@ -1,3 +1,4 @@
+import React from "react";
 import { Activity, CircleDollarSign, Globe2, PieChart } from "lucide-react";
 
 import MetricCard from "./MetricCard";

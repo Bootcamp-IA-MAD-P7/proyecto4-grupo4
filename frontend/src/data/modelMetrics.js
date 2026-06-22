@@ -78,3 +78,41 @@ export const sectorMix = [
   { label: "Healthtech", value: 17 },
   { label: "E-commerce", value: 13 },
 ];
+
+export const valueProps = [
+  {
+    title: "Evaluacion objetiva",
+    copy: "Analiza senales historicas y reduce el peso de la intuicion aislada.",
+  },
+  {
+    title: "Deal flow escalable",
+    copy: "Prioriza grandes volumenes de startups antes de una due diligence profunda.",
+  },
+  {
+    title: "Baseline predictivo",
+    copy: "Genera una estimacion inicial basada en patrones del mercado unicornio.",
+  },
+];
+
+export const dataSources = [
+  {
+    label: "Dataset",
+    value: "Kaggle: ramjasmaurya/unicorn-startups",
+    note: "La muestra contiene 1.186 startups hasta septiembre de 2022.",
+  },
+  {
+    label: "Metricas visibles",
+    value: "Brief y presentacion del proyecto",
+    note: "Las cards del dashboard estan fijadas en frontend como referencias de negocio.",
+  },
+  {
+    label: "Prediccion",
+    value: "Backend FastAPI /predict",
+    note: "Usa mock_model si todavia no existe models/current_model.pkl.",
+  },
+  {
+    label: "Feedback",
+    value: "Backend FastAPI /feedback",
+    note: "Cuando la API esta activa, se guarda en SQLite dentro de data/feedback.",
+  },
+];

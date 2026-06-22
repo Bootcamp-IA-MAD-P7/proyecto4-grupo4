@@ -1,3 +1,4 @@
+import React from "react";
 import { Database, ShieldCheck } from "lucide-react";
 
 import SignalBadge from "./SignalBadge";
