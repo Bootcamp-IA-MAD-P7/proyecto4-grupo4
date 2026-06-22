@@ -6,6 +6,5 @@ __pycache__/
 venv/
 venvp4g4/
 .ipynb_checkpoints/
-*.joblib
 frontend/dist/
 frontend/node_modules/
