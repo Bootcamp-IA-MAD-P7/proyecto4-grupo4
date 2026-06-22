@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Local environment
+.env
+*.env
+!frontend/.env.example
+
+# Feedback/runtime data
+data/feedback/*.sqlite3
+data/feedback/*.db
+data/feedback/*.csv
+!data/feedback/.gitkeep
+
+# Frontend
+node_modules/
+dist/
+frontend/node_modules/
+frontend/dist/
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
