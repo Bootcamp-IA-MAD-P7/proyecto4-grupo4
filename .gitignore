@@ -6,36 +6,4 @@ __pycache__/
 venv/
 venvp4g4/
 .ipynb_checkpoints/
-
-# Local environment
-.env
-*.env
-!frontend/.env.example
-
-# Model artifacts
-models/
 *.joblib
-
-# Generated project outputs
-data/raw/
-data/processed/
-reports/
-scripts/
-
-# Feedback/runtime data
-data/feedback/*.sqlite3
-data/feedback/*.db
-data/feedback/*.csv
-!data/feedback/.gitkeep
-
-# Frontend
-node_modules/
-dist/
-frontend/node_modules/
-frontend/dist/
-
-# OS/editor
-.DS_Store
-Thumbs.db
-.vscode/
-.idea/
