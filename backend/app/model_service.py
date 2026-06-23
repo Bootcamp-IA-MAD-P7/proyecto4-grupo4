@@ -1,4 +1,6 @@
+import numpy as np
 import os
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -7,6 +9,8 @@ import pandas as pd
 from fastapi import HTTPException
 
 from app.input_schema import PredictionInput
+from src.data.load import get_industry_funding_medians, make_model_feature_frame
+from src.models.train import LogTargetRegressor
 
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
@@ -31,8 +35,13 @@ def get_model_mode() -> str:
     return "trained_model" if get_model_path().exists() else "not_loaded"
 
 
+@lru_cache(maxsize=1)
+def _industry_funding_medians() -> dict[str, float]:
+    return get_industry_funding_medians()
+
+
 def make_feature_frame(payload: PredictionInput) -> pd.DataFrame:
-    return pd.DataFrame(
+    base = pd.DataFrame(
         [
             {
                 "year_founded": payload.year_founded,
@@ -44,6 +53,7 @@ def make_feature_frame(payload: PredictionInput) -> pd.DataFrame:
             }
         ]
     )
+    return make_model_feature_frame(base, industry_medians=_industry_funding_medians())
 
 
 def predict_valuation(payload: PredictionInput) -> tuple[float, str]:
@@ -53,5 +63,9 @@ def predict_valuation(payload: PredictionInput) -> tuple[float, str]:
             status_code=503,
             detail="Model not loaded. Run scripts/train.py first.",
         )
-    prediction = float(model.predict(make_feature_frame(payload))[0])
-    return round(max(prediction, 0.0), 3), "trained_model"
+    raw_prediction = float(model.predict(make_feature_frame(payload))[0])
+    if isinstance(model, LogTargetRegressor):
+        valuation_usd = raw_prediction
+    else:
+        valuation_usd = float(np.expm1(raw_prediction))
+    return round(max(valuation_usd, 0.0), 3), "trained_model"

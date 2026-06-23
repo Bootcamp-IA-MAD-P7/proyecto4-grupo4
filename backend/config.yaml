@@ -23,9 +23,8 @@ model:
 features:
   numeric:
     - year_founded
-    - funding_usd
+    - log_funding_usd
+    - funding_velocity
+    - funding_vs_industry
     - company_age
-  categorical:
-    - industry
-    - country
-    - continent
+  categorical: []

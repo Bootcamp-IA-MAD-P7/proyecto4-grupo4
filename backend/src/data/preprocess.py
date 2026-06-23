@@ -19,16 +19,20 @@ def build_preprocessor() -> ColumnTransformer:
             ("scaler", StandardScaler()),
         ]
     )
-    categorical_pipeline = Pipeline(
-        steps=[
-            ("imputer", SimpleImputer(strategy="most_frequent")),
-            ("encoder", OneHotEncoder(handle_unknown="ignore")),
-        ]
-    )
+
+    transformers: list[tuple[str, Pipeline, list[str]]] = [
+        ("num", numeric_pipeline, numeric_features),
+    ]
+    if categorical_features:
+        categorical_pipeline = Pipeline(
+            steps=[
+                ("imputer", SimpleImputer(strategy="most_frequent")),
+                ("encoder", OneHotEncoder(handle_unknown="ignore")),
+            ]
+        )
+        transformers.append(("cat", categorical_pipeline, categorical_features))
 
     return ColumnTransformer(
-        transformers=[
-            ("num", numeric_pipeline, numeric_features),
-            ("cat", categorical_pipeline, categorical_features),
-        ]
+        transformers=transformers,
+        remainder="drop",
     )

@@ -5,17 +5,10 @@ import pandas as pd
 import pytest
 
 from src.config import load_config
-from src.data.load import build_features, prepare_modeling_frame
+from src.data.load import build_features, get_feature_columns, prepare_modeling_frame
 from src.data.preprocess import build_preprocessor
 
-FEATURE_COLUMNS = [
-    "year_founded",
-    "funding_usd",
-    "company_age",
-    "industry",
-    "country",
-    "continent",
-]
+FEATURE_COLUMNS = get_feature_columns()
 
 
 @pytest.fixture
@@ -61,6 +54,17 @@ class TestBuildFeatures:
         assert featured_df["company_age"].notna().all()
         assert (featured_df["company_age"] >= 0).all()
 
+    def test_adds_engineered_features(self, featured_df):
+        assert "log_funding_usd" in featured_df.columns
+        assert "funding_velocity" in featured_df.columns
+        assert "funding_vs_industry" in featured_df.columns
+        assert np.allclose(
+            featured_df["log_funding_usd"],
+            np.log1p(featured_df["funding_usd"]),
+        )
+        assert (featured_df["funding_velocity"] > 0).all()
+        assert (featured_df["funding_vs_industry"] > 0).all()
+
 
 class TestPrepareModelingFrame:
     def test_returns_aligned_features_and_target(self, featured_df):
@@ -71,7 +75,7 @@ class TestPrepareModelingFrame:
 
     def test_drops_rows_with_missing_numeric_features(self, featured_df):
         broken = featured_df.copy()
-        broken.loc[0, "funding_usd"] = np.nan
+        broken.loc[0, "log_funding_usd"] = np.nan
         x, y = prepare_modeling_frame(broken)
         assert len(x) == len(featured_df) - 1
 

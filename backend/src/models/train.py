@@ -12,7 +12,8 @@ from sklearn.dummy import DummyRegressor
 from sklearn.ensemble import GradientBoostingRegressor, RandomForestRegressor
 from sklearn.linear_model import Ridge
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-from sklearn.model_selection import KFold, cross_val_score, train_test_split
+from sklearn.base import clone
+from sklearn.model_selection import KFold, train_test_split
 from sklearn.pipeline import Pipeline
 
 from src.config import load_config, resolve_path
@@ -109,33 +110,51 @@ def build_estimator(model_type: str | None = None, **params: Any) -> RegressorMi
     raise ValueError(f"Modelo no soportado: {model_type}")
 
 
-def build_pipeline(model_type: str | None = None, **params: Any) -> Pipeline | LogTargetRegressor:
-    config = load_config()
-    estimator = Pipeline(
+def build_pipeline(model_type: str | None = None, **params: Any) -> Pipeline:
+    return Pipeline(
         steps=[
             ("preprocessor", build_preprocessor()),
             ("model", build_estimator(model_type, **params)),
         ]
     )
-    if config["model"].get("log_target", True):
-        return LogTargetRegressor(estimator)
-    return estimator
 
 
-def run_cross_validation(model, x, y) -> dict[str, float]:
+def uses_log_target() -> bool:
+    return load_config()["model"].get("log_target", True)
+
+
+def fit_model(model: Pipeline, x: pd.DataFrame, y: pd.Series) -> Pipeline:
+    target = np.log1p(y.to_numpy()) if uses_log_target() else y.to_numpy()
+    model.fit(x, target)
+    return model
+
+
+def predict_absolute(model: Pipeline, x: pd.DataFrame) -> np.ndarray:
+    raw = model.predict(x)
+    return np.expm1(raw) if uses_log_target() else raw
+
+
+def run_cross_validation(model: Pipeline, x: pd.DataFrame, y: pd.Series) -> dict[str, float]:
     config = load_config()
     cv = KFold(
         n_splits=config["training"]["cv_folds"],
         shuffle=True,
         random_state=config["project"]["random_state"],
     )
-    scores = cross_val_score(model, x, y, cv=cv, scoring="r2", n_jobs=-1)
-    return {"cv_r2_mean": float(scores.mean()), "cv_r2_std": float(scores.std())}
+    scores: list[float] = []
+    y_array = y.to_numpy()
+    for train_idx, val_idx in cv.split(x):
+        fold_model = clone(model)
+        fit_model(fold_model, x.iloc[train_idx], y.iloc[train_idx])
+        preds = predict_absolute(fold_model, x.iloc[val_idx])
+        scores.append(float(r2_score(y_array[val_idx], preds)))
+    scores_arr = np.array(scores)
+    return {"cv_r2_mean": float(scores_arr.mean()), "cv_r2_std": float(scores_arr.std())}
 
 
-def _evaluate_split(model, x_train, x_val, y_train, y_val) -> dict[str, Any]:
-    train_pred = model.predict(x_train)
-    val_pred = model.predict(x_val)
+def _evaluate_split(model: Pipeline, x_train, x_val, y_train, y_val) -> dict[str, Any]:
+    train_pred = predict_absolute(model, x_train)
+    val_pred = predict_absolute(model, x_val)
 
     train_metrics = compute_metrics(y_train.to_numpy(), train_pred)
     val_metrics = compute_metrics(y_val.to_numpy(), val_pred)
@@ -187,7 +206,7 @@ def _auto_select_params(model_type: str, x_train, x_val, y_train, y_val) -> tupl
         params = candidate.copy()
         selected_type = params.pop("model_type_override", model_type)
         model = build_pipeline(selected_type, **params)
-        model.fit(x_train, y_train)
+        fit_model(model, x_train, y_train)
         evaluation = _evaluate_split(model, x_train, x_val, y_train, y_val)
         record = {"selected_type": selected_type, **params}
 
@@ -221,7 +240,7 @@ def train_and_evaluate(model_type: str | None = None, **params: Any) -> dict[str
 
     if params:
         pipeline = build_pipeline(model_type, **params)
-        pipeline.fit(x_train, y_train)
+        fit_model(pipeline, x_train, y_train)
         evaluation = _evaluate_split(pipeline, x_train, x_val, y_train, y_val)
         selected_params = params
     else:
@@ -240,7 +259,7 @@ def train_and_evaluate(model_type: str | None = None, **params: Any) -> dict[str
     return {"pipeline": pipeline, "report": report}
 
 
-def save_artifacts(pipeline: Pipeline | LogTargetRegressor, report: dict[str, Any]) -> None:
+def save_artifacts(pipeline: Pipeline, report: dict[str, Any]) -> None:
     config = load_config()
     model_path = resolve_path(config["paths"]["model_file"])
     metrics_path = resolve_path(config["paths"]["metrics_file"])
@@ -250,7 +269,7 @@ def save_artifacts(pipeline: Pipeline | LogTargetRegressor, report: dict[str, An
     metrics_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
 
 
-def load_pipeline() -> Pipeline | LogTargetRegressor:
+def load_pipeline() -> Pipeline:
     config = load_config()
     model_path = resolve_path(config["paths"]["model_file"])
     return joblib.load(model_path)

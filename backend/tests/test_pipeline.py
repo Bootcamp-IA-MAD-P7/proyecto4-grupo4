@@ -11,21 +11,16 @@ sys.path.insert(0, str(ROOT))
 
 MODEL_PATH = ROOT / "models" / "best_model.joblib"
 
-FEATURE_COLUMNS = [
-    "year_founded",
-    "funding_usd",
-    "company_age",
-    "industry",
-    "country",
-    "continent",
-]
+from src.data.load import get_feature_columns, make_model_feature_frame
+
+FEATURE_COLUMNS = get_feature_columns()
 
 
 @pytest.fixture
 def sample_modeling_frame():
     import pandas as pd
 
-    return pd.DataFrame(
+    base = pd.DataFrame(
         {
             "year_founded": [2015, 2012, 2018],
             "funding_usd": [50_000_000.0, 1_000_000_000.0, 200_000_000.0],
@@ -33,8 +28,15 @@ def sample_modeling_frame():
             "industry": ["fintech", "Other", "E-commerce & direct-to-consumer"],
             "country": ["United States", "United States", "China"],
             "continent": ["North America", "North America", "Asia"],
-            "valuation_usd": [95_000_000_000.0, 127_000_000_000.0, 100_000_000_000.0],
         }
+    )
+    return make_model_feature_frame(
+        base,
+        industry_medians={
+            "fintech": 100_000_000.0,
+            "Other": 500_000_000.0,
+            "E-commerce & direct-to-consumer": 300_000_000.0,
+        },
     )
 
 
