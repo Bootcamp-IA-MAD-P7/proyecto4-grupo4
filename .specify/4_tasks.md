@@ -543,7 +543,7 @@ Antes de comenzar cualquier tarea:
   httpx>=0.27.0
   ```
 - **Verificación:** `grep -E "streamlit|kagglehub" backend/requirements.txt` no devuelve resultados. `grep "psycopg2" backend/requirements.txt` devuelve la línea correcta.
-- [ ] Estado: pendiente
+- [x] Estado: completado — `backend/requirements.txt` reemplazado por el listado canónico. Verificado: sin `streamlit`/`kagglehub`; `psycopg2-binary` presente.
 
 ---
 
