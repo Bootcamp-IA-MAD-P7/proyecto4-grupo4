@@ -7,9 +7,8 @@ paths:
   raw_data: "data/raw/unicorn_companies.csv"
   processed_data: "data/processed/dataset.parquet"
   model_dir: "models"
-  model_file: "models/unicorn_valuation_pipeline.joblib"
+  model_file: "models/best_model.joblib"
   metrics_file: "models/metrics.json"
-  storage_db: "storage/app.db"
 
 training:
   test_size: 0.2
