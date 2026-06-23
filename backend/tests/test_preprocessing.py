@@ -1,28 +1,30 @@
-import sys
-import os
-import pandas as pd
+from __future__ import annotations
+
 import numpy as np
+import pandas as pd
 import pytest
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+from src.config import load_config
+from src.data.load import build_features, prepare_modeling_frame
+from src.data.preprocess import build_preprocessor
 
-from src.preprocessing.preprocessing_pipeline import (
-    FeatureEngineer,
-    get_feature_types,
-    build_preprocessor,
-    build_full_pipeline,
-)
+FEATURE_COLUMNS = [
+    "year_founded",
+    "funding_usd",
+    "company_age",
+    "industry",
+    "country",
+    "continent",
+]
 
 
 @pytest.fixture
-def sample_df():
+def raw_unicorn_df() -> pd.DataFrame:
     return pd.DataFrame(
         {
-            "Company": ["ByteDance", "SpaceX", "SHEIN", "Stripe", "Canva"],
-            "Valuation ($B)": ["$140", "$127", "$100", "$95", "$40"],
-            "Date Joined": ["4/7/2017", "12/1/2012", "7/3/2018", "1/23/2014", "1/8/2018"],
-            "Country": ["China", "United States", "China", "United States", "Australia"],
-            "City ": ["Beijing", "Hawthorne", "Shenzhen", "San Francisco", "Surry Hills"],
+            "Valuation": ["$140B", "$127B", "$100B", "$95B", "$40B"],
+            "Funding": ["$3B", "$1B", "$2B", "$2.3B", "$300M"],
+            "Year Founded": [2012, 2002, 2015, 2010, 2013],
             "Industry": [
                 "Artificial intelligence",
                 "Other",
@@ -30,139 +32,60 @@ def sample_df():
                 "Fintech",
                 "Internet software & services",
             ],
-            "Investors": [
-                "Sequoia, SIG Asia, Sina Weibo, Softbank",
-                "Founders Fund, Draper Fisher, Rothenberg",
-                "Tiger Global, Sequoia China, Shunwei",
-                "Khosla, LowercaseCapital, capitalG",
-                "Sequoia China, Blackbird, Matrix",
-            ],
+            "Country": ["China", "United States", "China", "United States", "Australia"],
+            "Continent": ["Asia", "North America", "Asia", "North America", "Oceania"],
         }
     )
 
 
-class TestFeatureEngineer:
-    def test_fit_transform(self, sample_df):
-        fe = FeatureEngineer(reference_date="2022-09-01")
-        result = fe.fit_transform(sample_df)
-        assert isinstance(result, pd.DataFrame)
-
-    def test_creates_valuation_b(self, sample_df):
-        fe = FeatureEngineer(reference_date="2022-09-01")
-        result = fe.fit_transform(sample_df)
-        assert "valuation_b" in result.columns
-        assert np.issubdtype(result["valuation_b"].dtype, np.number)
-        assert result["valuation_b"].iloc[0] == 140
-
-    def test_creates_date_features(self, sample_df):
-        fe = FeatureEngineer(reference_date="2022-09-01")
-        result = fe.fit_transform(sample_df)
-        assert "join_year" in result.columns
-        assert "join_month" in result.columns
-        assert "years_since_joined" in result.columns
-        assert result["join_year"].iloc[0] == 2017
-        assert result["join_month"].iloc[0] == 4
-
-    def test_creates_investors_count(self, sample_df):
-        fe = FeatureEngineer(reference_date="2022-09-01")
-        result = fe.fit_transform(sample_df)
-        assert "investors_count" in result.columns
-        assert result["investors_count"].iloc[0] == 4
-
-    def test_drops_company(self, sample_df):
-        fe = FeatureEngineer(reference_date="2022-09-01")
-        result = fe.fit_transform(sample_df)
-        assert "Company" not in result.columns
-        assert "Date Joined" not in result.columns
-        assert "Investors" not in result.columns
-        assert "Valuation ($B)" not in result.columns
-
-    def test_city_column_cleaned(self, sample_df):
-        fe = FeatureEngineer(reference_date="2022-09-01")
-        result = fe.fit_transform(sample_df)
-        assert "City" in result.columns
-
-    def test_handles_missing_investors(self):
-        df = pd.DataFrame(
-            {
-                "Company": ["A", "B"],
-                "Valuation ($B)": ["$10", "$20"],
-                "Date Joined": ["1/1/2020", "6/15/2021"],
-                "Country": ["US", "UK"],
-                "City ": ["NY", "London"],
-                "Industry": ["Tech", "Finance"],
-                "Investors": [np.nan, "VC1, VC2"],
-            }
-        )
-        fe = FeatureEngineer(reference_date="2022-09-01")
-        result = fe.fit_transform(df)
-        assert result["investors_count"].iloc[0] == 0
-        assert result["investors_count"].iloc[1] == 2
+@pytest.fixture
+def featured_df(raw_unicorn_df) -> pd.DataFrame:
+    return build_features(raw_unicorn_df)
 
 
-class TestGetFeatureTypes:
-    def test_returns_correct_types(self, sample_df):
-        fe = FeatureEngineer(reference_date="2022-09-01")
-        result = fe.fit_transform(sample_df)
-        numeric, categorical = get_feature_types(result)
-        assert "join_year" in numeric
-        assert "join_month" in numeric
-        assert "years_since_joined" in numeric
-        assert "investors_count" in numeric
-        assert "Country" in categorical
-        assert "Industry" in categorical
+class TestBuildFeatures:
+    def test_creates_definitive_schema_columns(self, featured_df):
+        config = load_config()
+        expected = set(FEATURE_COLUMNS + [config["project"]["target"]])
+        assert expected.issubset(set(featured_df.columns))
+
+    def test_parses_valuation_usd(self, featured_df):
+        assert featured_df["valuation_usd"].iloc[0] == 140_000_000_000
+        assert featured_df["valuation_usd"].notna().all()
+
+    def test_parses_funding_usd(self, featured_df):
+        assert featured_df["funding_usd"].iloc[0] == 3_000_000_000
+        assert featured_df["funding_usd"].notna().all()
+
+    def test_computes_company_age(self, featured_df):
+        assert featured_df["company_age"].notna().all()
+        assert (featured_df["company_age"] >= 0).all()
+
+
+class TestPrepareModelingFrame:
+    def test_returns_aligned_features_and_target(self, featured_df):
+        x, y = prepare_modeling_frame(featured_df)
+        assert list(x.columns) == FEATURE_COLUMNS
+        assert len(x) == len(y)
+        assert y.name == "valuation_usd"
+
+    def test_drops_rows_with_missing_numeric_features(self, featured_df):
+        broken = featured_df.copy()
+        broken.loc[0, "funding_usd"] = np.nan
+        x, y = prepare_modeling_frame(broken)
+        assert len(x) == len(featured_df) - 1
 
 
 class TestBuildPreprocessor:
-    def test_builds_column_transformer(self, sample_df):
-        fe = FeatureEngineer(reference_date="2022-09-01")
-        result = fe.fit_transform(sample_df)
-        numeric_cols, categorical_cols = get_feature_types(result)
-        preprocessor = build_preprocessor(numeric_cols, categorical_cols)
-        X_processed = preprocessor.fit_transform(result[numeric_cols + categorical_cols])
-        assert X_processed.shape[0] == 5
-        assert X_processed.shape[1] > 0
+    def test_builds_column_transformer(self, featured_df):
+        x, _ = prepare_modeling_frame(featured_df)
+        preprocessor = build_preprocessor()
+        transformed = preprocessor.fit_transform(x)
+        assert transformed.shape[0] == len(x)
+        assert transformed.shape[1] > 0
 
-    def test_no_nan_after_transform(self, sample_df):
-        fe = FeatureEngineer(reference_date="2022-09-01")
-        result = fe.fit_transform(sample_df)
-        numeric_cols, categorical_cols = get_feature_types(result)
-        preprocessor = build_preprocessor(numeric_cols, categorical_cols)
-        X_processed = preprocessor.fit_transform(result[numeric_cols + categorical_cols])
-        assert not np.isnan(X_processed).any()
-
-
-class TestBuildFullPipeline:
-    def test_pipeline_fit_transform(self, sample_df):
-        pipeline = build_full_pipeline(
-            ["join_year", "join_month", "years_since_joined", "investors_count"],
-            ["Country", "Industry"],
-        )
-        fe = FeatureEngineer(reference_date="2022-09-01")
-        result = fe.fit_transform(sample_df)
-        X_raw = sample_df.drop(columns=["Valuation ($B)"], errors="ignore")
-        y = result["valuation_b"]
-        pipeline.fit(X_raw, y)
-        X_transformed = pipeline.transform(X_raw)
-        assert X_transformed.shape[0] == 5
-        assert X_transformed.shape[1] > 0
-
-    def test_no_data_leakage(self, sample_df):
-        from sklearn.model_selection import train_test_split
-
-        fe = FeatureEngineer(reference_date="2022-09-01")
-        result = fe.fit_transform(sample_df)
-        numeric_cols, categorical_cols = get_feature_types(result)
-        X_raw = sample_df.drop(columns=["Valuation ($B)"], errors="ignore")
-        y = result["valuation_b"]
-        X_train_raw, X_test_raw, y_train, y_test = train_test_split(
-            X_raw, y, test_size=0.4, random_state=42
-        )
-        pipeline = build_full_pipeline(numeric_cols, categorical_cols)
-        pipeline.fit(X_train_raw, y_train)
-        X_test_transformed = pipeline.transform(X_test_raw)
-        assert X_test_transformed.shape[0] == X_test_raw.shape[0]
-
-
-if __name__ == "__main__":
-    pytest.main([__file__, "-v"])
+    def test_no_nan_after_transform(self, featured_df):
+        x, _ = prepare_modeling_frame(featured_df)
+        preprocessor = build_preprocessor()
+        transformed = preprocessor.fit_transform(x)
+        assert not np.isnan(transformed).any()
