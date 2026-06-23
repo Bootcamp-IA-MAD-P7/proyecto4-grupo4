@@ -1,1187 +1,1187 @@
-Country,City,Industry,join_year,join_month,years_since_joined,investors_count,valuation_b
-China,Beijing,Artificial intelligence,2017,4,9.2,4,140.0
-United States,Hawthorne,Other,2012,12,13.55,3,127.0
-China,Shenzhen,E-commerce & direct-to-consumer,2018,7,7.96,3,100.0
-United States,San Francisco,Fintech,2014,1,12.4,3,95.0
-Australia,Surry Hills,Internet software & services,2018,1,8.44,3,40.0
-United Kingdom,London,Fintech,2019,5,7.13,3,40.0
-United States,San Francisco,"Supply chain, logistics, & delivery",2014,12,11.47,3,39.0
-United States,San Francisco,Data management & analytics,2019,2,7.37,3,38.0
-United Kingdom,London,Fintech,2018,4,8.15,3,33.0
-United States,Cary,Other,2018,10,7.65,3,31.5
-Bahamas,Fintech,"Sequoia Capital, Thoma Bravo, Softbank",2021,7,4.91,0,32.0
-United States,Jacksonville,E-commerce & direct-to-consumer,2012,6,14.03,3,27.0
-United States,San Francisco,Fintech,2019,3,7.29,3,25.0
-India,Bengaluru,Edtech,2017,7,8.9,3,22.0
-China,Shanghai,E-commerce & direct-to-consumer,2016,3,10.22,3,20.0
-Indonesia,Jakarta,"Supply chain, logistics, & delivery",2021,4,5.2,3,20.0
-United States,San Francisco,Internet software & services,2022,1,4.45,3,17.5
-China,Beijing,Edtech,2017,5,9.05,3,15.5
-China,Shenzhen,Hardware,2015,1,11.4,2,15.0
-United States,San Francisco,Internet software & services,2018,4,8.16,3,15.0
-United States,Philadelphia,"Supply chain, logistics, & delivery",2020,10,5.69,3,15.0
-China,Beijing,Consumer & retail,2020,3,6.3,3,15.0
-United States,San Francisco,Fintech,2019,12,6.5,3,15.0
-United Kingdom,London,Fintech,2021,2,5.33,3,14.0
-United States,San Francisco,Fintech,2018,12,7.52,3,13.5
-United States,New York,Internet software & services,2021,7,4.91,3,13.3
-Germany,Munich,Data management & analytics,2018,6,7.98,2,13.0
-United States,San Francisco,Internet software & services,2019,10,6.69,3,13.0
-United States,Waltham,Health,2018,10,7.67,3,12.6
-United States,San Francisco,Artificial intelligence,2019,10,6.64,3,12.59
-United States,San Francisco,Fintech,2018,10,7.7,3,12.3
-United States,San Francisco,Consumer & retail,2017,12,8.5,1,12.0
-China,Beijing,Hardware,2018,7,7.95,3,12.0
-United States,San Diego,Health,2018,8,7.87,2,12.0
-United States,Roseville,Internet software & services,2021,10,4.68,3,12.0
-China,Changsha,E-commerce & direct-to-consumer,2020,7,5.91,3,12.0
-United States,San Francisco,Fintech,2021,4,5.16,3,12.0
-Turkey,Istanbul,"Supply chain, logistics, & delivery",2021,3,5.23,3,11.8
-United States,San Francisco,Internet software & services,2018,11,7.59,3,11.7
-China,Shanghai,Auto & transportation,2021,6,5.04,3,11.4
-United States,San Francisco,Internet software & services,2020,8,5.87,3,11.25
-United Kingdom,London,Hardware,2016,12,9.49,3,11.1
-United States,San Francisco,Fintech,2021,10,4.7,3,11.0
-United States,San Francisco,Fintech,2021,10,4.64,3,10.2
-China,Luohe,Consumer & retail,2021,5,5.11,3,10.88
-India,Bengaluru,"Supply chain, logistics, & delivery",2018,6,7.99,3,10.7
-Hong Kong,Cheung Sha Wan,"Supply chain, logistics, & delivery",2019,2,7.32,3,10.0
-United States,San Francisco,Internet software & services,2020,4,6.14,3,10.0
-United States,San Francisco,Fintech,2015,12,10.5,3,10.0
-China,Beijing,E-commerce & direct-to-consumer,2016,3,10.27,2,10.0
-United States,San Francisco,Internet software & services,2017,7,8.88,3,10.0
-United States,San Francisco,Internet software & services,2018,10,7.71,3,10.0
-United States,San Francisco,Internet software & services,2020,4,6.21,3,10.0
-United States,Walpole,E-commerce & direct-to-consumer,2020,7,5.93,3,10.0
-United States,New York,Fintech,2021,11,4.63,3,10.0
-Seychelles,Victoria,Fintech,2022,5,4.11,3,10.0
-United States,Boston,Internet software & services,2018,6,8.04,3,9.5
-United States,Glendale,Internet software & services,2018,11,7.59,3,9.5
-China,Shenzhen,Other,2019,7,6.97,3,9.28
-Germany,Berlin,Fintech,2019,1,7.44,3,9.23
-United States,Boston,Internet software & services,2020,11,5.59,3,9.2
-Sweden,Stockholm,Other,2019,6,7.02,3,9.08
-United States,Kirkland,Cybersecurity,2015,3,11.22,3,9.0
-United States,San Francisco,Mobile & telecommunications,2017,11,8.57,4,9.0
-India,Gurugram,Travel,2018,9,7.73,3,9.0
-United Kingdom,London,Fintech,2019,12,6.54,3,8.75
-Mexico,Lerma de Villada,E-commerce & direct-to-consumer,2020,10,5.71,3,8.7
-United States,Boston,Cybersecurity,2020,1,6.41,3,8.6
-United States,Mountain View,Auto & transportation,2019,2,7.35,3,8.6
-United States,New York,Fintech,2020,11,5.57,3,8.6
-United States,Fremont,Artificial intelligence,2018,7,7.94,3,8.5
-Germany,Munich,Internet software & services,2021,1,5.41,3,8.5
-United Kingdom,London,Fintech,2019,7,6.93,3,8.5
-Estonia,Tallinn,Auto & transportation,2018,5,8.06,3,8.4
-United States,San Jose,Cybersecurity,2021,1,5.45,3,8.3
-United States,San Mateo,Fintech,2020,10,5.7,3,8.3
-United States,Chicago,Health,2018,3,8.25,3,8.1
-United States,New York,Fintech,2021,3,5.22,3,8.1
-India,Mumbai,Internet software & services,2019,4,7.2,3,8.0
-United States,New York,Fintech,2021,7,4.9,3,8.0
-United States,San Francisco,"Supply chain, logistics, & delivery",2018,4,8.14,3,8.0
-United States,San Mateo,Fintech,2021,8,4.86,3,8.0
-United States,Irving,Health,2021,5,5.1,3,7.83
-Canada,Vancouver,Internet software & services,2021,3,5.22,3,7.6
-United Kingdom,London,Internet software & services,2020,11,5.6,3,7.75
-United States,Santa Clara,Cybersecurity,2018,11,7.6,3,7.5
-India,Bengaluru,Fintech,2020,10,5.69,3,7.5
-United States,San Francisco,Internet software & services,2013,5,13.06,3,7.5
-United States,San Francisco,Fintech,2019,5,7.12,3,7.4
-United States,San Francisco,Artificial intelligence,2019,8,6.87,3,7.3
-United States,Pittsburgh,Auto & transportation,2019,7,6.94,2,7.25
-United States,Palo Alto,Artificial intelligence,2020,8,5.85,3,7.25
-United States,Palo Alto,Travel,2018,11,7.61,3,7.25
-United States,New York,Fintech,2021,11,4.58,3,7.1
-China,Hangzhou,Health,2015,9,10.74,2,7.0
-United States,New York,Health,2020,7,5.89,3,7.0
-United States,New York,Fintech,2021,11,4.59,3,7.0
-United States,San Jose,Artificial intelligence,2018,7,7.96,3,6.8
-Canada,Toronto,Cybersecurity,2021,7,4.95,3,6.8
-Sweden,Stockholm,Fintech,2011,12,14.52,3,6.7
-China,Beijing,E-commerce & direct-to-consumer,2018,1,8.42,3,6.6
-China,Changzhou,Auto & transportation,2020,6,6.03,4,6.51
-India,Mumbai,Fintech,2020,7,5.97,3,6.5
-Netherlands,Amsterdam,Fintech,2020,9,5.78,1,6.5
-India,Bengaluru,Auto & transportation,2014,10,11.64,3,7.5
-France,Paris,Health,2019,3,7.25,3,6.4
-United States,Boston,Artificial intelligence,2019,7,6.89,3,6.3
-United States,San Francisco,Fintech,2018,2,8.35,3,6.28
-United States,San Francisco,Health,2021,1,5.45,3,6.2
-United States,Los Angeles,Other,2021,5,5.08,1,6.1
-United States,San Francisco,Internet software & services,2021,4,5.18,3,6.1
-China,Shenzhen,Hardware,2015,8,10.84,2,6.0
-United States,New York,Fintech,2020,11,5.6,3,6.0
-Israel,Tel Aviv,Cybersecurity,2021,3,5.26,3,6.0
-United States,New York,Fintech,2021,7,4.9,3,6.0
-United States,San Francisco,Artificial intelligence,2021,3,5.22,3,5.2
-United States,Hoboken,Mobile & telecommunications,2020,9,5.74,3,5.99
-China,Beijing,Consumer & retail,2018,2,8.35,3,5.78
-China,Beijing,E-commerce & direct-to-consumer,2016,4,10.2,3,5.77
-United States,Brooklyn,Internet software & services,2011,4,15.21,2,5.7
-United States,Brooklyn,Health,2020,12,5.52,3,5.7
-United States,Mountain View,Internet software & services,2021,1,5.43,3,5.7
-France,Paris,E-commerce & direct-to-consumer,2021,5,5.09,3,5.7
-Finland,Helsinki,"Supply chain, logistics, & delivery",2022,2,4.33,3,5.7
-United States,Pflugerville,Other,2022,4,4.16,3,5.7
-United States,San Francisco,Internet software & services,2020,6,6.02,3,5.6
-United States,Oakland,Data management & analytics,2020,6,5.97,3,5.6
-France,Paris,Internet software & services,2021,5,5.07,3,5.6
-Germany,Berlin,Fintech,2021,5,5.08,2,5.36
-Colombia,Bogota,"Supply chain, logistics, & delivery",2018,8,7.8,4,5.25
-Belgium,Brussels,Data management & analytics,2019,1,7.39,3,5.25
-United States,Atlanta,Internet software & services,2019,7,6.94,1,5.1
-Brazil,Campinas,E-commerce & direct-to-consumer,2019,9,6.78,3,5.1
-Brazil,Sao Paulo,Fintech,2020,12,5.54,1,5.05
-China,Shanghai,Health,2017,9,8.76,3,5.0
-China,Shanghai,Auto & transportation,2018,6,8.05,2,5.0
-Australia,Melbourne,Fintech,2019,3,7.24,3,5.5
-Netherlands,Amsterdam,Fintech,2021,1,5.45,3,5.5
-South Korea,Seoul,Fintech,2018,12,7.53,3,5.48
-China,Beijing,Artificial intelligence,2019,2,7.31,3,5.0
-China,Shanghai,Auto & transportation,2019,3,7.28,3,5.0
-United Kingdom,London,Other,2020,9,5.72,3,5.0
-United States,Palo Alto,Data management & analytics,2021,4,5.18,3,5.0
-United Kingdom,London,Fintech,2021,8,4.82,3,5.0
-United Kingdom,London,Fintech,2017,10,8.68,3,5.0
-Israel,Tel Aviv,Mobile & telecommunications,2020,1,6.4,2,5.0
-India,Gurgaon,E-commerce & direct-to-consumer,2021,7,4.88,3,5.0
-United States,New York,Data management & analytics,2021,1,5.43,3,5.0
-India,Noida,Fintech,2020,1,6.4,3,5.0
-France,Paris,Fintech,2022,1,4.44,3,5.0
-India,Bengaluru,Auto & transportation,2019,7,6.97,3,5.0
-United States,Bellevue,Artificial intelligence,2019,7,6.92,3,5.0
-Canada,Montreal,Travel,2021,3,5.24,3,5.0
-India,Bengaluru,Internet software & services,2020,12,5.49,3,5.0
-India,Bengaluru,Internet software & services,2021,4,5.2,3,5.0
-United States,San Francisco,Cybersecurity,2021,3,5.26,3,5.0
-India,Bengaluru,Internet software & services,2021,4,5.2,3,4.9
-United States,San Francisco,Health,2021,6,5.02,3,4.8
-Brazil,Sao Paulo,Fintech,2020,12,5.5,3,4.8
-United States,Boston,Health,2021,8,4.86,3,4.8
-China,Beijing,Hardware,2021,12,4.51,3,4.73
-United States,San Francisco,Internet software & services,2021,2,5.31,3,4.7
-Denmark,Copenhagen,Fintech,2021,7,4.95,3,4.7
-Switzerland,Geneva,Internet software & services,2022,4,4.15,3,4.7
-United States,Irvine,Artificial intelligence,2019,9,6.77,3,4.6
-United States,Burlingame,Health,2020,8,5.82,3,5.85
-United States,New York,Artificial intelligence,2019,12,6.54,3,4.6
-United States,San Francisco,Internet software & services,2019,9,6.75,3,4.6
-United States,Burlingame,Health,2021,1,5.45,3,4.6
-United Kingdom,London,Fintech,2021,3,5.22,2,4.58
-Lithuania,Vilnius,E-commerce & direct-to-consumer,2019,11,6.56,3,4.53
-China,Beijing,Edtech,2016,8,9.87,3,4.5
-United States,New York,Cybersecurity,2021,3,5.26,3,4.5
-United Kingdom,London,Fintech,2018,10,7.63,3,4.5
-China,Shenzhen,Hardware,2016,7,9.9,3,4.58
-Germany,Berlin,Fintech,2019,3,7.29,3,4.5
-India,Faridabad,E-commerce & direct-to-consumer,2019,12,6.5,3,4.5
-China,Shanghai,Auto & transportation,2022,8,3.88,2,4.5
-United States,Seattle,Internet software & services,2019,4,7.18,3,4.4
-China,Guangzhou,Auto & transportation,2020,12,5.49,3,4.4
-United States,Denver,Internet software & services,2019,11,6.6,3,4.4
-United States,Eden Prairie,Cybersecurity,2020,10,5.66,3,4.3
-France,Paris,Internet software & services,2021,9,4.74,3,4.3
-United States,Inglewood,Other,2020,11,5.57,3,4.2
-China,Beijing,E-commerce & direct-to-consumer,2019,6,6.98,3,4.25
-United States,Sunnyvale,Internet software & services,2018,5,8.11,3,4.2
-United States,Boston,Internet software & services,2022,1,4.4,3,4.2
-United States,Philadelphia,Data management & analytics,2021,6,4.97,3,4.2
-Canada,Montreal,E-commerce & direct-to-consumer,2021,6,5.03,1,4.15
-United States,New York,Artificial intelligence,2018,6,8.04,3,4.1
-Austria,Vienna,Fintech,2021,3,5.26,3,4.11
-United States,Fremont,"Supply chain, logistics, & delivery",2021,3,5.26,3,4.1
-United States,Palo Alto,E-commerce & direct-to-consumer,2014,9,11.72,3,4.0
-India,Bengaluru,Fintech,2021,4,5.2,3,4.01
-South Korea,Seoul,Mobile & telecommunications,2014,11,11.6,1,4.0
-China,Beijing,Artificial intelligence,2017,10,8.63,3,4.0
-United Kingdom,London,Fintech,2018,7,7.93,2,4.0
-United States,Redwood City,Consumer & retail,2019,5,7.1,3,4.0
-United States,El Segundo,Health,2018,2,8.31,2,4.0
-United States,Palo Alto,Fintech,2019,10,6.7,3,4.0
-United States,San Francisco,Internet software & services,2020,9,5.79,3,4.0
-Canada,Mississauga,Internet software & services,2021,1,5.45,3,4.0
-United States,Sunnyvale,Internet software & services,2021,1,5.43,3,4.0
-United States,San Francisco,Mobile & telecommunications,2021,1,5.4,2,4.0
-Ireland,Dublin,Internet software & services,2021,6,5.01,3,4.0
-United States,Columbus,Health,2020,12,5.55,3,4.0
-United States,Palo Alto,Data management & analytics,2017,4,9.14,3,4.0
-United States,New York,Fintech,2021,1,5.4,3,4.0
-United States,Carlsbad,E-commerce & direct-to-consumer,2021,10,4.68,2,4.0
-United States,San Diego,Internet software & services,2020,12,5.51,2,4.0
-United States,Los Altos,Hardware,2018,11,7.59,3,4.0
-United States,San Carlos,Other,2020,8,5.88,3,4.0
-United States,Redwood City,Mobile & telecommunications,2018,9,7.77,3,4.0
-United States,San Francisco,Internet software & services,2021,5,5.07,3,4.0
-United States,San Francisco,Internet software & services,2021,1,5.43,3,4.0
-United States,Miami,Internet software & services,2022,3,4.24,3,4.0
-India,Bengaluru,Fintech,2021,1,5.42,3,4.0
-United States,San Francisco,Cybersecurity,2022,5,4.11,3,4.0
-China,Chengdu,Health,2018,7,7.89,3,3.92
-United States,Boston,Health,2014,4,12.22,3,3.8
-United States,Detroit,E-commerce & direct-to-consumer,2019,6,6.98,3,3.8
-Netherlands,Amsterdam,Mobile & telecommunications,2020,10,5.69,3,3.8
-United States,Seattle,"Supply chain, logistics, & delivery",2018,9,7.74,3,3.8
-United States,New York,Edtech,2021,7,4.97,3,3.75
-United States,Bend,E-commerce & direct-to-consumer,2021,3,5.26,3,3.75
-United States,San Jose,Data management & analytics,2018,6,8.02,3,3.7
-United States,New York,Data management & analytics,2020,4,6.17,3,3.7
-United States,Culver City,E-commerce & direct-to-consumer,2020,9,5.74,3,3.7
-United States,New York,Health,2021,5,5.07,3,3.7
-United States,Carson City,Other,2021,7,4.89,3,3.7
-United States,New York,Internet software & services,2021,3,5.29,3,3.7
-China,Suzhou,Health,2021,11,4.55,3,3.7
-United States,San Francisco,Artificial intelligence,2021,1,5.43,3,3.7
-United States,Marina del Rey,E-commerce & direct-to-consumer,2021,9,4.76,3,3.7
-United States,Santa Monica,Internet software & services,2022,1,4.41,1,3.66
-United States,Chicago,Internet software & services,2021,3,5.25,2,3.6
-United States,Boston,E-commerce & direct-to-consumer,2020,10,5.64,3,3.6
-United States,Sunnyvale,Auto & transportation,2020,10,5.66,3,3.6
-United States,Redwood City,Edtech,2020,2,6.35,3,3.6
-United States,San Francisco,Fintech,2021,5,5.07,3,3.6
-Germany,Duderstadt,Health,2017,6,8.99,1,3.52
-United States,Boston,Artificial intelligence,2017,9,8.73,3,3.5
-Singapore,Mobile & telecommunications,Kuang-Chi,2020,5,6.06,0,3.5
-United States,Seattle,Internet software & services,2021,3,5.24,3,3.5
-United States,San Francisco,Internet software & services,2021,9,4.76,2,3.5
-France,Paris,E-commerce & direct-to-consumer,2020,9,5.74,3,3.5
-United States,San Ramon,Internet software & services,2020,10,5.66,3,3.5
-United States,Hoboken,Fintech,2021,10,4.68,2,3.5
-Austria,Vienna,Edtech,2021,6,4.99,3,3.5
-United States,Seattle,Internet software & services,2021,2,5.32,3,3.5
-United States,San Francisco,Internet software & services,2021,5,5.1,3,3.5
-United States,San Francisco,Fintech,2021,4,5.16,3,3.5
-United States,Atlanta,Hardware,2021,7,4.93,3,3.5
-United States,Redmond,Other,2021,11,4.62,3,3.5
-Switzerland,Schaffhausen,Cybersecurity,2019,9,6.75,3,3.5
-India,Bengaluru,Edtech,2020,9,5.79,3,3.44
-United States,Miami,Fintech,2021,11,4.57,3,3.4
-India,Mumbai,Fintech,2021,11,4.55,2,3.4
-China,Shanghai,Auto & transportation,2018,4,8.21,2,3.35
-United States,Englewood Cliffs,Data management & analytics,2021,1,5.39,3,3.35
-United States,Boston,Data management & analytics,2021,1,5.45,3,3.35
-United Kingdom,London,Fintech,2021,3,5.28,3,3.34
-China,Wuhan,Auto & transportation,2020,10,5.65,3,3.31
-United States,Alameda,Other,2019,4,7.18,3,3.3
-United States,Culver City,Mobile & telecommunications,2019,10,6.64,3,3.3
-United States,San Francisco,Health,2020,5,6.08,3,3.3
-South Korea,Seoul,"Supply chain, logistics, & delivery",2021,7,4.94,3,3.3
-India,Gurgaon,E-commerce & direct-to-consumer,2020,11,5.57,3,3.3
-United States,Los Angeles,Fintech,2021,9,4.74,3,3.25
-China,Shenzhen,Other,2016,5,10.11,1,3.24
-Finland,Helsinki,Internet software & services,2021,10,4.67,3,3.21
-United States,San Francisco,E-commerce & direct-to-consumer,2015,9,10.72,3,3.2
-United States,New York,Fintech,2021,3,5.28,3,3.2
-India,Mumbai,Edtech,2021,8,4.85,3,3.2
-Canada,Vancouver,Fintech,2021,8,4.82,3,3.2
-United States,San Francisco,Health,2021,2,5.33,3,3.2
-United States,Sacramento,Internet software & services,2022,1,4.42,3,3.2
-United States,Los Angeles,E-commerce & direct-to-consumer,2021,4,5.19,3,3.2
-United States,Hayward,Health,2022,1,4.45,3,3.2
-United States,San Francisco,Internet software & services,2021,12,4.49,1,3.2
-United States,Palo Alto,Hardware,2021,7,4.9,3,3.15
-India,Bengaluru,"Supply chain, logistics, & delivery",2018,9,7.79,3,3.1
-United States,Houston,Fintech,2020,1,6.45,3,3.1
-Brazil,Sao Paulo,E-commerce & direct-to-consumer,2021,8,4.84,3,3.1
-China,Beijing,Mobile & telecommunications,2015,11,10.57,4,3.0
-Indonesia,Jakarta,Travel,2017,1,9.46,3,3.0
-China,Hangzhou,E-commerce & direct-to-consumer,2017,11,8.63,3,3.0
-United Kingdom,Peterborough,Fintech,2017,11,8.57,1,3.0
-United States,Boston,Fintech,2018,5,8.1,3,3.0
-China,Beijing,Edtech,2018,7,7.92,3,3.0
-Germany,Munich,Auto & transportation,2019,7,6.92,3,3.0
-Brazil,Sao Paulo,Other,2019,12,6.54,2,3.0
-Canada,Kitchener,Edtech,2020,5,6.12,3,3.2
-United States,New York,Cybersecurity,2020,11,5.58,3,3.0
-United States,Atlanta,Internet software & services,2021,1,5.39,2,3.0
-United States,Jersey City,Fintech,2021,3,5.27,3,3.0
-United States,Chicago,Internet software & services,2021,4,5.16,3,3.0
-United Kingdom,Cambridge,Health,2019,9,6.75,3,3.0
-United States,South Jordan,Internet software & services,2021,6,4.97,3,3.0
-United States,Glendale,Edtech,2016,5,10.13,1,3.0
-United States,San Francisco,Health,2021,7,4.91,3,3.0
-Germany,Berlin,Internet software & services,2021,7,4.89,3,3.0
-United States,Oakland,Internet software & services,2021,8,4.86,3,3.0
-United States,San Diego,Internet software & services,2018,12,7.5,3,3.0
-United States,New York,Internet software & services,2021,3,5.23,3,3.0
-Germany,Berlin,"Supply chain, logistics, & delivery",2021,3,5.23,3,3.1
-Vietnam,Ho Chi Minh City,Internet software & services,2021,10,4.71,3,3.0
-United States,San Francisco,Edtech,2021,4,5.18,3,3.0
-United States,Westerville,Fintech,2021,10,4.68,3,3.0
-India,Bengaluru,Fintech,2021,4,5.2,3,3.0
-United States,Lehi,Internet software & services,2020,4,6.2,3,3.0
-United States,New York,Auto & transportation,2020,3,6.22,3,3.3
-United States,San Francisco,Fintech,2021,12,4.51,3,3.0
-United States,San Francisco,Fintech,2022,1,4.43,3,3.0
-United States,San Francisco,Internet software & services,2021,3,5.24,3,3.0
-United States,San Francisco,Fintech,2021,3,5.28,3,3.0
-Hong Kong,Fintech,"Tiger Global Management, Tiger Brokers, DCM Ventures",2021,6,4.99,0,3.0
-United States,Fort Lee,Fintech,2022,2,4.35,3,3.0
-United States,San Francisco,Fintech,2021,7,4.93,3,3.0
-United States,San Francisco,Other,2021,2,5.33,3,3.0
-United States,San Francisco,Fintech,2019,6,6.98,3,2.92
-United States,San Francisco,Artificial intelligence,2019,7,6.91,1,2.92
-United States,Austin,Internet software & services,2019,9,6.72,3,2.9
-Brazil,Sao Paulo,E-commerce & direct-to-consumer,2020,1,6.46,3,2.9
-India,New Delhi,Fintech,2021,7,4.89,3,2.85
-United States,Chatham,Fintech,2021,8,4.83,3,2.85
-Germany,Berlin,E-commerce & direct-to-consumer,2021,12,4.55,3,2.85
-France,Paris,Fintech,2021,4,5.17,3,2.85
-China,Beijing,Mobile & telecommunications,2016,6,9.99,3,2.8
-United States,South San Francisco,"Supply chain, logistics, & delivery",2019,5,7.08,3,2.8
-United Kingdom,Bristol,Artificial intelligence,2018,12,7.5,3,2.77
-United States,Sunnyvale,Cybersecurity,2015,4,11.18,3,2.75
-United States,San Francisco,Edtech,2021,5,5.1,3,2.75
-Turkey,Istanbul,Mobile & telecommunications,2021,6,4.97,3,2.75
-Israel,Tel Aviv,Cybersecurity,2021,6,4.99,3,2.74
-China,Shanghai,Auto & transportation,2022,2,4.32,3,3.95
-United States,San Francisco,Fintech,2018,5,8.05,3,2.7
-United States,Scottsdale,Internet software & services,2021,9,4.76,1,2.7
-South Korea,Seoul,Internet software & services,2022,8,3.82,2,2.7
-United States,Dallas,Artificial intelligence,2020,4,6.14,1,2.7
-United Kingdom,London,Fintech,2021,11,4.55,3,2.7
-Netherlands,Amsterdam,Fintech,2022,6,4.03,1,2.66
-France,Paris,E-commerce & direct-to-consumer,2021,7,4.96,3,2.6
-United States,San Francisco,Internet software & services,2021,7,4.93,3,2.62
-United States,Raleigh,Internet software & services,2019,10,6.67,3,2.6
-United States,Palo Alto,Internet software & services,2021,2,5.32,3,2.6
-Singapore,E-commerce & direct-to-consumer,"Jungle Ventures, Accel, Venture Highway",2021,5,5.09,0,2.6
-United States,New York,Cybersecurity,2021,3,5.3,3,2.6
-China,Chengdu,Internet software & services,2018,4,8.19,3,2.0
-United States,Louisville,Data management & analytics,2021,9,4.76,3,2.62
-Brazil,Sao Paulo,Artificial intelligence,2021,8,4.88,3,2.6
-Finland,Oulu,Health,2022,4,4.21,3,2.55
-United States,San Francisco,Consumer & retail,2017,11,8.55,3,2.59
-United States,San Francisco,Data management & analytics,2021,8,4.82,3,2.5
-United Arab Emirates,Dubai,Other,2017,8,8.82,1,2.5
-China,Nanjing,Auto & transportation,2018,4,8.16,3,2.5
-United States,San Francisco,Internet software & services,2021,3,5.24,3,2.5
-India,Thane,E-commerce & direct-to-consumer,2021,2,5.31,3,2.5
-United States,San Francisco,Fintech,2021,9,4.77,3,2.5
-Israel,Tel Aviv,Cybersecurity,2020,11,5.59,3,2.5
-United States,Burlington,Cybersecurity,2021,6,5.03,2,2.5
-United States,San Francisco,Internet software & services,2021,6,4.99,3,2.5
-United States,San Francisco,Cybersecurity,2021,4,5.14,3,2.5
-India,Bengaluru,Internet software & services,2021,8,4.83,3,2.68
-United States,Palo Alto,Artificial Intelligence,2022,2,4.34,3,2.5
-United States,McLean,Health,2022,2,4.32,3,2.5
-Australia,Sydney,Fintech,2022,3,4.28,3,2.5
-United States,New York,Other,2022,3,4.28,2,2.5
-United States,San Mateo,Hardware,2022,3,4.26,3,2.5
-India,Mumbai,Internet software & services,2022,3,4.22,3,2.5
-United States,Madison,E-commerce & direct-to-consumer,2021,3,5.22,3,2.5
-Singapore,Fintech,"GIC. Apis Partners, Insight Partners",2022,4,4.18,0,2.5
-Israel,Ra'anana,Internet software & services,2021,1,5.39,3,2.5
-Israel,Tel Aviv,Internet software & services,2021,10,4.68,3,2.45
-Argentina,Buenos Aires,Fintech,2021,8,4.85,3,2.45
-India,Bengaluru,Internet software & services,2021,9,4.76,3,2.45
-United States,Boston,Cybersecurity,2019,8,6.87,3,2.44
-China,Hangzhou,Fintech,2017,2,9.32,3,2.41
-China,Changzhou,Auto & transportation,2021,5,5.08,3,2.41
-United States,Columbia,Fintech,2020,5,6.13,3,2.41
-United States,Redwood City,Hardware,2015,8,10.83,3,2.4
-India,Gurgaon,Fintech,2019,5,7.12,2,2.4
-United States,New York,Fintech,2021,4,5.14,3,2.4
-United States,Foster City,Cybersecurity,2021,6,5.05,3,2.4
-United States,Boston,Cybersecurity,2021,9,4.76,3,2.4
-United States,New York,Fintech,2020,7,5.93,3,2.4
-United States,El Segundo,Other,2021,3,5.23,3,2.4
-United States,San Francisco,Internet software & services,2021,5,5.13,3,2.4
-United States,South Burlington,Other,2022,4,4.17,2,2.4
-United States,Chicago,"Supply chain, logistics, & delivery",2021,6,5.05,3,2.62
-United States,South San Francisco,Health,2020,8,5.81,3,2.62
-United Kingdom,London,Fintech,2021,6,5.05,3,2.35
-Spain,Madrid,Internet software & services,2021,12,4.55,3,2.35
-South Korea,Seoul,E-commerce & direct-to-consumer,2015,9,10.78,2,2.34
-China,Shanghai,Hardware,2020,8,5.83,3,2.32
-France,Paris,Other,2020,8,5.84,2,2.31
-United States,Chicago,Artificial intelligence,2015,10,10.64,3,2.3
-United States,San Francisco,"Supply chain, logistics, & delivery",2019,4,7.16,3,2.85
-United States,Santa Monica,Other,2020,2,6.35,3,2.3
-United States,Atlanta,Fintech,2020,9,5.73,3,2.3
-United States,New York,Other,2021,5,5.07,3,2.3
-Belgium,Louvain-la-Neuve,Internet software & services,2021,7,4.89,3,2.3
-Vietnam,Ho Chi Minh City,Fintech,2021,12,4.52,3,2.27
-United States,Mountain View,Consumer & retail,2018,11,7.63,3,2.25
-United States,San Francisco,Internet software & services,2021,7,4.89,3,2.25
-United States,Lehi,Internet software & services,2021,10,4.7,3,2.25
-United States,San Francisco,Fintech,2022,4,4.19,3,2.2
-Germany,Unterfoehring,Other,2018,2,8.32,1,2.2
-South Korea,Seoul,E-commerce & direct-to-consumer,2019,11,6.6,1,2.2
-United States,New York,Fintech,2021,4,5.14,3,2.2
-Mexico,Mexico City,Fintech,2021,5,5.12,3,2.2
-United States,New York,Internet software & services,2019,6,7.02,3,2.2
-United States,San Francisco,Internet software & services,2020,10,5.7,3,2.2
-China,Beijing,"Supply chain, logistics, & delivery",2022,2,4.34,3,2.2
-United States,Mountain View,Artificial intelligence,2022,2,4.32,3,2.2
-United States,Boston,Consumer & retail,2021,6,5.01,3,2.2
-China,Shanghai,Mobile & telecommunications,2019,10,6.7,3,2.19
-United Kingdom,Colchester,Other,2022,1,4.43,3,2.19
-China,Shanghai,Artificial intelligence,2020,8,5.88,3,2.18
-China,Shanghai,Artificial intelligence,2018,3,8.28,2,2.17
-United States,Mountain View,Fintech,2021,6,5.01,3,2.17
-United States,San Francisco,Fintech,2020,12,5.49,3,2.17
-United States,San Mateo,Data management & analytics,2021,6,5.0,3,2.0
-Brazil,Sao Paulo,Fintech,2021,9,4.78,3,2.15
-India,Maharashtra,Fintech,2021,8,4.86,3,2.15
-India,Pune,E-commerce & direct-to-consumer,2020,2,6.36,3,2.1
-United States,Santa Clara,Internet software & services,2020,10,5.64,3,2.1
-India,Gurgaon,E-commerce & direct-to-consumer,2021,4,5.14,3,2.1
-United States,Los Angeles,Fintech,2021,5,5.12,3,2.1
-United States,Mountain View,Artificial intelligence,2021,6,4.97,3,2.1
-United States,Palo Alto,Health,2021,10,4.65,3,2.1
-United Kingdom,London,Fintech,2022,2,4.36,3,2.1
-Germany,Berlin,"Supply chain, logistics, & delivery",2021,6,4.99,3,2.1
-United States,Orlando,Fintech,2022,3,4.27,3,2.1
-Hong Kong,Hong Kong,Fintech,2022,5,4.07,3,2.0
-Hong Kong,Kowloon,Consumer & retail,2012,2,14.35,1,2.0
-United States,Chicago,Artificial intelligence,2012,12,13.5,3,2.0
-China,Shenzhen,E-commerce & direct-to-consumer,2015,3,11.28,3,2.0
-France,Paris,Auto & transportation,2015,9,10.76,3,2.0
-China,Beijing,E-commerce & direct-to-consumer,2016,9,9.79,3,2.0
-United States,Mountain View,Internet software & services,2017,4,9.16,3,2.0
-United Kingdom,London,Other,2017,5,9.11,3,1.0
-Japan,Tokyo,Artificial intelligence,2018,5,8.09,3,2.0
-United States,Somerville,Hardware,2018,8,7.88,3,2.0
-China,Beijing,Artificial intelligence,2018,12,7.5,3,2.0
-United States,San Francisco,Internet software & services,2019,2,7.36,3,2.0
-United States,Miami,Cybersecurity,2019,3,7.23,3,2.0
-China,Beijing,Travel,2019,5,7.07,3,2.0
-United States,Sunnyvale,Data management & analytics,2019,6,7.0,3,2.0
-China,Hangzhou,Internet software & services,2019,10,6.65,3,2.0
-United States,San Francisco,Mobile & telecommunications,2020,1,6.41,3,2.0
-China,Beijing,Internet software & services,2020,5,6.08,3,2.0
-United States,Mountain View,Data management & analytics,2020,8,5.82,3,2.0
-China,Shenzhen,E-commerce & direct-to-consumer,2020,9,5.73,3,2.0
-United States,New York,Fintech,2020,10,5.7,3,2.0
-United States,San Francisco,Health,2020,12,5.54,3,2.0
-United States,Dallas,"Supply chain, logistics, & delivery",2020,12,5.5,1,2.0
-Israel,Giv'atayim,Fintech,2021,2,5.32,3,2.0
-China,Shanghai,Consumer & retail,2021,3,5.26,3,2.0
-Canada,Toronto,Fintech,2021,4,5.16,3,2.0
-United States,San Francisco,Artificial intelligence,2021,4,5.16,3,2.0
-Sweden,Stockholm,Health,2021,4,5.14,3,2.0
-United States,Irvine,Internet software & services,2021,5,5.13,3,2.0
-United States,San Francisco,Fintech,2021,5,5.11,3,2.7
-United Kingdom,London,Fintech,2022,1,4.45,3,2.1
-China,Beijing,Internet software & services,2021,5,5.11,3,2.0
-United States,Miami,Fintech,2021,5,5.08,3,2.0
-United States,San Francisco,Internet software & services,2021,6,5.01,3,2.0
-Netherlands,Amsterdam,Fintech,2021,6,5.0,1,2.0
-Mexico,Mexico City,Fintech,2021,6,5.02,3,2.0
-Brazil,Sao Paulo,"Supply chain, logistics, & delivery",2019,6,7.04,2,2.0
-United States,San Francisco,Internet software & services,2021,7,4.91,3,2.0
-Luxembourg,Leudelange,Other,2019,3,7.29,2,2.0
-China,Shenzhen,Artificial intelligence,2021,8,4.85,3,2.0
-United States,San Francisco,Fintech,2021,8,4.85,3,2.0
-United States,Goleta,Other,2020,5,6.06,3,2.0
-Nigeria,Lagos,Fintech,2021,8,4.82,3,2.0
-United States,Santa Clara,Internet software & services,2021,9,4.78,3,2.0
-Japan,Tokyo,Mobile & telecommunications,2019,8,6.87,3,2.0
-United States,Pennsauken,"Supply chain, logistics, & delivery",2021,4,5.16,3,2.0
-United States,New York,Health,2021,9,4.76,3,2.0
-China,Shanghai,Artificial intelligence,2021,9,4.74,3,2.0
-Singapore,Artificial intelligence,"Vision Plus Capital, GSR Ventures, ZhenFund",2021,9,4.74,0,2.0
-United States,San Francisco,Fintech,2021,10,4.7,3,2.0
-United States,Plantation,Hardware,2014,10,11.66,3,2.0
-Germany,Berlin,Travel,2021,10,4.65,3,2.0
-United States,Portola Valley,Data management & analytics,2021,10,4.64,3,2.0
-Philippines,Taguig City,Fintech,2021,11,4.63,3,2.0
-United States,Oakland,Internet software & services,2020,3,6.28,3,2.0
-United Kingdom,London,Fintech,2021,11,4.61,3,2.0
-United States,New York,Artificial intelligence,2021,6,5.03,3,2.0
-Israel,Netanya,Cybersecurity,2021,11,4.59,3,8.0
-United States,San Francisco,Internet software & services,2021,11,4.59,3,2.0
-United States,New York,Health,2021,11,4.57,3,2.0
-United States,Dallas,Internet software & services,2021,11,4.57,2,2.0
-Singapore,Artificial intelligence,"Hopu Investment Management, Boyu Capital, DC Thomson Ventures",2019,7,6.91,0,2.0
-France,Croix,Hardware,2022,1,4.42,3,2.0
-United States,Santa Clara,Data management & analytics,2021,1,5.45,3,2.0
-Indonesia,Jakarta,E-commerce & direct-to-consumer,2022,2,4.34,3,2.0
-United States,Santa Clara,Internet software & services,2022,2,4.34,2,2.0
-Denmark,Aarhus,Fintech,2021,7,4.94,3,2.0
-India,Mumbai,Edtech,2021,8,4.86,3,2.25
-United States,Boston,Internet software & services,2022,4,4.18,3,2.0
-United States,New York,Cybersecurity,2022,3,4.22,3,2.0
-China,Shanghai,Auto & transportation,2022,4,4.14,3,2.0
-United States,New York,Artificial intelligence,2022,5,4.11,3,2.0
-United States,Cambridge,Data management & analytics,2021,10,4.65,3,2.0
-Croatia,Sveta Nedelja,Auto & transportation,2022,6,4.05,3,2.0
-China,Beijing,Hardware,2018,11,7.58,3,2.0
-South Korea,Seoul,Mobile & telecommunications,2022,6,4.03,3,1.93
-France,Paris,E-commerce & direct-to-consumer,2022,1,4.44,3,1.98
-China,Beijing,Edtech,2021,2,5.36,3,1.95
-United States,New York,Internet software & services,2021,12,4.51,3,1.95
-United States,New York,Internet software & services,2017,11,8.63,3,1.9
-China,Shanghai,E-commerce & direct-to-consumer,2019,2,7.38,3,1.9
-United States,Lehi,Fintech,2021,1,5.43,3,1.9
-United States,Bethesda,Health,2021,1,5.41,3,1.9
-India,Bangalore,Fintech,2021,10,4.7,3,1.9
-United States,Irvine,Fintech,2022,3,4.28,3,1.9
-United States,Oakland,Fintech,2022,3,4.28,3,1.94
-United States,Los Angeles,Internet software & services,2022,3,4.3,3,1.94
-United States,Boston,Artificial Intelligence,2022,3,4.22,3,1.9
-United States,Boca Raton,E-commerce & direct-to-consumer,2022,5,4.12,3,1.9
-Germany,Bruchsal,Auto & transportation,2022,3,4.29,3,1.87
-China,Shanghai,Auto & transportation,2019,4,7.18,1,1.85
-South Korea,Seoul,Internet,2022,8,3.84,3,1.83
-United States,Boston,Fintech,2021,9,4.76,2,1.85
-United States,New York,Health,2015,8,10.83,3,1.8
-United States,San Francisco,Other,2021,3,5.22,3,1.8
-United States,Atlanta,Internet software & services,2021,8,4.87,3,1.8
-Israel,Jerusalem,Artificial intelligence,2019,7,6.89,4,1.8
-United States,New York,Hardware,2021,9,4.74,3,1.8
-India,Bengaluru,Fintech,2021,11,4.56,3,1.8
-United States,Brooklyn,Health,2021,10,4.65,3,1.79
-China,Shanghai,Auto & transportation,2018,4,8.18,3,1.78
-Canada,Vancouver,Cybersecurity,2021,6,5.03,3,1.75
-India,Gurugram,E-commerce & direct-to-consumer,2021,11,4.57,3,1.75
-United States,Denver,Internet software & services,2022,4,4.16,3,1.75
-United States,Portland,Cybersecurity,2021,3,5.24,3,1.8
-China,Beijing,Mobile & telecommunications,2015,1,11.42,3,1.73
-United States,New York,Artificial intelligence,2022,6,4.01,3,1.7
-United States,New York,Consumer & retail,2018,2,8.34,3,1.7
-United States,San Francisco,Consumer & retail,2018,10,7.66,3,1.7
-United States,Denver,Health,2021,3,5.3,3,1.7
-United States,Cambridge,Health,2021,12,4.53,3,1.7
-United States,Greenwood Village,Internet software & services,2022,4,4.19,3,1.7
-United Kingdom,London,Edtech,2022,6,4.03,3,1.7
-United States,San Francisco,Internet software & services,2022,6,3.98,3,1.7
-United States,Cambridge,Health,2022,4,4.17,3,1.69
-United States,New York,Health,2021,3,5.26,3,1.6
-United States,San Francisco,Internet software & services,2021,5,5.11,3,1.7
-Senegal,Dakar,Fintech,2021,9,4.78,3,1.7
-France,Paris,E-commerce & direct-to-consumer,2021,3,5.3,3,1.7
-United States,Hanover,Cybersecurity,2021,10,4.64,3,1.7
-United States,Redwood City,Data management & analytics,2021,11,4.62,3,1.7
-United States,Mountain View,Artificial intelligence,2021,11,4.61,3,1.7
-United States,Austin,Fintech,2021,11,4.61,3,1.7
-Malaysia,Selangor,E-commerce & direct-to-consumer,2021,7,4.94,3,1.7
-United States,San Francisco,Internet software & services,2022,2,4.38,3,1.7
-United States,Los Angeles,Fintech,2022,2,4.34,3,1.7
-United States,San Francisco,Internet software & services,2022,3,4.26,3,1.65
-United States,San Francisco,Internet software & services,2022,8,3.84,3,1.65
-China,Beijing,Data management & analytics,2018,7,7.95,3,1.62
-United States,San Francisco,Health,2022,1,4.44,3,1.62
-India,Bengaluru,E-commerce & direct-to-consumer,2022,1,4.39,3,1.7
-China,Chongqing,Internet software & services,2015,6,11.01,2,1.61
-Germany,Berlin,Fintech,2021,7,4.93,3,1.65
-United States,Santa Clara,Data management & analytics,2021,5,5.07,3,1.6
-United States,Waltham,Hardware,2015,4,11.14,2,1.6
-Bermuda,Hamilton,Artificial intelligence,2017,4,9.18,1,1.6
-China,Hangzhou,Auto & transportation,2018,1,8.42,2,1.6
-United States,San Mateo,Cybersecurity,2020,1,6.39,3,1.6
-United States,Sunnyvale,Internet software & services,2021,3,5.3,3,2.6
-United States,San Francisco,E-commerce & direct-to-consumer,2021,3,5.22,3,1.6
-Canada,Burnaby,Internet software & services,2021,4,5.14,3,1.6
-Australia,Sydney,Internet software & services,2021,5,5.13,3,1.6
-United States,San Francisco,Artificial intelligence,2022,5,4.07,3,1.6
-United States,San Francisco,Artificial Intelligence,2022,3,4.26,3,1.6
-United States,San Francisco,Fintech,2021,5,5.09,3,1.36
-United States,Cambridge,Health,2021,11,4.58,2,1.36
-Norway,Lysaker,Data management & analytics,2021,5,5.08,3,1.5
-United States,New York,Artificial intelligence,2021,5,5.08,3,1.6
-Japan,Tokyo,Fintech,2021,6,5.03,3,1.6
-United States,San Francisco,Fintech,2021,7,4.96,3,1.6
-United States,San Francisco,Fintech,2021,9,4.79,3,1.7
-United States,Hayward,Health,2021,10,4.64,3,1.6
-United States,Boston,"Supply chain, logistics, & delivery",2019,4,7.21,3,1.6
-Ireland,Dublin,Fintech,2022,2,4.38,3,1.6
-United States,New York,Fintech,2022,3,4.24,3,1.6
-Lithuania,Vilnius,Cybersecurity,2022,4,4.2,3,1.6
-United States,San Francisco,Cybersecurity,2022,6,4.03,3,1.6
-United States,San Francisco,Fintech,2022,6,3.99,3,1.6
-United States,San Francisco,Internet software & services,2022,6,3.98,3,1.6
-South Africa,Bryanston,Consumer & retail,2016,11,9.61,2,1.59
-United States,Austin,Hardware,2022,2,4.33,3,1.57
-China,Beijing,Fintech,2019,3,7.24,3,1.55
-China,Shanghai,Hardware,2021,3,5.3,3,1.55
-China,Hunan,Other,2021,4,5.17,3,1.55
-United Arab Emirates,Dubai,"Supply chain, logistics, & delivery",2021,7,4.97,3,1.55
-United States,San Francisco,Internet software & services,2021,5,5.08,3,1.53
-China,Shanghai,Mobile & telecommunications,2017,9,8.74,3,1.52
-China,Jiangsu,E-commerce & direct-to-consumer,2019,3,7.3,3,1.52
-China,Zhuhai,Other,2022,4,4.18,3,1.51
-United States,Northbrook,Data management & analytics,2013,2,13.36,2,1.5
-Ecuador,Quito,Fintech,2022,6,4.03,3,1.5
-United States,Cambridge,Health,2022,8,3.84,3,1.5
-China,Beijing,Travel,2015,6,11.01,2,1.5
-China,Shanghai,E-commerce & direct-to-consumer,2016,4,10.18,2,1.5
-United Kingdom,London,Auto & transportation,2016,5,10.07,3,1.5
-China,Hangzhou,Data management & analytics,2017,6,9.03,3,1.5
-China,Shanghai,Edtech,2017,10,8.64,3,1.5
-China,Beijing,Travel,2017,11,8.63,3,1.5
-China,Hangzhou,E-commerce & direct-to-consumer,2018,5,8.06,3,1.5
-China,Beijing,Consumer & retail,2018,9,7.75,3,1.5
-United States,Cambridge,Auto & transportation,2018,12,7.5,1,1.5
-United States,San Francisco,Fintech,2019,6,7.01,3,1.5
-United States,San Francisco,Internet software & services,2020,11,5.59,3,1.5
-United States,Bellevue,Internet software & services,2020,12,5.51,3,1.5
-United States,New York,Health,2021,1,5.41,3,1.5
-United States,Boulder,Other,2021,3,5.3,3,1.5
-United States,McLean,Cybersecurity,2021,3,5.25,3,1.5
-United States,San Francisco,Fintech,2021,5,5.07,3,1.5
-United States,San Francisco,Fintech,2021,5,5.05,3,2.0
-France,Paris,Hardware,2021,6,5.02,3,1.5
-Israel,Tel Aviv,Hardware,2021,6,5.01,3,1.5
-China,Shanghai,"Supply chain, logistics, & delivery",2021,6,4.97,3,1.5
-United States,Santa Barbara,Internet software & services,2021,7,4.93,3,1.5
-United States,San Francisco,Internet software & services,2021,7,4.91,3,1.5
-Chile,Santiago,Consumer & retail,2021,7,4.9,3,1.5
-Australia,Richmond,Internet software & services,2021,7,4.89,3,1.5
-United States,Draper,Fintech,2021,8,4.87,3,1.5
-United States,Cincinnati,Fintech,2021,3,5.24,3,1.5
-United States,Zephyr Cove,Internet software & services,2021,9,4.76,3,1.5
-United Kingdom,Altrincham,Data management & analytics,2021,9,4.76,3,1.5
-United States,San Francisco,Cybersecurity,2021,9,4.76,3,1.5
-Thailand,Bangkok,Fintech,2021,9,4.73,3,1.5
-United States,New York,Internet software & services,2021,9,4.72,3,1.5
-United States,Nashville,Internet software & services,2021,9,4.72,3,1.5
-United States,New York,Internet software & services,2021,10,4.66,3,1.5
-United States,San Francisco,Fintech,2021,10,4.68,3,1.5
-United States,New York,Internet software & services,2021,11,4.61,2,1.5
-India,Bengaluru,Health,2021,11,4.61,3,1.5
-United States,Houston,Other,2021,9,4.77,3,1.5
-Brazil,Curitiba,E-commerce & direct-to-consumer,2021,12,4.51,3,1.5
-United States,Scottsdale,Internet software & services,2021,12,4.48,3,1.5
-United States,San Francisco,Internet software & services,2021,12,4.5,3,1.5
-Israel,Herzliya,Other,2022,1,4.45,3,1.5
-United States,New York,E-commerce & direct-to-consumer,2022,1,4.44,3,1.5
-France,Paris,Fintech,2022,1,4.42,3,1.5
-Estonia,Tallinn,Artificial intelligence,2022,1,4.39,3,1.5
-United States,Mountain View,Health,2022,1,4.38,3,1.5
-India,Pune,"Supply chain, logistics, & delivery",2022,2,4.36,3,1.5
-United States,Boulder,"Supply chain, logistics, & delivery",2021,12,4.49,3,1.5
-United States,Bellevue,Internet software & services,2022,2,4.34,3,1.5
-United States,Bellevue,E-commerce & direct-to-consumer,2022,2,4.31,3,1.5
-United States,San Francisco,Fintech,2021,5,5.07,2,1.5
-United States,San Francisco,Fintech,2022,4,4.21,3,1.5
-United States,DC,Mobile & telecommunications,2022,4,4.15,3,1.5
-United States,Palo Alto,Artificial intelligence,2022,5,4.11,3,1.5
-Brazil,Sao Paulo,Fintech,2022,5,4.1,3,1.5
-United States,Santa Cruz,Other,2021,9,4.74,3,1.5
-United Kingdom,London,Internet software & services,2022,7,3.93,3,1.5
-China,Hefei,E-commerce & direct-to-consumer,2019,3,7.27,3,1.49
-China,Shanghai,Auto & transportation,2019,6,7.04,2,1.48
-United States,DC,Other,2022,5,4.11,3,1.48
-China,Beijing,Artificial Intelligence,2021,8,4.84,3,1.46
-China,Shenzhen,Hardware,2018,3,8.26,2,1.45
-China,Chengdu,"Supply chain, logistics, & delivery",2018,11,7.56,3,1.45
-China,Shanghai,Internet software & services,2019,6,6.98,1,1.45
-United Kingdom,Solihull,E-commerce & direct-to-consumer,2020,8,5.85,1,1.45
-United States,Chicago,Fintech,2021,7,4.93,3,1.45
-United States,San Francisco,Cybersecurity,2022,2,4.36,3,1.45
-Sweden,Stockholm,Auto & transportation,2021,12,4.47,3,1.44
-United States,New York,Internet software & services,2020,1,6.39,3,1.43
-China,Hangzhou,Health,2021,5,5.12,3,1.43
-United States,Denver,Health,2021,7,4.89,3,1.42
-United States,Miami,Health,2021,11,4.62,3,1.4
-Canada,Toronto,Internet software & services,2021,12,4.5,3,1.4
-United States,San Francisco,Internet software & services,2022,1,4.44,3,1.4
-Belgium,Ghent,Fintech,2022,1,4.4,3,1.4
-United States,Austin,Artificial intelligence,2022,1,4.4,3,1.4
-Israel,Tel Aviv,Data management & analytics,2022,1,4.39,3,1.4
-China,Beijing,E-commerce & direct-to-consumer,2014,10,11.66,3,1.4
-United States,New York,Fintech,2017,5,9.09,3,1.4
-China,Beijing,Mobile & telecommunications,2017,10,8.67,2,1.4
-Spain,Madrid,Auto & transportation,2018,1,8.41,3,1.4
-China,Shenzhen,"Supply chain, logistics, & delivery",2018,1,8.4,3,1.4
-United States,New York,E-commerce & direct-to-consumer,2019,5,7.1,3,1.4
-United States,San Francisco,Internet software & services,2020,12,5.46,3,1.4
-Sweden,Stockholm,Internet software & services,2021,3,5.27,2,1.4
-United States,New York,Internet software & services,2021,3,5.25,3,1.4
-India,Pune,E-commerce & direct-to-consumer,2021,10,4.7,3,1.4
-United States,Mountain View,Internet software & services,2021,7,4.95,3,1.4
-India,Chennai,Other,2021,3,5.23,3,1.4
-United States,New York,Fintech,2021,2,5.37,3,1.4
-United States,Seattle,Auto & transportation,2021,10,4.64,3,1.4
-United States,San Francisco,Health,2022,4,4.21,3,1.4
-South Korea,Seoul,E-commerce & direct-to-consumer,2022,5,4.11,3,1.4
-United Kingdom,London,Fintech,2022,5,4.11,3,1.4
-India,Pune,Fintech,2022,7,3.93,3,1.4
-United States,Ambler,Internet software & services,2021,4,5.2,3,1.4
-United States,San Francisco,Internet software & services,2021,4,5.2,3,1.4
-United States,Pleasanton,Edtech,2021,4,5.18,3,1.4
-United States,San Francisco,Mobile & telecommunications,2021,4,5.18,3,1.4
-Germany,Munich,Fintech,2021,6,5.03,3,1.4
-United States,Los Angeles,Internet software & services,2021,10,4.66,3,1.4
-United States,San Francisco,Cybersecurity,2021,12,4.54,3,1.4
-United States,Palo Alto,Cybersecurity,2022,2,4.35,3,1.4
-United Kingdom,London,Mobile & telecommunications,2022,2,4.34,3,1.4
-United States,Redwood City,Health,2022,6,4.01,3,1.4
-France,La Plaine Saint-Denis,E-commerce & direct-to-consumer,2007,7,18.97,2,1.38
-Brazil,Sao Paulo,Fintech,2022,2,4.34,3,1.38
-United States,New York,Internet software & services,2022,4,4.14,3,1.36
-China,Shanghai,Artificial intelligence,2018,4,8.18,3,1.35
-Hong Kong,Central,Travel,2018,8,7.87,3,1.35
-China,Guangzhou,Health,2021,6,5.01,3,1.35
-United States,New York,Fintech,2021,9,4.72,3,1.35
-United States,Hawthorne,Other,2022,2,4.34,3,1.35
-United States,San Jose,Fintech,2021,4,5.18,3,1.34
-China,Shenzhen,Hardware,2022,6,3.99,3,1.34
-United Kingdom,London,E-commerce & direct-to-consumer,2021,11,4.55,3,1.33
-South Korea,Seoul,E-commerce & direct-to-consumer,2022,1,4.4,3,1.33
-United States,Palo Alto,Internet software & services,2015,7,10.91,3,1.32
-South Korea,Seoul,Other,2018,10,7.66,1,1.32
-China,Hangzhou,Cybersecurity,2019,4,7.15,3,1.32
-United States,New York,Health,2022,1,4.4,3,1.32
-China,Beijing,Artificial intelligence,2018,7,7.92,3,1.31
-United States,Framingham,Health,2020,9,5.72,2,1.31
-United States,Redwood City,Health,2017,12,8.54,2,1.3
-India,New Delhi,Internet,2022,8,3.84,4,1.3
-United States,New York,Other,2019,11,6.58,1,1.3
-Israel,Tirat Carmel,Health,2020,3,6.29,3,1.3
-United States,Austin,Health,2020,12,5.54,3,1.3
-China,Shanghai,Other,2020,12,5.48,3,1.3
-China,Beijing,Mobile & telecommunications,2021,1,5.45,3,1.3
-United States,New York,Internet software & services,2021,8,4.84,3,1.3
-Mexico,Mexico City,Fintech,2021,9,4.72,3,1.3
-United States,New York,Fintech,2021,9,4.72,3,1.3
-United States,Encinitas,"Supply chain, logistics, & delivery",2021,10,4.66,3,1.3
-United States,Sunnyvale,Data management & analytics,2021,10,4.64,3,1.3
-United States,New York,Fintech,2022,1,4.43,3,1.3
-Spain,Barcelona,Travel,2022,1,4.43,3,1.3
-United States,Long Beach,Fintech,2022,1,4.44,2,1.3
-United States,Berkeley,Internet software & services,2022,1,4.39,2,1.3
-United States,San Francisco,Fintech,2022,1,4.39,3,1.3
-United States,New York,"Supply chain, logistics, & delivery",2022,2,4.38,3,1.3
-China,Guangzhou,Artificial Intelligence,2021,12,4.51,3,1.3
-India,Chennai,Fintech,2022,3,4.28,3,1.3
-Australia,Melbourne,Internet software & services,2022,3,4.26,3,1.3
-United States,Dallas,Internet software & services,2022,3,4.24,3,1.3
-United States,San Francisco,Internet software & services,2022,2,4.38,3,1.3
-United States,Boston,Health,2022,4,4.15,3,1.3
-United States,Atlanta,"Supply chain, logistics, & delivery",2021,9,4.76,3,1.3
-Israel,Tel Aviv,"Supply chain, logistics, & delivery",2022,5,4.09,3,1.3
-United States,San Francisco,Internet software & services,2018,3,8.23,2,1.28
-United Kingdom,Bristol,Other,2019,2,7.34,2,1.28
-China,Beijing,Fintech,2021,5,5.07,3,1.28
-China,Guangzhou,Internet software & services,2018,4,8.2,3,1.27
-China,Guangzhou,Hardware,2022,4,4.21,3,1.26
-China,Shenzhen,Hardware,2022,3,4.26,3,1.26
-United States,New York,Cybersecurity,2020,12,5.51,3,1.25
-China,Beijing,Internet software & services,2017,12,8.55,3,1.25
-United Kingdom,London,Fintech,2021,9,4.78,3,1.25
-United States,San Francisco,Internet software & services,2021,10,4.7,3,1.25
-United States,Sherman Oaks,Internet software & services,2021,11,4.62,3,1.25
-United States,San Francisco,Cybersecurity,2021,12,4.53,3,1.25
-United States,Boise,Internet software & services,2021,12,4.49,3,1.25
-Ireland,Dublin,Internet software & services,2022,1,4.43,3,1.25
-United States,Lehi,"Supply chain, logistics, & delivery",2022,1,4.41,3,1.25
-United States,San Francisco,Fintech,2022,1,4.39,3,1.25
-United States,New York,Fintech,2022,5,4.11,3,1.25
-United States,Brookline,Internet software & services,2022,6,4.01,3,1.25
-United States,San Francisco,Edtech,2022,7,3.91,3,1.25
-United Kingdom,Aberdeen,Consumer & retail,2017,4,9.19,2,1.24
-China,Shanghai,Hardware,2021,1,5.45,3,1.24
-China,Hangzhou,Health,2021,3,5.3,1,1.24
-United States,Cambridge,Health,2021,1,5.43,3,1.23
-Canada,Vancouver,Other,2021,9,4.78,2,1.23
-United States,Mountain View,Auto & transportation,2021,2,5.38,3,1.23
-China,Beijing,Mobile & telecommunications,2020,11,5.59,3,1.22
-Japan,Tsuruoka,Other,2021,9,4.78,3,1.22
-Turkey,Istanbul,Internet software & services,2022,2,4.3,3,1.22
-United States,New York,Health,2022,2,4.34,3,1.22
-United States,San Francisco,Fintech,2022,5,4.07,3,1.2
-China,Shanghai,"Supply chain, logistics, & delivery",2016,11,9.61,3,1.2
-United States,Santa Monica,Auto & transportation,2018,12,7.5,3,1.2
-United States,New York,Consumer & retail,2019,3,7.25,3,1.65
-Ireland,Dublin,Internet software & services,2020,6,5.99,1,1.2
-United States,Seattle,Data management & analytics,2020,7,5.92,3,1.2
-United States,San Diego,Internet software & services,2021,2,5.37,3,1.2
-United States,New York,Fintech,2021,2,5.33,3,1.2
-China,Beijing,Edtech,2021,3,5.23,3,1.2
-United States,San Francisco,Fintech,2021,3,5.23,3,1.2
-China,Beijing,Artificial intelligence,2021,4,5.18,3,1.0
-United States,Washington,Other,2021,4,5.14,3,1.3
-United States,San Jose,Artificial intelligence,2021,4,5.14,3,1.2
-Canada,Toronto,Artificial intelligence,2021,5,5.12,3,1.2
-United States,Cambridge,Other,2021,5,5.1,3,1.2
-United States,Redwood City,Internet software & services,2021,6,5.04,3,1.2
-China,Shenzhen,Artificial Intelligence,2021,6,4.99,3,1.2
-Czech Republic,Prague,"Supply chain, logistics, & delivery",2021,7,4.97,3,1.2
-United States,Cambridge,Health,2021,7,4.93,3,1.2
-United States,Los Angeles,Fintech,2021,7,4.91,3,1.2
-United States,San Francisco,Internet software & services,2021,8,4.88,3,1.2
-United States,New York,Fintech,2021,5,5.09,3,1.2
-Norway,Oslo,E-commerce & direct-to-consumer,2021,6,5.05,3,1.2
-United States,Princeton,Internet software & services,2021,8,4.8,3,1.2
-United States,Chicago,Data management & analytics,2021,9,4.76,3,1.2
-United States,San Francisco,Internet software & services,2021,9,4.72,3,1.2
-India,Jaipur,E-commerce & direct-to-consumer,2021,10,4.68,3,1.2
-India,Mumbai,E-commerce & direct-to-consumer,2021,11,4.61,3,1.2
-United States,Denver,Fintech,2021,12,4.53,3,1.2
-India,Gurugram,Health,2021,12,4.53,3,1.4
-United States,New York,"Supply chain, logistics, & delivery",2021,12,4.54,3,1.2
-Mexico,Mexico City,E-commerce & direct-to-consumer,2021,12,4.53,3,1.2
-United States,Bellevue,Internet software & services,2022,1,4.43,3,1.2
-United States,Mountain View,Artificial intelligence,2022,1,4.43,3,1.2
-United States,San Francisco,Fintech,2022,1,4.38,3,1.2
-India,Bengaluru,E-commerce & direct-to-consumer,2022,2,4.36,3,1.2
-India,Pune,"Supply chain, logistics, & delivery",2022,2,4.36,3,1.2
-United States,San Francisco,Internet software & services,2022,2,4.32,3,1.2
-Germany,Berlin,E-commerce & direct-to-consumer,2022,4,4.19,3,1.2
-United States,San Francisco,Artificial Intelligence,2022,4,4.2,3,1.2
-United States,New York,Fintech,2022,5,4.09,3,1.2
-Mexico,Juarez,Fintech,2022,7,3.93,3,1.2
-United Kingdom,Gloucester,Health,2022,7,3.92,1,1.2
-United States,San Jose,Data management & analytics,2021,12,4.53,3,1.15
-South Korea,Seoul,Consumer & retail,2016,1,10.46,1,1.19
-China,Beijing,Artificial intelligence,2019,3,7.23,3,1.19
-China,Beijing,Edtech,2017,7,8.91,3,1.18
-China,Shanghai,"Supply chain, logistics, & delivery",2019,1,7.43,3,1.17
-United States,San Francisco,Health,2021,2,5.35,3,1.17
-United States,San Francisco,Internet software & services,2021,6,5.01,3,1.17
-China,Shanghai,Auto & transportation,2018,9,7.76,3,1.16
-United States,Scottsdale,Other,2022,4,4.14,3,1.16
-Colombia,Bogota,Other,2015,7,10.93,1,1.15
-United States,Salt Lake City,Cybersecurity,2020,12,5.52,3,1.15
-United States,San Mateo,Fintech,2021,6,5.01,3,1.15
-United States,Washington DC,Artificial intelligence,2021,9,4.76,3,1.15
-United States,San Francisco,Health,2021,10,4.7,3,1.15
-United States,Tustin,Fintech,2022,2,4.36,3,1.15
-China,Qingdao,Fintech,2019,12,6.51,3,1.12
-Indonesia,Jakarta,Fintech,2022,8,3.86,3,1.13
-United States,Mountain View,Fintech,2021,7,4.9,3,1.12
-United States,San Jose,Health,2022,3,4.3,3,1.12
-United States,Santa Barbara,Artificial intelligence,2022,6,4.01,3,1.1
-United States,Mountain View,Mobile & telecommunications,2014,3,12.25,3,1.1
-United States,San Francisco,E-commerce & direct-to-consumer,2015,10,10.7,3,1.1
-China,Wuhan,E-commerce & direct-to-consumer,2016,4,10.18,3,1.1
-France,Roubaix,Other,2016,8,9.84,2,1.1
-Germany,Berlin,Travel,2019,5,7.09,3,1.1
-United States,Redwood City,Fintech,2019,5,7.08,3,1.1
-United States,New York,Data management & analytics,2020,1,6.44,3,1.1
-United States,Islandia,E-commerce & direct-to-consumer,2020,11,5.6,1,1.1
-Germany,Berlin,"Supply chain, logistics, & delivery",2021,1,5.43,2,1.1
-Switzerland,Prilly,Data management & analytics,2021,2,5.36,3,1.1
-United Kingdom,London,Fintech,2021,3,5.28,3,1.1
-United States,New York,Health,2021,3,5.22,3,1.1
-United States,Los Angeles,Fintech,2021,5,5.08,3,1.1
-China,Shanghai,Internet software & services,2021,6,5.05,3,1.1
-United States,Chicago,Internet software & services,2021,6,4.99,3,1.1
-Israel,Tel Aviv,Artificial intelligence,2021,10,4.68,2,1.0
-United States,Denver,Fintech,2022,5,4.07,3,1.1
-Mexico,Monterrey,"Supply chain, logistics, & delivery",2022,5,4.07,3,1.1
-United States,San Francisco,Internet software & services,2021,8,4.85,3,1.1
-Singapore,E-commerce & direct-to-consumer,"500 Global, Rakuten Ventures, Golden Gate Ventures",2021,9,4.76,0,1.1
-India,Bengaluru,Internet software & services,2021,9,4.76,3,1.1
-United States,Seattle,Internet software & services,2021,10,4.68,3,1.1
-Germany,Berlin,Internet software & services,2021,10,4.67,3,1.1
-India,Bengaluru,Fintech,2021,10,4.64,3,1.1
-United States,New York,E-commerce & direct-to-consumer,2021,11,4.59,3,1.1
-United Kingdom,London,Fintech,2021,11,4.55,2,1.1
-United States,San Francisco,Fintech,2021,11,4.55,3,1.1
-United States,Palo Alto,Internet software & services,2021,12,4.5,3,1.1
-India,New Delhi,E-commerce & direct-to-consumer,2021,12,4.47,3,1.1
-India,Andheri,Edtech,2022,1,4.43,3,1.1
-Canada,Waterloo,Cybersecurity,2022,2,4.32,3,1.1
-United States,New York,Cybersecurity,2022,2,4.32,3,1.1
-Germany,Chemnitz,Internet software & services,2022,3,4.26,3,1.1
-United States,New York,Other,2022,3,4.22,3,1.1
-United States,Quincy,Health,2022,4,4.2,3,1.1
-United States,Oakland,Cybersecurity,2022,5,4.13,3,1.1
-United States,Burlingame,Data management & analytics,2022,5,4.09,4,1.1
-United States,Redwood City,Cybersecurity,2022,5,4.11,2,1.1
-India,Uttar Pradesh,Edtech,2022,6,4.03,2,1.1
-Spain,Banyeres de Mariola,Other,2022,6,4.03,2,1.1
-India,Mumbai,E-commerce & direct-to-consumer,2022,6,4.03,3,1.1
-United States,New York,Fintech,2022,1,4.44,2,1.1
-China,Beijing,Internet software & services,2018,9,7.75,2,1.08
-China,Beijing,"Supply chain, logistics, & delivery",2021,1,5.4,3,1.08
-China,Shanghai,"Supply chain, logistics, & delivery",2021,1,5.4,3,1.08
-United States,Sarasota,Consumer & retail,2022,6,4.02,3,1.07
-United States,Atlanta,Other,2017,8,8.82,3,1.07
-United Kingdom,Crewe,Fintech,2017,11,8.56,1,1.07
-India,Gurgaon,"Supply chain, logistics, & delivery",2019,7,6.94,3,1.07
-India,Gurgaon,E-commerce & direct-to-consumer,2021,12,4.47,3,1.07
-United States,San Francisco,Fintech,2022,4,4.15,3,1.05
-China,Beijing,E-commerce & direct-to-consumer,2015,7,10.89,3,1.05
-United States,San Francisco,Data management & analytics,2019,10,6.66,3,1.05
-United States,San Mateo,Mobile & telecommunications,2021,4,5.2,3,1.05
-United States,San Francisco,Hardware,2021,11,4.61,3,1.05
-United States,San Francisco,Internet software & services,2021,11,4.59,3,1.05
-United States,Columbus,Fintech,2022,3,4.3,3,1.05
-South Korea,Seongnam-Si,Health,2019,5,7.05,2,1.04
-Israel,Jerusalem,Artificial intelligence,2018,2,8.33,2,1.03
-United States,San Francisco,Hardware,2021,11,4.6,3,1.02
-China,Hangzhou,Auto & transportation,2018,11,7.58,3,1.01
-United States,Austin,Health,2022,1,4.41,3,1.01
-United States,New York,Fintech,2022,8,3.84,1,1.0
-United States,Sunnyvale,Auto & transportation,2022,6,4.01,3,1.0
-France,Paris,"Supply chain, logistics, & delivery",2022,6,4.01,3,1.0
-Ireland,Kilkenny,Fintech,2022,5,4.08,1,1.0
-United States,San Francisco,Cybersecurity,2013,10,12.69,3,1.0
-Israel,Tel Aviv,Cybersecurity,2022,6,4.04,3,1.0
-India,New Delhi,E-commerce & direct-to-consumer,2014,5,12.08,3,1.0
-United States,El Segundo,E-commerce & direct-to-consumer,2014,8,11.81,3,1.0
-India,Bengaluru,Mobile & telecommunications,2014,12,11.55,3,1.0
-China,Shanghai,Mobile & telecommunications,2015,1,11.46,0,1.0
-United States,Fort Mill,Other,2015,1,11.45,2,1.0
-China,Hangzhou,E-commerce & direct-to-consumer,2015,1,11.41,3,1.0
-China,Shenzhen,E-commerce & direct-to-consumer,2015,3,11.29,3,1.0
-China,Beijing,Fintech,2015,4,11.16,3,1.0
-China,Beijing,Mobile & telecommunications,2015,7,10.97,3,1.0
-United States,Washington,Internet software & services,2015,8,10.85,3,1.0
-China,Beijing,E-commerce & direct-to-consumer,2015,9,10.78,3,1.0
-China,Beijing,Internet software & services,2015,10,10.69,3,1.0
-China,Beijing,E-commerce & direct-to-consumer,2015,10,10.69,3,1.0
-China,Shanghai,Edtech,2015,10,10.64,3,1.0
-China,Shanghai,Edtech,2015,11,10.58,3,1.0
-Switzerland,Lausanne,Health,2016,1,10.39,1,1.0
-China,Shenzhen,Artificial intelligence,2016,4,10.18,2,1.0
-United States,Chicago,Internet software & services,2016,6,10.03,3,1.0
-United States,Austin,Consumer & retail,2016,12,9.49,2,1.0
-China,Beijing,Consumer & retail,2017,4,9.2,3,1.0
-China,Beijing,E-commerce & direct-to-consumer,2017,4,9.17,2,1.0
-United States,Boca Raton,Health,2017,5,9.11,3,1.0
-China,Shanghai,E-commerce & direct-to-consumer,2017,6,8.97,3,1.0
-China,Shanghai,E-commerce & direct-to-consumer,2017,8,8.88,3,1.0
-South Africa,Midrand,Mobile & telecommunications,2017,8,8.87,2,1.0
-China,Shenzhen,"Supply chain, logistics, & delivery",2017,9,8.74,2,1.0
-Philippines,Manila,Other,2017,10,8.65,2,1.0
-Hong Kong,Fintech,"Sequoia Capital China, ING, Alibaba Entrepreneurs Fund",2017,11,8.61,0,1.0
-China,Beijing,Mobile & telecommunications,2017,11,8.59,3,1.0
-China,Hangzhou,Health,2018,4,8.19,2,1.0
-Finland,Espoo,Mobile & telecommunications,2018,5,8.08,1,1.0
-China,Beijing,Edtech,2018,5,8.07,3,1.0
-China,Wuxi,Hardware,2018,6,8.02,3,1.0
-China,Beijing,Health,2018,7,7.96,2,1.0
-United States,New York,Internet software & services,2018,7,7.94,3,1.0
-Brazil,Sao Paulo,Mobile & telecommunications,2018,7,7.94,3,1.0
-United States,New York,Consumer & retail,2018,7,7.93,2,1.0
-China,Hangzhou,Mobile & telecommunications,2018,7,7.92,3,1.0
-China,Beijing,"Supply chain, logistics, & delivery",2018,8,7.81,3,1.0
-China,Shanghai,Auto & transportation,2018,9,7.76,3,1.0
-United States,Charlotte,Fintech,2018,10,7.69,1,1.0
-China,Beijing,Artificial intelligence,2018,10,7.67,3,1.0
-China,Nanjing,E-commerce & direct-to-consumer,2018,10,7.67,3,1.0
-Germany,Berlin,Travel,2018,10,7.66,3,1.0
-China,Beijing,Hardware,2018,10,7.65,3,1.0
-Netherlands,Amsterdam,Hardware,2018,11,7.62,3,1.0
-Brazil,Osasco,"Supply chain, logistics, & delivery",2018,11,7.6,3,1.0
-United States,Miami,"Supply chain, logistics, & delivery",2018,12,7.52,3,1.0
-United States,Menlo Park,Artificial intelligence,2019,1,7.41,1,1.0
-France,Evry,Other,2019,2,7.32,3,1.0
-China,Shenzhen,Artificial intelligence,2019,3,7.24,3,1.0
-China,Shanghai,Mobile & telecommunications,2019,4,7.14,3,1.0
-United States,New York,Internet software & services,2019,5,7.12,3,1.0
-China,Guiyang,Other,2019,5,7.09,1,1.0
-China,Beijing,Edtech,2019,5,7.06,3,1.0
-South Korea,Seoul,Travel,2019,6,7.03,3,1.0
-France,Paris,Artificial intelligence,2019,6,7.0,3,1.0
-United States,Denver,Fintech,2019,8,6.87,3,1.0
-United States,Leawood,Fintech,2019,8,6.87,3,1.0
-Switzerland,Zurich,Fintech,2019,8,6.83,2,1.0
-Brazil,Curitiba,Fintech,2019,10,6.67,2,1.0
-China,Dongguan,E-commerce & direct-to-consumer,2019,10,6.66,3,3.0
-United States,San Francisco,Health,2020,1,6.38,3,1.0
-Netherlands,Amsterdam,E-commerce & direct-to-consumer,2020,3,6.26,3,1.0
-United Arab Emirates,Dubai,Other,2020,4,6.14,3,1.0
-United States,San Francisco,Edtech,2020,5,6.1,3,1.0
-United States,Menlo Park,Health,2020,6,6.0,3,1.0
-Croatia,Vodnjan,Mobile & telecommunications,2020,7,5.89,1,1.0
-United States,Long Beach,E-commerce & direct-to-consumer,2020,9,5.75,3,1.0
-Japan,Tokyo,Other,2020,9,5.74,3,1.0
-South Korea,Jeju-do,Auto & transportation,2020,10,5.67,3,1.07
-United Kingdom,London,"Supply chain, logistics, & delivery",2020,11,5.62,3,1.7
-United States,Englewood,Other,2020,12,5.51,3,1.0
-United States,Colorado Springs,Data management & analytics,2021,1,5.45,2,1.0
-United States,Mountain View,Internet software & services,2021,1,5.45,3,1.0
-Brazil,Parana,E-commerce & direct-to-consumer,2021,1,5.45,3,1.0
-United Kingdom,London,Fintech,2021,1,5.41,3,1.0
-United States,San Jose,Internet software & services,2021,1,5.39,3,1.0
-Thailand,Bangkok,"Supply chain, logistics, & delivery",2021,2,5.38,3,1.0
-United States,Houston,Other,2021,2,5.34,3,1.0
-United States,Wilmington,Hardware,2021,2,5.33,3,1.0
-United States,San Francisco,Artificial intelligence,2021,2,5.33,3,1.0
-China,Changsha,Fintech,2021,2,5.33,3,1.0
-United States,Redwood City,"Supply chain, logistics, & delivery",2021,2,5.31,4,1.0
-United States,New York,Edtech,2021,2,5.31,3,1.0
-Israel,Ramat Gan,Cybersecurity,2021,3,5.28,3,1.0
-Singapore,Internet software & services,"Sequoia Capital China, Shunwei Capital Partners, Qualgro",2021,3,5.26,0,1.0
-United States,San Mateo,Health,2021,3,5.24,4,1.0
-United States,El Segundo,Fintech,2021,1,5.39,3,1.0
-United States,San Mateo,Artificial intelligence,2021,3,5.24,3,1.0
-China,Suzhou,Edtech,2021,3,5.22,3,1.0
-United States,Chicago,Internet software & services,2021,3,5.22,3,1.0
-China,Hangzhou,Fintech,2021,4,5.19,3,1.0
-United States,Austin,E-commerce & direct-to-consumer,2021,4,5.19,3,1.0
-United States,Chicago,Fintech,2021,4,5.18,3,1.0
-United States,Mountain View,Artificial intelligence,2021,4,5.18,3,1.0
-China,Chengdu,Health,2021,4,5.18,3,1.0
-United States,New York,Fintech,2021,4,5.16,3,1.0
-United States,San Francisco,Artificial intelligence,2021,4,5.16,3,1.0
-United Kingdom,London,Fintech,2021,4,5.19,2,1.0
-United States,New York,Health,2021,4,5.14,3,1.0
-United States,Redwood City,Artificial intelligence,2021,4,5.14,3,1.5
-United States,San Francisco,Internet software & services,2021,4,5.14,3,1.0
-China,Shanghai,Internet software & services,2021,6,5.05,3,1.0
-United States,Cedar Park,Other,2021,5,5.13,3,1.1
-France,Paris,Artificial intelligence,2021,5,5.12,3,1.0
-Canada,Toronto,Artificial intelligence,2021,5,5.12,3,1.0
-China,Chongqing,Consumer & retail,2021,5,5.12,3,1.0
-United States,San Francisco,Fintech,2021,5,5.1,3,1.73
-United States,Berkeley Heights,Data management & analytics,2021,5,5.1,3,1.0
-United States,Chicago,Fintech,2021,5,5.09,3,1.0
-United States,New York,Fintech,2021,5,5.09,3,1.0
-United States,Charlotte,Other,2021,5,5.07,1,1.0
-Singapore,Fintech,"Dragonfly Captial, Qiming Venture Partners, DST Global",2021,6,5.05,0,1.05
-United States,San Francisco,"Supply chain, logistics, & delivery",2021,6,5.05,3,1.0
-United States,New York,Health,2021,6,5.05,3,1.0
-Ireland,Dublin,Health,2021,6,5.03,3,1.0
-China,Shenzhen,Hardware,2021,6,5.02,3,1.0
-Singapore,E-commerce & direct-to-consumer,"SingTel Innov8, Alpha JWC Ventures, Golden Gate Ventures",2021,6,5.01,0,1.0
-United Kingdom,London,Artificial intelligence,2021,6,5.01,3,1.0
-China,Shenzhen,Internet software & services,2021,6,5.01,3,1.0
-Israel,Tel Aviv,"Supply chain, logistics, & delivery",2021,6,5.01,3,1.0
-United States,New York,Cybersecurity,2021,6,5.0,3,1.0
-Israel,Tel Aviv,Edtech,2021,6,4.99,3,1.0
-United States,New York,Internet software & services,2021,6,4.99,3,1.0
-United States,San Francisco,Fintech,2021,6,4.97,3,1.0
-United States,New York,Fintech,2021,6,4.99,3,1.0
-United States,Washington DC,Internet software & services,2021,6,5.03,3,1.0
-Canada,Vancouver,Internet software & services,2021,6,4.97,3,1.0
-United States,Chicago,"Supply chain, logistics, & delivery",2021,6,4.97,2,1.0
-Singapore,Fintech,"Mundi Ventures, Doqling Capital Partners, Activant Capital",2021,7,4.97,0,1.0
-United States,San Francisco,Fintech,2021,7,4.95,3,1.06
-United States,Seattle,Artificial intelligence,2021,7,4.93,3,1.0
-United States,San Francisco,Internet software & services,2021,7,4.93,3,1.0
-China,Beijing,Fintech,2021,7,4.94,3,1.0
-China,Shanghai,Health,2021,7,4.94,3,1.0
-United States,Lincoln,Fintech,2021,7,4.93,1,1.0
-Australia,Brisbane,Internet software & services,2021,7,4.92,3,1.0
-United States,Arlington,"Supply chain, logistics, & delivery",2021,7,4.91,3,1.0
-India,Bengaluru,"Supply chain, logistics, & delivery",2021,7,4.91,3,1.0
-Singapore,Fintech,"Vertex Ventures SE Asia, Global Founders Capital, Visa Ventures",2021,7,4.93,0,1.0
-United States,San Francisco,Fintech,2021,8,4.87,3,1.0
-United States,New York,Artificial intelligence,2021,8,4.87,3,1.0
-Canada,Toronto,Fintech,2021,8,4.86,3,1.0
-United States,Palo Alto,Artificial intelligence,2021,8,4.86,3,1.0
-Norway,Oslo,E-commerce & direct-to-consumer,2021,8,4.84,3,1.0
-United States,New York,Health,2021,8,4.84,3,1.0
-South Korea,Seoul,Fintech,2021,7,4.91,3,1.0
-United States,San Diego,Artificial intelligence,2021,8,4.82,3,1.0
-United States,San Francisco,Mobile & telecommunications,2021,8,4.81,3,1.0
-China,Hangzhou,Hardware,2021,8,4.8,3,1.0
-Hong Kong,E-commerce & direct-to-consumer,"Andreessen Horowitz, DST Global, IDG Capital",2021,9,4.79,0,1.0
-Germany,Berlin,E-commerce & direct-to-consumer,2021,9,4.8,2,1.0
-Germany,Munich,Hardware,2021,9,4.77,3,1.0
-United States,San Francisco,E-commerce & direct-to-consumer,2021,9,4.76,3,1.2
-United States,Brisbane,Health,2021,9,4.77,3,1.0
-United States,New York,Fintech,2021,9,4.77,3,1.0
-Indonesia,Jakarta,Fintech,2021,9,4.76,3,1.0
-United Kingdom,London,Fintech,2021,9,4.74,3,1.0
-United States,Culver City,Internet software & services,2021,9,4.74,3,1.0
-United States,San Francisco,Internet software & services,2021,9,4.74,3,1.0
-China,Shanghai,"Supply chain, logistics, & delivery",2021,9,4.76,3,1.0
-China,Shanghai,Consumer & retail,2021,9,4.73,2,1.0
-Singapore,"Supply chain, logistics, & delivery","B Capital Group, Monk's Hill Ventures, Dynamic Parcel Distribution",2021,9,4.73,0,1.0
-India,Bengaluru,Edtech,2021,9,4.72,3,1.0
-United States,New York,Health,2021,9,4.72,3,1.0
-Indonesia,Jakarta,Fintech,2021,10,4.71,3,1.0
-India,Bengaluru,E-commerce & direct-to-consumer,2021,10,4.7,3,1.0
-United States,New York,Fintech,2021,10,4.7,3,1.0
-United States,New York,Data management & analytics,2021,10,4.7,3,1.0
-United States,Cambridge,Internet software & services,2021,10,4.7,3,1.0
-United States,El Segundo,E-commerce & direct-to-consumer,2021,2,5.35,3,1.0
-France,Montpellier,Fintech,2021,10,4.69,3,1.0
-India,Gurugram,Fintech,2021,10,4.68,3,1.0
-United States,San Francisco,Artificial intelligence,2021,10,4.68,3,1.0
-United Kingdom,London,Fintech,2021,10,4.67,3,1.0
-France,Paris,Health,2021,10,4.66,3,1.0
-Brazil,Sao Paulo,"Supply chain, logistics, & delivery",2021,10,4.66,3,1.0
-United States,New York,"Supply chain, logistics, & delivery",2021,10,4.65,3,1.0
-United States,New York,Artificial intelligence,2021,10,4.65,3,1.0
-China,Beijing,Internet software & services,2021,11,4.63,3,1.0
-China,Shanghai,Internet software & services,2021,11,4.63,3,1.0
-United States,Dublin,Internet software & services,2021,11,4.62,1,1.0
-United States,San Diego,Cybersecurity,2021,11,4.61,3,1.0
-Germany,Berlin,Consumer & retail,2021,11,4.61,3,1.0
-South Korea,Seoul,Internet software & services,2021,11,4.61,3,1.0
-United States,New York,Internet software & services,2021,11,4.61,3,1.0
-United States,Los Altos,Cybersecurity,2021,11,4.61,3,1.0
-United States,New York,Fintech,2021,11,4.61,3,1.0
-China,Shanghai,Hardware,2021,11,4.61,3,1.1
-India,Bengaluru,Other,2021,11,4.59,3,1.0
-United States,Chicago,E-commerce & direct-to-consumer,2021,11,4.59,3,1.0
-United States,Bellingham,Internet software & services,2021,11,4.59,2,1.0
-United States,San Francisco,Cybersecurity,2021,11,4.58,3,1.0
-United States,New York,Artificial Intelligence,2021,11,4.58,3,1.0
-United States,Herndon,Cybersecurity,2021,11,4.58,3,1.0
-India,Bengaluru,Internet software & services,2021,11,4.57,3,1.0
-United States,Scottsdale,Internet software & services,2021,11,4.55,3,1.0
-Mexico,Mexico City,Fintech,2021,12,4.53,3,1.0
-United States,New York,Internet software & services,2021,12,4.53,3,1.0
-United States,Berkeley,Artificial Intelligence,2021,12,4.53,3,1.0
-United States,Austin,Data management & analytics,2021,12,4.55,3,1.0
-United States,Tampa,Cybersecurity,2021,12,4.55,3,1.0
-Australia,Alexandria,E-commerce & direct-to-consumer,2021,12,4.53,3,1.0
-United States,Chicago,Consumer & retail,2021,7,4.92,3,1.0
-France,Paris,Fintech,2021,12,4.53,3,1.0
-Germany,Berlin,E-commerce & direct-to-consumer,2021,12,4.53,3,1.0
-United States,San Mateo,Internet software & services,2021,12,4.51,3,1.0
-United States,New York,Health,2021,12,4.51,3,1.0
-United States,Palo Alto,Cybersecurity,2021,12,4.51,3,1.0
-United States,San Francisco,Consumer & retail,2021,12,4.49,3,1.0
-Sweden,Stockholm,Travel,2021,12,4.49,3,1.0
-China,Beijing,Artificial Intelligence,2021,12,4.49,3,1.0
-Indonesia,Jakarta,Consumer & retail,2021,12,4.48,3,1.0
-Germany,Berlin,Other,2021,12,4.51,3,1.0
-Singapore,Internet software & services,"Temasek, Guggenheim Investments, Qatar Investment Authority",2021,12,4.53,0,1.0
-India,Mumbai,Data management & analytics,2022,1,4.45,3,1.0
-Canada,Ottawa,"Supply chain, logistics, & delivery",2022,1,4.45,3,1.0
-United States,Los Altos,Artificial intelligence,2022,1,4.43,3,1.0
-Israel,Petah Tikva,Cybersecurity,2022,1,4.44,3,1.0
-India,Hyderabad,Internet software & services,2022,1,4.4,3,1.0
-United States,Palo Alto,Data management & analytics,2022,1,4.39,3,1.0
-United States,New York,Internet software & services,2022,1,4.39,3,1.0
-United States,New York,Fintech,2022,1,4.39,3,1.0
-Chile,Santiago,Artificial intelligence,2022,2,4.38,3,1.0
-Norway,Oslo,Data management & analytics,2022,2,4.38,3,1.0
-Switzerland,Zurich,"Supply chain, logistics, & delivery",2022,2,4.36,3,1.0
-United Kingdom,London,Fintech,2022,2,4.34,3,1.0
-United States,San Francisco,Internet software & services,2022,2,4.36,2,1.0
-Canada,Waterloo,Internet software & services,2022,2,4.34,3,1.0
-United States,New York,Cybersecurity,2022,2,4.32,3,1.0
-India,Bengaluru,Internet software & services,2022,2,4.32,3,1.0
-United States,New York,Internet software & services,2022,2,4.32,3,1.0
-Italy,Milan,Fintech,2022,2,4.32,3,1.0
-United States,San Francisco,Health,2022,2,4.32,3,1.0
-United States,New York,Cybersecurity,2022,2,4.32,3,1.0
-United States,San Mateo,Internet software & services,2022,2,4.31,3,1.0
-United States,Boston,Fintech,2022,2,4.31,3,1.0
-United States,New York,Fintech,2022,3,4.28,3,1.0
-United States,Palo Alto,Internet software & services,2022,3,4.26,3,1.0
-India,Bengaluru,Internet software & services,2022,3,4.26,3,1.0
-United States,New York,Fintech,2022,3,4.25,3,1.0
-United States,Palo Alto,Artificial Intelligence,2022,3,4.25,3,1.0
-United States,San Francisco,Internet software & services,2022,3,4.24,3,1.0
-United States,Milpitas,Mobile & telecommunications,2022,3,4.24,3,1.0
-United States,Austin,Fintech,2022,3,4.26,3,1.0
-United States,New York,Cybersecurity,2022,3,4.22,3,1.0
-United States,New York,Internet software & services,2022,3,4.22,3,1.0
-United States,Waltham,Health,2022,4,4.2,3,1.0
-Germany,Berlin,E-commerce & direct-to-consumer,2022,4,4.2,3,1.0
-United States,Venice,Internet software & services,2022,4,4.19,3,1.0
-United States,Wilmington,Fintech,2022,4,4.16,3,1.0
-United States,San Francisco,Health,2022,4,4.16,3,1.0
-Sweden,Stockholm,"Supply chain, logistics, & delivery",2022,4,4.16,3,1.0
-United States,Berkeley,Other,2022,4,4.16,3,1.0
-United States,Torrance,Auto & transportation,2022,4,4.15,3,1.0
-Germany,Berlin,Fintech,2022,4,4.14,3,1.0
-India,Bengaluru,Fintech,2022,5,4.13,3,1.0
-Sweden,Kista,Other,2022,5,4.13,1,1.0
-Japan,Tokyo,Fintech,2022,5,4.11,3,1.0
-Norway,Oslo,Internet software & services,2022,5,4.11,1,1.0
-Colombia,Bogota,Fintech,2022,5,4.11,3,1.0
-United States,Palo Alto,Internet software & services,2022,5,4.09,3,1.0
-United States,Nashville,Health,2022,6,4.03,3,1.0
-United States,Boston,Data management & analytics,2022,6,4.03,3,1.0
-United States,Morrisville,Cybersecurity,2022,6,4.05,3,1.0
-Israel,Yehud,Hardware,2022,6,4.04,3,1.0
-India,Bengaluru,Internet software & services,2022,6,3.99,3,1.0
-United States,Chicago,"Supply chain, logistics, & delivery",2022,6,3.99,3,1.0
-United States,Burlington,"Supply chain, logistics, & delivery",2022,7,3.96,3,1.0
-United States,San Francisco,Data management & analytics,2022,7,3.94,3,1.0
-United States,Las Vegas,Internet software & services,2022,7,3.9,3,1.0
+Country,City,Industry,join_year,join_month,years_since_joined,investors_count,valuation_b,is_usa,has_investors,is_fintech,is_ai,investor_count_log
+China,Beijing,Artificial intelligence,2017,4,5.4,4,140.0,0,1,0,1,1.6094379124341003
+United States,Hawthorne,Other,2012,12,9.75,3,127.0,1,1,0,0,1.3862943611198906
+China,Shenzhen,E-commerce & direct-to-consumer,2018,7,4.16,3,100.0,0,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2014,1,8.61,3,95.0,1,1,1,0,1.3862943611198906
+Australia,Surry Hills,Internet software & services,2018,1,4.65,3,40.0,0,1,0,0,1.3862943611198906
+United Kingdom,London,Fintech,2019,5,3.33,3,40.0,0,1,1,0,1.3862943611198906
+United States,San Francisco,"Supply chain, logistics, & delivery",2014,12,7.67,3,39.0,1,1,0,0,1.3862943611198906
+United States,San Francisco,Data management & analytics,2019,2,3.57,3,38.0,1,1,0,0,1.3862943611198906
+United Kingdom,London,Fintech,2018,4,4.35,3,33.0,0,1,1,0,1.3862943611198906
+United States,Cary,Other,2018,10,3.85,3,31.5,1,1,0,0,1.3862943611198906
+Bahamas,Fintech,"Sequoia Capital, Thoma Bravo, Softbank",2021,7,1.12,0,32.0,0,0,0,0,0.0
+United States,Jacksonville,E-commerce & direct-to-consumer,2012,6,10.24,3,27.0,1,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2019,3,3.49,3,25.0,1,1,1,0,1.3862943611198906
+India,Bengaluru,Edtech,2017,7,5.1,3,22.0,0,1,0,0,1.3862943611198906
+China,Shanghai,E-commerce & direct-to-consumer,2016,3,6.42,3,20.0,0,1,0,0,1.3862943611198906
+Indonesia,Jakarta,"Supply chain, logistics, & delivery",2021,4,1.4,3,20.0,0,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2022,1,0.65,3,17.5,1,1,0,0,1.3862943611198906
+China,Beijing,Edtech,2017,5,5.25,3,15.5,0,1,0,0,1.3862943611198906
+China,Shenzhen,Hardware,2015,1,7.61,2,15.0,0,1,0,0,1.0986122886681098
+United States,San Francisco,Internet software & services,2018,4,4.37,3,15.0,1,1,0,0,1.3862943611198906
+United States,Philadelphia,"Supply chain, logistics, & delivery",2020,10,1.9,3,15.0,1,1,0,0,1.3862943611198906
+China,Beijing,Consumer & retail,2020,3,2.5,3,15.0,0,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2019,12,2.7,3,15.0,1,1,1,0,1.3862943611198906
+United Kingdom,London,Fintech,2021,2,1.54,3,14.0,0,1,1,0,1.3862943611198906
+United States,San Francisco,Fintech,2018,12,3.72,3,13.5,1,1,1,0,1.3862943611198906
+United States,New York,Internet software & services,2021,7,1.12,3,13.3,1,1,0,0,1.3862943611198906
+Germany,Munich,Data management & analytics,2018,6,4.18,2,13.0,0,1,0,0,1.0986122886681098
+United States,San Francisco,Internet software & services,2019,10,2.89,3,13.0,1,1,0,0,1.3862943611198906
+United States,Waltham,Health,2018,10,3.88,3,12.6,1,1,0,0,1.3862943611198906
+United States,San Francisco,Artificial intelligence,2019,10,2.84,3,12.59,1,1,0,1,1.3862943611198906
+United States,San Francisco,Fintech,2018,10,3.91,3,12.3,1,1,1,0,1.3862943611198906
+United States,San Francisco,Consumer & retail,2017,12,4.7,1,12.0,1,1,0,0,0.6931471805599453
+China,Beijing,Hardware,2018,7,4.16,3,12.0,0,1,0,0,1.3862943611198906
+United States,San Diego,Health,2018,8,4.07,2,12.0,1,1,0,0,1.0986122886681098
+United States,Roseville,Internet software & services,2021,10,0.88,3,12.0,1,1,0,0,1.3862943611198906
+China,Changsha,E-commerce & direct-to-consumer,2020,7,2.11,3,12.0,0,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2021,4,1.36,3,12.0,1,1,1,0,1.3862943611198906
+Turkey,Istanbul,"Supply chain, logistics, & delivery",2021,3,1.43,3,11.8,0,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2018,11,3.79,3,11.7,1,1,0,0,1.3862943611198906
+China,Shanghai,Auto & transportation,2021,6,1.25,3,11.4,0,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2020,8,2.08,3,11.25,1,1,0,0,1.3862943611198906
+United Kingdom,London,Hardware,2016,12,5.69,3,11.1,0,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2021,10,0.9,3,11.0,1,1,1,0,1.3862943611198906
+United States,San Francisco,Fintech,2021,10,0.84,3,10.2,1,1,1,0,1.3862943611198906
+China,Luohe,Consumer & retail,2021,5,1.32,3,10.88,0,1,0,0,1.3862943611198906
+India,Bengaluru,"Supply chain, logistics, & delivery",2018,6,4.2,3,10.7,0,1,0,0,1.3862943611198906
+Hong Kong,Cheung Sha Wan,"Supply chain, logistics, & delivery",2019,2,3.53,3,10.0,0,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2020,4,2.34,3,10.0,1,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2015,12,6.7,3,10.0,1,1,1,0,1.3862943611198906
+China,Beijing,E-commerce & direct-to-consumer,2016,3,6.47,2,10.0,0,1,0,0,1.0986122886681098
+United States,San Francisco,Internet software & services,2017,7,5.09,3,10.0,1,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2018,10,3.91,3,10.0,1,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2020,4,2.42,3,10.0,1,1,0,0,1.3862943611198906
+United States,Walpole,E-commerce & direct-to-consumer,2020,7,2.13,3,10.0,1,1,0,0,1.3862943611198906
+United States,New York,Fintech,2021,11,0.83,3,10.0,1,1,1,0,1.3862943611198906
+Seychelles,Victoria,Fintech,2022,5,0.31,3,10.0,0,1,1,0,1.3862943611198906
+United States,Boston,Internet software & services,2018,6,4.24,3,9.5,1,1,0,0,1.3862943611198906
+United States,Glendale,Internet software & services,2018,11,3.8,3,9.5,1,1,0,0,1.3862943611198906
+China,Shenzhen,Other,2019,7,3.17,3,9.28,0,1,0,0,1.3862943611198906
+Germany,Berlin,Fintech,2019,1,3.64,3,9.23,0,1,1,0,1.3862943611198906
+United States,Boston,Internet software & services,2020,11,1.79,3,9.2,1,1,0,0,1.3862943611198906
+Sweden,Stockholm,Other,2019,6,3.22,3,9.08,0,1,0,0,1.3862943611198906
+United States,Kirkland,Cybersecurity,2015,3,7.42,3,9.0,1,1,0,0,1.3862943611198906
+United States,San Francisco,Mobile & telecommunications,2017,11,4.77,4,9.0,1,1,0,0,1.6094379124341003
+India,Gurugram,Travel,2018,9,3.93,3,9.0,0,1,0,0,1.3862943611198906
+United Kingdom,London,Fintech,2019,12,2.75,3,8.75,0,1,1,0,1.3862943611198906
+Mexico,Lerma de Villada,E-commerce & direct-to-consumer,2020,10,1.92,3,8.7,0,1,0,0,1.3862943611198906
+United States,Boston,Cybersecurity,2020,1,2.61,3,8.6,1,1,0,0,1.3862943611198906
+United States,Mountain View,Auto & transportation,2019,2,3.55,3,8.6,1,1,0,0,1.3862943611198906
+United States,New York,Fintech,2020,11,1.77,3,8.6,1,1,1,0,1.3862943611198906
+United States,Fremont,Artificial intelligence,2018,7,4.14,3,8.5,1,1,0,1,1.3862943611198906
+Germany,Munich,Internet software & services,2021,1,1.62,3,8.5,0,1,0,0,1.3862943611198906
+United Kingdom,London,Fintech,2019,7,3.13,3,8.5,0,1,1,0,1.3862943611198906
+Estonia,Tallinn,Auto & transportation,2018,5,4.26,3,8.4,0,1,0,0,1.3862943611198906
+United States,San Jose,Cybersecurity,2021,1,1.65,3,8.3,1,1,0,0,1.3862943611198906
+United States,San Mateo,Fintech,2020,10,1.9,3,8.3,1,1,1,0,1.3862943611198906
+United States,Chicago,Health,2018,3,4.45,3,8.1,1,1,0,0,1.3862943611198906
+United States,New York,Fintech,2021,3,1.43,3,8.1,1,1,1,0,1.3862943611198906
+India,Mumbai,Internet software & services,2019,4,3.4,3,8.0,0,1,0,0,1.3862943611198906
+United States,New York,Fintech,2021,7,1.1,3,8.0,1,1,1,0,1.3862943611198906
+United States,San Francisco,"Supply chain, logistics, & delivery",2018,4,4.34,3,8.0,1,1,0,0,1.3862943611198906
+United States,San Mateo,Fintech,2021,8,1.06,3,8.0,1,1,1,0,1.3862943611198906
+United States,Irving,Health,2021,5,1.31,3,7.83,1,1,0,0,1.3862943611198906
+Canada,Vancouver,Internet software & services,2021,3,1.42,3,7.6,0,1,0,0,1.3862943611198906
+United Kingdom,London,Internet software & services,2020,11,1.81,3,7.75,0,1,0,0,1.3862943611198906
+United States,Santa Clara,Cybersecurity,2018,11,3.8,3,7.5,1,1,0,0,1.3862943611198906
+India,Bengaluru,Fintech,2020,10,1.89,3,7.5,0,1,1,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2013,5,9.26,3,7.5,1,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2019,5,3.32,3,7.4,1,1,1,0,1.3862943611198906
+United States,San Francisco,Artificial intelligence,2019,8,3.07,3,7.3,1,1,0,1,1.3862943611198906
+United States,Pittsburgh,Auto & transportation,2019,7,3.14,2,7.25,1,1,0,0,1.0986122886681098
+United States,Palo Alto,Artificial intelligence,2020,8,2.05,3,7.25,1,1,0,1,1.3862943611198906
+United States,Palo Alto,Travel,2018,11,3.81,3,7.25,1,1,0,0,1.3862943611198906
+United States,New York,Fintech,2021,11,0.78,3,7.1,1,1,1,0,1.3862943611198906
+China,Hangzhou,Health,2015,9,6.94,2,7.0,0,1,0,0,1.0986122886681098
+United States,New York,Health,2020,7,2.1,3,7.0,1,1,0,0,1.3862943611198906
+United States,New York,Fintech,2021,11,0.79,3,7.0,1,1,1,0,1.3862943611198906
+United States,San Jose,Artificial intelligence,2018,7,4.17,3,6.8,1,1,0,1,1.3862943611198906
+Canada,Toronto,Cybersecurity,2021,7,1.15,3,6.8,0,1,0,0,1.3862943611198906
+Sweden,Stockholm,Fintech,2011,12,10.72,3,6.7,0,1,1,0,1.3862943611198906
+China,Beijing,E-commerce & direct-to-consumer,2018,1,4.62,3,6.6,0,1,0,0,1.3862943611198906
+China,Changzhou,Auto & transportation,2020,6,2.23,4,6.51,0,1,0,0,1.6094379124341003
+India,Mumbai,Fintech,2020,7,2.17,3,6.5,0,1,1,0,1.3862943611198906
+Netherlands,Amsterdam,Fintech,2020,9,1.98,1,6.5,0,1,1,0,0.6931471805599453
+India,Bengaluru,Auto & transportation,2014,10,7.85,3,7.5,0,1,0,0,1.3862943611198906
+France,Paris,Health,2019,3,3.46,3,6.4,0,1,0,0,1.3862943611198906
+United States,Boston,Artificial intelligence,2019,7,3.09,3,6.3,1,1,0,1,1.3862943611198906
+United States,San Francisco,Fintech,2018,2,4.55,3,6.28,1,1,1,0,1.3862943611198906
+United States,San Francisco,Health,2021,1,1.65,3,6.2,1,1,0,0,1.3862943611198906
+United States,Los Angeles,Other,2021,5,1.28,1,6.1,1,1,0,0,0.6931471805599453
+United States,San Francisco,Internet software & services,2021,4,1.38,3,6.1,1,1,0,0,1.3862943611198906
+China,Shenzhen,Hardware,2015,8,7.04,2,6.0,0,1,0,0,1.0986122886681098
+United States,New York,Fintech,2020,11,1.81,3,6.0,1,1,1,0,1.3862943611198906
+Israel,Tel Aviv,Cybersecurity,2021,3,1.46,3,6.0,0,1,0,0,1.3862943611198906
+United States,New York,Fintech,2021,7,1.1,3,6.0,1,1,1,0,1.3862943611198906
+United States,San Francisco,Artificial intelligence,2021,3,1.42,3,5.2,1,1,0,1,1.3862943611198906
+United States,Hoboken,Mobile & telecommunications,2020,9,1.94,3,5.99,1,1,0,0,1.3862943611198906
+China,Beijing,Consumer & retail,2018,2,4.55,3,5.78,0,1,0,0,1.3862943611198906
+China,Beijing,E-commerce & direct-to-consumer,2016,4,6.4,3,5.77,0,1,0,0,1.3862943611198906
+United States,Brooklyn,Internet software & services,2011,4,11.42,2,5.7,1,1,0,0,1.0986122886681098
+United States,Brooklyn,Health,2020,12,1.72,3,5.7,1,1,0,0,1.3862943611198906
+United States,Mountain View,Internet software & services,2021,1,1.63,3,5.7,1,1,0,0,1.3862943611198906
+France,Paris,E-commerce & direct-to-consumer,2021,5,1.29,3,5.7,0,1,0,0,1.3862943611198906
+Finland,Helsinki,"Supply chain, logistics, & delivery",2022,2,0.54,3,5.7,0,1,0,0,1.3862943611198906
+United States,Pflugerville,Other,2022,4,0.37,3,5.7,1,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2020,6,2.22,3,5.6,1,1,0,0,1.3862943611198906
+United States,Oakland,Data management & analytics,2020,6,2.17,3,5.6,1,1,0,0,1.3862943611198906
+France,Paris,Internet software & services,2021,5,1.27,3,5.6,0,1,0,0,1.3862943611198906
+Germany,Berlin,Fintech,2021,5,1.28,2,5.36,0,1,1,0,1.0986122886681098
+Colombia,Bogota,"Supply chain, logistics, & delivery",2018,8,4.0,4,5.25,0,1,0,0,1.6094379124341003
+Belgium,Brussels,Data management & analytics,2019,1,3.59,3,5.25,0,1,0,0,1.3862943611198906
+United States,Atlanta,Internet software & services,2019,7,3.14,1,5.1,1,1,0,0,0.6931471805599453
+Brazil,Campinas,E-commerce & direct-to-consumer,2019,9,2.98,3,5.1,0,1,0,0,1.3862943611198906
+Brazil,Sao Paulo,Fintech,2020,12,1.75,1,5.05,0,1,1,0,0.6931471805599453
+China,Shanghai,Health,2017,9,4.96,3,5.0,0,1,0,0,1.3862943611198906
+China,Shanghai,Auto & transportation,2018,6,4.25,2,5.0,0,1,0,0,1.0986122886681098
+Australia,Melbourne,Fintech,2019,3,3.44,3,5.5,0,1,1,0,1.3862943611198906
+Netherlands,Amsterdam,Fintech,2021,1,1.65,3,5.5,0,1,1,0,1.3862943611198906
+South Korea,Seoul,Fintech,2018,12,3.73,3,5.48,0,1,1,0,1.3862943611198906
+China,Beijing,Artificial intelligence,2019,2,3.51,3,5.0,0,1,0,1,1.3862943611198906
+China,Shanghai,Auto & transportation,2019,3,3.49,3,5.0,0,1,0,0,1.3862943611198906
+United Kingdom,London,Other,2020,9,1.92,3,5.0,0,1,0,0,1.3862943611198906
+United States,Palo Alto,Data management & analytics,2021,4,1.39,3,5.0,1,1,0,0,1.3862943611198906
+United Kingdom,London,Fintech,2021,8,1.02,3,5.0,0,1,1,0,1.3862943611198906
+United Kingdom,London,Fintech,2017,10,4.89,3,5.0,0,1,1,0,1.3862943611198906
+Israel,Tel Aviv,Mobile & telecommunications,2020,1,2.6,2,5.0,0,1,0,0,1.0986122886681098
+India,Gurgaon,E-commerce & direct-to-consumer,2021,7,1.09,3,5.0,0,1,0,0,1.3862943611198906
+United States,New York,Data management & analytics,2021,1,1.63,3,5.0,1,1,0,0,1.3862943611198906
+India,Noida,Fintech,2020,1,2.6,3,5.0,0,1,1,0,1.3862943611198906
+France,Paris,Fintech,2022,1,0.64,3,5.0,0,1,1,0,1.3862943611198906
+India,Bengaluru,Auto & transportation,2019,7,3.17,3,5.0,0,1,0,0,1.3862943611198906
+United States,Bellevue,Artificial intelligence,2019,7,3.13,3,5.0,1,1,0,1,1.3862943611198906
+Canada,Montreal,Travel,2021,3,1.44,3,5.0,0,1,0,0,1.3862943611198906
+India,Bengaluru,Internet software & services,2020,12,1.69,3,5.0,0,1,0,0,1.3862943611198906
+India,Bengaluru,Internet software & services,2021,4,1.4,3,5.0,0,1,0,0,1.3862943611198906
+United States,San Francisco,Cybersecurity,2021,3,1.46,3,5.0,1,1,0,0,1.3862943611198906
+India,Bengaluru,Internet software & services,2021,4,1.41,3,4.9,0,1,0,0,1.3862943611198906
+United States,San Francisco,Health,2021,6,1.23,3,4.8,1,1,0,0,1.3862943611198906
+Brazil,Sao Paulo,Fintech,2020,12,1.7,3,4.8,0,1,1,0,1.3862943611198906
+United States,Boston,Health,2021,8,1.06,3,4.8,1,1,0,0,1.3862943611198906
+China,Beijing,Hardware,2021,12,0.71,3,4.73,0,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,2,1.51,3,4.7,1,1,0,0,1.3862943611198906
+Denmark,Copenhagen,Fintech,2021,7,1.16,3,4.7,0,1,1,0,1.3862943611198906
+Switzerland,Geneva,Internet software & services,2022,4,0.35,3,4.7,0,1,0,0,1.3862943611198906
+United States,Irvine,Artificial intelligence,2019,9,2.97,3,4.6,1,1,0,1,1.3862943611198906
+United States,Burlingame,Health,2020,8,2.02,3,5.85,1,1,0,0,1.3862943611198906
+United States,New York,Artificial intelligence,2019,12,2.74,3,4.6,1,1,0,1,1.3862943611198906
+United States,San Francisco,Internet software & services,2019,9,2.95,3,4.6,1,1,0,0,1.3862943611198906
+United States,Burlingame,Health,2021,1,1.66,3,4.6,1,1,0,0,1.3862943611198906
+United Kingdom,London,Fintech,2021,3,1.42,2,4.58,0,1,1,0,1.0986122886681098
+Lithuania,Vilnius,E-commerce & direct-to-consumer,2019,11,2.76,3,4.53,0,1,0,0,1.3862943611198906
+China,Beijing,Edtech,2016,8,6.08,3,4.5,0,1,0,0,1.3862943611198906
+United States,New York,Cybersecurity,2021,3,1.46,3,4.5,1,1,0,0,1.3862943611198906
+United Kingdom,London,Fintech,2018,10,3.84,3,4.5,0,1,1,0,1.3862943611198906
+China,Shenzhen,Hardware,2016,7,6.1,3,4.58,0,1,0,0,1.3862943611198906
+Germany,Berlin,Fintech,2019,3,3.49,3,4.5,0,1,1,0,1.3862943611198906
+India,Faridabad,E-commerce & direct-to-consumer,2019,12,2.7,3,4.5,0,1,0,0,1.3862943611198906
+China,Shanghai,Auto & transportation,2022,8,0.08,2,4.5,0,1,0,0,1.0986122886681098
+United States,Seattle,Internet software & services,2019,4,3.38,3,4.4,1,1,0,0,1.3862943611198906
+China,Guangzhou,Auto & transportation,2020,12,1.69,3,4.4,0,1,0,0,1.3862943611198906
+United States,Denver,Internet software & services,2019,11,2.8,3,4.4,1,1,0,0,1.3862943611198906
+United States,Eden Prairie,Cybersecurity,2020,10,1.86,3,4.3,1,1,0,0,1.3862943611198906
+France,Paris,Internet software & services,2021,9,0.94,3,4.3,0,1,0,0,1.3862943611198906
+United States,Inglewood,Other,2020,11,1.77,3,4.2,1,1,0,0,1.3862943611198906
+China,Beijing,E-commerce & direct-to-consumer,2019,6,3.18,3,4.25,0,1,0,0,1.3862943611198906
+United States,Sunnyvale,Internet software & services,2018,5,4.32,3,4.2,1,1,0,0,1.3862943611198906
+United States,Boston,Internet software & services,2022,1,0.6,3,4.2,1,1,0,0,1.3862943611198906
+United States,Philadelphia,Data management & analytics,2021,6,1.17,3,4.2,1,1,0,0,1.3862943611198906
+Canada,Montreal,E-commerce & direct-to-consumer,2021,6,1.23,1,4.15,0,1,0,0,0.6931471805599453
+United States,New York,Artificial intelligence,2018,6,4.24,3,4.1,1,1,0,1,1.3862943611198906
+Austria,Vienna,Fintech,2021,3,1.46,3,4.11,0,1,1,0,1.3862943611198906
+United States,Fremont,"Supply chain, logistics, & delivery",2021,3,1.46,3,4.1,1,1,0,0,1.3862943611198906
+United States,Palo Alto,E-commerce & direct-to-consumer,2014,9,7.92,3,4.0,1,1,0,0,1.3862943611198906
+India,Bengaluru,Fintech,2021,4,1.4,3,4.01,0,1,1,0,1.3862943611198906
+South Korea,Seoul,Mobile & telecommunications,2014,11,7.81,1,4.0,0,1,0,0,0.6931471805599453
+China,Beijing,Artificial intelligence,2017,10,4.84,3,4.0,0,1,0,1,1.3862943611198906
+United Kingdom,London,Fintech,2018,7,4.13,2,4.0,0,1,1,0,1.0986122886681098
+United States,Redwood City,Consumer & retail,2019,5,3.3,3,4.0,1,1,0,0,1.3862943611198906
+United States,El Segundo,Health,2018,2,4.51,2,4.0,1,1,0,0,1.0986122886681098
+United States,Palo Alto,Fintech,2019,10,2.9,3,4.0,1,1,1,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2020,9,2.0,3,4.0,1,1,0,0,1.3862943611198906
+Canada,Mississauga,Internet software & services,2021,1,1.65,3,4.0,0,1,0,0,1.3862943611198906
+United States,Sunnyvale,Internet software & services,2021,1,1.63,3,4.0,1,1,0,0,1.3862943611198906
+United States,San Francisco,Mobile & telecommunications,2021,1,1.6,2,4.0,1,1,0,0,1.0986122886681098
+Ireland,Dublin,Internet software & services,2021,6,1.21,3,4.0,0,1,0,0,1.3862943611198906
+United States,Columbus,Health,2020,12,1.75,3,4.0,1,1,0,0,1.3862943611198906
+United States,Palo Alto,Data management & analytics,2017,4,5.34,3,4.0,1,1,0,0,1.3862943611198906
+United States,New York,Fintech,2021,1,1.6,3,4.0,1,1,1,0,1.3862943611198906
+United States,Carlsbad,E-commerce & direct-to-consumer,2021,10,0.88,2,4.0,1,1,0,0,1.0986122886681098
+United States,San Diego,Internet software & services,2020,12,1.71,2,4.0,1,1,0,0,1.0986122886681098
+United States,Los Altos,Hardware,2018,11,3.8,3,4.0,1,1,0,0,1.3862943611198906
+United States,San Carlos,Other,2020,8,2.08,3,4.0,1,1,0,0,1.3862943611198906
+United States,Redwood City,Mobile & telecommunications,2018,9,3.98,3,4.0,1,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,5,1.27,3,4.0,1,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,1,1.63,3,4.0,1,1,0,0,1.3862943611198906
+United States,Miami,Internet software & services,2022,3,0.45,3,4.0,1,1,0,0,1.3862943611198906
+India,Bengaluru,Fintech,2021,1,1.63,3,4.0,0,1,1,0,1.3862943611198906
+United States,San Francisco,Cybersecurity,2022,5,0.31,3,4.0,1,1,0,0,1.3862943611198906
+China,Chengdu,Health,2018,7,4.09,3,3.92,0,1,0,0,1.3862943611198906
+United States,Boston,Health,2014,4,8.42,3,3.8,1,1,0,0,1.3862943611198906
+United States,Detroit,E-commerce & direct-to-consumer,2019,6,3.18,3,3.8,1,1,0,0,1.3862943611198906
+Netherlands,Amsterdam,Mobile & telecommunications,2020,10,1.9,3,3.8,0,1,0,0,1.3862943611198906
+United States,Seattle,"Supply chain, logistics, & delivery",2018,9,3.95,3,3.8,1,1,0,0,1.3862943611198906
+United States,New York,Edtech,2021,7,1.17,3,3.75,1,1,0,0,1.3862943611198906
+United States,Bend,E-commerce & direct-to-consumer,2021,3,1.46,3,3.75,1,1,0,0,1.3862943611198906
+United States,San Jose,Data management & analytics,2018,6,4.22,3,3.7,1,1,0,0,1.3862943611198906
+United States,New York,Data management & analytics,2020,4,2.38,3,3.7,1,1,0,0,1.3862943611198906
+United States,Culver City,E-commerce & direct-to-consumer,2020,9,1.94,3,3.7,1,1,0,0,1.3862943611198906
+United States,New York,Health,2021,5,1.27,3,3.7,1,1,0,0,1.3862943611198906
+United States,Carson City,Other,2021,7,1.1,3,3.7,1,1,0,0,1.3862943611198906
+United States,New York,Internet software & services,2021,3,1.49,3,3.7,1,1,0,0,1.3862943611198906
+China,Suzhou,Health,2021,11,0.76,3,3.7,0,1,0,0,1.3862943611198906
+United States,San Francisco,Artificial intelligence,2021,1,1.63,3,3.7,1,1,0,1,1.3862943611198906
+United States,Marina del Rey,E-commerce & direct-to-consumer,2021,9,0.96,3,3.7,1,1,0,0,1.3862943611198906
+United States,Santa Monica,Internet software & services,2022,1,0.61,1,3.66,1,1,0,0,0.6931471805599453
+United States,Chicago,Internet software & services,2021,3,1.46,2,3.6,1,1,0,0,1.0986122886681098
+United States,Boston,E-commerce & direct-to-consumer,2020,10,1.84,3,3.6,1,1,0,0,1.3862943611198906
+United States,Sunnyvale,Auto & transportation,2020,10,1.86,3,3.6,1,1,0,0,1.3862943611198906
+United States,Redwood City,Edtech,2020,2,2.55,3,3.6,1,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2021,5,1.27,3,3.6,1,1,1,0,1.3862943611198906
+Germany,Duderstadt,Health,2017,6,5.19,1,3.52,0,1,0,0,0.6931471805599453
+United States,Boston,Artificial intelligence,2017,9,4.93,3,3.5,1,1,0,1,1.3862943611198906
+Singapore,Mobile & telecommunications,Kuang-Chi,2020,5,2.27,0,3.5,0,0,0,0,0.0
+United States,Seattle,Internet software & services,2021,3,1.44,3,3.5,1,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,9,0.96,2,3.5,1,1,0,0,1.0986122886681098
+France,Paris,E-commerce & direct-to-consumer,2020,9,1.94,3,3.5,0,1,0,0,1.3862943611198906
+United States,San Ramon,Internet software & services,2020,10,1.86,3,3.5,1,1,0,0,1.3862943611198906
+United States,Hoboken,Fintech,2021,10,0.89,2,3.5,1,1,1,0,1.0986122886681098
+Austria,Vienna,Edtech,2021,6,1.19,3,3.5,0,1,0,0,1.3862943611198906
+United States,Seattle,Internet software & services,2021,2,1.52,3,3.5,1,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,5,1.31,3,3.5,1,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2021,4,1.37,3,3.5,1,1,1,0,1.3862943611198906
+United States,Atlanta,Hardware,2021,7,1.14,3,3.5,1,1,0,0,1.3862943611198906
+United States,Redmond,Other,2021,11,0.82,3,3.5,1,1,0,0,1.3862943611198906
+Switzerland,Schaffhausen,Cybersecurity,2019,9,2.95,3,3.5,0,1,0,0,1.3862943611198906
+India,Bengaluru,Edtech,2020,9,2.0,3,3.44,0,1,0,0,1.3862943611198906
+United States,Miami,Fintech,2021,11,0.77,3,3.4,1,1,1,0,1.3862943611198906
+India,Mumbai,Fintech,2021,11,0.76,2,3.4,0,1,1,0,1.0986122886681098
+China,Shanghai,Auto & transportation,2018,4,4.42,2,3.35,0,1,0,0,1.0986122886681098
+United States,Englewood Cliffs,Data management & analytics,2021,1,1.59,3,3.35,1,1,0,0,1.3862943611198906
+United States,Boston,Data management & analytics,2021,1,1.65,3,3.35,1,1,0,0,1.3862943611198906
+United Kingdom,London,Fintech,2021,3,1.48,3,3.34,0,1,1,0,1.3862943611198906
+China,Wuhan,Auto & transportation,2020,10,1.85,3,3.31,0,1,0,0,1.3862943611198906
+United States,Alameda,Other,2019,4,3.38,3,3.3,1,1,0,0,1.3862943611198906
+United States,Culver City,Mobile & telecommunications,2019,10,2.84,3,3.3,1,1,0,0,1.3862943611198906
+United States,San Francisco,Health,2020,5,2.28,3,3.3,1,1,0,0,1.3862943611198906
+South Korea,Seoul,"Supply chain, logistics, & delivery",2021,7,1.15,3,3.3,0,1,0,0,1.3862943611198906
+India,Gurgaon,E-commerce & direct-to-consumer,2020,11,1.77,3,3.3,0,1,0,0,1.3862943611198906
+United States,Los Angeles,Fintech,2021,9,0.94,3,3.25,1,1,1,0,1.3862943611198906
+China,Shenzhen,Other,2016,5,6.31,1,3.24,0,1,0,0,0.6931471805599453
+Finland,Helsinki,Internet software & services,2021,10,0.87,3,3.21,0,1,0,0,1.3862943611198906
+United States,San Francisco,E-commerce & direct-to-consumer,2015,9,6.92,3,3.2,1,1,0,0,1.3862943611198906
+United States,New York,Fintech,2021,3,1.48,3,3.2,1,1,1,0,1.3862943611198906
+India,Mumbai,Edtech,2021,8,1.05,3,3.2,0,1,0,0,1.3862943611198906
+Canada,Vancouver,Fintech,2021,8,1.02,3,3.2,0,1,1,0,1.3862943611198906
+United States,San Francisco,Health,2021,2,1.53,3,3.2,1,1,0,0,1.3862943611198906
+United States,Sacramento,Internet software & services,2022,1,0.62,3,3.2,1,1,0,0,1.3862943611198906
+United States,Los Angeles,E-commerce & direct-to-consumer,2021,4,1.4,3,3.2,1,1,0,0,1.3862943611198906
+United States,Hayward,Health,2022,1,0.65,3,3.2,1,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,12,0.69,1,3.2,1,1,0,0,0.6931471805599453
+United States,Palo Alto,Hardware,2021,7,1.1,3,3.15,1,1,0,0,1.3862943611198906
+India,Bengaluru,"Supply chain, logistics, & delivery",2018,9,3.99,3,3.1,0,1,0,0,1.3862943611198906
+United States,Houston,Fintech,2020,1,2.65,3,3.1,1,1,1,0,1.3862943611198906
+Brazil,Sao Paulo,E-commerce & direct-to-consumer,2021,8,1.04,3,3.1,0,1,0,0,1.3862943611198906
+China,Beijing,Mobile & telecommunications,2015,11,6.77,4,3.0,0,1,0,0,1.6094379124341003
+Indonesia,Jakarta,Travel,2017,1,5.66,3,3.0,0,1,0,0,1.3862943611198906
+China,Hangzhou,E-commerce & direct-to-consumer,2017,11,4.83,3,3.0,0,1,0,0,1.3862943611198906
+United Kingdom,Peterborough,Fintech,2017,11,4.77,1,3.0,0,1,1,0,0.6931471805599453
+United States,Boston,Fintech,2018,5,4.3,3,3.0,1,1,1,0,1.3862943611198906
+China,Beijing,Edtech,2018,7,4.12,3,3.0,0,1,0,0,1.3862943611198906
+Germany,Munich,Auto & transportation,2019,7,3.12,3,3.0,0,1,0,0,1.3862943611198906
+Brazil,Sao Paulo,Other,2019,12,2.74,2,3.0,0,1,0,0,1.0986122886681098
+Canada,Kitchener,Edtech,2020,5,2.32,3,3.2,0,1,0,0,1.3862943611198906
+United States,New York,Cybersecurity,2020,11,1.78,3,3.0,1,1,0,0,1.3862943611198906
+United States,Atlanta,Internet software & services,2021,1,1.6,2,3.0,1,1,0,0,1.0986122886681098
+United States,Jersey City,Fintech,2021,3,1.48,3,3.0,1,1,1,0,1.3862943611198906
+United States,Chicago,Internet software & services,2021,4,1.36,3,3.0,1,1,0,0,1.3862943611198906
+United Kingdom,Cambridge,Health,2019,9,2.96,3,3.0,0,1,0,0,1.3862943611198906
+United States,South Jordan,Internet software & services,2021,6,1.17,3,3.0,1,1,0,0,1.3862943611198906
+United States,Glendale,Edtech,2016,5,6.33,1,3.0,1,1,0,0,0.6931471805599453
+United States,San Francisco,Health,2021,7,1.11,3,3.0,1,1,0,0,1.3862943611198906
+Germany,Berlin,Internet software & services,2021,7,1.1,3,3.0,0,1,0,0,1.3862943611198906
+United States,Oakland,Internet software & services,2021,8,1.06,3,3.0,1,1,0,0,1.3862943611198906
+United States,San Diego,Internet software & services,2018,12,3.7,3,3.0,1,1,0,0,1.3862943611198906
+United States,New York,Internet software & services,2021,3,1.44,3,3.0,1,1,0,0,1.3862943611198906
+Germany,Berlin,"Supply chain, logistics, & delivery",2021,3,1.44,3,3.1,0,1,0,0,1.3862943611198906
+Vietnam,Ho Chi Minh City,Internet software & services,2021,10,0.91,3,3.0,0,1,0,0,1.3862943611198906
+United States,San Francisco,Edtech,2021,4,1.38,3,3.0,1,1,0,0,1.3862943611198906
+United States,Westerville,Fintech,2021,10,0.88,3,3.0,1,1,1,0,1.3862943611198906
+India,Bengaluru,Fintech,2021,4,1.4,3,3.0,0,1,1,0,1.3862943611198906
+United States,Lehi,Internet software & services,2020,4,2.4,3,3.0,1,1,0,0,1.3862943611198906
+United States,New York,Auto & transportation,2020,3,2.42,3,3.3,1,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2021,12,0.71,3,3.0,1,1,1,0,1.3862943611198906
+United States,San Francisco,Fintech,2022,1,0.63,3,3.0,1,1,1,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,3,1.44,3,3.0,1,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2021,3,1.48,3,3.0,1,1,1,0,1.3862943611198906
+Hong Kong,Fintech,"Tiger Global Management, Tiger Brokers, DCM Ventures",2021,6,1.2,0,3.0,0,0,0,0,0.0
+United States,Fort Lee,Fintech,2022,2,0.55,3,3.0,1,1,1,0,1.3862943611198906
+United States,San Francisco,Fintech,2021,7,1.14,3,3.0,1,1,1,0,1.3862943611198906
+United States,San Francisco,Other,2021,2,1.53,3,3.0,1,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2019,6,3.19,3,2.92,1,1,1,0,1.3862943611198906
+United States,San Francisco,Artificial intelligence,2019,7,3.11,1,2.92,1,1,0,1,0.6931471805599453
+United States,Austin,Internet software & services,2019,9,2.92,3,2.9,1,1,0,0,1.3862943611198906
+Brazil,Sao Paulo,E-commerce & direct-to-consumer,2020,1,2.66,3,2.9,0,1,0,0,1.3862943611198906
+India,New Delhi,Fintech,2021,7,1.09,3,2.85,0,1,1,0,1.3862943611198906
+United States,Chatham,Fintech,2021,8,1.03,3,2.85,1,1,1,0,1.3862943611198906
+Germany,Berlin,E-commerce & direct-to-consumer,2021,12,0.75,3,2.85,0,1,0,0,1.3862943611198906
+France,Paris,Fintech,2021,4,1.37,3,2.85,0,1,1,0,1.3862943611198906
+China,Beijing,Mobile & telecommunications,2016,6,6.19,3,2.8,0,1,0,0,1.3862943611198906
+United States,South San Francisco,"Supply chain, logistics, & delivery",2019,5,3.29,3,2.8,1,1,0,0,1.3862943611198906
+United Kingdom,Bristol,Artificial intelligence,2018,12,3.7,3,2.77,0,1,0,1,1.3862943611198906
+United States,Sunnyvale,Cybersecurity,2015,4,7.38,3,2.75,1,1,0,0,1.3862943611198906
+United States,San Francisco,Edtech,2021,5,1.3,3,2.75,1,1,0,0,1.3862943611198906
+Turkey,Istanbul,Mobile & telecommunications,2021,6,1.17,3,2.75,0,1,0,0,1.3862943611198906
+Israel,Tel Aviv,Cybersecurity,2021,6,1.19,3,2.74,0,1,0,0,1.3862943611198906
+China,Shanghai,Auto & transportation,2022,2,0.52,3,3.95,0,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2018,5,4.26,3,2.7,1,1,1,0,1.3862943611198906
+United States,Scottsdale,Internet software & services,2021,9,0.96,1,2.7,1,1,0,0,0.6931471805599453
+South Korea,Seoul,Internet software & services,2022,8,0.02,2,2.7,0,1,0,0,1.0986122886681098
+United States,Dallas,Artificial intelligence,2020,4,2.34,1,2.7,1,1,0,1,0.6931471805599453
+United Kingdom,London,Fintech,2021,11,0.76,3,2.7,0,1,1,0,1.3862943611198906
+Netherlands,Amsterdam,Fintech,2022,6,0.23,1,2.66,0,1,1,0,0.6931471805599453
+France,Paris,E-commerce & direct-to-consumer,2021,7,1.16,3,2.6,0,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,7,1.14,3,2.62,1,1,0,0,1.3862943611198906
+United States,Raleigh,Internet software & services,2019,10,2.87,3,2.6,1,1,0,0,1.3862943611198906
+United States,Palo Alto,Internet software & services,2021,2,1.52,3,2.6,1,1,0,0,1.3862943611198906
+Singapore,E-commerce & direct-to-consumer,"Jungle Ventures, Accel, Venture Highway",2021,5,1.29,0,2.6,0,0,0,0,0.0
+United States,New York,Cybersecurity,2021,3,1.5,3,2.6,1,1,0,0,1.3862943611198906
+China,Chengdu,Internet software & services,2018,4,4.4,3,2.0,0,1,0,0,1.3862943611198906
+United States,Louisville,Data management & analytics,2021,9,0.97,3,2.62,1,1,0,0,1.3862943611198906
+Brazil,Sao Paulo,Artificial intelligence,2021,8,1.08,3,2.6,0,1,0,1,1.3862943611198906
+Finland,Oulu,Health,2022,4,0.41,3,2.55,0,1,0,0,1.3862943611198906
+United States,San Francisco,Consumer & retail,2017,11,4.75,3,2.59,1,1,0,0,1.3862943611198906
+United States,San Francisco,Data management & analytics,2021,8,1.02,3,2.5,1,1,0,0,1.3862943611198906
+United Arab Emirates,Dubai,Other,2017,8,5.02,1,2.5,0,1,0,0,0.6931471805599453
+China,Nanjing,Auto & transportation,2018,4,4.37,3,2.5,0,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,3,1.45,3,2.5,1,1,0,0,1.3862943611198906
+India,Thane,E-commerce & direct-to-consumer,2021,2,1.51,3,2.5,0,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2021,9,0.98,3,2.5,1,1,1,0,1.3862943611198906
+Israel,Tel Aviv,Cybersecurity,2020,11,1.79,3,2.5,0,1,0,0,1.3862943611198906
+United States,Burlington,Cybersecurity,2021,6,1.23,2,2.5,1,1,0,0,1.0986122886681098
+United States,San Francisco,Internet software & services,2021,6,1.19,3,2.5,1,1,0,0,1.3862943611198906
+United States,San Francisco,Cybersecurity,2021,4,1.34,3,2.5,1,1,0,0,1.3862943611198906
+India,Bengaluru,Internet software & services,2021,8,1.03,3,2.68,0,1,0,0,1.3862943611198906
+United States,Palo Alto,Artificial Intelligence,2022,2,0.54,3,2.5,1,1,0,0,1.3862943611198906
+United States,McLean,Health,2022,2,0.52,3,2.5,1,1,0,0,1.3862943611198906
+Australia,Sydney,Fintech,2022,3,0.49,3,2.5,0,1,1,0,1.3862943611198906
+United States,New York,Other,2022,3,0.48,2,2.5,1,1,0,0,1.0986122886681098
+United States,San Mateo,Hardware,2022,3,0.46,3,2.5,1,1,0,0,1.3862943611198906
+India,Mumbai,Internet software & services,2022,3,0.42,3,2.5,0,1,0,0,1.3862943611198906
+United States,Madison,E-commerce & direct-to-consumer,2021,3,1.42,3,2.5,1,1,0,0,1.3862943611198906
+Singapore,Fintech,"GIC. Apis Partners, Insight Partners",2022,4,0.38,0,2.5,0,0,0,0,0.0
+Israel,Ra'anana,Internet software & services,2021,1,1.59,3,2.5,0,1,0,0,1.3862943611198906
+Israel,Tel Aviv,Internet software & services,2021,10,0.89,3,2.45,0,1,0,0,1.3862943611198906
+Argentina,Buenos Aires,Fintech,2021,8,1.05,3,2.45,0,1,1,0,1.3862943611198906
+India,Bengaluru,Internet software & services,2021,9,0.96,3,2.45,0,1,0,0,1.3862943611198906
+United States,Boston,Cybersecurity,2019,8,3.07,3,2.44,1,1,0,0,1.3862943611198906
+China,Hangzhou,Fintech,2017,2,5.52,3,2.41,0,1,1,0,1.3862943611198906
+China,Changzhou,Auto & transportation,2021,5,1.29,3,2.41,0,1,0,0,1.3862943611198906
+United States,Columbia,Fintech,2020,5,2.34,3,2.41,1,1,1,0,1.3862943611198906
+United States,Redwood City,Hardware,2015,8,7.03,3,2.4,1,1,0,0,1.3862943611198906
+India,Gurgaon,Fintech,2019,5,3.32,2,2.4,0,1,1,0,1.0986122886681098
+United States,New York,Fintech,2021,4,1.34,3,2.4,1,1,1,0,1.3862943611198906
+United States,Foster City,Cybersecurity,2021,6,1.25,3,2.4,1,1,0,0,1.3862943611198906
+United States,Boston,Cybersecurity,2021,9,0.97,3,2.4,1,1,0,0,1.3862943611198906
+United States,New York,Fintech,2020,7,2.13,3,2.4,1,1,1,0,1.3862943611198906
+United States,El Segundo,Other,2021,3,1.44,3,2.4,1,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,5,1.33,3,2.4,1,1,0,0,1.3862943611198906
+United States,South Burlington,Other,2022,4,0.37,2,2.4,1,1,0,0,1.0986122886681098
+United States,Chicago,"Supply chain, logistics, & delivery",2021,6,1.25,3,2.62,1,1,0,0,1.3862943611198906
+United States,South San Francisco,Health,2020,8,2.02,3,2.62,1,1,0,0,1.3862943611198906
+United Kingdom,London,Fintech,2021,6,1.25,3,2.35,0,1,1,0,1.3862943611198906
+Spain,Madrid,Internet software & services,2021,12,0.75,3,2.35,0,1,0,0,1.3862943611198906
+South Korea,Seoul,E-commerce & direct-to-consumer,2015,9,6.98,2,2.34,0,1,0,0,1.0986122886681098
+China,Shanghai,Hardware,2020,8,2.04,3,2.32,0,1,0,0,1.3862943611198906
+France,Paris,Other,2020,8,2.04,2,2.31,0,1,0,0,1.0986122886681098
+United States,Chicago,Artificial intelligence,2015,10,6.85,3,2.3,1,1,0,1,1.3862943611198906
+United States,San Francisco,"Supply chain, logistics, & delivery",2019,4,3.36,3,2.85,1,1,0,0,1.3862943611198906
+United States,Santa Monica,Other,2020,2,2.55,3,2.3,1,1,0,0,1.3862943611198906
+United States,Atlanta,Fintech,2020,9,1.94,3,2.3,1,1,1,0,1.3862943611198906
+United States,New York,Other,2021,5,1.27,3,2.3,1,1,0,0,1.3862943611198906
+Belgium,Louvain-la-Neuve,Internet software & services,2021,7,1.09,3,2.3,0,1,0,0,1.3862943611198906
+Vietnam,Ho Chi Minh City,Fintech,2021,12,0.73,3,2.27,0,1,1,0,1.3862943611198906
+United States,Mountain View,Consumer & retail,2018,11,3.83,3,2.25,1,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,7,1.1,3,2.25,1,1,0,0,1.3862943611198906
+United States,Lehi,Internet software & services,2021,10,0.9,3,2.25,1,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2022,4,0.39,3,2.2,1,1,1,0,1.3862943611198906
+Germany,Unterfoehring,Other,2018,2,4.52,1,2.2,0,1,0,0,0.6931471805599453
+South Korea,Seoul,E-commerce & direct-to-consumer,2019,11,2.81,1,2.2,0,1,0,0,0.6931471805599453
+United States,New York,Fintech,2021,4,1.35,3,2.2,1,1,1,0,1.3862943611198906
+Mexico,Mexico City,Fintech,2021,5,1.33,3,2.2,0,1,1,0,1.3862943611198906
+United States,New York,Internet software & services,2019,6,3.22,3,2.2,1,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2020,10,1.9,3,2.2,1,1,0,0,1.3862943611198906
+China,Beijing,"Supply chain, logistics, & delivery",2022,2,0.54,3,2.2,0,1,0,0,1.3862943611198906
+United States,Mountain View,Artificial intelligence,2022,2,0.52,3,2.2,1,1,0,1,1.3862943611198906
+United States,Boston,Consumer & retail,2021,6,1.21,3,2.2,1,1,0,0,1.3862943611198906
+China,Shanghai,Mobile & telecommunications,2019,10,2.9,3,2.19,0,1,0,0,1.3862943611198906
+United Kingdom,Colchester,Other,2022,1,0.64,3,2.19,0,1,0,0,1.3862943611198906
+China,Shanghai,Artificial intelligence,2020,8,2.08,3,2.18,0,1,0,1,1.3862943611198906
+China,Shanghai,Artificial intelligence,2018,3,4.48,2,2.17,0,1,0,1,1.0986122886681098
+United States,Mountain View,Fintech,2021,6,1.21,3,2.17,1,1,1,0,1.3862943611198906
+United States,San Francisco,Fintech,2020,12,1.69,3,2.17,1,1,1,0,1.3862943611198906
+United States,San Mateo,Data management & analytics,2021,6,1.21,3,2.0,1,1,0,0,1.3862943611198906
+Brazil,Sao Paulo,Fintech,2021,9,0.98,3,2.15,0,1,1,0,1.3862943611198906
+India,Maharashtra,Fintech,2021,8,1.06,3,2.15,0,1,1,0,1.3862943611198906
+India,Pune,E-commerce & direct-to-consumer,2020,2,2.57,3,2.1,0,1,0,0,1.3862943611198906
+United States,Santa Clara,Internet software & services,2020,10,1.85,3,2.1,1,1,0,0,1.3862943611198906
+India,Gurgaon,E-commerce & direct-to-consumer,2021,4,1.35,3,2.1,0,1,0,0,1.3862943611198906
+United States,Los Angeles,Fintech,2021,5,1.32,3,2.1,1,1,1,0,1.3862943611198906
+United States,Mountain View,Artificial intelligence,2021,6,1.17,3,2.1,1,1,0,1,1.3862943611198906
+United States,Palo Alto,Health,2021,10,0.85,3,2.1,1,1,0,0,1.3862943611198906
+United Kingdom,London,Fintech,2022,2,0.56,3,2.1,0,1,1,0,1.3862943611198906
+Germany,Berlin,"Supply chain, logistics, & delivery",2021,6,1.2,3,2.1,0,1,0,0,1.3862943611198906
+United States,Orlando,Fintech,2022,3,0.47,3,2.1,1,1,1,0,1.3862943611198906
+Hong Kong,Hong Kong,Fintech,2022,5,0.27,3,2.0,0,1,1,0,1.3862943611198906
+Hong Kong,Kowloon,Consumer & retail,2012,2,10.55,1,2.0,0,1,0,0,0.6931471805599453
+United States,Chicago,Artificial intelligence,2012,12,9.71,3,2.0,1,1,0,1,1.3862943611198906
+China,Shenzhen,E-commerce & direct-to-consumer,2015,3,7.48,3,2.0,0,1,0,0,1.3862943611198906
+France,Paris,Auto & transportation,2015,9,6.96,3,2.0,0,1,0,0,1.3862943611198906
+China,Beijing,E-commerce & direct-to-consumer,2016,9,5.99,3,2.0,0,1,0,0,1.3862943611198906
+United States,Mountain View,Internet software & services,2017,4,5.36,3,2.0,1,1,0,0,1.3862943611198906
+United Kingdom,London,Other,2017,5,5.31,3,1.0,0,1,0,0,1.3862943611198906
+Japan,Tokyo,Artificial intelligence,2018,5,4.29,3,2.0,0,1,0,1,1.3862943611198906
+United States,Somerville,Hardware,2018,8,4.08,3,2.0,1,1,0,0,1.3862943611198906
+China,Beijing,Artificial intelligence,2018,12,3.7,3,2.0,0,1,0,1,1.3862943611198906
+United States,San Francisco,Internet software & services,2019,2,3.57,3,2.0,1,1,0,0,1.3862943611198906
+United States,Miami,Cybersecurity,2019,3,3.43,3,2.0,1,1,0,0,1.3862943611198906
+China,Beijing,Travel,2019,5,3.28,3,2.0,0,1,0,0,1.3862943611198906
+United States,Sunnyvale,Data management & analytics,2019,6,3.2,3,2.0,1,1,0,0,1.3862943611198906
+China,Hangzhou,Internet software & services,2019,10,2.85,3,2.0,0,1,0,0,1.3862943611198906
+United States,San Francisco,Mobile & telecommunications,2020,1,2.61,3,2.0,1,1,0,0,1.3862943611198906
+China,Beijing,Internet software & services,2020,5,2.29,3,2.0,0,1,0,0,1.3862943611198906
+United States,Mountain View,Data management & analytics,2020,8,2.02,3,2.0,1,1,0,0,1.3862943611198906
+China,Shenzhen,E-commerce & direct-to-consumer,2020,9,1.94,3,2.0,0,1,0,0,1.3862943611198906
+United States,New York,Fintech,2020,10,1.9,3,2.0,1,1,1,0,1.3862943611198906
+United States,San Francisco,Health,2020,12,1.75,3,2.0,1,1,0,0,1.3862943611198906
+United States,Dallas,"Supply chain, logistics, & delivery",2020,12,1.71,1,2.0,1,1,0,0,0.6931471805599453
+Israel,Giv'atayim,Fintech,2021,2,1.52,3,2.0,0,1,1,0,1.3862943611198906
+China,Shanghai,Consumer & retail,2021,3,1.46,3,2.0,0,1,0,0,1.3862943611198906
+Canada,Toronto,Fintech,2021,4,1.37,3,2.0,0,1,1,0,1.3862943611198906
+United States,San Francisco,Artificial intelligence,2021,4,1.36,3,2.0,1,1,0,1,1.3862943611198906
+Sweden,Stockholm,Health,2021,4,1.35,3,2.0,0,1,0,0,1.3862943611198906
+United States,Irvine,Internet software & services,2021,5,1.33,3,2.0,1,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2021,5,1.31,3,2.7,1,1,1,0,1.3862943611198906
+United Kingdom,London,Fintech,2022,1,0.65,3,2.1,0,1,1,0,1.3862943611198906
+China,Beijing,Internet software & services,2021,5,1.31,3,2.0,0,1,0,0,1.3862943611198906
+United States,Miami,Fintech,2021,5,1.29,3,2.0,1,1,1,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,6,1.21,3,2.0,1,1,0,0,1.3862943611198906
+Netherlands,Amsterdam,Fintech,2021,6,1.2,1,2.0,0,1,1,0,0.6931471805599453
+Mexico,Mexico City,Fintech,2021,6,1.23,3,2.0,0,1,1,0,1.3862943611198906
+Brazil,Sao Paulo,"Supply chain, logistics, & delivery",2019,6,3.24,2,2.0,0,1,0,0,1.0986122886681098
+United States,San Francisco,Internet software & services,2021,7,1.12,3,2.0,1,1,0,0,1.3862943611198906
+Luxembourg,Leudelange,Other,2019,3,3.5,2,2.0,0,1,0,0,1.0986122886681098
+China,Shenzhen,Artificial intelligence,2021,8,1.06,3,2.0,0,1,0,1,1.3862943611198906
+United States,San Francisco,Fintech,2021,8,1.05,3,2.0,1,1,1,0,1.3862943611198906
+United States,Goleta,Other,2020,5,2.27,3,2.0,1,1,0,0,1.3862943611198906
+Nigeria,Lagos,Fintech,2021,8,1.02,3,2.0,0,1,1,0,1.3862943611198906
+United States,Santa Clara,Internet software & services,2021,9,0.98,3,2.0,1,1,0,0,1.3862943611198906
+Japan,Tokyo,Mobile & telecommunications,2019,8,3.07,3,2.0,0,1,0,0,1.3862943611198906
+United States,Pennsauken,"Supply chain, logistics, & delivery",2021,4,1.36,3,2.0,1,1,0,0,1.3862943611198906
+United States,New York,Health,2021,9,0.96,3,2.0,1,1,0,0,1.3862943611198906
+China,Shanghai,Artificial intelligence,2021,9,0.94,3,2.0,0,1,0,1,1.3862943611198906
+Singapore,Artificial intelligence,"Vision Plus Capital, GSR Ventures, ZhenFund",2021,9,0.94,0,2.0,0,0,0,0,0.0
+United States,San Francisco,Fintech,2021,10,0.9,3,2.0,1,1,1,0,1.3862943611198906
+United States,Plantation,Hardware,2014,10,7.86,3,2.0,1,1,0,0,1.3862943611198906
+Germany,Berlin,Travel,2021,10,0.85,3,2.0,0,1,0,0,1.3862943611198906
+United States,Portola Valley,Data management & analytics,2021,10,0.84,3,2.0,1,1,0,0,1.3862943611198906
+Philippines,Taguig City,Fintech,2021,11,0.83,3,2.0,0,1,1,0,1.3862943611198906
+United States,Oakland,Internet software & services,2020,3,2.48,3,2.0,1,1,0,0,1.3862943611198906
+United Kingdom,London,Fintech,2021,11,0.81,3,2.0,0,1,1,0,1.3862943611198906
+United States,New York,Artificial intelligence,2021,6,1.23,3,2.0,1,1,0,1,1.3862943611198906
+Israel,Netanya,Cybersecurity,2021,11,0.79,3,8.0,0,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,11,0.79,3,2.0,1,1,0,0,1.3862943611198906
+United States,New York,Health,2021,11,0.77,3,2.0,1,1,0,0,1.3862943611198906
+United States,Dallas,Internet software & services,2021,11,0.77,2,2.0,1,1,0,0,1.0986122886681098
+Singapore,Artificial intelligence,"Hopu Investment Management, Boyu Capital, DC Thomson Ventures",2019,7,3.11,0,2.0,0,0,0,0,0.0
+France,Croix,Hardware,2022,1,0.62,3,2.0,0,1,0,0,1.3862943611198906
+United States,Santa Clara,Data management & analytics,2021,1,1.65,3,2.0,1,1,0,0,1.3862943611198906
+Indonesia,Jakarta,E-commerce & direct-to-consumer,2022,2,0.54,3,2.0,0,1,0,0,1.3862943611198906
+United States,Santa Clara,Internet software & services,2022,2,0.54,2,2.0,1,1,0,0,1.0986122886681098
+Denmark,Aarhus,Fintech,2021,7,1.14,3,2.0,0,1,1,0,1.3862943611198906
+India,Mumbai,Edtech,2021,8,1.06,3,2.25,0,1,0,0,1.3862943611198906
+United States,Boston,Internet software & services,2022,4,0.39,3,2.0,1,1,0,0,1.3862943611198906
+United States,New York,Cybersecurity,2022,3,0.42,3,2.0,1,1,0,0,1.3862943611198906
+China,Shanghai,Auto & transportation,2022,4,0.34,3,2.0,0,1,0,0,1.3862943611198906
+United States,New York,Artificial intelligence,2022,5,0.31,3,2.0,1,1,0,1,1.3862943611198906
+United States,Cambridge,Data management & analytics,2021,10,0.85,3,2.0,1,1,0,0,1.3862943611198906
+Croatia,Sveta Nedelja,Auto & transportation,2022,6,0.25,3,2.0,0,1,0,0,1.3862943611198906
+China,Beijing,Hardware,2018,11,3.78,3,2.0,0,1,0,0,1.3862943611198906
+South Korea,Seoul,Mobile & telecommunications,2022,6,0.24,3,1.93,0,1,0,0,1.3862943611198906
+France,Paris,E-commerce & direct-to-consumer,2022,1,0.64,3,1.98,0,1,0,0,1.3862943611198906
+China,Beijing,Edtech,2021,2,1.56,3,1.95,0,1,0,0,1.3862943611198906
+United States,New York,Internet software & services,2021,12,0.71,3,1.95,1,1,0,0,1.3862943611198906
+United States,New York,Internet software & services,2017,11,4.83,3,1.9,1,1,0,0,1.3862943611198906
+China,Shanghai,E-commerce & direct-to-consumer,2019,2,3.58,3,1.9,0,1,0,0,1.3862943611198906
+United States,Lehi,Fintech,2021,1,1.63,3,1.9,1,1,1,0,1.3862943611198906
+United States,Bethesda,Health,2021,1,1.62,3,1.9,1,1,0,0,1.3862943611198906
+India,Bangalore,Fintech,2021,10,0.9,3,1.9,0,1,1,0,1.3862943611198906
+United States,Irvine,Fintech,2022,3,0.48,3,1.9,1,1,1,0,1.3862943611198906
+United States,Oakland,Fintech,2022,3,0.48,3,1.94,1,1,1,0,1.3862943611198906
+United States,Los Angeles,Internet software & services,2022,3,0.5,3,1.94,1,1,0,0,1.3862943611198906
+United States,Boston,Artificial Intelligence,2022,3,0.43,3,1.9,1,1,0,0,1.3862943611198906
+United States,Boca Raton,E-commerce & direct-to-consumer,2022,5,0.32,3,1.9,1,1,0,0,1.3862943611198906
+Germany,Bruchsal,Auto & transportation,2022,3,0.5,3,1.87,0,1,0,0,1.3862943611198906
+China,Shanghai,Auto & transportation,2019,4,3.38,1,1.85,0,1,0,0,0.6931471805599453
+South Korea,Seoul,Internet,2022,8,0.04,3,1.83,0,1,0,0,1.3862943611198906
+United States,Boston,Fintech,2021,9,0.96,2,1.85,1,1,1,0,1.0986122886681098
+United States,New York,Health,2015,8,7.03,3,1.8,1,1,0,0,1.3862943611198906
+United States,San Francisco,Other,2021,3,1.43,3,1.8,1,1,0,0,1.3862943611198906
+United States,Atlanta,Internet software & services,2021,8,1.08,3,1.8,1,1,0,0,1.3862943611198906
+Israel,Jerusalem,Artificial intelligence,2019,7,3.09,4,1.8,0,1,0,1,1.6094379124341003
+United States,New York,Hardware,2021,9,0.94,3,1.8,1,1,0,0,1.3862943611198906
+India,Bengaluru,Fintech,2021,11,0.76,3,1.8,0,1,1,0,1.3862943611198906
+United States,Brooklyn,Health,2021,10,0.85,3,1.79,1,1,0,0,1.3862943611198906
+China,Shanghai,Auto & transportation,2018,4,4.38,3,1.78,0,1,0,0,1.3862943611198906
+Canada,Vancouver,Cybersecurity,2021,6,1.23,3,1.75,0,1,0,0,1.3862943611198906
+India,Gurugram,E-commerce & direct-to-consumer,2021,11,0.77,3,1.75,0,1,0,0,1.3862943611198906
+United States,Denver,Internet software & services,2022,4,0.36,3,1.75,1,1,0,0,1.3862943611198906
+United States,Portland,Cybersecurity,2021,3,1.44,3,1.8,1,1,0,0,1.3862943611198906
+China,Beijing,Mobile & telecommunications,2015,1,7.62,3,1.73,0,1,0,0,1.3862943611198906
+United States,New York,Artificial intelligence,2022,6,0.21,3,1.7,1,1,0,1,1.3862943611198906
+United States,New York,Consumer & retail,2018,2,4.54,3,1.7,1,1,0,0,1.3862943611198906
+United States,San Francisco,Consumer & retail,2018,10,3.86,3,1.7,1,1,0,0,1.3862943611198906
+United States,Denver,Health,2021,3,1.5,3,1.7,1,1,0,0,1.3862943611198906
+United States,Cambridge,Health,2021,12,0.73,3,1.7,1,1,0,0,1.3862943611198906
+United States,Greenwood Village,Internet software & services,2022,4,0.39,3,1.7,1,1,0,0,1.3862943611198906
+United Kingdom,London,Edtech,2022,6,0.23,3,1.7,0,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2022,6,0.18,3,1.7,1,1,0,0,1.3862943611198906
+United States,Cambridge,Health,2022,4,0.37,3,1.69,1,1,0,0,1.3862943611198906
+United States,New York,Health,2021,3,1.46,3,1.6,1,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,5,1.31,3,1.7,1,1,0,0,1.3862943611198906
+Senegal,Dakar,Fintech,2021,9,0.98,3,1.7,0,1,1,0,1.3862943611198906
+France,Paris,E-commerce & direct-to-consumer,2021,3,1.5,3,1.7,0,1,0,0,1.3862943611198906
+United States,Hanover,Cybersecurity,2021,10,0.84,3,1.7,1,1,0,0,1.3862943611198906
+United States,Redwood City,Data management & analytics,2021,11,0.82,3,1.7,1,1,0,0,1.3862943611198906
+United States,Mountain View,Artificial intelligence,2021,11,0.82,3,1.7,1,1,0,1,1.3862943611198906
+United States,Austin,Fintech,2021,11,0.81,3,1.7,1,1,1,0,1.3862943611198906
+Malaysia,Selangor,E-commerce & direct-to-consumer,2021,7,1.14,3,1.7,0,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2022,2,0.58,3,1.7,1,1,0,0,1.3862943611198906
+United States,Los Angeles,Fintech,2022,2,0.54,3,1.7,1,1,1,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2022,3,0.46,3,1.65,1,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2022,8,0.04,3,1.65,1,1,0,0,1.3862943611198906
+China,Beijing,Data management & analytics,2018,7,4.15,3,1.62,0,1,0,0,1.3862943611198906
+United States,San Francisco,Health,2022,1,0.64,3,1.62,1,1,0,0,1.3862943611198906
+India,Bengaluru,E-commerce & direct-to-consumer,2022,1,0.59,3,1.7,0,1,0,0,1.3862943611198906
+China,Chongqing,Internet software & services,2015,6,7.21,2,1.61,0,1,0,0,1.0986122886681098
+Germany,Berlin,Fintech,2021,7,1.14,3,1.65,0,1,1,0,1.3862943611198906
+United States,Santa Clara,Data management & analytics,2021,5,1.27,3,1.6,1,1,0,0,1.3862943611198906
+United States,Waltham,Hardware,2015,4,7.34,2,1.6,1,1,0,0,1.0986122886681098
+Bermuda,Hamilton,Artificial intelligence,2017,4,5.38,1,1.6,0,1,0,1,0.6931471805599453
+China,Hangzhou,Auto & transportation,2018,1,4.62,2,1.6,0,1,0,0,1.0986122886681098
+United States,San Mateo,Cybersecurity,2020,1,2.59,3,1.6,1,1,0,0,1.3862943611198906
+United States,Sunnyvale,Internet software & services,2021,3,1.5,3,2.6,1,1,0,0,1.3862943611198906
+United States,San Francisco,E-commerce & direct-to-consumer,2021,3,1.42,3,1.6,1,1,0,0,1.3862943611198906
+Canada,Burnaby,Internet software & services,2021,4,1.35,3,1.6,0,1,0,0,1.3862943611198906
+Australia,Sydney,Internet software & services,2021,5,1.33,3,1.6,0,1,0,0,1.3862943611198906
+United States,San Francisco,Artificial intelligence,2022,5,0.27,3,1.6,1,1,0,1,1.3862943611198906
+United States,San Francisco,Artificial Intelligence,2022,3,0.46,3,1.6,1,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2021,5,1.29,3,1.36,1,1,1,0,1.3862943611198906
+United States,Cambridge,Health,2021,11,0.79,2,1.36,1,1,0,0,1.0986122886681098
+Norway,Lysaker,Data management & analytics,2021,5,1.29,3,1.5,0,1,0,0,1.3862943611198906
+United States,New York,Artificial intelligence,2021,5,1.29,3,1.6,1,1,0,1,1.3862943611198906
+Japan,Tokyo,Fintech,2021,6,1.23,3,1.6,0,1,1,0,1.3862943611198906
+United States,San Francisco,Fintech,2021,7,1.16,3,1.6,1,1,1,0,1.3862943611198906
+United States,San Francisco,Fintech,2021,9,1.0,3,1.7,1,1,1,0,1.3862943611198906
+United States,Hayward,Health,2021,10,0.85,3,1.6,1,1,0,0,1.3862943611198906
+United States,Boston,"Supply chain, logistics, & delivery",2019,4,3.42,3,1.6,1,1,0,0,1.3862943611198906
+Ireland,Dublin,Fintech,2022,2,0.58,3,1.6,0,1,1,0,1.3862943611198906
+United States,New York,Fintech,2022,3,0.45,3,1.6,1,1,1,0,1.3862943611198906
+Lithuania,Vilnius,Cybersecurity,2022,4,0.4,3,1.6,0,1,0,0,1.3862943611198906
+United States,San Francisco,Cybersecurity,2022,6,0.24,3,1.6,1,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2022,6,0.2,3,1.6,1,1,1,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2022,6,0.18,3,1.6,1,1,0,0,1.3862943611198906
+South Africa,Bryanston,Consumer & retail,2016,11,5.81,2,1.59,0,1,0,0,1.0986122886681098
+United States,Austin,Hardware,2022,2,0.53,3,1.57,1,1,0,0,1.3862943611198906
+China,Beijing,Fintech,2019,3,3.44,3,1.55,0,1,1,0,1.3862943611198906
+China,Shanghai,Hardware,2021,3,1.5,3,1.55,0,1,0,0,1.3862943611198906
+China,Hunan,Other,2021,4,1.37,3,1.55,0,1,0,0,1.3862943611198906
+United Arab Emirates,Dubai,"Supply chain, logistics, & delivery",2021,7,1.17,3,1.55,0,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,5,1.28,3,1.53,1,1,0,0,1.3862943611198906
+China,Shanghai,Mobile & telecommunications,2017,9,4.94,3,1.52,0,1,0,0,1.3862943611198906
+China,Jiangsu,E-commerce & direct-to-consumer,2019,3,3.5,3,1.52,0,1,0,0,1.3862943611198906
+China,Zhuhai,Other,2022,4,0.39,3,1.51,0,1,0,0,1.3862943611198906
+United States,Northbrook,Data management & analytics,2013,2,9.56,2,1.5,1,1,0,0,1.0986122886681098
+Ecuador,Quito,Fintech,2022,6,0.24,3,1.5,0,1,1,0,1.3862943611198906
+United States,Cambridge,Health,2022,8,0.04,3,1.5,1,1,0,0,1.3862943611198906
+China,Beijing,Travel,2015,6,7.21,2,1.5,0,1,0,0,1.0986122886681098
+China,Shanghai,E-commerce & direct-to-consumer,2016,4,6.38,2,1.5,0,1,0,0,1.0986122886681098
+United Kingdom,London,Auto & transportation,2016,5,6.27,3,1.5,0,1,0,0,1.3862943611198906
+China,Hangzhou,Data management & analytics,2017,6,5.23,3,1.5,0,1,0,0,1.3862943611198906
+China,Shanghai,Edtech,2017,10,4.84,3,1.5,0,1,0,0,1.3862943611198906
+China,Beijing,Travel,2017,11,4.83,3,1.5,0,1,0,0,1.3862943611198906
+China,Hangzhou,E-commerce & direct-to-consumer,2018,5,4.26,3,1.5,0,1,0,0,1.3862943611198906
+China,Beijing,Consumer & retail,2018,9,3.95,3,1.5,0,1,0,0,1.3862943611198906
+United States,Cambridge,Auto & transportation,2018,12,3.7,1,1.5,1,1,0,0,0.6931471805599453
+United States,San Francisco,Fintech,2019,6,3.21,3,1.5,1,1,1,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2020,11,1.79,3,1.5,1,1,0,0,1.3862943611198906
+United States,Bellevue,Internet software & services,2020,12,1.71,3,1.5,1,1,0,0,1.3862943611198906
+United States,New York,Health,2021,1,1.62,3,1.5,1,1,0,0,1.3862943611198906
+United States,Boulder,Other,2021,3,1.5,3,1.5,1,1,0,0,1.3862943611198906
+United States,McLean,Cybersecurity,2021,3,1.45,3,1.5,1,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2021,5,1.27,3,1.5,1,1,1,0,1.3862943611198906
+United States,San Francisco,Fintech,2021,5,1.25,3,2.0,1,1,1,0,1.3862943611198906
+France,Paris,Hardware,2021,6,1.23,3,1.5,0,1,0,0,1.3862943611198906
+Israel,Tel Aviv,Hardware,2021,6,1.22,3,1.5,0,1,0,0,1.3862943611198906
+China,Shanghai,"Supply chain, logistics, & delivery",2021,6,1.17,3,1.5,0,1,0,0,1.3862943611198906
+United States,Santa Barbara,Internet software & services,2021,7,1.14,3,1.5,1,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,7,1.12,3,1.5,1,1,0,0,1.3862943611198906
+Chile,Santiago,Consumer & retail,2021,7,1.1,3,1.5,0,1,0,0,1.3862943611198906
+Australia,Richmond,Internet software & services,2021,7,1.09,3,1.5,0,1,0,0,1.3862943611198906
+United States,Draper,Fintech,2021,8,1.08,3,1.5,1,1,1,0,1.3862943611198906
+United States,Cincinnati,Fintech,2021,3,1.44,3,1.5,1,1,1,0,1.3862943611198906
+United States,Zephyr Cove,Internet software & services,2021,9,0.96,3,1.5,1,1,0,0,1.3862943611198906
+United Kingdom,Altrincham,Data management & analytics,2021,9,0.96,3,1.5,0,1,0,0,1.3862943611198906
+United States,San Francisco,Cybersecurity,2021,9,0.96,3,1.5,1,1,0,0,1.3862943611198906
+Thailand,Bangkok,Fintech,2021,9,0.93,3,1.5,0,1,1,0,1.3862943611198906
+United States,New York,Internet software & services,2021,9,0.92,3,1.5,1,1,0,0,1.3862943611198906
+United States,Nashville,Internet software & services,2021,9,0.92,3,1.5,1,1,0,0,1.3862943611198906
+United States,New York,Internet software & services,2021,10,0.86,3,1.5,1,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2021,10,0.88,3,1.5,1,1,1,0,1.3862943611198906
+United States,New York,Internet software & services,2021,11,0.81,2,1.5,1,1,0,0,1.0986122886681098
+India,Bengaluru,Health,2021,11,0.81,3,1.5,0,1,0,0,1.3862943611198906
+United States,Houston,Other,2021,9,0.97,3,1.5,1,1,0,0,1.3862943611198906
+Brazil,Curitiba,E-commerce & direct-to-consumer,2021,12,0.71,3,1.5,0,1,0,0,1.3862943611198906
+United States,Scottsdale,Internet software & services,2021,12,0.68,3,1.5,1,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,12,0.71,3,1.5,1,1,0,0,1.3862943611198906
+Israel,Herzliya,Other,2022,1,0.66,3,1.5,0,1,0,0,1.3862943611198906
+United States,New York,E-commerce & direct-to-consumer,2022,1,0.64,3,1.5,1,1,0,0,1.3862943611198906
+France,Paris,Fintech,2022,1,0.62,3,1.5,0,1,1,0,1.3862943611198906
+Estonia,Tallinn,Artificial intelligence,2022,1,0.6,3,1.5,0,1,0,1,1.3862943611198906
+United States,Mountain View,Health,2022,1,0.58,3,1.5,1,1,0,0,1.3862943611198906
+India,Pune,"Supply chain, logistics, & delivery",2022,2,0.56,3,1.5,0,1,0,0,1.3862943611198906
+United States,Boulder,"Supply chain, logistics, & delivery",2021,12,0.7,3,1.5,1,1,0,0,1.3862943611198906
+United States,Bellevue,Internet software & services,2022,2,0.54,3,1.5,1,1,0,0,1.3862943611198906
+United States,Bellevue,E-commerce & direct-to-consumer,2022,2,0.52,3,1.5,1,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2021,5,1.27,2,1.5,1,1,1,0,1.0986122886681098
+United States,San Francisco,Fintech,2022,4,0.41,3,1.5,1,1,1,0,1.3862943611198906
+United States,DC,Mobile & telecommunications,2022,4,0.35,3,1.5,1,1,0,0,1.3862943611198906
+United States,Palo Alto,Artificial intelligence,2022,5,0.31,3,1.5,1,1,0,1,1.3862943611198906
+Brazil,Sao Paulo,Fintech,2022,5,0.31,3,1.5,0,1,1,0,1.3862943611198906
+United States,Santa Cruz,Other,2021,9,0.94,3,1.5,1,1,0,0,1.3862943611198906
+United Kingdom,London,Internet software & services,2022,7,0.13,3,1.5,0,1,0,0,1.3862943611198906
+China,Hefei,E-commerce & direct-to-consumer,2019,3,3.48,3,1.49,0,1,0,0,1.3862943611198906
+China,Shanghai,Auto & transportation,2019,6,3.25,2,1.48,0,1,0,0,1.0986122886681098
+United States,DC,Other,2022,5,0.31,3,1.48,1,1,0,0,1.3862943611198906
+China,Beijing,Artificial Intelligence,2021,8,1.04,3,1.46,0,1,0,0,1.3862943611198906
+China,Shenzhen,Hardware,2018,3,4.46,2,1.45,0,1,0,0,1.0986122886681098
+China,Chengdu,"Supply chain, logistics, & delivery",2018,11,3.76,3,1.45,0,1,0,0,1.3862943611198906
+China,Shanghai,Internet software & services,2019,6,3.18,1,1.45,0,1,0,0,0.6931471805599453
+United Kingdom,Solihull,E-commerce & direct-to-consumer,2020,8,2.05,1,1.45,0,1,0,0,0.6931471805599453
+United States,Chicago,Fintech,2021,7,1.13,3,1.45,1,1,1,0,1.3862943611198906
+United States,San Francisco,Cybersecurity,2022,2,0.56,3,1.45,1,1,0,0,1.3862943611198906
+Sweden,Stockholm,Auto & transportation,2021,12,0.67,3,1.44,0,1,0,0,1.3862943611198906
+United States,New York,Internet software & services,2020,1,2.59,3,1.43,1,1,0,0,1.3862943611198906
+China,Hangzhou,Health,2021,5,1.32,3,1.43,0,1,0,0,1.3862943611198906
+United States,Denver,Health,2021,7,1.1,3,1.42,1,1,0,0,1.3862943611198906
+United States,Miami,Health,2021,11,0.82,3,1.4,1,1,0,0,1.3862943611198906
+Canada,Toronto,Internet software & services,2021,12,0.7,3,1.4,0,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2022,1,0.64,3,1.4,1,1,0,0,1.3862943611198906
+Belgium,Ghent,Fintech,2022,1,0.6,3,1.4,0,1,1,0,1.3862943611198906
+United States,Austin,Artificial intelligence,2022,1,0.6,3,1.4,1,1,0,1,1.3862943611198906
+Israel,Tel Aviv,Data management & analytics,2022,1,0.6,3,1.4,0,1,0,0,1.3862943611198906
+China,Beijing,E-commerce & direct-to-consumer,2014,10,7.86,3,1.4,0,1,0,0,1.3862943611198906
+United States,New York,Fintech,2017,5,5.3,3,1.4,1,1,1,0,1.3862943611198906
+China,Beijing,Mobile & telecommunications,2017,10,4.87,2,1.4,0,1,0,0,1.0986122886681098
+Spain,Madrid,Auto & transportation,2018,1,4.61,3,1.4,0,1,0,0,1.3862943611198906
+China,Shenzhen,"Supply chain, logistics, & delivery",2018,1,4.61,3,1.4,0,1,0,0,1.3862943611198906
+United States,New York,E-commerce & direct-to-consumer,2019,5,3.3,3,1.4,1,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2020,12,1.67,3,1.4,1,1,0,0,1.3862943611198906
+Sweden,Stockholm,Internet software & services,2021,3,1.48,2,1.4,0,1,0,0,1.0986122886681098
+United States,New York,Internet software & services,2021,3,1.46,3,1.4,1,1,0,0,1.3862943611198906
+India,Pune,E-commerce & direct-to-consumer,2021,10,0.9,3,1.4,0,1,0,0,1.3862943611198906
+United States,Mountain View,Internet software & services,2021,7,1.15,3,1.4,1,1,0,0,1.3862943611198906
+India,Chennai,Other,2021,3,1.43,3,1.4,0,1,0,0,1.3862943611198906
+United States,New York,Fintech,2021,2,1.57,3,1.4,1,1,1,0,1.3862943611198906
+United States,Seattle,Auto & transportation,2021,10,0.84,3,1.4,1,1,0,0,1.3862943611198906
+United States,San Francisco,Health,2022,4,0.41,3,1.4,1,1,0,0,1.3862943611198906
+South Korea,Seoul,E-commerce & direct-to-consumer,2022,5,0.31,3,1.4,0,1,0,0,1.3862943611198906
+United Kingdom,London,Fintech,2022,5,0.31,3,1.4,0,1,1,0,1.3862943611198906
+India,Pune,Fintech,2022,7,0.14,3,1.4,0,1,1,0,1.3862943611198906
+United States,Ambler,Internet software & services,2021,4,1.4,3,1.4,1,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,4,1.4,3,1.4,1,1,0,0,1.3862943611198906
+United States,Pleasanton,Edtech,2021,4,1.39,3,1.4,1,1,0,0,1.3862943611198906
+United States,San Francisco,Mobile & telecommunications,2021,4,1.38,3,1.4,1,1,0,0,1.3862943611198906
+Germany,Munich,Fintech,2021,6,1.23,3,1.4,0,1,1,0,1.3862943611198906
+United States,Los Angeles,Internet software & services,2021,10,0.86,3,1.4,1,1,0,0,1.3862943611198906
+United States,San Francisco,Cybersecurity,2021,12,0.75,3,1.4,1,1,0,0,1.3862943611198906
+United States,Palo Alto,Cybersecurity,2022,2,0.56,3,1.4,1,1,0,0,1.3862943611198906
+United Kingdom,London,Mobile & telecommunications,2022,2,0.54,3,1.4,0,1,0,0,1.3862943611198906
+United States,Redwood City,Health,2022,6,0.22,3,1.4,1,1,0,0,1.3862943611198906
+France,La Plaine Saint-Denis,E-commerce & direct-to-consumer,2007,7,15.17,2,1.38,0,1,0,0,1.0986122886681098
+Brazil,Sao Paulo,Fintech,2022,2,0.54,3,1.38,0,1,1,0,1.3862943611198906
+United States,New York,Internet software & services,2022,4,0.34,3,1.36,1,1,0,0,1.3862943611198906
+China,Shanghai,Artificial intelligence,2018,4,4.38,3,1.35,0,1,0,1,1.3862943611198906
+Hong Kong,Central,Travel,2018,8,4.07,3,1.35,0,1,0,0,1.3862943611198906
+China,Guangzhou,Health,2021,6,1.21,3,1.35,0,1,0,0,1.3862943611198906
+United States,New York,Fintech,2021,9,0.92,3,1.35,1,1,1,0,1.3862943611198906
+United States,Hawthorne,Other,2022,2,0.54,3,1.35,1,1,0,0,1.3862943611198906
+United States,San Jose,Fintech,2021,4,1.38,3,1.34,1,1,1,0,1.3862943611198906
+China,Shenzhen,Hardware,2022,6,0.19,3,1.34,0,1,0,0,1.3862943611198906
+United Kingdom,London,E-commerce & direct-to-consumer,2021,11,0.76,3,1.33,0,1,0,0,1.3862943611198906
+South Korea,Seoul,E-commerce & direct-to-consumer,2022,1,0.6,3,1.33,0,1,0,0,1.3862943611198906
+United States,Palo Alto,Internet software & services,2015,7,7.11,3,1.32,1,1,0,0,1.3862943611198906
+South Korea,Seoul,Other,2018,10,3.86,1,1.32,0,1,0,0,0.6931471805599453
+China,Hangzhou,Cybersecurity,2019,4,3.35,3,1.32,0,1,0,0,1.3862943611198906
+United States,New York,Health,2022,1,0.6,3,1.32,1,1,0,0,1.3862943611198906
+China,Beijing,Artificial intelligence,2018,7,4.12,3,1.31,0,1,0,1,1.3862943611198906
+United States,Framingham,Health,2020,9,1.92,2,1.31,1,1,0,0,1.0986122886681098
+United States,Redwood City,Health,2017,12,4.74,2,1.3,1,1,0,0,1.0986122886681098
+India,New Delhi,Internet,2022,8,0.04,4,1.3,0,1,0,0,1.6094379124341003
+United States,New York,Other,2019,11,2.78,1,1.3,1,1,0,0,0.6931471805599453
+Israel,Tirat Carmel,Health,2020,3,2.49,3,1.3,0,1,0,0,1.3862943611198906
+United States,Austin,Health,2020,12,1.74,3,1.3,1,1,0,0,1.3862943611198906
+China,Shanghai,Other,2020,12,1.69,3,1.3,0,1,0,0,1.3862943611198906
+China,Beijing,Mobile & telecommunications,2021,1,1.65,3,1.3,0,1,0,0,1.3862943611198906
+United States,New York,Internet software & services,2021,8,1.04,3,1.3,1,1,0,0,1.3862943611198906
+Mexico,Mexico City,Fintech,2021,9,0.92,3,1.3,0,1,1,0,1.3862943611198906
+United States,New York,Fintech,2021,9,0.92,3,1.3,1,1,1,0,1.3862943611198906
+United States,Encinitas,"Supply chain, logistics, & delivery",2021,10,0.87,3,1.3,1,1,0,0,1.3862943611198906
+United States,Sunnyvale,Data management & analytics,2021,10,0.84,3,1.3,1,1,0,0,1.3862943611198906
+United States,New York,Fintech,2022,1,0.63,3,1.3,1,1,1,0,1.3862943611198906
+Spain,Barcelona,Travel,2022,1,0.64,3,1.3,0,1,0,0,1.3862943611198906
+United States,Long Beach,Fintech,2022,1,0.64,2,1.3,1,1,1,0,1.0986122886681098
+United States,Berkeley,Internet software & services,2022,1,0.59,2,1.3,1,1,0,0,1.0986122886681098
+United States,San Francisco,Fintech,2022,1,0.59,3,1.3,1,1,1,0,1.3862943611198906
+United States,New York,"Supply chain, logistics, & delivery",2022,2,0.58,3,1.3,1,1,0,0,1.3862943611198906
+China,Guangzhou,Artificial Intelligence,2021,12,0.71,3,1.3,0,1,0,0,1.3862943611198906
+India,Chennai,Fintech,2022,3,0.49,3,1.3,0,1,1,0,1.3862943611198906
+Australia,Melbourne,Internet software & services,2022,3,0.46,3,1.3,0,1,0,0,1.3862943611198906
+United States,Dallas,Internet software & services,2022,3,0.44,3,1.3,1,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2022,2,0.58,3,1.3,1,1,0,0,1.3862943611198906
+United States,Boston,Health,2022,4,0.35,3,1.3,1,1,0,0,1.3862943611198906
+United States,Atlanta,"Supply chain, logistics, & delivery",2021,9,0.97,3,1.3,1,1,0,0,1.3862943611198906
+Israel,Tel Aviv,"Supply chain, logistics, & delivery",2022,5,0.3,3,1.3,0,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2018,3,4.43,2,1.28,1,1,0,0,1.0986122886681098
+United Kingdom,Bristol,Other,2019,2,3.55,2,1.28,0,1,0,0,1.0986122886681098
+China,Beijing,Fintech,2021,5,1.27,3,1.28,0,1,1,0,1.3862943611198906
+China,Guangzhou,Internet software & services,2018,4,4.4,3,1.27,0,1,0,0,1.3862943611198906
+China,Guangzhou,Hardware,2022,4,0.42,3,1.26,0,1,0,0,1.3862943611198906
+China,Shenzhen,Hardware,2022,3,0.47,3,1.26,0,1,0,0,1.3862943611198906
+United States,New York,Cybersecurity,2020,12,1.71,3,1.25,1,1,0,0,1.3862943611198906
+China,Beijing,Internet software & services,2017,12,4.75,3,1.25,0,1,0,0,1.3862943611198906
+United Kingdom,London,Fintech,2021,9,0.98,3,1.25,0,1,1,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,10,0.91,3,1.25,1,1,0,0,1.3862943611198906
+United States,Sherman Oaks,Internet software & services,2021,11,0.82,3,1.25,1,1,0,0,1.3862943611198906
+United States,San Francisco,Cybersecurity,2021,12,0.73,3,1.25,1,1,0,0,1.3862943611198906
+United States,Boise,Internet software & services,2021,12,0.7,3,1.25,1,1,0,0,1.3862943611198906
+Ireland,Dublin,Internet software & services,2022,1,0.63,3,1.25,0,1,0,0,1.3862943611198906
+United States,Lehi,"Supply chain, logistics, & delivery",2022,1,0.61,3,1.25,1,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2022,1,0.6,3,1.25,1,1,1,0,1.3862943611198906
+United States,New York,Fintech,2022,5,0.31,3,1.25,1,1,1,0,1.3862943611198906
+United States,Brookline,Internet software & services,2022,6,0.21,3,1.25,1,1,0,0,1.3862943611198906
+United States,San Francisco,Edtech,2022,7,0.11,3,1.25,1,1,0,0,1.3862943611198906
+United Kingdom,Aberdeen,Consumer & retail,2017,4,5.39,2,1.24,0,1,0,0,1.0986122886681098
+China,Shanghai,Hardware,2021,1,1.65,3,1.24,0,1,0,0,1.3862943611198906
+China,Hangzhou,Health,2021,3,1.5,1,1.24,0,1,0,0,0.6931471805599453
+United States,Cambridge,Health,2021,1,1.64,3,1.23,1,1,0,0,1.3862943611198906
+Canada,Vancouver,Other,2021,9,0.98,2,1.23,0,1,0,0,1.0986122886681098
+United States,Mountain View,Auto & transportation,2021,2,1.58,3,1.23,1,1,0,0,1.3862943611198906
+China,Beijing,Mobile & telecommunications,2020,11,1.79,3,1.22,0,1,0,0,1.3862943611198906
+Japan,Tsuruoka,Other,2021,9,0.98,3,1.22,0,1,0,0,1.3862943611198906
+Turkey,Istanbul,Internet software & services,2022,2,0.51,3,1.22,0,1,0,0,1.3862943611198906
+United States,New York,Health,2022,2,0.54,3,1.22,1,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2022,5,0.27,3,1.2,1,1,1,0,1.3862943611198906
+China,Shanghai,"Supply chain, logistics, & delivery",2016,11,5.81,3,1.2,0,1,0,0,1.3862943611198906
+United States,Santa Monica,Auto & transportation,2018,12,3.7,3,1.2,1,1,0,0,1.3862943611198906
+United States,New York,Consumer & retail,2019,3,3.46,3,1.65,1,1,0,0,1.3862943611198906
+Ireland,Dublin,Internet software & services,2020,6,2.19,1,1.2,0,1,0,0,0.6931471805599453
+United States,Seattle,Data management & analytics,2020,7,2.13,3,1.2,1,1,0,0,1.3862943611198906
+United States,San Diego,Internet software & services,2021,2,1.57,3,1.2,1,1,0,0,1.3862943611198906
+United States,New York,Fintech,2021,2,1.54,3,1.2,1,1,1,0,1.3862943611198906
+China,Beijing,Edtech,2021,3,1.44,3,1.2,0,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2021,3,1.43,3,1.2,1,1,1,0,1.3862943611198906
+China,Beijing,Artificial intelligence,2021,4,1.39,3,1.0,0,1,0,1,1.3862943611198906
+United States,Washington,Other,2021,4,1.35,3,1.3,1,1,0,0,1.3862943611198906
+United States,San Jose,Artificial intelligence,2021,4,1.34,3,1.2,1,1,0,1,1.3862943611198906
+Canada,Toronto,Artificial intelligence,2021,5,1.32,3,1.2,0,1,0,1,1.3862943611198906
+United States,Cambridge,Other,2021,5,1.31,3,1.2,1,1,0,0,1.3862943611198906
+United States,Redwood City,Internet software & services,2021,6,1.25,3,1.2,1,1,0,0,1.3862943611198906
+China,Shenzhen,Artificial Intelligence,2021,6,1.19,3,1.2,0,1,0,0,1.3862943611198906
+Czech Republic,Prague,"Supply chain, logistics, & delivery",2021,7,1.17,3,1.2,0,1,0,0,1.3862943611198906
+United States,Cambridge,Health,2021,7,1.14,3,1.2,1,1,0,0,1.3862943611198906
+United States,Los Angeles,Fintech,2021,7,1.11,3,1.2,1,1,1,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,8,1.08,3,1.2,1,1,0,0,1.3862943611198906
+United States,New York,Fintech,2021,5,1.29,3,1.2,1,1,1,0,1.3862943611198906
+Norway,Oslo,E-commerce & direct-to-consumer,2021,6,1.25,3,1.2,0,1,0,0,1.3862943611198906
+United States,Princeton,Internet software & services,2021,8,1.0,3,1.2,1,1,0,0,1.3862943611198906
+United States,Chicago,Data management & analytics,2021,9,0.97,3,1.2,1,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,9,0.93,3,1.2,1,1,0,0,1.3862943611198906
+India,Jaipur,E-commerce & direct-to-consumer,2021,10,0.88,3,1.2,0,1,0,0,1.3862943611198906
+India,Mumbai,E-commerce & direct-to-consumer,2021,11,0.81,3,1.2,0,1,0,0,1.3862943611198906
+United States,Denver,Fintech,2021,12,0.73,3,1.2,1,1,1,0,1.3862943611198906
+India,Gurugram,Health,2021,12,0.73,3,1.4,0,1,0,0,1.3862943611198906
+United States,New York,"Supply chain, logistics, & delivery",2021,12,0.75,3,1.2,1,1,0,0,1.3862943611198906
+Mexico,Mexico City,E-commerce & direct-to-consumer,2021,12,0.73,3,1.2,0,1,0,0,1.3862943611198906
+United States,Bellevue,Internet software & services,2022,1,0.64,3,1.2,1,1,0,0,1.3862943611198906
+United States,Mountain View,Artificial intelligence,2022,1,0.64,3,1.2,1,1,0,1,1.3862943611198906
+United States,San Francisco,Fintech,2022,1,0.58,3,1.2,1,1,1,0,1.3862943611198906
+India,Bengaluru,E-commerce & direct-to-consumer,2022,2,0.56,3,1.2,0,1,0,0,1.3862943611198906
+India,Pune,"Supply chain, logistics, & delivery",2022,2,0.56,3,1.2,0,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2022,2,0.52,3,1.2,1,1,0,0,1.3862943611198906
+Germany,Berlin,E-commerce & direct-to-consumer,2022,4,0.39,3,1.2,0,1,0,0,1.3862943611198906
+United States,San Francisco,Artificial Intelligence,2022,4,0.4,3,1.2,1,1,0,0,1.3862943611198906
+United States,New York,Fintech,2022,5,0.29,3,1.2,1,1,1,0,1.3862943611198906
+Mexico,Juarez,Fintech,2022,7,0.13,3,1.2,0,1,1,0,1.3862943611198906
+United Kingdom,Gloucester,Health,2022,7,0.12,1,1.2,0,1,0,0,0.6931471805599453
+United States,San Jose,Data management & analytics,2021,12,0.73,3,1.15,1,1,0,0,1.3862943611198906
+South Korea,Seoul,Consumer & retail,2016,1,6.67,1,1.19,0,1,0,0,0.6931471805599453
+China,Beijing,Artificial intelligence,2019,3,3.43,3,1.19,0,1,0,1,1.3862943611198906
+China,Beijing,Edtech,2017,7,5.12,3,1.18,0,1,0,0,1.3862943611198906
+China,Shanghai,"Supply chain, logistics, & delivery",2019,1,3.63,3,1.17,0,1,0,0,1.3862943611198906
+United States,San Francisco,Health,2021,2,1.55,3,1.17,1,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,6,1.21,3,1.17,1,1,0,0,1.3862943611198906
+China,Shanghai,Auto & transportation,2018,9,3.96,3,1.16,0,1,0,0,1.3862943611198906
+United States,Scottsdale,Other,2022,4,0.34,3,1.16,1,1,0,0,1.3862943611198906
+Colombia,Bogota,Other,2015,7,7.14,1,1.15,0,1,0,0,0.6931471805599453
+United States,Salt Lake City,Cybersecurity,2020,12,1.72,3,1.15,1,1,0,0,1.3862943611198906
+United States,San Mateo,Fintech,2021,6,1.21,3,1.15,1,1,1,0,1.3862943611198906
+United States,Washington DC,Artificial intelligence,2021,9,0.96,3,1.15,1,1,0,1,1.3862943611198906
+United States,San Francisco,Health,2021,10,0.9,3,1.15,1,1,0,0,1.3862943611198906
+United States,Tustin,Fintech,2022,2,0.56,3,1.15,1,1,1,0,1.3862943611198906
+China,Qingdao,Fintech,2019,12,2.71,3,1.12,0,1,1,0,1.3862943611198906
+Indonesia,Jakarta,Fintech,2022,8,0.06,3,1.13,0,1,1,0,1.3862943611198906
+United States,Mountain View,Fintech,2021,7,1.1,3,1.12,1,1,1,0,1.3862943611198906
+United States,San Jose,Health,2022,3,0.5,3,1.12,1,1,0,0,1.3862943611198906
+United States,Santa Barbara,Artificial intelligence,2022,6,0.22,3,1.1,1,1,0,1,1.3862943611198906
+United States,Mountain View,Mobile & telecommunications,2014,3,8.45,3,1.1,1,1,0,0,1.3862943611198906
+United States,San Francisco,E-commerce & direct-to-consumer,2015,10,6.9,3,1.1,1,1,0,0,1.3862943611198906
+China,Wuhan,E-commerce & direct-to-consumer,2016,4,6.38,3,1.1,0,1,0,0,1.3862943611198906
+France,Roubaix,Other,2016,8,6.05,2,1.1,0,1,0,0,1.0986122886681098
+Germany,Berlin,Travel,2019,5,3.3,3,1.1,0,1,0,0,1.3862943611198906
+United States,Redwood City,Fintech,2019,5,3.28,3,1.1,1,1,1,0,1.3862943611198906
+United States,New York,Data management & analytics,2020,1,2.64,3,1.1,1,1,0,0,1.3862943611198906
+United States,Islandia,E-commerce & direct-to-consumer,2020,11,1.8,1,1.1,1,1,0,0,0.6931471805599453
+Germany,Berlin,"Supply chain, logistics, & delivery",2021,1,1.63,2,1.1,0,1,0,0,1.0986122886681098
+Switzerland,Prilly,Data management & analytics,2021,2,1.56,3,1.1,0,1,0,0,1.3862943611198906
+United Kingdom,London,Fintech,2021,3,1.48,3,1.1,0,1,1,0,1.3862943611198906
+United States,New York,Health,2021,3,1.42,3,1.1,1,1,0,0,1.3862943611198906
+United States,Los Angeles,Fintech,2021,5,1.28,3,1.1,1,1,1,0,1.3862943611198906
+China,Shanghai,Internet software & services,2021,6,1.25,3,1.1,0,1,0,0,1.3862943611198906
+United States,Chicago,Internet software & services,2021,6,1.19,3,1.1,1,1,0,0,1.3862943611198906
+Israel,Tel Aviv,Artificial intelligence,2021,10,0.89,2,1.0,0,1,0,1,1.0986122886681098
+United States,Denver,Fintech,2022,5,0.28,3,1.1,1,1,1,0,1.3862943611198906
+Mexico,Monterrey,"Supply chain, logistics, & delivery",2022,5,0.27,3,1.1,0,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,8,1.06,3,1.1,1,1,0,0,1.3862943611198906
+Singapore,E-commerce & direct-to-consumer,"500 Global, Rakuten Ventures, Golden Gate Ventures",2021,9,0.96,0,1.1,0,0,0,0,0.0
+India,Bengaluru,Internet software & services,2021,9,0.96,3,1.1,0,1,0,0,1.3862943611198906
+United States,Seattle,Internet software & services,2021,10,0.88,3,1.1,1,1,0,0,1.3862943611198906
+Germany,Berlin,Internet software & services,2021,10,0.87,3,1.1,0,1,0,0,1.3862943611198906
+India,Bengaluru,Fintech,2021,10,0.84,3,1.1,0,1,1,0,1.3862943611198906
+United States,New York,E-commerce & direct-to-consumer,2021,11,0.79,3,1.1,1,1,0,0,1.3862943611198906
+United Kingdom,London,Fintech,2021,11,0.75,2,1.1,0,1,1,0,1.0986122886681098
+United States,San Francisco,Fintech,2021,11,0.75,3,1.1,1,1,1,0,1.3862943611198906
+United States,Palo Alto,Internet software & services,2021,12,0.7,3,1.1,1,1,0,0,1.3862943611198906
+India,New Delhi,E-commerce & direct-to-consumer,2021,12,0.68,3,1.1,0,1,0,0,1.3862943611198906
+India,Andheri,Edtech,2022,1,0.63,3,1.1,0,1,0,0,1.3862943611198906
+Canada,Waterloo,Cybersecurity,2022,2,0.52,3,1.1,0,1,0,0,1.3862943611198906
+United States,New York,Cybersecurity,2022,2,0.52,3,1.1,1,1,0,0,1.3862943611198906
+Germany,Chemnitz,Internet software & services,2022,3,0.47,3,1.1,0,1,0,0,1.3862943611198906
+United States,New York,Other,2022,3,0.42,3,1.1,1,1,0,0,1.3862943611198906
+United States,Quincy,Health,2022,4,0.41,3,1.1,1,1,0,0,1.3862943611198906
+United States,Oakland,Cybersecurity,2022,5,0.33,3,1.1,1,1,0,0,1.3862943611198906
+United States,Burlingame,Data management & analytics,2022,5,0.29,4,1.1,1,1,0,0,1.6094379124341003
+United States,Redwood City,Cybersecurity,2022,5,0.31,2,1.1,1,1,0,0,1.0986122886681098
+India,Uttar Pradesh,Edtech,2022,6,0.24,2,1.1,0,1,0,0,1.0986122886681098
+Spain,Banyeres de Mariola,Other,2022,6,0.23,2,1.1,0,1,0,0,1.0986122886681098
+India,Mumbai,E-commerce & direct-to-consumer,2022,6,0.23,3,1.1,0,1,0,0,1.3862943611198906
+United States,New York,Fintech,2022,1,0.64,2,1.1,1,1,1,0,1.0986122886681098
+China,Beijing,Internet software & services,2018,9,3.95,2,1.08,0,1,0,0,1.0986122886681098
+China,Beijing,"Supply chain, logistics, & delivery",2021,1,1.6,3,1.08,0,1,0,0,1.3862943611198906
+China,Shanghai,"Supply chain, logistics, & delivery",2021,1,1.6,3,1.08,0,1,0,0,1.3862943611198906
+United States,Sarasota,Consumer & retail,2022,6,0.22,3,1.07,1,1,0,0,1.3862943611198906
+United States,Atlanta,Other,2017,8,5.02,3,1.07,1,1,0,0,1.3862943611198906
+United Kingdom,Crewe,Fintech,2017,11,4.76,1,1.07,0,1,1,0,0.6931471805599453
+India,Gurgaon,"Supply chain, logistics, & delivery",2019,7,3.14,3,1.07,0,1,0,0,1.3862943611198906
+India,Gurgaon,E-commerce & direct-to-consumer,2021,12,0.68,3,1.07,0,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2022,4,0.35,3,1.05,1,1,1,0,1.3862943611198906
+China,Beijing,E-commerce & direct-to-consumer,2015,7,7.09,3,1.05,0,1,0,0,1.3862943611198906
+United States,San Francisco,Data management & analytics,2019,10,2.86,3,1.05,1,1,0,0,1.3862943611198906
+United States,San Mateo,Mobile & telecommunications,2021,4,1.4,3,1.05,1,1,0,0,1.3862943611198906
+United States,San Francisco,Hardware,2021,11,0.81,3,1.05,1,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,11,0.79,3,1.05,1,1,0,0,1.3862943611198906
+United States,Columbus,Fintech,2022,3,0.5,3,1.05,1,1,1,0,1.3862943611198906
+South Korea,Seongnam-Si,Health,2019,5,3.26,2,1.04,0,1,0,0,1.0986122886681098
+Israel,Jerusalem,Artificial intelligence,2018,2,4.53,2,1.03,0,1,0,1,1.0986122886681098
+United States,San Francisco,Hardware,2021,11,0.8,3,1.02,1,1,0,0,1.3862943611198906
+China,Hangzhou,Auto & transportation,2018,11,3.78,3,1.01,0,1,0,0,1.3862943611198906
+United States,Austin,Health,2022,1,0.62,3,1.01,1,1,0,0,1.3862943611198906
+United States,New York,Fintech,2022,8,0.05,1,1.0,1,1,1,0,0.6931471805599453
+United States,Sunnyvale,Auto & transportation,2022,6,0.21,3,1.0,1,1,0,0,1.3862943611198906
+France,Paris,"Supply chain, logistics, & delivery",2022,6,0.22,3,1.0,0,1,0,0,1.3862943611198906
+Ireland,Kilkenny,Fintech,2022,5,0.28,1,1.0,0,1,1,0,0.6931471805599453
+United States,San Francisco,Cybersecurity,2013,10,8.89,3,1.0,1,1,0,0,1.3862943611198906
+Israel,Tel Aviv,Cybersecurity,2022,6,0.24,3,1.0,0,1,0,0,1.3862943611198906
+India,New Delhi,E-commerce & direct-to-consumer,2014,5,8.28,3,1.0,0,1,0,0,1.3862943611198906
+United States,El Segundo,E-commerce & direct-to-consumer,2014,8,8.01,3,1.0,1,1,0,0,1.3862943611198906
+India,Bengaluru,Mobile & telecommunications,2014,12,7.75,3,1.0,0,1,0,0,1.3862943611198906
+China,Shanghai,Mobile & telecommunications,2015,1,7.67,0,1.0,0,0,0,0,0.0
+United States,Fort Mill,Other,2015,1,7.65,2,1.0,1,1,0,0,1.0986122886681098
+China,Hangzhou,E-commerce & direct-to-consumer,2015,1,7.61,3,1.0,0,1,0,0,1.3862943611198906
+China,Shenzhen,E-commerce & direct-to-consumer,2015,3,7.49,3,1.0,0,1,0,0,1.3862943611198906
+China,Beijing,Fintech,2015,4,7.36,3,1.0,0,1,1,0,1.3862943611198906
+China,Beijing,Mobile & telecommunications,2015,7,7.17,3,1.0,0,1,0,0,1.3862943611198906
+United States,Washington,Internet software & services,2015,8,7.06,3,1.0,1,1,0,0,1.3862943611198906
+China,Beijing,E-commerce & direct-to-consumer,2015,9,6.98,3,1.0,0,1,0,0,1.3862943611198906
+China,Beijing,Internet software & services,2015,10,6.89,3,1.0,0,1,0,0,1.3862943611198906
+China,Beijing,E-commerce & direct-to-consumer,2015,10,6.89,3,1.0,0,1,0,0,1.3862943611198906
+China,Shanghai,Edtech,2015,10,6.84,3,1.0,0,1,0,0,1.3862943611198906
+China,Shanghai,Edtech,2015,11,6.79,3,1.0,0,1,0,0,1.3862943611198906
+Switzerland,Lausanne,Health,2016,1,6.59,1,1.0,0,1,0,0,0.6931471805599453
+China,Shenzhen,Artificial intelligence,2016,4,6.39,2,1.0,0,1,0,1,1.0986122886681098
+United States,Chicago,Internet software & services,2016,6,6.23,3,1.0,1,1,0,0,1.3862943611198906
+United States,Austin,Consumer & retail,2016,12,5.69,2,1.0,1,1,0,0,1.0986122886681098
+China,Beijing,Consumer & retail,2017,4,5.4,3,1.0,0,1,0,0,1.3862943611198906
+China,Beijing,E-commerce & direct-to-consumer,2017,4,5.37,2,1.0,0,1,0,0,1.0986122886681098
+United States,Boca Raton,Health,2017,5,5.31,3,1.0,1,1,0,0,1.3862943611198906
+China,Shanghai,E-commerce & direct-to-consumer,2017,6,5.17,3,1.0,0,1,0,0,1.3862943611198906
+China,Shanghai,E-commerce & direct-to-consumer,2017,8,5.08,3,1.0,0,1,0,0,1.3862943611198906
+South Africa,Midrand,Mobile & telecommunications,2017,8,5.07,2,1.0,0,1,0,0,1.0986122886681098
+China,Shenzhen,"Supply chain, logistics, & delivery",2017,9,4.94,2,1.0,0,1,0,0,1.0986122886681098
+Philippines,Manila,Other,2017,10,4.86,2,1.0,0,1,0,0,1.0986122886681098
+Hong Kong,Fintech,"Sequoia Capital China, ING, Alibaba Entrepreneurs Fund",2017,11,4.81,0,1.0,0,0,0,0,0.0
+China,Beijing,Mobile & telecommunications,2017,11,4.79,3,1.0,0,1,0,0,1.3862943611198906
+China,Hangzhou,Health,2018,4,4.39,2,1.0,0,1,0,0,1.0986122886681098
+Finland,Espoo,Mobile & telecommunications,2018,5,4.28,1,1.0,0,1,0,0,0.6931471805599453
+China,Beijing,Edtech,2018,5,4.27,3,1.0,0,1,0,0,1.3862943611198906
+China,Wuxi,Hardware,2018,6,4.22,3,1.0,0,1,0,0,1.3862943611198906
+China,Beijing,Health,2018,7,4.16,2,1.0,0,1,0,0,1.0986122886681098
+United States,New York,Internet software & services,2018,7,4.15,3,1.0,1,1,0,0,1.3862943611198906
+Brazil,Sao Paulo,Mobile & telecommunications,2018,7,4.14,3,1.0,0,1,0,0,1.3862943611198906
+United States,New York,Consumer & retail,2018,7,4.13,2,1.0,1,1,0,0,1.0986122886681098
+China,Hangzhou,Mobile & telecommunications,2018,7,4.12,3,1.0,0,1,0,0,1.3862943611198906
+China,Beijing,"Supply chain, logistics, & delivery",2018,8,4.01,3,1.0,0,1,0,0,1.3862943611198906
+China,Shanghai,Auto & transportation,2018,9,3.97,3,1.0,0,1,0,0,1.3862943611198906
+United States,Charlotte,Fintech,2018,10,3.89,1,1.0,1,1,1,0,0.6931471805599453
+China,Beijing,Artificial intelligence,2018,10,3.87,3,1.0,0,1,0,1,1.3862943611198906
+China,Nanjing,E-commerce & direct-to-consumer,2018,10,3.87,3,1.0,0,1,0,0,1.3862943611198906
+Germany,Berlin,Travel,2018,10,3.86,3,1.0,0,1,0,0,1.3862943611198906
+China,Beijing,Hardware,2018,10,3.85,3,1.0,0,1,0,0,1.3862943611198906
+Netherlands,Amsterdam,Hardware,2018,11,3.82,3,1.0,0,1,0,0,1.3862943611198906
+Brazil,Osasco,"Supply chain, logistics, & delivery",2018,11,3.8,3,1.0,0,1,0,0,1.3862943611198906
+United States,Miami,"Supply chain, logistics, & delivery",2018,12,3.73,3,1.0,1,1,0,0,1.3862943611198906
+United States,Menlo Park,Artificial intelligence,2019,1,3.61,1,1.0,1,1,0,1,0.6931471805599453
+France,Evry,Other,2019,2,3.53,3,1.0,0,1,0,0,1.3862943611198906
+China,Shenzhen,Artificial intelligence,2019,3,3.45,3,1.0,0,1,0,1,1.3862943611198906
+China,Shanghai,Mobile & telecommunications,2019,4,3.34,3,1.0,0,1,0,0,1.3862943611198906
+United States,New York,Internet software & services,2019,5,3.32,3,1.0,1,1,0,0,1.3862943611198906
+China,Guiyang,Other,2019,5,3.3,1,1.0,0,1,0,0,0.6931471805599453
+China,Beijing,Edtech,2019,5,3.26,3,1.0,0,1,0,0,1.3862943611198906
+South Korea,Seoul,Travel,2019,6,3.23,3,1.0,0,1,0,0,1.3862943611198906
+France,Paris,Artificial intelligence,2019,6,3.21,3,1.0,0,1,0,1,1.3862943611198906
+United States,Denver,Fintech,2019,8,3.07,3,1.0,1,1,1,0,1.3862943611198906
+United States,Leawood,Fintech,2019,8,3.07,3,1.0,1,1,1,0,1.3862943611198906
+Switzerland,Zurich,Fintech,2019,8,3.03,2,1.0,0,1,1,0,1.0986122886681098
+Brazil,Curitiba,Fintech,2019,10,2.88,2,1.0,0,1,1,0,1.0986122886681098
+China,Dongguan,E-commerce & direct-to-consumer,2019,10,2.86,3,3.0,0,1,0,0,1.3862943611198906
+United States,San Francisco,Health,2020,1,2.59,3,1.0,1,1,0,0,1.3862943611198906
+Netherlands,Amsterdam,E-commerce & direct-to-consumer,2020,3,2.46,3,1.0,0,1,0,0,1.3862943611198906
+United Arab Emirates,Dubai,Other,2020,4,2.34,3,1.0,0,1,0,0,1.3862943611198906
+United States,San Francisco,Edtech,2020,5,2.3,3,1.0,1,1,0,0,1.3862943611198906
+United States,Menlo Park,Health,2020,6,2.21,3,1.0,1,1,0,0,1.3862943611198906
+Croatia,Vodnjan,Mobile & telecommunications,2020,7,2.09,1,1.0,0,1,0,0,0.6931471805599453
+United States,Long Beach,E-commerce & direct-to-consumer,2020,9,1.96,3,1.0,1,1,0,0,1.3862943611198906
+Japan,Tokyo,Other,2020,9,1.94,3,1.0,0,1,0,0,1.3862943611198906
+South Korea,Jeju-do,Auto & transportation,2020,10,1.88,3,1.07,0,1,0,0,1.3862943611198906
+United Kingdom,London,"Supply chain, logistics, & delivery",2020,11,1.83,3,1.7,0,1,0,0,1.3862943611198906
+United States,Englewood,Other,2020,12,1.71,3,1.0,1,1,0,0,1.3862943611198906
+United States,Colorado Springs,Data management & analytics,2021,1,1.65,2,1.0,1,1,0,0,1.0986122886681098
+United States,Mountain View,Internet software & services,2021,1,1.65,3,1.0,1,1,0,0,1.3862943611198906
+Brazil,Parana,E-commerce & direct-to-consumer,2021,1,1.65,3,1.0,0,1,0,0,1.3862943611198906
+United Kingdom,London,Fintech,2021,1,1.62,3,1.0,0,1,1,0,1.3862943611198906
+United States,San Jose,Internet software & services,2021,1,1.59,3,1.0,1,1,0,0,1.3862943611198906
+Thailand,Bangkok,"Supply chain, logistics, & delivery",2021,2,1.58,3,1.0,0,1,0,0,1.3862943611198906
+United States,Houston,Other,2021,2,1.54,3,1.0,1,1,0,0,1.3862943611198906
+United States,Wilmington,Hardware,2021,2,1.54,3,1.0,1,1,0,0,1.3862943611198906
+United States,San Francisco,Artificial intelligence,2021,2,1.54,3,1.0,1,1,0,1,1.3862943611198906
+China,Changsha,Fintech,2021,2,1.53,3,1.0,0,1,1,0,1.3862943611198906
+United States,Redwood City,"Supply chain, logistics, & delivery",2021,2,1.51,4,1.0,1,1,0,0,1.6094379124341003
+United States,New York,Edtech,2021,2,1.51,3,1.0,1,1,0,0,1.3862943611198906
+Israel,Ramat Gan,Cybersecurity,2021,3,1.48,3,1.0,0,1,0,0,1.3862943611198906
+Singapore,Internet software & services,"Sequoia Capital China, Shunwei Capital Partners, Qualgro",2021,3,1.46,0,1.0,0,0,0,0,0.0
+United States,San Mateo,Health,2021,3,1.45,4,1.0,1,1,0,0,1.6094379124341003
+United States,El Segundo,Fintech,2021,1,1.6,3,1.0,1,1,1,0,1.3862943611198906
+United States,San Mateo,Artificial intelligence,2021,3,1.44,3,1.0,1,1,0,1,1.3862943611198906
+China,Suzhou,Edtech,2021,3,1.43,3,1.0,0,1,0,0,1.3862943611198906
+United States,Chicago,Internet software & services,2021,3,1.42,3,1.0,1,1,0,0,1.3862943611198906
+China,Hangzhou,Fintech,2021,4,1.39,3,1.0,0,1,1,0,1.3862943611198906
+United States,Austin,E-commerce & direct-to-consumer,2021,4,1.39,3,1.0,1,1,0,0,1.3862943611198906
+United States,Chicago,Fintech,2021,4,1.39,3,1.0,1,1,1,0,1.3862943611198906
+United States,Mountain View,Artificial intelligence,2021,4,1.38,3,1.0,1,1,0,1,1.3862943611198906
+China,Chengdu,Health,2021,4,1.38,3,1.0,0,1,0,0,1.3862943611198906
+United States,New York,Fintech,2021,4,1.37,3,1.0,1,1,1,0,1.3862943611198906
+United States,San Francisco,Artificial intelligence,2021,4,1.36,3,1.0,1,1,0,1,1.3862943611198906
+United Kingdom,London,Fintech,2021,4,1.4,2,1.0,0,1,1,0,1.0986122886681098
+United States,New York,Health,2021,4,1.34,3,1.0,1,1,0,0,1.3862943611198906
+United States,Redwood City,Artificial intelligence,2021,4,1.34,3,1.5,1,1,0,1,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,4,1.34,3,1.0,1,1,0,0,1.3862943611198906
+China,Shanghai,Internet software & services,2021,6,1.25,3,1.0,0,1,0,0,1.3862943611198906
+United States,Cedar Park,Other,2021,5,1.33,3,1.1,1,1,0,0,1.3862943611198906
+France,Paris,Artificial intelligence,2021,5,1.32,3,1.0,0,1,0,1,1.3862943611198906
+Canada,Toronto,Artificial intelligence,2021,5,1.33,3,1.0,0,1,0,1,1.3862943611198906
+China,Chongqing,Consumer & retail,2021,5,1.32,3,1.0,0,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2021,5,1.31,3,1.73,1,1,1,0,1.3862943611198906
+United States,Berkeley Heights,Data management & analytics,2021,5,1.3,3,1.0,1,1,0,0,1.3862943611198906
+United States,Chicago,Fintech,2021,5,1.29,3,1.0,1,1,1,0,1.3862943611198906
+United States,New York,Fintech,2021,5,1.29,3,1.0,1,1,1,0,1.3862943611198906
+United States,Charlotte,Other,2021,5,1.27,1,1.0,1,1,0,0,0.6931471805599453
+Singapore,Fintech,"Dragonfly Captial, Qiming Venture Partners, DST Global",2021,6,1.25,0,1.05,0,0,0,0,0.0
+United States,San Francisco,"Supply chain, logistics, & delivery",2021,6,1.25,3,1.0,1,1,0,0,1.3862943611198906
+United States,New York,Health,2021,6,1.25,3,1.0,1,1,0,0,1.3862943611198906
+Ireland,Dublin,Health,2021,6,1.23,3,1.0,0,1,0,0,1.3862943611198906
+China,Shenzhen,Hardware,2021,6,1.23,3,1.0,0,1,0,0,1.3862943611198906
+Singapore,E-commerce & direct-to-consumer,"SingTel Innov8, Alpha JWC Ventures, Golden Gate Ventures",2021,6,1.22,0,1.0,0,0,0,0,0.0
+United Kingdom,London,Artificial intelligence,2021,6,1.21,3,1.0,0,1,0,1,1.3862943611198906
+China,Shenzhen,Internet software & services,2021,6,1.21,3,1.0,0,1,0,0,1.3862943611198906
+Israel,Tel Aviv,"Supply chain, logistics, & delivery",2021,6,1.21,3,1.0,0,1,0,0,1.3862943611198906
+United States,New York,Cybersecurity,2021,6,1.21,3,1.0,1,1,0,0,1.3862943611198906
+Israel,Tel Aviv,Edtech,2021,6,1.2,3,1.0,0,1,0,0,1.3862943611198906
+United States,New York,Internet software & services,2021,6,1.19,3,1.0,1,1,0,0,1.3862943611198906
+United States,San Francisco,Fintech,2021,6,1.17,3,1.0,1,1,1,0,1.3862943611198906
+United States,New York,Fintech,2021,6,1.19,3,1.0,1,1,1,0,1.3862943611198906
+United States,Washington DC,Internet software & services,2021,6,1.23,3,1.0,1,1,0,0,1.3862943611198906
+Canada,Vancouver,Internet software & services,2021,6,1.17,3,1.0,0,1,0,0,1.3862943611198906
+United States,Chicago,"Supply chain, logistics, & delivery",2021,6,1.17,2,1.0,1,1,0,0,1.0986122886681098
+Singapore,Fintech,"Mundi Ventures, Doqling Capital Partners, Activant Capital",2021,7,1.17,0,1.0,0,0,0,0,0.0
+United States,San Francisco,Fintech,2021,7,1.15,3,1.06,1,1,1,0,1.3862943611198906
+United States,Seattle,Artificial intelligence,2021,7,1.14,3,1.0,1,1,0,1,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,7,1.14,3,1.0,1,1,0,0,1.3862943611198906
+China,Beijing,Fintech,2021,7,1.14,3,1.0,0,1,1,0,1.3862943611198906
+China,Shanghai,Health,2021,7,1.14,3,1.0,0,1,0,0,1.3862943611198906
+United States,Lincoln,Fintech,2021,7,1.13,1,1.0,1,1,1,0,0.6931471805599453
+Australia,Brisbane,Internet software & services,2021,7,1.12,3,1.0,0,1,0,0,1.3862943611198906
+United States,Arlington,"Supply chain, logistics, & delivery",2021,7,1.11,3,1.0,1,1,0,0,1.3862943611198906
+India,Bengaluru,"Supply chain, logistics, & delivery",2021,7,1.11,3,1.0,0,1,0,0,1.3862943611198906
+Singapore,Fintech,"Vertex Ventures SE Asia, Global Founders Capital, Visa Ventures",2021,7,1.14,0,1.0,0,0,0,0,0.0
+United States,San Francisco,Fintech,2021,8,1.08,3,1.0,1,1,1,0,1.3862943611198906
+United States,New York,Artificial intelligence,2021,8,1.07,3,1.0,1,1,0,1,1.3862943611198906
+Canada,Toronto,Fintech,2021,8,1.06,3,1.0,0,1,1,0,1.3862943611198906
+United States,Palo Alto,Artificial intelligence,2021,8,1.06,3,1.0,1,1,0,1,1.3862943611198906
+Norway,Oslo,E-commerce & direct-to-consumer,2021,8,1.04,3,1.0,0,1,0,0,1.3862943611198906
+United States,New York,Health,2021,8,1.04,3,1.0,1,1,0,0,1.3862943611198906
+South Korea,Seoul,Fintech,2021,7,1.11,3,1.0,0,1,1,0,1.3862943611198906
+United States,San Diego,Artificial intelligence,2021,8,1.02,3,1.0,1,1,0,1,1.3862943611198906
+United States,San Francisco,Mobile & telecommunications,2021,8,1.02,3,1.0,1,1,0,0,1.3862943611198906
+China,Hangzhou,Hardware,2021,8,1.0,3,1.0,0,1,0,0,1.3862943611198906
+Hong Kong,E-commerce & direct-to-consumer,"Andreessen Horowitz, DST Global, IDG Capital",2021,9,1.0,0,1.0,0,0,0,0,0.0
+Germany,Berlin,E-commerce & direct-to-consumer,2021,9,1.0,2,1.0,0,1,0,0,1.0986122886681098
+Germany,Munich,Hardware,2021,9,0.98,3,1.0,0,1,0,0,1.3862943611198906
+United States,San Francisco,E-commerce & direct-to-consumer,2021,9,0.96,3,1.2,1,1,0,0,1.3862943611198906
+United States,Brisbane,Health,2021,9,0.98,3,1.0,1,1,0,0,1.3862943611198906
+United States,New York,Fintech,2021,9,0.98,3,1.0,1,1,1,0,1.3862943611198906
+Indonesia,Jakarta,Fintech,2021,9,0.96,3,1.0,0,1,1,0,1.3862943611198906
+United Kingdom,London,Fintech,2021,9,0.94,3,1.0,0,1,1,0,1.3862943611198906
+United States,Culver City,Internet software & services,2021,9,0.94,3,1.0,1,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2021,9,0.94,3,1.0,1,1,0,0,1.3862943611198906
+China,Shanghai,"Supply chain, logistics, & delivery",2021,9,0.96,3,1.0,0,1,0,0,1.3862943611198906
+China,Shanghai,Consumer & retail,2021,9,0.94,2,1.0,0,1,0,0,1.0986122886681098
+Singapore,"Supply chain, logistics, & delivery","B Capital Group, Monk's Hill Ventures, Dynamic Parcel Distribution",2021,9,0.93,0,1.0,0,0,0,0,0.0
+India,Bengaluru,Edtech,2021,9,0.92,3,1.0,0,1,0,0,1.3862943611198906
+United States,New York,Health,2021,9,0.92,3,1.0,1,1,0,0,1.3862943611198906
+Indonesia,Jakarta,Fintech,2021,10,0.91,3,1.0,0,1,1,0,1.3862943611198906
+India,Bengaluru,E-commerce & direct-to-consumer,2021,10,0.91,3,1.0,0,1,0,0,1.3862943611198906
+United States,New York,Fintech,2021,10,0.91,3,1.0,1,1,1,0,1.3862943611198906
+United States,New York,Data management & analytics,2021,10,0.9,3,1.0,1,1,0,0,1.3862943611198906
+United States,Cambridge,Internet software & services,2021,10,0.9,3,1.0,1,1,0,0,1.3862943611198906
+United States,El Segundo,E-commerce & direct-to-consumer,2021,2,1.56,3,1.0,1,1,0,0,1.3862943611198906
+France,Montpellier,Fintech,2021,10,0.89,3,1.0,0,1,1,0,1.3862943611198906
+India,Gurugram,Fintech,2021,10,0.88,3,1.0,0,1,1,0,1.3862943611198906
+United States,San Francisco,Artificial intelligence,2021,10,0.88,3,1.0,1,1,0,1,1.3862943611198906
+United Kingdom,London,Fintech,2021,10,0.87,3,1.0,0,1,1,0,1.3862943611198906
+France,Paris,Health,2021,10,0.86,3,1.0,0,1,0,0,1.3862943611198906
+Brazil,Sao Paulo,"Supply chain, logistics, & delivery",2021,10,0.86,3,1.0,0,1,0,0,1.3862943611198906
+United States,New York,"Supply chain, logistics, & delivery",2021,10,0.85,3,1.0,1,1,0,0,1.3862943611198906
+United States,New York,Artificial intelligence,2021,10,0.85,3,1.0,1,1,0,1,1.3862943611198906
+China,Beijing,Internet software & services,2021,11,0.83,3,1.0,0,1,0,0,1.3862943611198906
+China,Shanghai,Internet software & services,2021,11,0.83,3,1.0,0,1,0,0,1.3862943611198906
+United States,Dublin,Internet software & services,2021,11,0.83,1,1.0,1,1,0,0,0.6931471805599453
+United States,San Diego,Cybersecurity,2021,11,0.81,3,1.0,1,1,0,0,1.3862943611198906
+Germany,Berlin,Consumer & retail,2021,11,0.81,3,1.0,0,1,0,0,1.3862943611198906
+South Korea,Seoul,Internet software & services,2021,11,0.81,3,1.0,0,1,0,0,1.3862943611198906
+United States,New York,Internet software & services,2021,11,0.81,3,1.0,1,1,0,0,1.3862943611198906
+United States,Los Altos,Cybersecurity,2021,11,0.81,3,1.0,1,1,0,0,1.3862943611198906
+United States,New York,Fintech,2021,11,0.81,3,1.0,1,1,1,0,1.3862943611198906
+China,Shanghai,Hardware,2021,11,0.81,3,1.1,0,1,0,0,1.3862943611198906
+India,Bengaluru,Other,2021,11,0.79,3,1.0,0,1,0,0,1.3862943611198906
+United States,Chicago,E-commerce & direct-to-consumer,2021,11,0.79,3,1.0,1,1,0,0,1.3862943611198906
+United States,Bellingham,Internet software & services,2021,11,0.79,2,1.0,1,1,0,0,1.0986122886681098
+United States,San Francisco,Cybersecurity,2021,11,0.79,3,1.0,1,1,0,0,1.3862943611198906
+United States,New York,Artificial Intelligence,2021,11,0.79,3,1.0,1,1,0,0,1.3862943611198906
+United States,Herndon,Cybersecurity,2021,11,0.79,3,1.0,1,1,0,0,1.3862943611198906
+India,Bengaluru,Internet software & services,2021,11,0.77,3,1.0,0,1,0,0,1.3862943611198906
+United States,Scottsdale,Internet software & services,2021,11,0.75,3,1.0,1,1,0,0,1.3862943611198906
+Mexico,Mexico City,Fintech,2021,12,0.74,3,1.0,0,1,1,0,1.3862943611198906
+United States,New York,Internet software & services,2021,12,0.74,3,1.0,1,1,0,0,1.3862943611198906
+United States,Berkeley,Artificial Intelligence,2021,12,0.73,3,1.0,1,1,0,0,1.3862943611198906
+United States,Austin,Data management & analytics,2021,12,0.75,3,1.0,1,1,0,0,1.3862943611198906
+United States,Tampa,Cybersecurity,2021,12,0.75,3,1.0,1,1,0,0,1.3862943611198906
+Australia,Alexandria,E-commerce & direct-to-consumer,2021,12,0.74,3,1.0,0,1,0,0,1.3862943611198906
+United States,Chicago,Consumer & retail,2021,7,1.12,3,1.0,1,1,0,0,1.3862943611198906
+France,Paris,Fintech,2021,12,0.73,3,1.0,0,1,1,0,1.3862943611198906
+Germany,Berlin,E-commerce & direct-to-consumer,2021,12,0.73,3,1.0,0,1,0,0,1.3862943611198906
+United States,San Mateo,Internet software & services,2021,12,0.72,3,1.0,1,1,0,0,1.3862943611198906
+United States,New York,Health,2021,12,0.71,3,1.0,1,1,0,0,1.3862943611198906
+United States,Palo Alto,Cybersecurity,2021,12,0.71,3,1.0,1,1,0,0,1.3862943611198906
+United States,San Francisco,Consumer & retail,2021,12,0.7,3,1.0,1,1,0,0,1.3862943611198906
+Sweden,Stockholm,Travel,2021,12,0.7,3,1.0,0,1,0,0,1.3862943611198906
+China,Beijing,Artificial Intelligence,2021,12,0.69,3,1.0,0,1,0,0,1.3862943611198906
+Indonesia,Jakarta,Consumer & retail,2021,12,0.68,3,1.0,0,1,0,0,1.3862943611198906
+Germany,Berlin,Other,2021,12,0.71,3,1.0,0,1,0,0,1.3862943611198906
+Singapore,Internet software & services,"Temasek, Guggenheim Investments, Qatar Investment Authority",2021,12,0.73,0,1.0,0,0,0,0,0.0
+India,Mumbai,Data management & analytics,2022,1,0.65,3,1.0,0,1,0,0,1.3862943611198906
+Canada,Ottawa,"Supply chain, logistics, & delivery",2022,1,0.65,3,1.0,0,1,0,0,1.3862943611198906
+United States,Los Altos,Artificial intelligence,2022,1,0.64,3,1.0,1,1,0,1,1.3862943611198906
+Israel,Petah Tikva,Cybersecurity,2022,1,0.64,3,1.0,0,1,0,0,1.3862943611198906
+India,Hyderabad,Internet software & services,2022,1,0.6,3,1.0,0,1,0,0,1.3862943611198906
+United States,Palo Alto,Data management & analytics,2022,1,0.6,3,1.0,1,1,0,0,1.3862943611198906
+United States,New York,Internet software & services,2022,1,0.6,3,1.0,1,1,0,0,1.3862943611198906
+United States,New York,Fintech,2022,1,0.59,3,1.0,1,1,1,0,1.3862943611198906
+Chile,Santiago,Artificial intelligence,2022,2,0.58,3,1.0,0,1,0,1,1.3862943611198906
+Norway,Oslo,Data management & analytics,2022,2,0.58,3,1.0,0,1,0,0,1.3862943611198906
+Switzerland,Zurich,"Supply chain, logistics, & delivery",2022,2,0.56,3,1.0,0,1,0,0,1.3862943611198906
+United Kingdom,London,Fintech,2022,2,0.54,3,1.0,0,1,1,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2022,2,0.56,2,1.0,1,1,0,0,1.0986122886681098
+Canada,Waterloo,Internet software & services,2022,2,0.54,3,1.0,0,1,0,0,1.3862943611198906
+United States,New York,Cybersecurity,2022,2,0.52,3,1.0,1,1,0,0,1.3862943611198906
+India,Bengaluru,Internet software & services,2022,2,0.52,3,1.0,0,1,0,0,1.3862943611198906
+United States,New York,Internet software & services,2022,2,0.52,3,1.0,1,1,0,0,1.3862943611198906
+Italy,Milan,Fintech,2022,2,0.52,3,1.0,0,1,1,0,1.3862943611198906
+United States,San Francisco,Health,2022,2,0.52,3,1.0,1,1,0,0,1.3862943611198906
+United States,New York,Cybersecurity,2022,2,0.52,3,1.0,1,1,0,0,1.3862943611198906
+United States,San Mateo,Internet software & services,2022,2,0.52,3,1.0,1,1,0,0,1.3862943611198906
+United States,Boston,Fintech,2022,2,0.52,3,1.0,1,1,1,0,1.3862943611198906
+United States,New York,Fintech,2022,3,0.49,3,1.0,1,1,1,0,1.3862943611198906
+United States,Palo Alto,Internet software & services,2022,3,0.47,3,1.0,1,1,0,0,1.3862943611198906
+India,Bengaluru,Internet software & services,2022,3,0.46,3,1.0,0,1,0,0,1.3862943611198906
+United States,New York,Fintech,2022,3,0.45,3,1.0,1,1,1,0,1.3862943611198906
+United States,Palo Alto,Artificial Intelligence,2022,3,0.45,3,1.0,1,1,0,0,1.3862943611198906
+United States,San Francisco,Internet software & services,2022,3,0.44,3,1.0,1,1,0,0,1.3862943611198906
+United States,Milpitas,Mobile & telecommunications,2022,3,0.44,3,1.0,1,1,0,0,1.3862943611198906
+United States,Austin,Fintech,2022,3,0.46,3,1.0,1,1,1,0,1.3862943611198906
+United States,New York,Cybersecurity,2022,3,0.43,3,1.0,1,1,0,0,1.3862943611198906
+United States,New York,Internet software & services,2022,3,0.42,3,1.0,1,1,0,0,1.3862943611198906
+United States,Waltham,Health,2022,4,0.41,3,1.0,1,1,0,0,1.3862943611198906
+Germany,Berlin,E-commerce & direct-to-consumer,2022,4,0.4,3,1.0,0,1,0,0,1.3862943611198906
+United States,Venice,Internet software & services,2022,4,0.39,3,1.0,1,1,0,0,1.3862943611198906
+United States,Wilmington,Fintech,2022,4,0.37,3,1.0,1,1,1,0,1.3862943611198906
+United States,San Francisco,Health,2022,4,0.36,3,1.0,1,1,0,0,1.3862943611198906
+Sweden,Stockholm,"Supply chain, logistics, & delivery",2022,4,0.36,3,1.0,0,1,0,0,1.3862943611198906
+United States,Berkeley,Other,2022,4,0.36,3,1.0,1,1,0,0,1.3862943611198906
+United States,Torrance,Auto & transportation,2022,4,0.35,3,1.0,1,1,0,0,1.3862943611198906
+Germany,Berlin,Fintech,2022,4,0.34,3,1.0,0,1,1,0,1.3862943611198906
+India,Bengaluru,Fintech,2022,5,0.33,3,1.0,0,1,1,0,1.3862943611198906
+Sweden,Kista,Other,2022,5,0.33,1,1.0,0,1,0,0,0.6931471805599453
+Japan,Tokyo,Fintech,2022,5,0.31,3,1.0,0,1,1,0,1.3862943611198906
+Norway,Oslo,Internet software & services,2022,5,0.31,1,1.0,0,1,0,0,0.6931471805599453
+Colombia,Bogota,Fintech,2022,5,0.31,3,1.0,0,1,1,0,1.3862943611198906
+United States,Palo Alto,Internet software & services,2022,5,0.29,3,1.0,1,1,0,0,1.3862943611198906
+United States,Nashville,Health,2022,6,0.23,3,1.0,1,1,0,0,1.3862943611198906
+United States,Boston,Data management & analytics,2022,6,0.23,3,1.0,1,1,0,0,1.3862943611198906
+United States,Morrisville,Cybersecurity,2022,6,0.25,3,1.0,1,1,0,0,1.3862943611198906
+Israel,Yehud,Hardware,2022,6,0.24,3,1.0,0,1,0,0,1.3862943611198906
+India,Bengaluru,Internet software & services,2022,6,0.2,3,1.0,0,1,0,0,1.3862943611198906
+United States,Chicago,"Supply chain, logistics, & delivery",2022,6,0.2,3,1.0,1,1,0,0,1.3862943611198906
+United States,Burlington,"Supply chain, logistics, & delivery",2022,7,0.16,3,1.0,1,1,0,0,1.3862943611198906
+United States,San Francisco,Data management & analytics,2022,7,0.14,3,1.0,1,1,0,0,1.3862943611198906
+United States,Las Vegas,Internet software & services,2022,7,0.1,3,1.0,1,1,0,0,1.3862943611198906

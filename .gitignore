@@ -1,7 +1,10 @@
-venvp4g4/
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
 .pytest_cache/
-models/
-*.joblib
+.venv/
+venv/
+venvp4g4/
 .ipynb_checkpoints/
+frontend/dist/
+frontend/node_modules/
