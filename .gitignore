@@ -8,3 +8,22 @@ venvp4g4/
 .ipynb_checkpoints/
 frontend/dist/
 frontend/node_modules/
+
+# ML Artifacts — never version these
+backend/models/*.joblib
+backend/models/*.pkl
+backend/models/metrics.json
+backend/reports/*.png
+backend/reports/*.pdf
+backend/data/processed/
+backend/data/dataset_clean.csv
+
+# Databases — never version these (production uses PostgreSQL)
+backend/storage/*.db
+backend/data/feedback/*.sqlite3
+*.sqlite3
+
+# Environment variables
+.env
+.env.*
+!.env.example

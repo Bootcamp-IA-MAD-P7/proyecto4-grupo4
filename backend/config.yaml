@@ -1,0 +1,30 @@
+project:
+  name: "proyecto-regression"
+  target: "valuation_usd"
+  random_state: 42
+
+paths:
+  raw_data: "data/raw/unicorn_companies.csv"
+  processed_data: "data/processed/dataset.parquet"
+  model_dir: "models"
+  model_file: "models/best_model.joblib"
+  metrics_file: "models/metrics.json"
+
+training:
+  test_size: 0.2
+  cv_folds: 5
+  max_overfitting_pct: 5.0
+  min_r2: 0.5
+
+model:
+  type: "gradient_boosting"
+  log_target: true
+
+features:
+  numeric:
+    - year_founded
+    - log_funding_usd
+    - funding_velocity
+    - funding_vs_industry
+    - company_age
+  categorical: []
