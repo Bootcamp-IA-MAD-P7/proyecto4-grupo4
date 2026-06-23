@@ -4,16 +4,20 @@ from typing import Any
 
 import joblib
 import pandas as pd
+from fastapi import HTTPException
 
 from app.input_schema import PredictionInput
 
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
-DEFAULT_MODEL_PATH = ROOT_DIR / "models" / "current_model.pkl"
+MODEL_PATH = os.getenv("MODEL_PATH", "models/best_model.joblib")
 
 
 def get_model_path() -> Path:
-    return Path(os.getenv("MODEL_PATH", DEFAULT_MODEL_PATH))
+    path = Path(MODEL_PATH)
+    if not path.is_absolute():
+        return ROOT_DIR / path
+    return path
 
 
 def load_model() -> Any | None:
@@ -24,19 +28,19 @@ def load_model() -> Any | None:
 
 
 def get_model_mode() -> str:
-    return "trained_model" if get_model_path().exists() else "mock_model"
+    return "trained_model" if get_model_path().exists() else "not_loaded"
 
 
 def make_feature_frame(payload: PredictionInput) -> pd.DataFrame:
     return pd.DataFrame(
         [
             {
-                "country": payload.country,
-                "city": payload.city,
+                "year_founded": payload.year_founded,
+                "funding_usd": payload.funding_usd,
+                "company_age": payload.company_age,
                 "industry": payload.industry,
-                "join_year": payload.join_year,
-                "join_month": payload.join_month,
-                "investor_count": payload.investor_count,
+                "country": payload.country,
+                "continent": payload.continent,
             }
         ]
     )
@@ -44,27 +48,10 @@ def make_feature_frame(payload: PredictionInput) -> pd.DataFrame:
 
 def predict_valuation(payload: PredictionInput) -> tuple[float, str]:
     model = load_model()
-    if model is not None:
-        prediction = float(model.predict(make_feature_frame(payload))[0])
-        return round(max(prediction, 0.0), 3), "trained_model"
-
-    return _mock_prediction(payload), "mock_model"
-
-
-def _mock_prediction(payload: PredictionInput) -> float:
-    country_weight = {
-        "United States": 1.15,
-        "China": 1.1,
-        "India": 1.03,
-        "United Kingdom": 1.02,
-    }.get(payload.country, 1.0)
-    industry_weight = {
-        "Fintech": 1.18,
-        "Artificial intelligence": 1.16,
-        "Internet software & services": 1.1,
-        "E-commerce & direct-to-consumer": 1.05,
-    }.get(payload.industry, 1.0)
-    year_factor = max(0, 2023 - payload.join_year) * 0.08
-    investor_factor = payload.investor_count * 0.18
-    estimate = (1.0 + year_factor + investor_factor) * country_weight * industry_weight
-    return round(estimate, 3)
+    if model is None:
+        raise HTTPException(
+            status_code=503,
+            detail="Model not loaded. Run scripts/train.py first.",
+        )
+    prediction = float(model.predict(make_feature_frame(payload))[0])
+    return round(max(prediction, 0.0), 3), "trained_model"
