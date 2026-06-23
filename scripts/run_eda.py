@@ -13,16 +13,14 @@ sys.path.insert(0, '.')
 sns.set_style('whitegrid')
 plt.rcParams['figure.figsize'] = (10, 6)
 
-from src.data.load_data import download_dataset, save_raw
 from src.data.data_validation import run_all_checks_raw, run_all_checks_clean, print_check_results
 
 FIGURES_DIR = 'reports/figures'
+RAW_DATA_PATH = 'data/raw/unicorn_companies.csv'
 os.makedirs(FIGURES_DIR, exist_ok=True)
 
-csv_path = download_dataset()
-df_raw = pd.read_csv(csv_path)
-raw_path = save_raw(df_raw)
-print(f'Crudo guardado: {raw_path}')
+df_raw = pd.read_csv(RAW_DATA_PATH)
+print(f'Dataset cargado desde: {RAW_DATA_PATH} ({len(df_raw)} filas)')
 
 raw_checks = run_all_checks_raw(df_raw)
 print_check_results('VALIDACION - DATOS CRUDOS', raw_checks)
