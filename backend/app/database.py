@@ -25,59 +25,59 @@ def init_db(db_path: Path | None = None) -> None:
         connection.execute(
             """
             CREATE TABLE IF NOT EXISTS predictions (
-                request_id TEXT PRIMARY KEY,
-                country TEXT NOT NULL,
-                city TEXT NOT NULL,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                year_founded INTEGER NOT NULL,
+                funding_usd REAL NOT NULL,
+                company_age INTEGER NOT NULL,
                 industry TEXT NOT NULL,
-                join_year INTEGER NOT NULL,
-                join_month INTEGER NOT NULL,
-                investor_count INTEGER NOT NULL,
-                prediction_billion_usd REAL NOT NULL,
-                model_used TEXT NOT NULL,
-                feedback_score INTEGER,
-                actual_valuation_b REAL,
-                comments TEXT,
-                created_at TEXT NOT NULL,
-                updated_at TEXT NOT NULL
+                country TEXT NOT NULL,
+                continent TEXT NOT NULL,
+                predicted_valuation_usd REAL NOT NULL,
+                actual_valuation_usd REAL,
+                comment TEXT,
+                created_at TEXT NOT NULL
             )
             """
         )
 
 
-def save_prediction(record: dict[str, Any], db_path: Path | None = None) -> None:
+def save_feedback(record: dict[str, Any], db_path: Path | None = None) -> int | None:
     init_db(db_path)
     with get_connection(db_path) as connection:
-        connection.execute(
+        cursor = connection.execute(
             """
             INSERT INTO predictions (
-                request_id,
-                country,
-                city,
+                year_founded,
+                funding_usd,
+                company_age,
                 industry,
-                join_year,
-                join_month,
-                investor_count,
-                prediction_billion_usd,
-                model_used,
-                created_at,
-                updated_at
+                country,
+                continent,
+                predicted_valuation_usd,
+                actual_valuation_usd,
+                comment,
+                created_at
             )
             VALUES (
-                :request_id,
-                :country,
-                :city,
+                :year_founded,
+                :funding_usd,
+                :company_age,
                 :industry,
-                :join_year,
-                :join_month,
-                :investor_count,
-                :prediction_billion_usd,
-                :model_used,
-                :created_at,
-                :updated_at
+                :country,
+                :continent,
+                :predicted_valuation_usd,
+                :actual_valuation_usd,
+                :comment,
+                :created_at
             )
             """,
             record,
         )
+        return cursor.lastrowid
+
+
+def save_prediction(record: dict[str, Any], db_path: Path | None = None) -> None:
+    save_feedback(record, db_path)
 
 
 def update_feedback(
@@ -93,18 +93,16 @@ def update_feedback(
         result = connection.execute(
             """
             UPDATE predictions
-            SET feedback_score = :feedback_score,
-                actual_valuation_b = :actual_valuation_b,
-                comments = :comments,
-                updated_at = :updated_at
-            WHERE request_id = :request_id
+            SET actual_valuation_usd = :actual_valuation_usd,
+                comment = :comment
+            WHERE id = :request_id
             """,
             {
                 "request_id": request_id,
-                "feedback_score": feedback_score,
-                "actual_valuation_b": actual_valuation_b,
-                "comments": comments,
-                "updated_at": updated_at,
+                "actual_valuation_usd": (
+                    actual_valuation_b * 1_000_000_000 if actual_valuation_b is not None else None
+                ),
+                "comment": comments,
             },
         )
         return result.rowcount > 0
@@ -114,7 +112,7 @@ def fetch_prediction(request_id: str, db_path: Path | None = None) -> dict[str, 
     init_db(db_path)
     with get_connection(db_path) as connection:
         row = connection.execute(
-            "SELECT * FROM predictions WHERE request_id = ?",
+            "SELECT * FROM predictions WHERE id = ?",
             (request_id,),
         ).fetchone()
     return dict(row) if row else None

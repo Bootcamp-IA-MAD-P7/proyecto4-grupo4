@@ -1,7 +1,9 @@
+from datetime import UTC, datetime
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.feedback_service import record_feedback, record_prediction
+from app.feedback_service import record_feedback
 from app.input_schema import (
     FeedbackInput,
     FeedbackResponse,
@@ -26,6 +28,10 @@ app.add_middleware(
 )
 
 
+def utc_now_iso() -> str:
+    return datetime.now(UTC).isoformat()
+
+
 @app.get("/health", response_model=HealthResponse)
 def health() -> HealthResponse:
     return HealthResponse(status="ok", model_mode=get_model_mode())
@@ -33,23 +39,22 @@ def health() -> HealthResponse:
 
 @app.post("/predict", response_model=PredictionResponse)
 def predict(payload: PredictionInput) -> PredictionResponse:
-    prediction, model_used = predict_valuation(payload)
-    request_id = record_prediction(payload, prediction, model_used)
+    valuation_usd, _model_used = predict_valuation(payload)
     return PredictionResponse(
-        request_id=request_id,
-        prediction_billion_usd=prediction,
-        model_used=model_used,
-        message="Prediction generated successfully.",
+        valuation_usd=valuation_usd,
+        valuation_b=round(valuation_usd / 1_000_000_000, 4),
+        model_version="best_model.joblib",
+        timestamp=utc_now_iso(),
     )
 
 
-@app.post("/feedback", response_model=FeedbackResponse)
+@app.post("/feedback", response_model=FeedbackResponse, status_code=201)
 def feedback(payload: FeedbackInput) -> FeedbackResponse:
-    saved = record_feedback(payload)
-    if not saved:
-        raise HTTPException(status_code=404, detail="Prediction request_id not found.")
+    feedback_id = record_feedback(payload)
+    if feedback_id is None:
+        raise HTTPException(status_code=500, detail="Feedback could not be saved.")
     return FeedbackResponse(
-        request_id=payload.request_id,
-        saved=True,
-        message="Feedback saved successfully.",
+        id=feedback_id,
+        status="recorded",
+        timestamp=utc_now_iso(),
     )

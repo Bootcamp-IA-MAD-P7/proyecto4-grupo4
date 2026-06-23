@@ -1,44 +1,25 @@
 from datetime import UTC, datetime
-from uuid import uuid4
 
-from app.database import save_prediction, update_feedback
-from app.input_schema import FeedbackInput, PredictionInput
+from app.database import save_feedback
+from app.input_schema import FeedbackInput
 
 
 def utc_now_iso() -> str:
     return datetime.now(UTC).isoformat()
 
 
-def record_prediction(
-    payload: PredictionInput,
-    prediction_billion_usd: float,
-    model_used: str,
-) -> str:
-    request_id = str(uuid4())
-    timestamp = utc_now_iso()
-    save_prediction(
+def record_feedback(payload: FeedbackInput) -> int | None:
+    return save_feedback(
         {
-            "request_id": request_id,
-            "country": payload.country,
-            "city": payload.city,
+            "year_founded": payload.year_founded,
+            "funding_usd": payload.funding_usd,
+            "company_age": payload.company_age,
             "industry": payload.industry,
-            "join_year": payload.join_year,
-            "join_month": payload.join_month,
-            "investor_count": payload.investor_count,
-            "prediction_billion_usd": prediction_billion_usd,
-            "model_used": model_used,
-            "created_at": timestamp,
-            "updated_at": timestamp,
+            "country": payload.country,
+            "continent": payload.continent,
+            "predicted_valuation_usd": payload.predicted_valuation_usd,
+            "actual_valuation_usd": payload.actual_valuation_usd,
+            "comment": payload.comment,
+            "created_at": utc_now_iso(),
         }
-    )
-    return request_id
-
-
-def record_feedback(payload: FeedbackInput) -> bool:
-    return update_feedback(
-        request_id=payload.request_id,
-        feedback_score=payload.feedback_score,
-        actual_valuation_b=payload.actual_valuation_b,
-        comments=payload.comments,
-        updated_at=utc_now_iso(),
     )
