@@ -10,17 +10,17 @@ frontend/dist/
 frontend/node_modules/
 
 # ML Artifacts — never version these
-models/*.joblib
-models/*.pkl
-models/metrics.json
-reports/*.png
-reports/*.pdf
-data/processed/
-data/dataset_clean.csv
+backend/models/*.joblib
+backend/models/*.pkl
+backend/models/metrics.json
+backend/reports/*.png
+backend/reports/*.pdf
+backend/data/processed/
+backend/data/dataset_clean.csv
 
 # Databases — never version these (production uses PostgreSQL)
-storage/*.db
-data/feedback/*.sqlite3
+backend/storage/*.db
+backend/data/feedback/*.sqlite3
 *.sqlite3
 
 # Environment variables

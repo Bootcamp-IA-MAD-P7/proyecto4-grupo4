@@ -295,7 +295,7 @@ Antes de comenzar cualquier tarea:
   cd backend && python -c "from app.main import app; print('OK')"
   ```
 - **Nota:** No revertir ningún cambio de Fase 1. `frontend/` permanece en su ubicación actual. No mover `.specify/`, `.github/`, `docker-compose.yml` ni `.gitignore`.
-- [ ] Estado: pendiente
+- [x] Estado: completado — Código backend movido a `backend/` con `git mv`. `docker-compose.yml` actualizado: servicio `api` con `build: ./backend`, puerto `8000`, comando uvicorn; eliminados volúmenes/puertos Streamlit legacy. `backend/Dockerfile` expone `8000` y arranca con uvicorn. Imports verificados desde `backend/` (`from app.main import app` → OK; `pytest tests/ -v --collect-only` → 20 tests). Uvicorn arranca correctamente. `config.yaml` mantiene rutas relativas a `backend/`.
 
 ---
 
