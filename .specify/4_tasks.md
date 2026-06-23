@@ -246,9 +246,62 @@ Antes de comenzar cualquier tarea:
 
 ## Fase 2 — Unificar Rutas y Configuración
 
-### [T-2.1] Corregir `config.yaml` — ruta del modelo
+> **Prerequisito:** ejecutar `[T-2.0]` (reestructuración a monorepo) antes de cualquier otro ticket de esta fase.
+> Todas las rutas de archivos a partir de `[T-2.1]` son relativas a `backend/`.
 
-- **Archivo(s):** `config.yaml`
+### [T-2.0] Reestructurar carpetas — mover código backend a `/backend/`
+
+- **Archivo(s):** estructura de directorios en la raíz del repo
+- **Acción:**
+  1. Crear `backend/` y mover con `git mv` (preserva historial):
+     ```bash
+     mkdir -p backend
+     git mv app src scripts models storage tests config.yaml backend/
+     git mv requirements.txt Dockerfile data notebooks docs README.md backend/
+     ```
+  2. Actualizar `docker-compose.yml` en la raíz:
+     - Cambiar `build: .` → `build: ./backend` en el servicio `api`
+     - Eliminar volúmenes y puertos legacy de Streamlit (`8501`, `./storage:/app/storage`, etc.)
+     - Mantener `command: uvicorn app.main:app --host 0.0.0.0 --port 8000`
+  3. Actualizar `backend/Dockerfile`:
+     - Eliminar referencias a Streamlit (`8501`, `streamlit run`)
+     - `EXPOSE 8000` y `CMD` con uvicorn
+  4. Verificar imports Python desde el nuevo cwd:
+     ```bash
+     cd backend
+     python -c "from app.main import app; print('OK')"
+     pytest tests/ -v --collect-only
+     ```
+  5. Buscar imports rotos:
+     ```bash
+     grep -rn "from app\|from src\|import app\|import src" backend/ --include="*.py"
+     ```
+     Todos deben resolver con cwd `backend/`. Corregir cualquier path absoluto que apunte a la raíz antigua.
+  6. Confirmar que `backend/config.yaml` mantiene rutas relativas a `backend/` (`models/best_model.joblib`, `data/processed/dataset.parquet`).
+- **Verificación:**
+  ```bash
+  # Raíz limpia — sólo estos elementos
+  ls -1
+  # → backend  frontend  .specify  .github  docker-compose.yml  .gitignore
+
+  # Backend completo
+  ls backend/
+  # → app src scripts models storage tests config.yaml requirements.txt Dockerfile data notebooks docs README.md
+
+  # Docker Compose válido
+  docker compose config
+
+  # Imports Python OK
+  cd backend && python -c "from app.main import app; print('OK')"
+  ```
+- **Nota:** No revertir ningún cambio de Fase 1. `frontend/` permanece en su ubicación actual. No mover `.specify/`, `.github/`, `docker-compose.yml` ni `.gitignore`.
+- [ ] Estado: pendiente
+
+---
+
+### [T-2.1] Corregir `backend/config.yaml` — ruta del modelo
+
+- **Archivo(s):** `backend/config.yaml`
 - **Acción:** Cambiar en la sección `paths`:
   ```yaml
   # Antes:
@@ -256,34 +309,34 @@ Antes de comenzar cualquier tarea:
   # Después:
   model_file: "models/best_model.joblib"
   ```
-- **Verificación:** `grep "model_file" config.yaml` devuelve `models/best_model.joblib`.
+- **Verificación:** `grep "model_file" backend/config.yaml` devuelve `models/best_model.joblib`.
 - [ ] Estado: pendiente
 
 ---
 
-### [T-2.2] Eliminar `paths.storage_db` de `config.yaml`
+### [T-2.2] Eliminar `paths.storage_db` de `backend/config.yaml`
 
-- **Archivo(s):** `config.yaml`
+- **Archivo(s):** `backend/config.yaml`
 - **Acción:** Eliminar la clave `storage_db` de la sección `paths`. La conexión a PostgreSQL viene de `DATABASE_URL` (variable de entorno), no de `config.yaml`.
-- **Verificación:** `grep "storage_db" config.yaml` no devuelve resultados.
+- **Verificación:** `grep "storage_db" backend/config.yaml` no devuelve resultados.
 - [ ] Estado: pendiente
 
 ---
 
-### [T-2.3] Verificar `config.yaml` — ruta de datos procesados y umbral R²
+### [T-2.3] Verificar `backend/config.yaml` — ruta de datos procesados y umbral R²
 
-- **Archivo(s):** `config.yaml`
+- **Archivo(s):** `backend/config.yaml`
 - **Acción:** Confirmar que:
   - `paths.processed_data: "data/processed/dataset.parquet"` ✓
   - `training.min_r2: 0.5` ✓
-- **Verificación:** `grep -E "processed_data|min_r2" config.yaml` muestra ambos valores correctos.
+- **Verificación:** `grep -E "processed_data|min_r2" backend/config.yaml` muestra ambos valores correctos.
 - [ ] Estado: pendiente
 
 ---
 
-### [T-2.4] Corregir `app/model_service.py` — ruta del modelo
+### [T-2.4] Corregir `backend/app/model_service.py` — ruta del modelo
 
-- **Archivo(s):** `app/model_service.py`
+- **Archivo(s):** `backend/app/model_service.py`
 - **Acción:**
   ```python
   # Antes:
@@ -291,51 +344,51 @@ Antes de comenzar cualquier tarea:
   # Después:
   MODEL_PATH = os.getenv("MODEL_PATH", "models/best_model.joblib")
   ```
-- **Verificación:** `grep "\.pkl\|current_model" app/model_service.py` no devuelve resultados.
+- **Verificación:** `grep "\.pkl\|current_model" backend/app/model_service.py` no devuelve resultados.
 - [ ] Estado: pendiente
 
 ---
 
-### [T-2.5] Corregir `app/model_service.py` — features de entrada
+### [T-2.5] Corregir `backend/app/model_service.py` — features de entrada
 
-- **Archivo(s):** `app/model_service.py`
+- **Archivo(s):** `backend/app/model_service.py`
 - **Acción:** Sustituir el listado de features legacy por el esquema definitivo de `2_spec.md`:
   - **Eliminar:** `city`, `join_year`, `join_month`, `investor_count`
   - **Usar:** `year_founded`, `funding_usd`, `company_age`, `industry`, `country`, `continent`
-- **Verificación:** `grep -E "city|join_year|join_month|investor_count" app/model_service.py` no devuelve resultados.
+- **Verificación:** `grep -E "city|join_year|join_month|investor_count" backend/app/model_service.py` no devuelve resultados.
 - [ ] Estado: pendiente
 
 ---
 
-### [T-2.6] Corregir `app/model_service.py` — eliminar mock de predicción
+### [T-2.6] Corregir `backend/app/model_service.py` — eliminar mock de predicción
 
-- **Archivo(s):** `app/model_service.py`
+- **Archivo(s):** `backend/app/model_service.py`
 - **Acción:** Reemplazar el bloque de fallback/mock por una excepción HTTP 503:
   ```python
   if model is None:
       raise HTTPException(status_code=503, detail="Model not loaded. Run scripts/train.py first.")
   ```
-- **Verificación:** `grep -i "mock\|heuristic\|fallback" app/model_service.py` no devuelve resultados.
+- **Verificación:** `grep -i "mock\|heuristic\|fallback" backend/app/model_service.py` no devuelve resultados.
 - [ ] Estado: pendiente
 
 ---
 
-### [T-2.7] Corregir `scripts/train.py` — ruta de guardado del modelo
+### [T-2.7] Corregir `backend/scripts/train.py` — ruta de guardado del modelo
 
-- **Archivo(s):** `scripts/train.py`
+- **Archivo(s):** `backend/scripts/train.py`
 - **Acción:** El modelo se serializa usando la ruta de `config.yaml`:
   ```python
   joblib.dump(pipeline, cfg["paths"]["model_file"])
   # → guarda en models/best_model.joblib
   ```
-- **Verificación:** `grep "unicorn_valuation\|\.pkl" scripts/train.py` no devuelve resultados.
+- **Verificación:** `grep "unicorn_valuation\|\.pkl" backend/scripts/train.py` no devuelve resultados.
 - [ ] Estado: pendiente
 
 ---
 
-### [T-2.8] Añadir gate de R² en `scripts/train.py`
+### [T-2.8] Añadir gate de R² en `backend/scripts/train.py`
 
-- **Archivo(s):** `scripts/train.py`
+- **Archivo(s):** `backend/scripts/train.py`
 - **Acción:** Después de calcular métricas de validación, añadir:
   ```python
   import sys
@@ -346,19 +399,19 @@ Antes de comenzar cualquier tarea:
       sys.exit(1)
   print(f"[OK] R²={val_r2:.4f} >= threshold {min_r2}. Model saved.")
   ```
-- **Verificación:** Ejecutar `python scripts/train.py` con el modelo actual — debe imprimir `[FAIL]` y salir con código 1 (`echo $?` → `1`).
+- **Verificación:** Ejecutar `cd backend && python scripts/train.py` con el modelo actual — debe imprimir `[FAIL]` y salir con código 1 (`echo $?` → `1`).
 - [ ] Estado: pendiente
 
 ---
 
-### [T-2.9] Deprecar `src/preprocessing/preprocessing_pipeline.py`
+### [T-2.9] Deprecar `backend/src/preprocessing/preprocessing_pipeline.py`
 
-- **Archivo(s):** `src/preprocessing/preprocessing_pipeline.py`
+- **Archivo(s):** `backend/src/preprocessing/preprocessing_pipeline.py`
 - **Acción:**
-  1. Ejecutar `grep -r "preprocessing_pipeline\|from src.preprocessing" --include="*.py" .`
+  1. Ejecutar `grep -r "preprocessing_pipeline\|from src.preprocessing" --include="*.py" backend/`
   2. Si sólo lo usan notebooks, añadir comentario de deprecación al inicio del módulo.
-  3. Si lo usa código de producción (`app/`, `scripts/`, `src/models/`), migrar esas referencias a `src/data/load.py` y luego eliminar el archivo.
-- **Verificación:** Ningún archivo en `app/`, `src/models/`, `scripts/` importa `preprocessing_pipeline`.
+  3. Si lo usa código de producción (`backend/app/`, `backend/scripts/`, `backend/src/models/`), migrar esas referencias a `backend/src/data/load.py` y luego eliminar el archivo.
+- **Verificación:** Ningún archivo en `backend/app/`, `backend/src/models/`, `backend/scripts/` importa `preprocessing_pipeline`.
 - [ ] Estado: pendiente
 
 ---
@@ -534,15 +587,15 @@ Antes de comenzar cualquier tarea:
 
 ---
 
-### [T-4.6] Crear `.env.example` en la raíz del proyecto
+### [T-4.6] Crear `backend/.env.example`
 
-- **Archivo(s):** `.env.example` (crear si no existe)
+- **Archivo(s):** `backend/.env.example` (crear si no existe)
 - **Acción:** Crear el archivo con el siguiente contenido:
   ```
   # Copy this file to .env and fill in your values
   DATABASE_URL=postgresql://unicorn_user:unicorn_pass@db:5432/unicorns
   ```
-- **Verificación:** El archivo existe. `grep "DATABASE_URL" .env.example` devuelve la línea de ejemplo.
+- **Verificación:** El archivo existe. `grep "DATABASE_URL" backend/.env.example` devuelve la línea de ejemplo.
 - [ ] Estado: pendiente
 
 ---
@@ -586,6 +639,7 @@ Antes de comenzar cualquier tarea:
   sleep 5
 
   # Lanzar API apuntando al PostgreSQL dockerizado
+  cd backend
   DATABASE_URL=postgresql://unicorn_user:unicorn_pass@localhost:5432/unicorns \
     uvicorn app.main:app --reload &
   sleep 3
@@ -741,7 +795,7 @@ Antes de comenzar cualquier tarea:
         start_period: 10s
 
     api:
-      build: .
+      build: ./backend
       restart: unless-stopped
       ports:
         - "8000:8000"
@@ -794,36 +848,37 @@ Antes de comenzar cualquier tarea:
 
 ## Fase 6 — Documentación y Cierre
 
-### [T-6.1] Actualizar árbol de directorios en `README.md`
+### [T-6.1] Actualizar árbol de directorios en `backend/README.md`
 
-- **Archivo(s):** `README.md`
+- **Archivo(s):** `backend/README.md`
 - **Acción:**
   - Eliminar `streamlit_app.py` del árbol.
+  - Documentar estructura monorepo: raíz con `backend/` + `frontend/`.
   - Reemplazar `best_model.joblib` en el árbol con una nota `(generado por scripts/train.py, no versionado)`.
   - Corregir `dataset_raw.csv` → `unicorn_companies.csv`.
   - Eliminar referencias a `storage/app.db` como archivo local.
   - Corregir encoding mojibake en todo el archivo.
-- **Verificación:** `grep -E "streamlit|dataset_raw|storage/app.db|Ã|Â" README.md` no devuelve resultados problemáticos.
+- **Verificación:** `grep -E "streamlit|dataset_raw|storage/app.db|Ã|Â" backend/README.md` no devuelve resultados problemáticos.
 - [ ] Estado: pendiente
 
 ---
 
-### [T-6.2] Actualizar instrucciones de ejecución en `README.md`
+### [T-6.2] Actualizar instrucciones de ejecución en `backend/README.md`
 
-- **Archivo(s):** `README.md`
+- **Archivo(s):** `backend/README.md`
 - **Acción:**
-  - Setup: `pip install -r requirements.txt`
-  - Ejecución: `docker compose up --build` (para producción) o `uvicorn app.main:app --reload` (para desarrollo local, requiriendo `DATABASE_URL` activo)
+  - Setup: `pip install -r backend/requirements.txt`
+  - Ejecución: `docker compose up --build` (desde la raíz) o `cd backend && uvicorn app.main:app --reload` (desarrollo local, requiere `DATABASE_URL` activo)
   - Frontend: `cd frontend && npm install && npm run dev`
   - Eliminar cualquier `streamlit run`
-- **Verificación:** `grep -i "streamlit run" README.md` no devuelve resultados.
+- **Verificación:** `grep -i "streamlit run" backend/README.md` no devuelve resultados.
 - [ ] Estado: pendiente
 
 ---
 
-### [T-6.3] Actualizar `docs/app_usage.md`
+### [T-6.3] Actualizar `backend/docs/app_usage.md`
 
-- **Archivo(s):** `docs/app_usage.md`
+- **Archivo(s):** `backend/docs/app_usage.md`
 - **Acción:** Reescribir con instrucciones para:
   1. Levantar el stack: `docker compose up --build`
   2. Endpoints: `POST /predict`, `POST /feedback`, `GET /health`, `GET /metrics`
@@ -834,10 +889,10 @@ Antes de comenzar cualquier tarea:
 
 ---
 
-### [T-6.4] Actualizar `docs/data_notes.md`
+### [T-6.4] Actualizar `backend/docs/data_notes.md`
 
-- **Archivo(s):** `docs/data_notes.md`
-- **Acción:** Añadir o reemplazar la sección de esquema de columnas con la tabla de `2_spec.md` sección 1. Mencionar la ruta canónica del dataset (`data/raw/unicorn_companies.csv`) y la DB de producción (PostgreSQL vía `DATABASE_URL`).
+- **Archivo(s):** `backend/docs/data_notes.md`
+- **Acción:** Añadir o reemplazar la sección de esquema de columnas con la tabla de `2_spec.md` sección 1. Mencionar la ruta canónica del dataset (`backend/data/raw/unicorn_companies.csv`) y la DB de producción (PostgreSQL vía `DATABASE_URL`).
 - **Verificación:** El documento no menciona columnas obsoletas como `Valuation ($B)` en posición de fuente de verdad.
 - [ ] Estado: pendiente
 
@@ -864,24 +919,27 @@ Antes de comenzar cualquier tarea:
 - **Comandos:**
   ```bash
   # 1. Tests unitarios
-  pytest tests/ -v
+  cd backend && pytest tests/ -v
 
   # 2. Sin artefactos binarios versionados
   git ls-files | grep -E "\.joblib|\.pkl|\.db|\.sqlite3|\.png"
 
   # 3. Sin rutas/columnas obsoletas en código de producción
   grep -rn "current_model\.pkl\|unicorn_valuation_pipeline\|storage/app\.db\|sqlite:///" \
-    --include="*.py" .
+    --include="*.py" backend/
   grep -rn "Valuation \(\\\$B\)\|investor_count\|join_year" \
-    --include="*.py" .
+    --include="*.py" backend/
 
   # 4. Sin Streamlit
-  grep -rn "streamlit" --include="*.py" --include="*.yaml" --include="*.txt" .
+  grep -rn "streamlit" --include="*.py" --include="*.yaml" --include="*.txt" backend/
 
   # 5. DATABASE_URL no hardcodeada
-  grep -rn "postgresql://unicorn" --include="*.py" .
+  grep -rn "postgresql://unicorn" --include="*.py" backend/
 
-  # 6. Docker Compose arranca
+  # 6. Raíz limpia
+  ls -1  # → backend frontend .specify .github docker-compose.yml .gitignore
+
+  # 7. Docker Compose arranca
   docker compose up --build -d && sleep 10 && docker compose ps
   ```
 - **Verificación:** Tests en verde. Ningún `grep` devuelve resultados. Los tres contenedores están en estado `running`. Proyecto listo para merge.
@@ -893,13 +951,13 @@ Antes de comenzar cualquier tarea:
 
 | Fase | Tareas | Completadas | Pendientes |
 |------|--------|-------------|------------|
-| Fase 0 — Preparación           | 3  | 0 | 3  |
-| Fase 1 — Limpieza              | 11 | 0 | 11 |
-| Fase 2 — Rutas y Configuración | 9  | 0 | 9  |
-| Fase 3 — Tests                 | 7  | 0 | 7  |
-| Fase 4 — API + PostgreSQL      | 10 | 0 | 10 |
-| Fase 5 — Frontend + Docker     | 8  | 0 | 8  |
-| Fase 6 — Documentación         | 6  | 0 | 6  |
-| **Total**                      | **54** | **0** | **54** |
+| Fase 0 — Preparación           | 3  | 3  | 0  |
+| Fase 1 — Limpieza              | 11 | 11 | 0  |
+| Fase 2 — Rutas y Configuración | 10 | 0  | 10 |
+| Fase 3 — Tests                 | 7  | 0  | 7  |
+| Fase 4 — API + PostgreSQL      | 10 | 0  | 10 |
+| Fase 5 — Frontend + Docker     | 8  | 0  | 8  |
+| Fase 6 — Documentación         | 6  | 0  | 6  |
+| **Total**                      | **55** | **14** | **41** |
 
-> Actualizar esta tabla al completar cada fase.
+> Actualizar esta tabla al completar cada fase. **Siguiente ticket:** `[T-2.0]` Reestructuración de carpetas.

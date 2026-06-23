@@ -8,7 +8,7 @@
 
 ### Dataset Crudo de Entrada
 
-Archivo fuente: `data/raw/unicorn_companies.csv`
+Archivo fuente: `backend/data/raw/unicorn_companies.csv`
 
 | Columna Original (Kaggle) | Tipo   | Descripción                          |
 |---------------------------|--------|--------------------------------------|
@@ -45,33 +45,72 @@ Estos son los **únicos** nombres de columna válidos en todo el código Python,
 
 ---
 
-## 2. Rutas Canónicas de Artefactos
+## 2. Estructura de Directorios del Monorepo
 
-Toda referencia a archivos en `config.yaml`, `app/`, `src/`, `scripts/` y `tests/` debe apuntar a estas rutas. Sin excepciones.
+Tras la **Fase 0.5 (Reestructuración de Carpetas)**, la raíz del repositorio contiene **únicamente**:
 
-| Artefacto                | Ruta Canónica                      | Notas                                                  |
-|--------------------------|------------------------------------|--------------------------------------------------------|
-| Dataset crudo            | `data/raw/unicorn_companies.csv`   | Nunca en `notebooks/data/`                             |
-| Dataset procesado        | `data/processed/dataset.parquet`   | Formato parquet (eficiente, tipado)                    |
-| Modelo serializado       | `models/best_model.joblib`         | Única ruta válida; `unicorn_valuation_pipeline.joblib` y `current_model.pkl` quedan eliminados |
-| Métricas del modelo      | `models/metrics.json`              | Generado por `scripts/train.py`                        |
-| Base de datos            | Servicio PostgreSQL (`db`)         | Sin archivo local. Conexión vía `DATABASE_URL`. Ambas SQLite (`storage/app.db`, `data/feedback/predictions.sqlite3`) eliminadas. |
-| Reportes EDA             | `reports/`                         | Generados, nunca versionados en Git                    |
+```
+proyecto4-grupo4/
+├── backend/          # API FastAPI, ML pipeline, tests, datos
+├── frontend/         # SPA React (Vite)
+├── .specify/         # Contrato, plan y tasks del agente
+├── .github/          # Workflows de CI/CD
+├── docker-compose.yml
+└── .gitignore
+```
+
+Todo el código Python, configuración ML, datos y tests viven bajo `backend/`:
+
+```
+backend/
+├── app/              # FastAPI (main, schemas, services, database)
+├── src/              # Pipeline ML (data, models, mlops, preprocessing)
+├── scripts/          # train.py, run_eda.py
+├── tests/            # pytest suite
+├── models/           # best_model.joblib, metrics.json (no versionados)
+├── storage/          # .gitkeep (sin SQLite)
+├── data/             # raw/, processed/, feedback/
+├── notebooks/        # EDA y experimentos
+├── docs/             # app_usage.md, data_notes.md
+├── config.yaml       # Rutas y umbrales canónicos
+├── requirements.txt
+├── Dockerfile
+└── README.md         # Documentación del backend
+```
+
+> **Regla:** Ningún módulo Python, script ni archivo de configuración ML debe permanecer en la raíz del repositorio. Las rutas canónicas de la sección 2.1 son relativas a `backend/` (working directory del servicio `api`).
+
+---
+
+## 2.1 Rutas Canónicas de Artefactos
+
+Toda referencia a archivos en `backend/config.yaml`, `backend/app/`, `backend/src/`, `backend/scripts/` y `backend/tests/` debe apuntar a estas rutas. Sin excepciones.
+
+| Artefacto                | Ruta Canónica (desde raíz del repo)       | Notas                                                  |
+|--------------------------|-------------------------------------------|--------------------------------------------------------|
+| Dataset crudo            | `backend/data/raw/unicorn_companies.csv`  | Nunca en `notebooks/data/`                             |
+| Dataset procesado        | `backend/data/processed/dataset.parquet`  | Formato parquet (eficiente, tipado)                    |
+| Modelo serializado       | `backend/models/best_model.joblib`        | Única ruta válida; `unicorn_valuation_pipeline.joblib` y `current_model.pkl` quedan eliminados |
+| Métricas del modelo      | `backend/models/metrics.json`             | Generado por `backend/scripts/train.py`                |
+| Base de datos            | Servicio PostgreSQL (`db`)                | Sin archivo local. Conexión vía `DATABASE_URL`. Ambas SQLite (`storage/app.db`, `data/feedback/predictions.sqlite3`) eliminadas. |
+| Reportes EDA             | `backend/reports/`                        | Generados, nunca versionados en Git                    |
+
+> **Dentro de `backend/`:** las rutas en `config.yaml` y el código Python usan paths relativos al directorio `backend/` (ej. `models/best_model.joblib`, `data/raw/unicorn_companies.csv`). No incluir el prefijo `backend/` en imports ni en claves de `config.yaml`.
 
 ---
 
 ## 3. Umbral de Calidad del Modelo
 
 ```yaml
-# config.yaml — sección training
+# backend/config.yaml — sección training
 training:
   min_r2: 0.50
 ```
 
 ### Regla de CI
 
-- El script `scripts/train.py` finaliza con `sys.exit(1)` si `validation.r2 < 0.50`.
-- El test `tests/test_pipeline.py` afirma `r2 >= 0.50` (no `>= 0.15`).
+- El script `backend/scripts/train.py` finaliza con `sys.exit(1)` si `validation.r2 < 0.50`.
+- El test `backend/tests/test_pipeline.py` afirma `r2 >= 0.50` (no `>= 0.15`).
 - Ningún PR a `main` puede fusionarse si CI falla por este motivo.
 
 > **Diagnóstico actual:** `metrics.json` reporta R²=0.176. Esto significa que el modelo actual no pasaría CI. La refactorización del pipeline de features (unificar esquema, añadir ingeniería de features correcta) es la acción correctiva. El umbral NO se baja para acomodar un modelo deficiente.
@@ -159,7 +198,7 @@ Permite al usuario reportar la valoración real observada para mejorar datos de 
 
 Devuelve el contenido de `models/metrics.json` para que el frontend pueda mostrar estadísticas del modelo sin hardcodear valores.
 
-**Response 200:** contenido completo de `models/metrics.json`
+**Response 200:** contenido completo de `backend/models/metrics.json`
 
 ---
 
@@ -177,7 +216,7 @@ DATABASE_URL=postgresql://unicorn_user:unicorn_pass@db:5432/unicorns
 DATABASE_URL=postgresql://unicorn_user:unicorn_pass@localhost:5432/unicorns
 ```
 
-> `app/database.py` lee `os.environ["DATABASE_URL"]`. Si la variable no está definida, la app no arranca y lanza `RuntimeError`. No existe valor por defecto con SQLite.
+> `backend/app/database.py` lee `os.environ["DATABASE_URL"]`. Si la variable no está definida, la app no arranca y lanza `RuntimeError`. No existe valor por defecto con SQLite.
 
 ### Tabla `predictions`
 
@@ -201,7 +240,7 @@ Los tipos usan nomenclatura PostgreSQL. SQLAlchemy mapea automáticamente desde 
 
 ## 6. Dependencias Python Canónicas
 
-`requirements.txt` debe contener exactamente:
+`backend/requirements.txt` debe contener exactamente:
 
 ```
 fastapi>=0.111.0
@@ -233,11 +272,11 @@ httpx>=0.27.0
 | Serialización| joblib             | `best_model.joblib`                      |
 | Hiperparámetros | optuna          | Usado en `src/mlops/tuning.py`           |
 | Backend API  | FastAPI + Pydantic | Sin Streamlit                            |
-| Servidor     | uvicorn            | `uvicorn app.main:app --reload`          |
+| Servidor     | uvicorn            | `uvicorn app.main:app --reload` (cwd: `backend/`) |
 | Frontend     | React (Vite)       | SPA en `frontend/`, consume `/predict`   |
 | Base de datos| PostgreSQL 15 + SQLAlchemy | Servicio `db` en Docker; `DATABASE_URL` en entorno |
-| CI           | GitHub Actions     | Gate de R² + pytest                      |
-| Contenedores | Docker Compose     | Servicios `api`, `frontend` y `db`       |
+| CI           | GitHub Actions     | Gate de R² + pytest (cwd: `backend/`)    |
+| Contenedores | Docker Compose     | Servicios `api` (build: `./backend`), `frontend` y `db` |
 
 ---
 
