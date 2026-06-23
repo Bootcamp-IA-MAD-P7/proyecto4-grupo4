@@ -6,14 +6,13 @@ import optuna
 from sklearn.model_selection import cross_val_score
 
 from src.config import load_config
-from src.data.load import build_features, load_raw_dataset, prepare_modeling_frame
-from src.models.train import build_pipeline, save_artifacts, train_and_evaluate
+from src.data.load import load_processed_dataset, prepare_modeling_frame
+from src.models.train import build_pipeline, train_and_evaluate
 
 
 def optimize_hyperparameters(n_trials: int = 30) -> dict[str, Any]:
     config = load_config()
-    raw = load_raw_dataset()
-    featured = build_features(raw)
+    featured = load_processed_dataset()
     x, y = prepare_modeling_frame(featured)
 
     def objective(trial: optuna.Trial) -> float:
@@ -48,10 +47,10 @@ def optimize_hyperparameters(n_trials: int = 30) -> dict[str, Any]:
     best = study.best_params
     model_type = best.pop("model_type")
     result = train_and_evaluate(model_type, **best)
-    save_artifacts(result["pipeline"], result["report"])
 
     return {
         "best_params": study.best_params,
         "best_value": study.best_value,
+        "pipeline": result["pipeline"],
         "report": result["report"],
     }

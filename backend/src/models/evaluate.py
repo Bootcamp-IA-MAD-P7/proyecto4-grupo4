@@ -10,7 +10,7 @@ import seaborn as sns
 from sklearn.inspection import permutation_importance
 
 from src.config import load_config, resolve_path
-from src.data.load import build_features, load_raw_dataset, prepare_modeling_frame
+from src.data.load import load_processed_dataset, prepare_modeling_frame
 from src.models.train import compute_metrics, load_pipeline
 
 
@@ -62,8 +62,7 @@ def generate_report_assets(output_dir: Path | None = None) -> dict:
     output_dir = output_dir or resolve_path("reports")
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    raw = load_raw_dataset()
-    featured = build_features(raw)
+    featured = load_processed_dataset()
     x, y = prepare_modeling_frame(featured)
     pipeline = load_pipeline()
     predictions = pipeline.predict(x)

@@ -4,13 +4,25 @@
 >
 > Referencia permanente: `2_spec.md` es el contrato. Todo cambio debe converger hacia él.
 
+**Estado del plan (SDD):**
+
+| Fase | Estado |
+|------|--------|
+| Fase 0 — Preparación | ✅ Completada |
+| Fase 1 — Limpieza de Artefactos | ✅ Completada |
+| Fase 0.5 — Monorepo (`backend/`) | ✅ Completada |
+| **Fase 2 — Rutas y Configuración** | **▶ Activa** |
+| Fases 3–6 | Bloqueadas |
+
 ---
 
-## Fase 0 — Preparación
+## Fase 0 — Preparación ✅ COMPLETADA
+
+> **Estado:** ejecutada y validada. No revertir estos cambios.
 
 - [x] Crear rama `refactor/stabilize-architecture` desde `main`
 - [x] Documentar estado inicial: ejecutar `pytest` y registrar qué tests fallan (baseline)
-- [x] Hacer snapshot del `models/metrics.json` actual para comparación futura
+- [x] Hacer snapshot del `backend/models/metrics.json` actual para comparación futura
 
 ---
 
@@ -21,13 +33,13 @@
 ### 1.1 Eliminar archivos binarios del índice Git
 
 ```bash
-git rm --cached models/best_model.joblib
-git rm --cached models/unicorn_valuation_pipeline.joblib
-git rm --cached models/metrics.json
-git rm --cached storage/app.db
-git rm --cached data/feedback/predictions.sqlite3
-git rm --cached reports/*.png
-git rm --cached data/dataset_clean.csv
+git rm --cached backend/models/best_model.joblib
+git rm --cached backend/models/unicorn_valuation_pipeline.joblib
+git rm --cached backend/models/metrics.json
+git rm --cached backend/storage/app.db
+git rm --cached backend/data/feedback/predictions.sqlite3
+git rm --cached backend/reports/*.png
+git rm --cached backend/data/dataset_clean.csv
 ```
 
 - [x] Ejecutar los comandos anteriores
@@ -39,17 +51,17 @@ Añadir las siguientes entradas al `.gitignore` existente:
 
 ```
 # ML Artifacts — never version these
-models/*.joblib
-models/*.pkl
-models/metrics.json
-reports/*.png
-reports/*.pdf
-data/processed/
-data/dataset_clean.csv
+backend/models/*.joblib
+backend/models/*.pkl
+backend/models/metrics.json
+backend/reports/*.png
+backend/reports/*.pdf
+backend/data/processed/
+backend/data/dataset_clean.csv
 
 # Databases — never version these (production uses PostgreSQL)
-storage/*.db
-data/feedback/*.sqlite3
+backend/storage/*.db
+backend/data/feedback/*.sqlite3
 *.sqlite3
 
 # Environment variables
@@ -63,34 +75,34 @@ data/feedback/*.sqlite3
 
 ### 1.3 Eliminar archivos duplicados y huérfanos
 
-- [x] Eliminar `notebooks/data/raw/dataset_raw.csv` (duplicado de `data/raw/dataset_raw.csv`)
-- [x] Eliminar `data/raw/dataset_raw.csv` — el dataset canónico es `data/raw/unicorn_companies.csv`
-- [x] Eliminar `data/dataset_clean.csv` (en raíz de `data/`, duplicado del procesado)
-- [x] Eliminar `src/data/__init___BACKUP.py`
-- [x] Eliminar `notebooks/01_eda_BACKUP.ipynb`
-- [x] Eliminar `app/streamlit_app.py`
-- [x] Evaluar si `src/data/load_data.py` y `src/data/load.py` pueden fusionarse en uno solo; si hay solapamiento, mantener sólo `src/data/load.py` y eliminar `load_data.py`
+- [x] Eliminar `backend/notebooks/data/raw/dataset_raw.csv` (duplicado de `backend/data/raw/dataset_raw.csv`)
+- [x] Eliminar `backend/data/raw/dataset_raw.csv` — el dataset canónico es `backend/data/raw/unicorn_companies.csv`
+- [x] Eliminar `backend/data/dataset_clean.csv` (en raíz de `data/`, duplicado del procesado)
+- [x] Eliminar `backend/src/data/__init___BACKUP.py`
+- [x] Eliminar `backend/notebooks/01_eda_BACKUP.ipynb`
+- [x] Eliminar `backend/app/streamlit_app.py`
+- [x] Evaluar si `backend/src/data/load_data.py` y `backend/src/data/load.py` pueden fusionarse en uno solo; si hay solapamiento, mantener sólo `backend/src/data/load.py` y eliminar `load_data.py`
 
 ### 1.4 Eliminar TODAS las bases de datos SQLite
 
 La arquitectura de producción usa PostgreSQL. No existe ningún archivo `.db` ni `.sqlite3` válido en el proyecto.
 
-- [x] Eliminar `data/feedback/predictions.sqlite3` (DB de feedback legacy)
-- [x] Eliminar `storage/app.db` (DB SQLite que reemplaza PostgreSQL)
-- [x] Eliminar la carpeta `storage/` si queda vacía, o mantener sólo `.gitkeep`
+- [x] Eliminar `backend/data/feedback/predictions.sqlite3` (DB de feedback legacy)
+- [x] Eliminar `backend/storage/app.db` (DB SQLite que reemplaza PostgreSQL)
+- [x] Eliminar la carpeta `backend/storage/` si queda vacía, o mantener sólo `.gitkeep`
 - [x] Añadir al `.gitignore` (si no están ya):
   ```
-  storage/*.db
-  data/feedback/*.sqlite3
+  backend/storage/*.db
+  backend/data/feedback/*.sqlite3
   *.sqlite3
   ```
-- [x] Verificar que ningún archivo `.py` referencia rutas SQLite directas (ej. `sqlite:///`, `storage/app.db`)
+- [x] Verificar que ningún archivo `.py` referencia rutas SQLite directas (ej. `sqlite:///`, `backend/storage/app.db`)
 
 ---
 
-## Fase 0.5 — Reestructuración de Carpetas (Monorepo)
+## Fase 0.5 — Reestructuración de Carpetas (Monorepo) ✅ COMPLETADA
 
-> **Prerequisito:** Fase 1 completada. **Este es el primer paso antes de continuar con Fase 2.**
+> **Estado:** ejecutada y validada (ticket `[T-2.0]`). No revertir estos cambios.
 >
 > Objetivo: separar backend y frontend en un monorepo limpio. Tras esta fase, la raíz del repositorio contiene **únicamente** `backend/`, `frontend/`, `.specify/`, `.github/`, `docker-compose.yml` y `.gitignore`.
 
@@ -107,44 +119,46 @@ Además, mover al `backend/` los artefactos de soporte que hoy están en la raí
 git mv requirements.txt Dockerfile data notebooks docs README.md backend/
 ```
 
-- [ ] Ejecutar los comandos anteriores (usar `git mv` para preservar historial)
-- [ ] Verificar que la raíz sólo contiene: `backend/`, `frontend/`, `.specify/`, `.github/`, `docker-compose.yml`, `.gitignore`
+- [x] Ejecutar los comandos anteriores (usar `git mv` para preservar historial)
+- [x] Verificar que la raíz sólo contiene: `backend/`, `frontend/`, `.specify/`, `.github/`, `docker-compose.yml`, `.gitignore`
 
 ### 0.5.2 Actualizar `docker-compose.yml` en la raíz
 
-- [ ] Cambiar `build: .` → `build: ./backend` en el servicio `api`
-- [ ] Eliminar volúmenes legacy de Streamlit/SQLite (`8501`, `./storage:/app/storage`, etc.)
-- [ ] Verificar que `command` sigue siendo `uvicorn app.main:app --host 0.0.0.0 --port 8000`
-- [ ] Ejecutar `docker compose config` — sin errores de sintaxis
+- [x] Cambiar `build: .` → `build: ./backend` en el servicio `api`
+- [x] Eliminar volúmenes legacy de Streamlit/SQLite (`8501`, `./storage:/app/storage`, etc.)
+- [x] Verificar que `command` sigue siendo `uvicorn app.main:app --host 0.0.0.0 --port 8000`
+- [x] Ejecutar `docker compose config` — sin errores de sintaxis
 
 ### 0.5.3 Actualizar `backend/Dockerfile`
 
-- [ ] Confirmar que `WORKDIR /app` y los `COPY` son correctos respecto al nuevo contexto de build (`./backend`)
-- [ ] Eliminar referencias a Streamlit (`8501`, `streamlit run`)
-- [ ] `EXPOSE 8000` y `CMD` con uvicorn
+- [x] Confirmar que `WORKDIR /app` y los `COPY` son correctos respecto al nuevo contexto de build (`./backend`)
+- [x] Eliminar referencias a Streamlit (`8501`, `streamlit run`)
+- [x] `EXPOSE 8000` y `CMD` con uvicorn
 
 ### 0.5.4 Verificar imports y rutas Python en `backend/`
 
-- [ ] Ejecutar desde `backend/`: `python -c "from app.main import app; print('OK')"`
-- [ ] Ejecutar desde `backend/`: `pytest tests/ -v --collect-only` (sin errores de import)
-- [ ] Buscar imports rotos: `grep -rn "from app\|from src\|import app\|import src" backend/ --include="*.py"` — todos deben resolver desde el cwd `backend/`
-- [ ] Confirmar que `config.yaml` mantiene rutas relativas a `backend/` (`models/best_model.joblib`, `data/processed/dataset.parquet`)
+- [x] Ejecutar desde `backend/`: `python -c "from app.main import app; print('OK')"`
+- [x] Ejecutar desde `backend/`: `pytest tests/ -v --collect-only` (sin errores de import)
+- [x] Buscar imports rotos: `grep -rn "from app\|from src\|import app\|import src" backend/ --include="*.py"` — todos deben resolver desde el cwd `backend/`
+- [x] Confirmar que `backend/config.yaml` mantiene rutas relativas a `backend/` (`models/best_model.joblib`, `data/processed/dataset.parquet`)
 
 ### 0.5.5 Verificación de estructura final
 
 ```bash
 ls -1                          # sólo backend frontend .specify .github docker-compose.yml .gitignore
-ls backend/                    # app src scripts models storage tests config.yaml requirements.txt Dockerfile data notebooks docs
+ls backend/                    # app src scripts models storage tests config.yaml requirements.txt Dockerfile data notebooks docs README.md
 ```
 
-- [ ] La raíz cumple el contrato de `2_spec.md` sección 2
-- [ ] `frontend/` permanece intacto en su ubicación actual
+- [x] La raíz cumple el contrato de `2_spec.md` sección 2
+- [x] `frontend/` permanece intacto en su ubicación actual
+- [x] `reports/` movido a `backend/reports/` (artefactos EDA, gitignored)
 
 ---
 
-## Fase 2 — Unificar Rutas y Configuración
+## Fase 2 — Unificar Rutas y Configuración ▶ FASE ACTIVA
 
-> **Prerequisito:** Fase 0.5 completada. Todas las rutas de archivos en esta fase son relativas a `backend/`.
+> **Prerequisito:** Fases 0, 1 y 0.5 completadas. **Esta es la única fase en ejecución.**
+> Todas las rutas de archivos en esta fase son relativas a `backend/` (cwd del servicio `api`).
 
 ### 2.1 Corregir `backend/config.yaml`
 
@@ -167,12 +181,14 @@ ls backend/                    # app src scripts models storage tests config.yam
 ### 2.4 Corregir `backend/src/preprocessing/preprocessing_pipeline.py`
 
 - [ ] Deprecar o eliminar las referencias a columnas crudas (`Valuation ($B)`, `Investors`)
-- [ ] Si algún notebook activo depende de este módulo, actualizar el notebook para usar `src/data/load.py`
+- [ ] Si algún notebook activo depende de este módulo, actualizar el notebook para usar `backend/src/data/load.py`
 - [ ] Si el módulo queda sin uso, eliminarlo en su totalidad
 
 ---
 
-## Fase 3 — Corregir Tests y Umbrales
+## Fase 3 — Corregir Tests y Umbrales (pendiente)
+
+> **Estado:** bloqueada — no iniciar hasta completar Fase 2.
 
 ### 3.1 `backend/tests/test_pipeline.py`
 
@@ -204,7 +220,9 @@ cd backend && pytest tests/ -v
 
 ---
 
-## Fase 4 — Crear / Estabilizar la API FastAPI
+## Fase 4 — Crear / Estabilizar la API FastAPI (pendiente)
+
+> **Estado:** bloqueada — no iniciar hasta completar Fase 3.
 
 ### 4.1 Limpiar dependencias
 
@@ -272,7 +290,9 @@ curl -s http://localhost:8000/health
 
 ---
 
-## Fase 5 — Frontend React
+## Fase 5 — Frontend React (pendiente)
+
+> **Estado:** bloqueada — no iniciar hasta completar Fase 4.
 
 ### 5.1 Verificar `frontend/src/api.js`
 
@@ -351,7 +371,9 @@ volumes:
 
 ---
 
-## Fase 6 — Documentación y Cierre
+## Fase 6 — Documentación y Cierre (pendiente)
+
+> **Estado:** bloqueada — no iniciar hasta completar Fase 5.
 
 ### 6.1 Actualizar `backend/README.md`
 

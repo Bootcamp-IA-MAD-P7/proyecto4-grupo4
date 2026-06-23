@@ -9,7 +9,7 @@ proyecto4-grupo4/
 ├── data/
 │   ├── raw/
 │   │   └── dataset_raw.csv            # Dataset crudo descargado de Kaggle
-│   └── dataset_clean.csv              # Dataset limpio con features
+│   └── dataset.parquet                # Dataset procesado (parquet, esquema definitivo)
 ├── models/
 │   └── best_model.joblib              # Modelo pipeline guardado
 ├── notebooks/
@@ -77,7 +77,7 @@ Este notebook:
 - Guarda el crudo en `data/raw/dataset_raw.csv`
 - Ejecuta validaciones de calidad
 - Genera visualizaciones inline (6 figuras)
-- Guarda el limpio en `data/processed/dataset_clean.csv`
+- Guarda el procesado en `data/processed/dataset.parquet`
 
 ### 3. Ejecución del Pipeline y Entrenamiento (Integrante 2)
 
@@ -92,7 +92,7 @@ python -m src.models.train
 Este flujo:
 - Descarga el dataset de Kaggle
 - Aplica FeatureEngineering (fechas, inversores, limpieza)
-- Guarda `data/dataset_clean.csv`
+- Guarda `data/processed/dataset.parquet`
 - Entrena 3 modelos baseline
 - Guarda el mejor en `models/best_model.joblib`
 

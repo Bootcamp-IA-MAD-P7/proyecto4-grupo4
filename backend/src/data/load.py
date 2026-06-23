@@ -36,6 +36,26 @@ def load_raw_dataset(path: Path | None = None) -> pd.DataFrame:
     return pd.read_csv(data_path)
 
 
+def load_processed_dataset(path: Path | None = None) -> pd.DataFrame:
+    config = load_config()
+    data_path = path or resolve_path(config["paths"]["processed_data"])
+    if not data_path.exists():
+        raise FileNotFoundError(
+            f"Processed dataset not found at {data_path}. "
+            "Run build_and_save_processed_dataset() first."
+        )
+    return pd.read_parquet(data_path)
+
+
+def build_and_save_processed_dataset(path: Path | None = None) -> Path:
+    config = load_config()
+    output_path = path or resolve_path(config["paths"]["processed_data"])
+    featured = build_features(load_raw_dataset())
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    featured.to_parquet(output_path, index=False)
+    return output_path
+
+
 def _group_rare_categories(series: pd.Series, min_count: int = 15) -> pd.Series:
     counts = series.value_counts()
     frequent = set(counts[counts >= min_count].index)

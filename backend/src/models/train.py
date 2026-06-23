@@ -16,7 +16,7 @@ from sklearn.model_selection import KFold, cross_val_score, train_test_split
 from sklearn.pipeline import Pipeline
 
 from src.config import load_config, resolve_path
-from src.data.load import build_features, load_raw_dataset, prepare_modeling_frame
+from src.data.load import load_processed_dataset, prepare_modeling_frame
 from src.data.preprocess import build_preprocessor
 
 
@@ -207,8 +207,7 @@ def train_and_evaluate(model_type: str | None = None, **params: Any) -> dict[str
     random_state = config["project"]["random_state"]
     model_type = model_type or config["model"]["type"]
 
-    raw = load_raw_dataset()
-    featured = build_features(raw)
+    featured = load_processed_dataset()
     x, y = prepare_modeling_frame(featured)
 
     y_bins = pd.qcut(y, q=5, duplicates="drop")

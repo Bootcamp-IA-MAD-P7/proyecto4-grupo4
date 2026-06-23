@@ -7,7 +7,7 @@ Este modulo corresponde a la rama `feature/member-4-app-feedback`.
 - Frontend: React con Vite y Bootstrap.
 - Backend: FastAPI.
 - Persistencia inicial: SQLite en `data/feedback/predictions.sqlite3`.
-- Modelo: `models/current_model.pkl` cuando exista; mientras tanto se usa `mock_model`.
+- Modelo: `models/best_model.joblib` (requerido; sin fallback mock).
 
 ## Contrato de prediccion
 
@@ -37,7 +37,7 @@ Respuesta:
   "request_id": "uuid",
   "prediction_billion_usd": 3.25,
   "unit": "billion_usd",
-  "model_used": "mock_model",
+  "model_used": "trained_model",
   "message": "Prediction generated successfully."
 }
 ```

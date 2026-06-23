@@ -141,8 +141,9 @@ plt.close()
 print('Figura 06 guardada')
 
 os.makedirs('data/processed', exist_ok=True)
-df.to_csv('data/processed/dataset_clean.csv', index=False)
-print('Dataset limpio guardado: data/processed/dataset_clean.csv')
+processed_path = 'data/processed/dataset.parquet'
+df.to_parquet(processed_path, index=False)
+print(f'Dataset procesado guardado: {processed_path}')
 
 figures = sorted([f for f in os.listdir(FIGURES_DIR) if f.endswith('.png')])
 print('\nFiguras generadas ({}):'.format(len(figures)))

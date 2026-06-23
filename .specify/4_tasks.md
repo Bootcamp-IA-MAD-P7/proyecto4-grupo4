@@ -3,6 +3,15 @@
 > Generado desde `3_plan.md` y `2_spec.md` (revisión PostgreSQL).
 > Contrato técnico de referencia permanente: `2_spec.md`.
 
+**Estado del backlog (SDD):**
+
+| Fase | Tickets | Estado |
+|------|---------|--------|
+| Fase 0 | `[T-0.1]`–`[T-0.3]` | ✅ Completados |
+| Fase 1 | `[T-1.1]`–`[T-1.11]` | ✅ Completados |
+| Fase 2 | `[T-2.0]`–`[T-2.9]` | ✅ Completados |
+| Fases 3–6 | `[T-3.x]`–`[T-6.x]` | Bloqueadas |
+
 ---
 
 ## Protocolo de Ejecución del Agente
@@ -28,7 +37,9 @@ Antes de comenzar cualquier tarea:
 
 ---
 
-## Fase 0 — Preparación
+## Fase 0 — Preparación ✅ COMPLETADA
+
+> **Estado:** tickets `[T-0.1]` a `[T-0.3]` verificados y cerrados.
 
 ### [T-0.1] Crear rama de trabajo
 
@@ -65,7 +76,9 @@ Antes de comenzar cualquier tarea:
 
 ---
 
-## Fase 1 — Limpieza de Artefactos y Duplicados
+## Fase 1 — Limpieza de Artefactos y Duplicados ✅ COMPLETADA
+
+> **Estado:** tickets `[T-1.1]` a `[T-1.11]` verificados y cerrados. No revertir estos cambios.
 
 ### [T-1.1] Sacar artefactos binarios del índice Git
 
@@ -244,10 +257,11 @@ Antes de comenzar cualquier tarea:
 
 ---
 
-## Fase 2 — Unificar Rutas y Configuración
+## Fase 2 — Unificar Rutas y Configuración ▶ FASE ACTIVA
 
-> **Prerequisito:** ejecutar `[T-2.0]` (reestructuración a monorepo) antes de cualquier otro ticket de esta fase.
-> Todas las rutas de archivos a partir de `[T-2.1]` son relativas a `backend/`.
+> **Prerequisito:** `[T-2.0]` completado (reestructuración a monorepo).
+> **Esta es la única fase en ejecución.** Todas las rutas de archivos son relativas a `backend/` (cwd del servicio `api`).
+> **Siguiente bloque acordado:** Fase 3 — `[T-3.1]` (tests y umbrales).
 
 ### [T-2.0] Reestructurar carpetas — mover código backend a `/backend/`
 
@@ -310,7 +324,7 @@ Antes de comenzar cualquier tarea:
   model_file: "models/best_model.joblib"
   ```
 - **Verificación:** `grep "model_file" backend/config.yaml` devuelve `models/best_model.joblib`.
-- [ ] Estado: pendiente
+- [x] Estado: completado — `model_file` apunta a `models/best_model.joblib`.
 
 ---
 
@@ -319,7 +333,7 @@ Antes de comenzar cualquier tarea:
 - **Archivo(s):** `backend/config.yaml`
 - **Acción:** Eliminar la clave `storage_db` de la sección `paths`. La conexión a PostgreSQL viene de `DATABASE_URL` (variable de entorno), no de `config.yaml`.
 - **Verificación:** `grep "storage_db" backend/config.yaml` no devuelve resultados.
-- [ ] Estado: pendiente
+- [x] Estado: completado — clave `storage_db` eliminada; PostgreSQL vía `DATABASE_URL`.
 
 ---
 
@@ -330,7 +344,7 @@ Antes de comenzar cualquier tarea:
   - `paths.processed_data: "data/processed/dataset.parquet"` ✓
   - `training.min_r2: 0.5` ✓
 - **Verificación:** `grep -E "processed_data|min_r2" backend/config.yaml` muestra ambos valores correctos.
-- [ ] Estado: pendiente
+- [x] Estado: completado — `processed_data: data/processed/dataset.parquet`, `min_r2: 0.5` confirmados.
 
 ---
 
@@ -345,7 +359,7 @@ Antes de comenzar cualquier tarea:
   MODEL_PATH = os.getenv("MODEL_PATH", "models/best_model.joblib")
   ```
 - **Verificación:** `grep "\.pkl\|current_model" backend/app/model_service.py` no devuelve resultados.
-- [ ] Estado: pendiente
+- [x] Estado: completado — `MODEL_PATH` default `models/best_model.joblib` vía `os.getenv`.
 
 ---
 
@@ -356,7 +370,7 @@ Antes de comenzar cualquier tarea:
   - **Eliminar:** `city`, `join_year`, `join_month`, `investor_count`
   - **Usar:** `year_founded`, `funding_usd`, `company_age`, `industry`, `country`, `continent`
 - **Verificación:** `grep -E "city|join_year|join_month|investor_count" backend/app/model_service.py` no devuelve resultados.
-- [ ] Estado: pendiente
+- [x] Estado: completado — features definitivas: `year_founded`, `funding_usd`, `company_age`, `industry`, `country`, `continent`.
 
 ---
 
@@ -369,7 +383,7 @@ Antes de comenzar cualquier tarea:
       raise HTTPException(status_code=503, detail="Model not loaded. Run scripts/train.py first.")
   ```
 - **Verificación:** `grep -i "mock\|heuristic\|fallback" backend/app/model_service.py` no devuelve resultados.
-- [ ] Estado: pendiente
+- [x] Estado: completado — fallback mock eliminado; `HTTPException(503)` si el modelo no está cargado.
 
 ---
 
@@ -382,7 +396,7 @@ Antes de comenzar cualquier tarea:
   # → guarda en models/best_model.joblib
   ```
 - **Verificación:** `grep "unicorn_valuation\|\.pkl" backend/scripts/train.py` no devuelve resultados.
-- [ ] Estado: pendiente
+- [x] Estado: completado — `save_artifacts` serializa vía `cfg["paths"]["model_file"]` → `models/best_model.joblib`.
 
 ---
 
@@ -400,7 +414,7 @@ Antes de comenzar cualquier tarea:
   print(f"[OK] R²={val_r2:.4f} >= threshold {min_r2}. Model saved.")
   ```
 - **Verificación:** Ejecutar `cd backend && python scripts/train.py` con el modelo actual — debe imprimir `[FAIL]` y salir con código 1 (`echo $?` → `1`).
-- [ ] Estado: pendiente
+- [x] Estado: completado — `enforce_quality_gate()` rechaza R² < 0.5 con `sys.exit(1)` antes de `save_artifacts`.
 
 ---
 
@@ -412,15 +426,17 @@ Antes de comenzar cualquier tarea:
   2. Si sólo lo usan notebooks, añadir comentario de deprecación al inicio del módulo.
   3. Si lo usa código de producción (`backend/app/`, `backend/scripts/`, `backend/src/models/`), migrar esas referencias a `backend/src/data/load.py` y luego eliminar el archivo.
 - **Verificación:** Ningún archivo en `backend/app/`, `backend/src/models/`, `backend/scripts/` importa `preprocessing_pipeline`.
-- [ ] Estado: pendiente
+- [x] Estado: completado — módulo deprecado; producción usa `src.data.load` + parquet `data/processed/dataset.parquet`.
 
 ---
 
-## Fase 3 — Corregir Tests y Umbrales
+## Fase 3 — Corregir Tests y Umbrales (pendiente)
 
-### [T-3.1] Corregir umbral de R² en `tests/test_pipeline.py`
+> **Estado:** bloqueada — no iniciar hasta completar Fase 2.
 
-- **Archivo(s):** `tests/test_pipeline.py`
+### [T-3.1] Corregir umbral de R² en `backend/tests/test_pipeline.py`
+
+- **Archivo(s):** `backend/tests/test_pipeline.py`
 - **Acción:**
   ```python
   # Antes:
@@ -428,41 +444,41 @@ Antes de comenzar cualquier tarea:
   # Después:
   assert r2 >= 0.50, f"R² {r2:.4f} is below the required threshold of 0.50"
   ```
-- **Verificación:** `grep "0\.15" tests/test_pipeline.py` no devuelve resultados.
+- **Verificación:** `grep "0\.15" backend/tests/test_pipeline.py` no devuelve resultados.
 - [ ] Estado: pendiente
 
 ---
 
-### [T-3.2] Actualizar fixtures de columnas en `tests/test_pipeline.py`
+### [T-3.2] Actualizar fixtures de columnas en `backend/tests/test_pipeline.py`
 
-- **Archivo(s):** `tests/test_pipeline.py`
+- **Archivo(s):** `backend/tests/test_pipeline.py`
 - **Acción:** Reemplazar columnas legacy en fixtures o DataFrames de prueba por el esquema de `2_spec.md`: `year_founded`, `funding_usd`, `company_age`, `industry`, `country`, `continent`, `valuation_usd`.
-- **Verificación:** `grep -E "Valuation \(\\\$B\)|Investors|investor_count" tests/test_pipeline.py` no devuelve resultados.
+- **Verificación:** `grep -E "Valuation \(\\\$B\)|Investors|investor_count" backend/tests/test_pipeline.py` no devuelve resultados.
 - [ ] Estado: pendiente
 
 ---
 
-### [T-3.3] Verificar ruta del modelo en `tests/test_pipeline.py`
+### [T-3.3] Verificar ruta del modelo en `backend/tests/test_pipeline.py`
 
-- **Archivo(s):** `tests/test_pipeline.py`
+- **Archivo(s):** `backend/tests/test_pipeline.py`
 - **Acción:** Confirmar que el test carga el modelo desde `models/best_model.joblib`.
-- **Verificación:** `grep -E "\.pkl|unicorn_valuation" tests/test_pipeline.py` no devuelve resultados.
+- **Verificación:** `grep -E "\.pkl|unicorn_valuation" backend/tests/test_pipeline.py` no devuelve resultados.
 - [ ] Estado: pendiente
 
 ---
 
-### [T-3.4] Actualizar fixtures en `tests/test_preprocessing.py`
+### [T-3.4] Actualizar fixtures en `backend/tests/test_preprocessing.py`
 
-- **Archivo(s):** `tests/test_preprocessing.py`
+- **Archivo(s):** `backend/tests/test_preprocessing.py`
 - **Acción:** Sustituir columnas legacy en todos los DataFrames de prueba por el esquema de `2_spec.md`.
-- **Verificación:** `grep -E "Valuation|Investors|investor_count" tests/test_preprocessing.py` no devuelve resultados en fixtures.
+- **Verificación:** `grep -E "Valuation|Investors|investor_count" backend/tests/test_preprocessing.py` no devuelve resultados en fixtures.
 - [ ] Estado: pendiente
 
 ---
 
-### [T-3.5] Actualizar payloads en `tests/test_api.py`
+### [T-3.5] Actualizar payloads en `backend/tests/test_api.py`
 
-- **Archivo(s):** `tests/test_api.py`
+- **Archivo(s):** `backend/tests/test_api.py`
 - **Acción:** Los payloads de `POST /predict` y `POST /feedback` deben usar:
   ```python
   payload = {
@@ -475,16 +491,16 @@ Antes de comenzar cualquier tarea:
   }
   ```
   El assert sobre la respuesta debe verificar `valuation_usd` y `valuation_b`.
-- **Verificación:** `grep -E "city|join_year|join_month|investor_count" tests/test_api.py` no devuelve resultados.
+- **Verificación:** `grep -E "city|join_year|join_month|investor_count" backend/tests/test_api.py` no devuelve resultados.
 - [ ] Estado: pendiente
 
 ---
 
-### [T-3.6] Revisar y actualizar `tests/conftest.py`
+### [T-3.6] Revisar y actualizar `backend/tests/conftest.py`
 
-- **Archivo(s):** `tests/conftest.py`
+- **Archivo(s):** `backend/tests/conftest.py`
 - **Acción:** Leer el archivo. Actualizar fixtures con columnas legacy al esquema definitivo. Cambiar ruta del modelo si aparece.
-- **Verificación:** `grep -E "\.pkl|unicorn_valuation|Valuation \(\\\$B\)" tests/conftest.py` no devuelve resultados.
+- **Verificación:** `grep -E "\.pkl|unicorn_valuation|Valuation \(\\\$B\)" backend/tests/conftest.py` no devuelve resultados.
 - [ ] Estado: pendiente
 
 ---
@@ -494,18 +510,20 @@ Antes de comenzar cualquier tarea:
 - **Archivo(s):** ninguno (ejecución)
 - **Comando:**
   ```bash
-  pytest tests/ -v
+  cd backend && pytest tests/ -v
   ```
 - **Verificación:** Todos los tests pasan. Si alguno falla, marcar `[!]` y **no avanzar** a Fase 4.
 - [ ] Estado: pendiente
 
 ---
 
-## Fase 4 — Estabilizar la API FastAPI + PostgreSQL
+## Fase 4 — Estabilizar la API FastAPI + PostgreSQL (pendiente)
 
-### [T-4.1] Actualizar `requirements.txt`
+> **Estado:** bloqueada — no iniciar hasta completar Fase 3.
 
-- **Archivo(s):** `requirements.txt`
+### [T-4.1] Actualizar `backend/requirements.txt`
+
+- **Archivo(s):** `backend/requirements.txt`
 - **Acción:** Reemplazar el contenido completo con el listado canónico de `2_spec.md` sección 6:
   ```
   fastapi>=0.111.0
@@ -524,7 +542,7 @@ Antes de comenzar cualquier tarea:
   pytest>=8.0.0
   httpx>=0.27.0
   ```
-- **Verificación:** `grep -E "streamlit|kagglehub" requirements.txt` no devuelve resultados. `grep "psycopg2" requirements.txt` devuelve la línea correcta.
+- **Verificación:** `grep -E "streamlit|kagglehub" backend/requirements.txt` no devuelve resultados. `grep "psycopg2" backend/requirements.txt` devuelve la línea correcta.
 - [ ] Estado: pendiente
 
 ---
@@ -534,16 +552,16 @@ Antes de comenzar cualquier tarea:
 - **Archivo(s):** ninguno (entorno)
 - **Comando:**
   ```bash
-  pip install -r requirements.txt
+  cd backend && pip install -r requirements.txt
   ```
 - **Verificación:** Sin errores de conflicto. `python -c "import fastapi, pydantic, uvicorn, psycopg2"` no lanza `ImportError`.
 - [ ] Estado: pendiente
 
 ---
 
-### [T-4.3] Definir schemas Pydantic en `app/input_schema.py`
+### [T-4.3] Definir schemas Pydantic en `backend/app/input_schema.py`
 
-- **Archivo(s):** `app/input_schema.py`
+- **Archivo(s):** `backend/app/input_schema.py`
 - **Acción:** Asegurarse de que el archivo define exactamente estas clases:
   - `PredictRequest`: `year_founded: int`, `funding_usd: float`, `company_age: int`, `industry: str`, `country: str`, `continent: str`
   - `PredictResponse`: `valuation_usd: float`, `valuation_b: float`, `model_version: str`, `timestamp: str`
@@ -551,16 +569,16 @@ Antes de comenzar cualquier tarea:
   - `FeedbackResponse`: `id: int`, `status: str`, `timestamp: str`
 - **Verificación:**
   ```bash
-  python -c "from app.input_schema import PredictRequest, PredictResponse, FeedbackRequest, FeedbackResponse; print('OK')"
+  cd backend && python -c "from app.input_schema import PredictRequest, PredictResponse, FeedbackRequest, FeedbackResponse; print('OK')"
   ```
   Imprime `OK`.
 - [ ] Estado: pendiente
 
 ---
 
-### [T-4.4] Implementar endpoints en `app/main.py`
+### [T-4.4] Implementar endpoints en `backend/app/main.py`
 
-- **Archivo(s):** `app/main.py`
+- **Archivo(s):** `backend/app/main.py`
 - **Acción:** Verificar y corregir que el archivo registra los cuatro endpoints del contrato (`2_spec.md` sección 4):
   - `POST /predict`
   - `POST /feedback`
@@ -568,21 +586,21 @@ Antes de comenzar cualquier tarea:
   - `GET /metrics`
   - CORS habilitado para `http://localhost:5173`
   - Sin ninguna referencia a Streamlit
-- **Verificación:** `grep -i "streamlit" app/main.py` no devuelve resultados.
+- **Verificación:** `grep -i "streamlit" backend/app/main.py` no devuelve resultados.
 - [ ] Estado: pendiente
 
 ---
 
-### [T-4.5] Configurar SQLAlchemy para PostgreSQL en `app/database.py`
+### [T-4.5] Configurar SQLAlchemy para PostgreSQL en `backend/app/database.py`
 
-- **Archivo(s):** `app/database.py`
+- **Archivo(s):** `backend/app/database.py`
 - **Acción:**
   1. Leer `DATABASE_URL` desde `os.environ["DATABASE_URL"]`; si no existe, lanzar `RuntimeError("DATABASE_URL environment variable is not set")`.
   2. Crear engine: `engine = create_engine(DATABASE_URL)` (sin parámetros SQLite como `check_same_thread`).
   3. Definir `SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)`.
   4. Definir `Base = declarative_base()`.
   5. Ninguna referencia a `sqlite:///` ni a `storage/app.db`.
-- **Verificación:** `grep -E "sqlite|storage/app" app/database.py` no devuelve resultados.
+- **Verificación:** `grep -E "sqlite|storage/app" backend/app/database.py` no devuelve resultados.
 - [ ] Estado: pendiente
 
 ---
@@ -600,22 +618,22 @@ Antes de comenzar cualquier tarea:
 
 ---
 
-### [T-4.7] Implementar `app/feedback_service.py` — persistencia en PostgreSQL
+### [T-4.7] Implementar `backend/app/feedback_service.py` — persistencia en PostgreSQL
 
-- **Archivo(s):** `app/feedback_service.py`
+- **Archivo(s):** `backend/app/feedback_service.py`
 - **Acción:**
-  - Usar la sesión de `app/database.py` para persistir registros en la tabla `predictions`.
-  - Ninguna referencia a rutas de archivo SQLite (`storage/app.db`, `sqlite:///`).
-- **Verificación:** `grep -E "sqlite|storage/app|data/feedback" app/feedback_service.py` no devuelve resultados.
+  - Usar la sesión de `backend/app/database.py` para persistir registros en la tabla `predictions`.
+  - Ninguna referencia a rutas de archivo SQLite (`backend/storage/app.db`, `sqlite:///`).
+- **Verificación:** `grep -E "sqlite|storage/app|data/feedback" backend/app/feedback_service.py` no devuelve resultados.
 - [ ] Estado: pendiente
 
 ---
 
-### [T-4.8] Verificar modelo ORM en `app/database.py`
+### [T-4.8] Verificar modelo ORM en `backend/app/database.py`
 
-- **Archivo(s):** `app/database.py`
+- **Archivo(s):** `backend/app/database.py`
 - **Acción:** Confirmar que el modelo `Prediction` (o equivalente) mapea la tabla `predictions` con todos los campos de `2_spec.md` sección 5. Confirmar que `Base.metadata.create_all(engine)` se invoca en el startup para crear la tabla si no existe en PostgreSQL.
-- **Verificación:** `python -c "from app.database import Base, engine; Base.metadata.create_all(engine); print('OK')"` imprime `OK` (requiere `DATABASE_URL` activa).
+- **Verificación:** `cd backend && DATABASE_URL=postgresql://unicorn_user:unicorn_pass@localhost:5432/unicorns python -c "from app.database import Base, engine; Base.metadata.create_all(engine); print('OK')"` imprime `OK` (requiere `DATABASE_URL` activa).
 - [ ] Estado: pendiente
 
 ---
@@ -657,7 +675,9 @@ Antes de comenzar cualquier tarea:
 
 ---
 
-## Fase 5 — Frontend React + Docker Compose
+## Fase 5 — Frontend React + Docker Compose (pendiente)
+
+> **Estado:** bloqueada — no iniciar hasta completar Fase 4.
 
 ### [T-5.1] Verificar `frontend/src/api.js` — BASE_URL y payloads
 
@@ -846,7 +866,9 @@ Antes de comenzar cualquier tarea:
 
 ---
 
-## Fase 6 — Documentación y Cierre
+## Fase 6 — Documentación y Cierre (pendiente)
+
+> **Estado:** bloqueada — no iniciar hasta completar Fase 5.
 
 ### [T-6.1] Actualizar árbol de directorios en `backend/README.md`
 
@@ -949,15 +971,15 @@ Antes de comenzar cualquier tarea:
 
 ## Resumen de Progreso
 
-| Fase | Tareas | Completadas | Pendientes |
-|------|--------|-------------|------------|
-| Fase 0 — Preparación           | 3  | 3  | 0  |
-| Fase 1 — Limpieza              | 11 | 11 | 0  |
-| Fase 2 — Rutas y Configuración | 10 | 0  | 10 |
-| Fase 3 — Tests                 | 7  | 0  | 7  |
-| Fase 4 — API + PostgreSQL      | 10 | 0  | 10 |
-| Fase 5 — Frontend + Docker     | 8  | 0  | 8  |
-| Fase 6 — Documentación         | 6  | 0  | 6  |
-| **Total**                      | **55** | **14** | **41** |
+| Fase | Tareas | Completadas | Pendientes | Estado |
+|------|--------|-------------|------------|--------|
+| Fase 0 — Preparación           | 3  | 3  | 0  | ✅ Completada |
+| Fase 1 — Limpieza              | 11 | 11 | 0  | ✅ Completada |
+| Fase 2 — Rutas y Configuración | 10 | 1  | 9  | ▶ **Activa** |
+| Fase 3 — Tests                 | 7  | 0  | 7  | Bloqueada |
+| Fase 4 — API + PostgreSQL      | 10 | 0  | 10 | Bloqueada |
+| Fase 5 — Frontend + Docker     | 8  | 0  | 8  | Bloqueada |
+| Fase 6 — Documentación         | 6  | 0  | 6  | Bloqueada |
+| **Total**                      | **55** | **15** | **40** | |
 
-> Actualizar esta tabla al completar cada fase. **Siguiente ticket:** `[T-2.0]` Reestructuración de carpetas.
+> Actualizar esta tabla al completar cada fase. **Siguiente ticket:** `[T-3.1]` Corregir umbral de R² en `backend/tests/test_pipeline.py`.

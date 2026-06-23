@@ -1,3 +1,6 @@
+# DEPRECATED: Legacy preprocessing pipeline (join_year, investor_count schema).
+# Used only by notebooks and tests/test_preprocessing.py.
+# Production code uses src.data.load + src.data.preprocess instead.
 import os
 import pandas as pd
 import numpy as np
