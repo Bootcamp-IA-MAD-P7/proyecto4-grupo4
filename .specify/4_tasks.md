@@ -572,7 +572,7 @@ Antes de comenzar cualquier tarea:
   cd backend && python -c "from app.input_schema import PredictRequest, PredictResponse, FeedbackRequest, FeedbackResponse; print('OK')"
   ```
   Imprime `OK`.
-- [ ] Estado: pendiente
+- [x] Estado: completado — schemas canónicos definidos y verificados. `PredictRequest`, `PredictResponse`, `FeedbackRequest`, `FeedbackResponse` importan correctamente; aliases legacy conservados para compatibilidad.
 
 ---
 
