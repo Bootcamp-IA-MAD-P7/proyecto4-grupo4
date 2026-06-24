@@ -555,7 +555,7 @@ Antes de comenzar cualquier tarea:
   cd backend && pip install -r requirements.txt
   ```
 - **Verificación:** Sin errores de conflicto. `python -c "import fastapi, pydantic, uvicorn, psycopg2"` no lanza `ImportError`.
-- [ ] Estado: pendiente
+- [x] Estado: completado — dependencias instaladas/verificadas en `backend/.venv`. `import fastapi, pydantic, uvicorn, psycopg2` imprime `OK`.
 
 ---
 
