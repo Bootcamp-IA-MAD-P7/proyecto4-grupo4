@@ -41,6 +41,12 @@ Los artefactos binarios (modelos, bases de datos, imágenes de reportes) no pert
 
 Archivos `_BACKUP`, duplicados de dataset en `notebooks/data/`, y módulos de carga redundantes serán eliminados para tener un único camino de ejecución.
 
+### 7. Cuidar la coherencia de interfaz y experiencia de usuario
+
+La aplicación React debe presentarse como un producto coherente en español. Los textos visibles deben usar tildes, `ñ` y terminología consistente. Los nombres técnicos del backend pueden mantenerse en inglés cuando formen parte del contrato (`year_founded`, `funding_usd`, `continent`), pero la interfaz debe traducirlos o explicarlos correctamente para la persona usuaria.
+
+Ejemplo clave: el backend conserva el campo técnico `continent` porque el modelo fue entrenado con esa feature, pero el frontend debe mostrarlo como **Región geográfica** y usar etiquetas visibles como `América del Norte` o `América del Sur`, sin presentar esas regiones como continentes.
+
 ---
 
 ## Estado Deseado
@@ -51,7 +57,8 @@ Al finalizar la refactorización, el proyecto cumple con:
 - **Un solo modelo** serializado en una ruta predecible.
 - **Un solo umbral** de calidad que actúa como gate de CI.
 - **Una sola API** (FastAPI) como contrato entre frontend y backend.
-- **Una sola base de datos** SQLite para feedback y predicciones.
+- **Una sola base de datos** PostgreSQL para feedback y predicciones.
+- **Una sola experiencia frontend** coherente, en español, sin mojibake ni mezcla innecesaria de idiomas.
 - **Un repositorio limpio**, sin binarios ni código duplicado.
 
 ---

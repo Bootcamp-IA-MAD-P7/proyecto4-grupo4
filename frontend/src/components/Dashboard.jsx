@@ -1,19 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Activity, CircleDollarSign, Globe2, PieChart } from "lucide-react";
 
 import MetricCard from "./MetricCard";
 import SignalBadge from "./SignalBadge";
-import { marketSignals, metricCards, sectorMix } from "../data/modelMetrics";
+import { buildMarketSignals, buildMetricCards, fetchMetrics, sectorMix } from "../data/modelMetrics";
 
 const icons = [Globe2, Activity, CircleDollarSign, PieChart];
 
 function Dashboard() {
+  const [metrics, setMetrics] = useState(null);
+  const [metricsStatus, setMetricsStatus] = useState("loading");
+
+  useEffect(() => {
+    let ignore = false;
+
+    fetchMetrics()
+      .then((body) => {
+        if (ignore) return;
+        setMetrics(body);
+        setMetricsStatus("ready");
+      })
+      .catch(() => {
+        if (ignore) return;
+        setMetrics(null);
+        setMetricsStatus("error");
+      });
+
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  const metricCards = buildMetricCards(metrics);
+  const marketSignals = buildMarketSignals(metrics);
+
   return (
     <section className="dashboard-section" id="dashboard">
       <div className="section-heading">
-        <p>Dashboard</p>
-        <h2>Senales historicas del mercado unicornio</h2>
+        <p>Panel</p>
+        <h2>Señales históricas del mercado unicornio</h2>
       </div>
+
+      {metricsStatus === "loading" ? (
+        <p className="dashboard-status">Cargando métricas del backend...</p>
+      ) : null}
+      {metricsStatus === "error" ? (
+        <p className="dashboard-status warning">Métricas del backend no disponibles.</p>
+      ) : null}
 
       <div className="metrics-grid">
         {metricCards.map((metric, index) => {
@@ -41,7 +74,7 @@ function Dashboard() {
         </article>
 
         <article className="panel light-panel">
-          <h3>Top sectores de oportunidad</h3>
+          <h3>Sectores principales de oportunidad</h3>
           <div className="sector-bars">
             {sectorMix.map((sector) => (
               <div key={sector.label}>

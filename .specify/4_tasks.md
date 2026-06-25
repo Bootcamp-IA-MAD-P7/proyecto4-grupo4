@@ -12,7 +12,8 @@
 | Fase 2 | `[T-2.0]`–`[T-2.9]` | ✅ Completados |
 | Fase 3 | `[T-3.x]` | ✅ Completados |
 | Fase 4 | `[T-4.1]`–`[T-4.10]` | ✅ Completados |
-| Fases 5–6 | `[T-5.x]`–`[T-6.x]` | Bloqueadas |
+| Fase 5 | `[T-5.1]`–`[T-5.9]` | ▶ Activa |
+| Fase 6 | `[T-6.x]` | Bloqueada |
 
 ---
 
@@ -679,7 +680,7 @@ Antes de comenzar cualquier tarea:
 
 ## Fase 5 — Frontend React + Docker Compose (activa)
 
-> **Estado:** activa — Fase 4 completada. Iniciar con `[T-5.1]`.
+> **Estado:** activa — Fase 4 completada. Tickets `[T-5.1]` a `[T-5.6]` completados. Continuar con `[T-5.7]`.
 
 ### [T-5.1] Verificar `frontend/src/api.js` — BASE_URL y payloads
 
@@ -690,7 +691,7 @@ Antes de comenzar cualquier tarea:
   - Existe `submitFeedback()` apuntando a `POST /feedback`.
   - Eliminar campos legacy: `city`, `join_year`, `join_month`, `investor_count`.
 - **Verificación:** `grep -E "city|join_year|join_month|investor_count" frontend/src/api.js` no devuelve resultados.
-- [ ] Estado: pendiente
+- [x] Estado: completado — `frontend/src/api.js` usa `BASE_URL`, expone `predict()` y `submitFeedback()`, conserva alias compatibles y no contiene campos legacy. Verificado con búsqueda de campos obsoletos y `npm.cmd run build`.
 
 ---
 
@@ -707,7 +708,7 @@ Antes de comenzar cualquier tarea:
   ```
   Actualizar los componentes que consuman este módulo para llamar `fetchMetrics()` en un `useEffect`.
 - **Verificación:** `grep -E "r2.*0\.|mae.*[0-9]{8}" frontend/src/data/modelMetrics.js` no devuelve valores hardcodeados.
-- [ ] Estado: pendiente
+- [x] Estado: completado — `modelMetrics.js` exporta `fetchMetrics()` contra `GET /metrics`; `Dashboard.jsx` carga métricas con `useEffect` y muestra estado de carga/error. Verificado sin valores hardcodeados prohibidos y con `npm.cmd run build`.
 
 ---
 
@@ -716,7 +717,7 @@ Antes de comenzar cualquier tarea:
 - **Archivo(s):** `frontend/src/components/PredictionForm.jsx`
 - **Acción:** Los campos del formulario deben ser exactamente: `year_founded`, `funding_usd`, `company_age`, `industry`, `country`, `continent`. Eliminar: `city`, `join_year`, `join_month`, `investor_count`.
 - **Verificación:** `grep -E "city|join_year|join_month|investor_count" frontend/src/components/PredictionForm.jsx` no devuelve resultados.
-- [ ] Estado: pendiente
+- [x] Estado: completado — `PredictionForm.jsx` usa exactamente `year_founded`, `funding_usd`, `company_age`, `industry`, `country`, `continent`; `Home.jsx` y `initialForm` quedan alineados con esos campos. Verificado sin campos legacy y con `npm.cmd run build`.
 
 ---
 
@@ -731,7 +732,7 @@ Antes de comenzar cualquier tarea:
   grep -n "Ã\|Â" frontend/src/components/PredictionResult.jsx
   ```
 - **Verificación:** El comando anterior no devuelve resultados.
-- [ ] Estado: pendiente
+- [x] Estado: completado — `PredictionResult.jsx` muestra `valuation_b` como `$X.XXB` y `valuation_usd` como cifra completa. También se corrigió la integración de retroalimentación: el frontend dejó de enviar campos legacy (`request_id`, `feedback_score`, `actual_valuation_b`, `comments`) y ahora construye el payload esperado por `POST /feedback` (`features + predicted_valuation_usd + actual_valuation_usd + comment`). Además se normalizaron textos visibles en los componentes tocados: español consistente, tildes, `ñ`, eliminación de mojibake y sustitución de términos mixtos (`Dashboard` → `Panel`, `Feedback` → `Retroalimentación`, `Funding` → `Financiación`). El campo técnico `continent` se mantiene para el backend, pero la UI lo muestra como `Región geográfica` con etiquetas visibles (`América del Norte`, `América del Sur`, etc.). Verificado con búsqueda de mojibake/campos legacy y `npm.cmd run build`.
 
 ---
 
@@ -744,8 +745,14 @@ Antes de comenzar cualquier tarea:
                    --include="*.jsx" --include="*.js" --include="*.yaml" .
   ```
   Reemplazos comunes: `PredicciÃ³n` → `Predicción`, `RÂ²` → `R²`, `valoraciÃ³n` → `valoración`.
+  Además, documentar y completar la limpieza iniciada en `[T-5.4]`:
+  - Revisar textos visibles del frontend para que estén en español consistente.
+  - Corregir tildes, `ñ`, signos y términos de negocio.
+  - Evitar mezclas innecesarias de español/inglés en la UI (`Dashboard`, `Feedback`, `Funding`, `mock_model`, `USD Billions`).
+  - Mantener nombres técnicos internos cuando sean contrato de API (`continent`, `funding_usd`, `valuation_usd`), pero traducir la etiqueta visible.
+  - Confirmar que `continent` se muestra como `Región geográfica`, con valores visibles como `América del Norte` y `América del Sur`, sin alterar los valores enviados al backend.
 - **Verificación:** El comando de búsqueda no devuelve resultados.
-- [ ] Estado: pendiente
+- [x] Estado: completado — búsqueda global ejecutada en `.py`, `.md`, `.jsx`, `.js`, `.yaml` y `.yml`, excluyendo carpetas generadas (`node_modules`, `dist`, `.venv`, `.git`). No quedan ocurrencias reales de mojibake (`Ã`, `Â`, `â`, `ð`, `�`) en archivos fuente relevantes. Se completó la limpieza visible iniciada en `[T-5.4]`: países, industrias y región geográfica muestran etiquetas en español sin alterar los valores técnicos enviados al backend; se reemplazaron textos visibles como `Deal flow`, `Baseline`, `API offline` y `venture intelligence`. Verificado con búsqueda global y `npm.cmd run build`.
 
 ---
 
@@ -788,7 +795,7 @@ Antes de comenzar cualquier tarea:
   sleep 2 && curl -s http://localhost:5173 | grep -c "<!DOCTYPE html"
   ```
   Devuelve `1` (el HTML se sirve correctamente).
-- [ ] Estado: pendiente
+- [x] Estado: completado — `frontend/Dockerfile` multi-stage creado con etapa `builder` en Node 20 Alpine y etapa `runner` en Nginx 1.27 Alpine. `frontend/nginx.conf` sirve la SPA con `try_files` y añade `/health` para comprobaciones rápidas. `frontend/.dockerignore` evita copiar `node_modules`, `dist`, variables de entorno y archivos innecesarios al contexto Docker. Verificado con `npm.cmd run build`, `docker build -t unicorn-frontend ./frontend`, contenedor temporal en `http://127.0.0.1:5174`, `/health` con HTTP 200 y `/` devolviendo HTML con `<!doctype html>`.
 
 ---
 
@@ -864,6 +871,27 @@ Antes de comenzar cualquier tarea:
     -d '{"year_founded":2015,"funding_usd":50000000,"company_age":9,"industry":"fintech","country":"United States","continent":"North America"}'
   ```
 - **Verificación:** Los tres contenedores están en estado `running`. `/health` devuelve `"status":"ok"`. `/predict` devuelve `valuation_usd` numérico.
+- [ ] Estado: pendiente
+
+---
+
+### [T-5.9] Ajustes estructurales y UX del frontend
+
+> **Nota:** iniciar después de `[T-5.8]`, cuando funcionalidad, API, Docker y smoke test completo estén validados. El objetivo es mejorar claridad y experiencia sin cambiar el contrato de API.
+
+- **Archivo(s):** `frontend/src/**`, eventualmente `frontend/src/styles.css`
+- **Acción:**
+  - Revisar estructura de componentes y responsabilidades (`pages/`, `components/`, `data/`, `api.js`).
+  - Evaluar si conviene separar helpers de formato, constantes de opciones y construcción de métricas en módulos más claros.
+  - Revisar navegación, jerarquía visual, orden de secciones, claridad del formulario y estados de carga/error/éxito.
+  - Mantener coherencia de idioma español, tildes, `ñ`, accesibilidad básica (`aria-label`, labels asociados, textos de botones) y el criterio `Región geográfica` para el campo técnico `continent`.
+  - No introducir cambios de modelo, endpoints ni nombres del contrato backend.
+- **Verificación:**
+  ```bash
+  cd frontend
+  npm.cmd run build
+  ```
+  Revisión manual en `http://127.0.0.1:5173` de navegación, formulario, panel, resultado y retroalimentación.
 - [ ] Estado: pendiente
 
 ---
@@ -980,12 +1008,12 @@ Antes de comenzar cualquier tarea:
 | Fase 2 — Rutas y Configuración | 10 | 10 | 0  | ✅ Completada |
 | Fase 3 — Tests + Modelo T1-T3  | 7  | 7  | 0  | ✅ Completada |
 | Fase 4 — API + PostgreSQL      | 10 | 10 | 0  | ✅ Completada |
-| Fase 5 — Frontend + Docker     | 8  | 0  | 8  | ▶ **Activa** |
+| Fase 5 — Frontend + Docker     | 9  | 6  | 3  | ▶ **Activa** |
 | Fase 6 — Documentación         | 6  | 0  | 6  | Bloqueada |
 | Fase 7 — Optimización Post-MVP | 1  | 0  | 1  | 🧊 Congelada |
-| **Total**                      | **56** | **43** | **13** | |
+| **Total**                      | **57** | **49** | **8** | |
 
-> **Siguiente ticket:** `[T-5.1]` Verificar `frontend/src/api.js`.
+> **Siguiente ticket:** `[T-5.7]` Escribir `docker-compose.yml` con healthcheck y depends_on condicional.
 
 ---
 

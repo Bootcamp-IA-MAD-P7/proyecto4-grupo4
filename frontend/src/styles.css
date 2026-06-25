@@ -542,6 +542,16 @@ dd {
   gap: 14px;
 }
 
+.dashboard-status {
+  margin: -4px 0 18px;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.dashboard-status.warning {
+  color: var(--color-risk);
+}
+
 .metric-wrap {
   position: relative;
   display: grid;
