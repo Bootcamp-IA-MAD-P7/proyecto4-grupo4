@@ -18,6 +18,8 @@ ROOT_DIR = Path(__file__).resolve().parents[1]
 MODEL_PATH = os.getenv("MODEL_PATH", "models/best_model.joblib")
 METRICS_PATH = ROOT_DIR / "models" / "metrics.json"
 
+_cached_model: Any | None = None
+
 
 def get_model_path() -> Path:
     path = Path(MODEL_PATH)
@@ -26,7 +28,26 @@ def get_model_path() -> Path:
     return path
 
 
+def preload_model() -> None:
+    """Load the model into the module-level cache at application startup.
+
+    Raises RuntimeError if the model file is missing so the process fails
+    with an explicit message rather than silently serving 503s.
+    """
+    global _cached_model
+    model_path = get_model_path()
+    if not model_path.exists():
+        raise RuntimeError(
+            f"Model file not found at '{model_path}'. "
+            "Run 'python scripts/train.py' to train and save the model."
+        )
+    _cached_model = joblib.load(model_path)
+
+
 def load_model() -> Any | None:
+    """Return the cached model, or load it on first call (fallback for tests)."""
+    if _cached_model is not None:
+        return _cached_model
     model_path = get_model_path()
     if not model_path.exists():
         return None
@@ -34,7 +55,7 @@ def load_model() -> Any | None:
 
 
 def is_model_loaded() -> bool:
-    return get_model_path().exists()
+    return _cached_model is not None or get_model_path().exists()
 
 
 def get_model_mode() -> str:

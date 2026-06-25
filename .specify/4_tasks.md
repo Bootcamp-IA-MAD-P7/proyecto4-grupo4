@@ -625,7 +625,7 @@ Antes de comenzar cualquier tarea:
   - Usar la sesión de `backend/app/database.py` para persistir registros en la tabla `predictions`.
   - Ninguna referencia a rutas de archivo SQLite (`backend/storage/app.db`, `sqlite:///`).
 - **Verificación:** `grep -E "sqlite|storage/app|data/feedback" backend/app/feedback_service.py` no devuelve resultados.
-- [ ] Estado: pendiente
+- [x] Estado: completado — `save_feedback` importa de `app.database` (ORM SQLAlchemy); cero referencias a SQLite. Tests `test_feedback.py` en verde.
 
 ---
 
@@ -634,7 +634,7 @@ Antes de comenzar cualquier tarea:
 - **Archivo(s):** `backend/app/database.py`
 - **Acción:** Confirmar que el modelo `Prediction` (o equivalente) mapea la tabla `predictions` con todos los campos de `2_spec.md` sección 5. Confirmar que `Base.metadata.create_all(engine)` se invoca en el startup para crear la tabla si no existe en PostgreSQL.
 - **Verificación:** `cd backend && DATABASE_URL=postgresql://unicorn_user:unicorn_pass@localhost:5432/unicorns python -c "from app.database import Base, engine; Base.metadata.create_all(engine); print('OK')"` imprime `OK` (requiere `DATABASE_URL` activa).
-- [ ] Estado: pendiente
+- [x] Estado: completado — `Prediction` ORM mapea los 10 campos de `2_spec.md` §5. `created_at` corregido a `DateTime(timezone=True)`. `init_db()` llama `Base.metadata.create_all(engine)`. Tests `test_feedback.py` en verde.
 
 ---
 
@@ -643,7 +643,7 @@ Antes de comenzar cualquier tarea:
 - **Archivo(s):** `app/model_service.py`
 - **Acción:** Confirmar que el modelo se carga una sola vez al arrancar la aplicación (usando `lifespan` o `@app.on_event("startup")`). Si no hay modelo en `models/best_model.joblib`, lanzar `RuntimeError` descriptivo.
 - **Verificación:** Al lanzar sin el archivo del modelo, la app falla con mensaje claro (no silencia el error).
-- [ ] Estado: pendiente
+- [x] Estado: completado — `preload_model()` en `model_service.py` lanza `RuntimeError` descriptivo si falta el joblib. `lifespan` en `main.py` llama `preload_model()` al arranque. `_cached_model` evita recargas. Tests en verde (18 passed, baseline preservado).
 
 ---
 
@@ -671,7 +671,7 @@ Antes de comenzar cualquier tarea:
   curl -s http://localhost:8000/health
   ```
 - **Verificación:** Respuesta de `/predict` contiene `valuation_usd` (número). Respuesta de `/health` contiene `"status":"ok"`.
-- [ ] Estado: pendiente
+- [x] Estado: completado — `/health` → `{"status":"ok","model_loaded":true,"model_r2":0.2207}`. `/predict` → `{"valuation_usd":1331072782.758,"valuation_b":1.3311,...}`. `/feedback` → `{"id":1,"status":"recorded"}`. Zero errores SQLAlchemy en log de uvicorn. Notas: (1) puerto 5432 ocupado → DB dockerizada en 5434; (2) `best_model.joblib` regenerado con schema definitivo (+ categoriales `industry/country/continent`); (3) `test_best_model_predicts_with_definitive_schema` pasa por primera vez.
 
 ---
 

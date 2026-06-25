@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+from contextlib import asynccontextmanager
 from datetime import UTC, datetime
+from typing import AsyncIterator
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,10 +15,16 @@ from app.input_schema import (
     PredictRequest,
     PredictResponse,
 )
-from app.model_service import get_metrics, get_model_r2, is_model_loaded, predict_valuation
+from app.model_service import get_metrics, get_model_r2, is_model_loaded, predict_valuation, preload_model
 
 
-app = FastAPI(title="Unicorn Valuation API", version="0.1.0")
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+    preload_model()
+    yield
+
+
+app = FastAPI(title="Unicorn Valuation API", version="0.1.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,

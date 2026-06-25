@@ -2,6 +2,8 @@
 Tests for database.py — SQLAlchemy-based persistence layer.
 DATABASE_URL is injected by conftest.py (SQLite for the test session).
 """
+from datetime import UTC, datetime
+
 from app.database import fetch_prediction, init_db, save_feedback
 
 
@@ -19,7 +21,7 @@ def test_save_feedback_and_fetch_record():
             "predicted_valuation_usd": 1_250_000_000.0,
             "actual_valuation_usd": 1_100_000_000.0,
             "comment": "Close estimate",
-            "created_at": "2026-06-19T10:00:00+00:00",
+            "created_at": datetime(2026, 6, 19, 10, 0, 0, tzinfo=UTC),
         }
     )
 

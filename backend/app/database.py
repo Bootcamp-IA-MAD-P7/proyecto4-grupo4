@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 from typing import Any
 
-from sqlalchemy import Column, Float, Integer, String, Text, create_engine
+from sqlalchemy import Column, DateTime, Float, Integer, String, Text, create_engine
 from sqlalchemy.orm import Session, declarative_base, sessionmaker
 
 Base = declarative_base()
@@ -24,7 +24,7 @@ class Prediction(Base):
     predicted_valuation_usd = Column(Float, nullable=False)
     actual_valuation_usd = Column(Float, nullable=True)
     comment = Column(Text, nullable=True)
-    created_at = Column(String(50), nullable=False)
+    created_at = Column(DateTime(timezone=True), nullable=False)
 
 
 _engine = None
