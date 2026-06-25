@@ -680,7 +680,7 @@ Antes de comenzar cualquier tarea:
 
 ## Fase 5 — Frontend React + Docker Compose (activa)
 
-> **Estado:** activa — Fase 4 completada. Tickets `[T-5.1]` a `[T-5.6]` completados. Continuar con `[T-5.7]`.
+> **Estado:** activa — Fase 4 completada. Tickets `[T-5.1]` a `[T-5.7]` completados. Continuar con `[T-5.8]`.
 
 ### [T-5.1] Verificar `frontend/src/api.js` — BASE_URL y payloads
 
@@ -853,7 +853,7 @@ Antes de comenzar cualquier tarea:
   grep "service_healthy" docker-compose.yml  # aparece en api.depends_on
   grep "pg_isready" docker-compose.yml    # aparece en db.healthcheck
   ```
-- [ ] Estado: pendiente
+- [x] Estado: completado — `docker-compose.yml` actualizado como stack completo con servicios `db`, `api` y `frontend`. PostgreSQL usa `healthcheck` con `pg_isready`, volumen persistente `postgres_data` y `restart: unless-stopped`. La API mantiene `depends_on.db.condition: service_healthy`, por lo que no intenta arrancar antes de que PostgreSQL esté listo. El frontend se añade con `build: ./frontend`, sirve Nginx en el puerto `5173:80` y depende del servicio `api`. El puerto externo de PostgreSQL queda configurable con `POSTGRES_HOST_PORT`, usando `5434` por defecto para evitar el conflicto local ya detectado con `5432`; dentro de Docker la API sigue conectando a `db:5432`. Verificado con `docker compose config`, búsqueda sin `streamlit`, y presencia confirmada de `service_healthy`, `pg_isready`, `frontend` y `postgres_data`.
 
 ---
 
@@ -1008,12 +1008,12 @@ Antes de comenzar cualquier tarea:
 | Fase 2 — Rutas y Configuración | 10 | 10 | 0  | ✅ Completada |
 | Fase 3 — Tests + Modelo T1-T3  | 7  | 7  | 0  | ✅ Completada |
 | Fase 4 — API + PostgreSQL      | 10 | 10 | 0  | ✅ Completada |
-| Fase 5 — Frontend + Docker     | 9  | 6  | 3  | ▶ **Activa** |
+| Fase 5 — Frontend + Docker     | 9  | 7  | 2  | ▶ **Activa** |
 | Fase 6 — Documentación         | 6  | 0  | 6  | Bloqueada |
 | Fase 7 — Optimización Post-MVP | 1  | 0  | 1  | 🧊 Congelada |
-| **Total**                      | **57** | **49** | **8** | |
+| **Total**                      | **57** | **50** | **7** | |
 
-> **Siguiente ticket:** `[T-5.7]` Escribir `docker-compose.yml` con healthcheck y depends_on condicional.
+> **Siguiente ticket:** `[T-5.8]` Smoke test completo con Docker Compose.
 
 ---
 
