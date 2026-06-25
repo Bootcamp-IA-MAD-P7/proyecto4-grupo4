@@ -1022,6 +1022,74 @@ Antes de comenzar cualquier tarea:
 > **Estado:** 🧊 congelada — no iniciar hasta completar el MVP funcional (Fases 4–6).
 > **Motivo de congelación:** el objetivo estratégico es entregar el extremo a extremo antes de iterar sobre la calidad del modelo.
 
+### 15. Diagnóstico y Transformación Experimental del Target
+
+Al analizar nuestro dataset procesado, observamos que la variable objetivo original `Valuation` tiene un sesgo extremo hacia la derecha (mínimo de 1.0B y máximo de 140.0B con 117 outliers detectados por encima de 5.85B). Como alternativa matemática estándar para estabilizar la varianza y normalizar distribuciones comprimidas antes del entrenamiento, realizamos una prueba experimental aplicando una **transformación logarítmica** sobre la valoración ($log\_valuation = \log(Valuation)$).
+
+Se aplicó dicha transformación logarítmica para corregir el fuerte sesgo a la derecha. Como se observa en la distribución resultante, la variable presenta un comportamiento más normalizado, previniendo que los algoritmos de Machine Learning se distorsionen severamente por los valores atípicos (*outliers*) de las empresas mega-unicornio.
+
+#### Modelo Baseline con `Year Founded`
+Se entrenó un `GradientBoostingRegressor` (80% entrenamiento, 20% validación) utilizando el año de fundación de la empresa para contrastar su poder explicativo:
+
+▶️ R² Modelo Escala Original: -0.0260
+▶️ R² Modelo Escala Logarítmica: -0.0322
+
+#### Modelo Baseline con `Funding` limpio
+
+En la prueba paralela utilizando la variable real de capital fondeado (Funding) depurada de símbolos (eliminando caracteres $, B, M, comas) y convertida a numérica, se ejecutó el siguiente bloque de preprocesamiento:
+
+```py
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.metrics import r2_score
+
+# Limpieza definitiva de la variable Funding
+df_experimento['Funding'] = df_experimento['Funding'].astype(str).str.replace('$', '', regex=False)
+df_experimento['Funding'] = df_experimento['Funding'].str.replace(',', '', regex=False)
+df_experimento['Funding'] = df_experimento['Funding'].str.replace('M', '', regex=False)
+df_experimento['Funding'] = df_experimento['Funding'].str.replace('B', '', regex=False)
+df_experimento['Funding'] = pd.to_numeric(df_experimento['Funding'], errors='coerce')
+
+columna_limpia = 'val_limpia'
+columna_log = 'log_valuation'
+columna_predictora = 'Funding'
+
+df_ml = df_experimento.dropna(subset=[columna_limpia, columna_log, columna_predictora]).copy()
+print(f"Filas listas para la prueba de Funding: {len(df_ml)}")
+
+X = df_ml[[columna_predictora]].values 
+y_original = df_ml[columna_limpia]
+y_log = df_ml[columna_log]
+
+X_train, X_val, y_train_orig, y_val_orig = train_test_split(X, y_original, test_size=0.2, random_state=42)
+_, _, y_train_log, y_val_log = train_test_split(X, y_log, test_size=0.2, random_state=42)
+
+model_orig = GradientBoostingRegressor(random_state=42)
+model_orig.fit(X_train, y_train_orig)
+preds_orig = model_orig.predict(X_val)
+r2_orig = r2_score(y_val_orig, preds_orig)
+
+model_log = GradientBoostingRegressor(random_state=42)
+model_log.fit(X_train, y_train_log)
+preds_log = model_log.predict(X_val)
+preds_log_revertidas = np.exp(preds_log)
+r2_log_revertido = r2_score(y_val_orig, preds_log_revertidas)
+
+print(f"▶️ R² Modelo Escala Original: {r2_orig:.4f}")
+print(f"▶️ R² Modelo Escala Logarítmica (Tu variable): {r2_log_revertido:.4f}")
+```
+
+Arrojando el siguiente resultado empírico sobre 1,062 muestras válidas:
+
+Filas listas para la prueba de Funding: 1062
+▶️ R² Modelo Escala Original: 0.1408
+▶️ R² Modelo Escala Logarítmica: 0.0727
+
+- **Conclusión Experimental** Los resultados demuestran que aplicar la transformación logarítmica de forma aislada todavía no proporciona el salto de calidad esperado en el rendimiento predictivo ($R^2 = 0.0727$ vs $0.1408$ en escala original). Por esta razón, es analíticamente coherente y necesario avanzar hacia el cálculo de múltiplos.
+
 ### [T-7.1] Refactorizar target de entrenamiento a Múltiplo de Valoración
 
 - **Contexto:** El modelo actual (features T1-T3) presenta sesgo sistemático de subestimación en la cola alta (+1.5 B/B de error residual). El target absoluto `valuation_usd` tiene una distribución muy comprimida que el modelo no puede capturar con los datos disponibles (~1 062 muestras, <5% en el rango >$10B).
