@@ -1,9 +1,15 @@
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
 import pytest
+
+# Set DATABASE_URL before any app imports so database.py doesn't raise RuntimeError.
+# Tests use a file-based SQLite; production uses the PostgreSQL URL from the environment.
+_TEST_DB = Path(__file__).resolve().parent / "test_feedback.db"
+os.environ.setdefault("DATABASE_URL", f"sqlite:///{_TEST_DB}")
 
 from src.data.load import get_feature_columns, make_model_feature_frame
 
@@ -21,6 +27,14 @@ PREDICT_PAYLOAD = {
     "country": "United States",
     "continent": "North America",
 }
+
+
+@pytest.fixture(autouse=True, scope="session")
+def cleanup_test_db():
+    """Remove the SQLite test database file after the full test session."""
+    yield
+    if _TEST_DB.exists():
+        _TEST_DB.unlink()
 
 
 @pytest.fixture

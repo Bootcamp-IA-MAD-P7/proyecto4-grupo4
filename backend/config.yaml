@@ -9,6 +9,7 @@ paths:
   model_dir: "models"
   model_file: "models/best_model.joblib"
   metrics_file: "models/metrics.json"
+  storage_db: "storage/training_metrics.db"
 
 training:
   test_size: 0.2
@@ -27,4 +28,7 @@ features:
     - funding_velocity
     - funding_vs_industry
     - company_age
-  categorical: []
+  categorical:
+    - industry
+    - country
+    - continent

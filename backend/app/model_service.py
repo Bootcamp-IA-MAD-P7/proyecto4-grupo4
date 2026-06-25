@@ -1,3 +1,4 @@
+import json
 import numpy as np
 import os
 from functools import lru_cache
@@ -15,6 +16,9 @@ from src.models.train import LogTargetRegressor
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
 MODEL_PATH = os.getenv("MODEL_PATH", "models/best_model.joblib")
+METRICS_PATH = ROOT_DIR / "models" / "metrics.json"
+
+_cached_model: Any | None = None
 
 
 def get_model_path() -> Path:
@@ -24,15 +28,57 @@ def get_model_path() -> Path:
     return path
 
 
+def preload_model() -> None:
+    """Load the model into the module-level cache at application startup.
+
+    Raises RuntimeError if the model file is missing so the process fails
+    with an explicit message rather than silently serving 503s.
+    """
+    global _cached_model
+    model_path = get_model_path()
+    if not model_path.exists():
+        raise RuntimeError(
+            f"Model file not found at '{model_path}'. "
+            "Run 'python scripts/train.py' to train and save the model."
+        )
+    _cached_model = joblib.load(model_path)
+
+
 def load_model() -> Any | None:
+    """Return the cached model, or load it on first call (fallback for tests)."""
+    if _cached_model is not None:
+        return _cached_model
     model_path = get_model_path()
     if not model_path.exists():
         return None
     return joblib.load(model_path)
 
 
+def is_model_loaded() -> bool:
+    return _cached_model is not None or get_model_path().exists()
+
+
 def get_model_mode() -> str:
-    return "trained_model" if get_model_path().exists() else "not_loaded"
+    return "trained_model" if is_model_loaded() else "not_loaded"
+
+
+def get_model_r2() -> float | None:
+    if not METRICS_PATH.exists():
+        return None
+    try:
+        data = json.loads(METRICS_PATH.read_text(encoding="utf-8"))
+        return data.get("validation", {}).get("r2")
+    except Exception:
+        return None
+
+
+def get_metrics() -> dict[str, Any] | None:
+    if not METRICS_PATH.exists():
+        return None
+    try:
+        return json.loads(METRICS_PATH.read_text(encoding="utf-8"))
+    except Exception:
+        return None
 
 
 @lru_cache(maxsize=1)

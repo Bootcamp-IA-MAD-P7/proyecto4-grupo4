@@ -1,118 +1,85 @@
+from __future__ import annotations
+
 import os
-import sqlite3
-from pathlib import Path
 from typing import Any
 
+from sqlalchemy import Column, DateTime, Float, Integer, String, Text, create_engine
+from sqlalchemy.orm import Session, declarative_base, sessionmaker
 
-ROOT_DIR = Path(__file__).resolve().parents[1]
-DEFAULT_DB_PATH = ROOT_DIR / "data" / "feedback" / "predictions.sqlite3"
-
-
-def get_db_path() -> Path:
-    return Path(os.getenv("APP_DB_PATH", DEFAULT_DB_PATH))
+Base = declarative_base()
 
 
-def get_connection(db_path: Path | None = None) -> sqlite3.Connection:
-    path = db_path or get_db_path()
-    path.parent.mkdir(parents=True, exist_ok=True)
-    connection = sqlite3.connect(path)
-    connection.row_factory = sqlite3.Row
-    return connection
+class Prediction(Base):
+    """ORM model for the predictions table (PostgreSQL in production)."""
+
+    __tablename__ = "predictions"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    year_founded = Column(Integer, nullable=False)
+    funding_usd = Column(Float, nullable=False)
+    company_age = Column(Integer, nullable=False)
+    industry = Column(String(100), nullable=False)
+    country = Column(String(100), nullable=False)
+    continent = Column(String(50), nullable=False)
+    predicted_valuation_usd = Column(Float, nullable=False)
+    actual_valuation_usd = Column(Float, nullable=True)
+    comment = Column(Text, nullable=True)
+    created_at = Column(DateTime(timezone=True), nullable=False)
 
 
-def init_db(db_path: Path | None = None) -> None:
-    with get_connection(db_path) as connection:
-        connection.execute(
-            """
-            CREATE TABLE IF NOT EXISTS predictions (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                year_founded INTEGER NOT NULL,
-                funding_usd REAL NOT NULL,
-                company_age INTEGER NOT NULL,
-                industry TEXT NOT NULL,
-                country TEXT NOT NULL,
-                continent TEXT NOT NULL,
-                predicted_valuation_usd REAL NOT NULL,
-                actual_valuation_usd REAL,
-                comment TEXT,
-                created_at TEXT NOT NULL
-            )
-            """
-        )
+_engine = None
 
 
-def save_feedback(record: dict[str, Any], db_path: Path | None = None) -> int | None:
-    init_db(db_path)
-    with get_connection(db_path) as connection:
-        cursor = connection.execute(
-            """
-            INSERT INTO predictions (
-                year_founded,
-                funding_usd,
-                company_age,
-                industry,
-                country,
-                continent,
-                predicted_valuation_usd,
-                actual_valuation_usd,
-                comment,
-                created_at
-            )
-            VALUES (
-                :year_founded,
-                :funding_usd,
-                :company_age,
-                :industry,
-                :country,
-                :continent,
-                :predicted_valuation_usd,
-                :actual_valuation_usd,
-                :comment,
-                :created_at
-            )
-            """,
-            record,
-        )
-        return cursor.lastrowid
+def get_engine():
+    """Return the SQLAlchemy engine, creating it on first call.
+
+    Raises RuntimeError if DATABASE_URL is not set in the environment.
+    """
+    global _engine
+    if _engine is None:
+        url = os.environ.get("DATABASE_URL")
+        if not url:
+            raise RuntimeError("DATABASE_URL environment variable is not set")
+        _engine = create_engine(url)
+    return _engine
 
 
-def save_prediction(record: dict[str, Any], db_path: Path | None = None) -> None:
-    save_feedback(record, db_path)
+def get_session() -> Session:
+    """Return a new SQLAlchemy session bound to the engine."""
+    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=get_engine())
+    return SessionLocal()
 
 
-def update_feedback(
-    request_id: str,
-    feedback_score: int | None,
-    actual_valuation_b: float | None,
-    comments: str | None,
-    updated_at: str,
-    db_path: Path | None = None,
-) -> bool:
-    init_db(db_path)
-    with get_connection(db_path) as connection:
-        result = connection.execute(
-            """
-            UPDATE predictions
-            SET actual_valuation_usd = :actual_valuation_usd,
-                comment = :comment
-            WHERE id = :request_id
-            """,
-            {
-                "request_id": request_id,
-                "actual_valuation_usd": (
-                    actual_valuation_b * 1_000_000_000 if actual_valuation_b is not None else None
-                ),
-                "comment": comments,
-            },
-        )
-        return result.rowcount > 0
+def init_db() -> None:
+    """Create all tables if they do not already exist."""
+    Base.metadata.create_all(get_engine())
 
 
-def fetch_prediction(request_id: str, db_path: Path | None = None) -> dict[str, Any] | None:
-    init_db(db_path)
-    with get_connection(db_path) as connection:
-        row = connection.execute(
-            "SELECT * FROM predictions WHERE id = ?",
-            (request_id,),
-        ).fetchone()
-    return dict(row) if row else None
+def save_feedback(record: dict[str, Any]) -> int | None:
+    """Persist one feedback record and return its auto-generated id."""
+    init_db()
+    session = get_session()
+    try:
+        row = Prediction(**record)
+        session.add(row)
+        session.commit()
+        session.refresh(row)
+        return row.id
+    except Exception:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+
+
+def fetch_prediction(record_id: int) -> dict[str, Any] | None:
+    """Return a prediction row by id, or None if it does not exist."""
+    init_db()
+    session = get_session()
+    try:
+        row = session.get(Prediction, int(record_id))
+        if row is None:
+            return None
+        return {col.name: getattr(row, col.name) for col in row.__table__.columns}
+    finally:
+        session.close()
