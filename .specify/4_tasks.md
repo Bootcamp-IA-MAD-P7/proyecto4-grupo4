@@ -680,7 +680,7 @@ Antes de comenzar cualquier tarea:
 
 ## Fase 5 — Frontend React + Docker Compose (activa)
 
-> **Estado:** activa — Fase 4 completada. Tickets `[T-5.1]` a `[T-5.7]` completados. Continuar con `[T-5.8]`.
+> **Estado:** activa — Fase 4 completada. Tickets `[T-5.1]` a `[T-5.8]` completados. Continuar con `[T-5.9]`.
 
 ### [T-5.1] Verificar `frontend/src/api.js` — BASE_URL y payloads
 
@@ -871,7 +871,7 @@ Antes de comenzar cualquier tarea:
     -d '{"year_founded":2015,"funding_usd":50000000,"company_age":9,"industry":"fintech","country":"United States","continent":"North America"}'
   ```
 - **Verificación:** Los tres contenedores están en estado `running`. `/health` devuelve `"status":"ok"`. `/predict` devuelve `valuation_usd` numérico.
-- [ ] Estado: pendiente
+- [x] Estado: completado — smoke test completo validado con `docker compose up --build -d`. Durante la primera construcción se detectó un bloqueo real: `backend/Dockerfile` ejecutaba `python scripts/train.py --report`, pero el gate de calidad rechazaba el modelo actual (`R²=0.2207 < 0.5`) aunque la spec documenta que el MVP usa temporalmente ese modelo hasta `[T-7.1]`. Se corrigió sin bajar el umbral: `scripts/train.py` conserva el gate por defecto y añade la bandera explícita `--allow-low-r2-artifact`; `backend/Dockerfile` la usa solo para generar el artefacto runtime dentro de la imagen Docker. También se añadió `backend/.dockerignore` para reducir el contexto de build. Verificado: `db` healthy en `5434:5432`, `api` running en `8000`, `frontend` running en `5173`, `/health` → `{"status":"ok","model_loaded":true,"model_r2":0.2207}`, `/predict` devuelve `valuation_usd` numérico, `/feedback` devuelve `201` con `status:"recorded"`, y `http://127.0.0.1:5173/` sirve HTML.
 
 ---
 
@@ -1008,12 +1008,12 @@ Antes de comenzar cualquier tarea:
 | Fase 2 — Rutas y Configuración | 10 | 10 | 0  | ✅ Completada |
 | Fase 3 — Tests + Modelo T1-T3  | 7  | 7  | 0  | ✅ Completada |
 | Fase 4 — API + PostgreSQL      | 10 | 10 | 0  | ✅ Completada |
-| Fase 5 — Frontend + Docker     | 9  | 7  | 2  | ▶ **Activa** |
+| Fase 5 — Frontend + Docker     | 9  | 8  | 1  | ▶ **Activa** |
 | Fase 6 — Documentación         | 6  | 0  | 6  | Bloqueada |
 | Fase 7 — Optimización Post-MVP | 1  | 0  | 1  | 🧊 Congelada |
-| **Total**                      | **57** | **50** | **7** | |
+| **Total**                      | **57** | **51** | **6** | |
 
-> **Siguiente ticket:** `[T-5.8]` Smoke test completo con Docker Compose.
+> **Siguiente ticket:** `[T-5.9]` Ajustes estructurales y UX del frontend.
 
 ---
 

@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+notebooks/
+reports/
+storage/
+tests/
+
+models/*.joblib
+models/*.pkl
+models/metrics.json
+data/processed/
