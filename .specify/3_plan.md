@@ -11,8 +11,12 @@
 | Fase 0 — Preparación | ✅ Completada |
 | Fase 1 — Limpieza de Artefactos | ✅ Completada |
 | Fase 0.5 — Monorepo (`backend/`) | ✅ Completada |
-| **Fase 2 — Rutas y Configuración** | **▶ Activa** |
-| Fases 3–6 | Bloqueadas |
+| Fase 2 — Rutas y Configuración | ✅ Completada |
+| Fase 3 — Tests + Modelo T1-T3 | ✅ Completada |
+| Fase 4 — API + PostgreSQL | ✅ Completada |
+| **Fase 5 — Frontend React** | **▶ Activa** |
+| Fase 6 — Documentación | Bloqueada |
+| Fase 7 — Optimización Post-MVP | 🧊 Congelada |
 
 ---
 
@@ -399,6 +403,51 @@ git push origin refactor/stabilize-architecture
 - [ ] PR creada
 - [ ] CI pasa (pytest + R² >= 0.50)
 - [ ] Revisión de equipo antes de merge
+
+---
+
+## Fase 7 — Optimización Post-MVP (Deuda Técnica) 🧊 CONGELADA
+
+> **Estado:** 🧊 congelada — no iniciar hasta completar el MVP funcional (Fases 4–6).
+> **Decisión arquitectónica:** documentada en `backend/docs/architecture_decision_target.md` (ADR-001).
+> **Ticket de ejecución:** `[T-7.1]` en `4_tasks.md`.
+
+### 7.1 Refactorizar target de entrenamiento a Múltiplo de Valoración
+
+El modelo actual (Fases 1–4, GradientBoosting) alcanza R²≈0.22 con el target absoluto `valuation_usd`. El diagnóstico de residuos documentado en ADR-001 evidencia un patrón sistemático de heterocedasticidad: sesgo de subestimación proporcional a la magnitud (+1.5 B USD de error residual por B USD predicho, ratio 5×).
+
+**Objetivo:** sustituir el target de entrenamiento por el *múltiplo de valoración*:
+
+```
+multiple = valuation_usd / funding_usd
+```
+
+y recuperar la valoración en inferencia mediante:
+
+```
+valuation_usd_pred = predicted_multiple × funding_usd
+```
+
+Esta transformación absorbe la escala operativa del negocio y reduce la heterocedasticidad estructural. Incremento esperado de R² hacia el rango 0.35–0.50. **El contrato de la API no cambia** — `POST /predict` seguirá devolviendo `valuation_usd` y `valuation_b` en dólares absolutos (ver `2_spec.md` §4).
+
+#### Archivos afectados (confinados al backend ML)
+
+| Archivo | Cambio |
+|---------|--------|
+| `backend/src/models/train.py` | `fit_model()` usa `log1p(multiple)`; `predict_absolute()` reconvierte por `funding_usd` |
+| `backend/config.yaml` | Nueva clave `target_transform: "multiple"` |
+| `backend/scripts/train.py` | `enforce_quality_gate()` con umbral R²≥0.50 sobre el múltiplo |
+| `backend/app/model_service.py` | `predict_valuation()` pasa `funding_usd` al pipeline para reconversión post-inferencia |
+| `backend/tests/test_pipeline.py` | `test_train_meets_min_r2` actualizado con nuevo umbral esperado |
+
+#### Criterios de aceptación
+
+- R² validación ≥ 0.35 (objetivo); ≥ 0.50 (gate de CI)
+- Pendiente del Residual Plot < +0.8 B/B (reducción ≥ 47% del sesgo actual)
+- `POST /predict` responde con el mismo esquema de `2_spec.md` §4 sin cambios de interfaz
+- `test_train_meets_min_r2` pasa en verde
+
+- [ ] Estado: pendiente — ver `[T-7.1]` en `4_tasks.md`
 
 ---
 
