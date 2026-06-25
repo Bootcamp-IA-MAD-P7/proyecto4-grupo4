@@ -2,9 +2,9 @@ import React from "react";
 import { BarChart3, BrainCircuit, LineChart, Target } from "lucide-react";
 
 const links = [
-  { href: "/dashboard", label: "Dashboard", icon: BarChart3 },
-  { href: "/predict", label: "Prediccion", icon: Target },
-  { href: "/methodology", label: "Metodologia", icon: BrainCircuit },
+  { href: "/dashboard", label: "Panel", icon: BarChart3 },
+  { href: "/predict", label: "Predicción", icon: Target },
+  { href: "/methodology", label: "Metodología", icon: BrainCircuit },
   { href: "/model", label: "Modelo", icon: LineChart },
 ];
 
@@ -12,7 +12,7 @@ function Navbar({ apiStatus, currentPath, onNavigate }) {
   return (
     <header className="navbar-shell">
       <a
-        aria-label="El Oraculo de Venture Capital"
+        aria-label="El Oráculo de Capital Riesgo"
         className="brand-mark"
         href="/"
         onClick={(event) => onNavigate(event, "/")}
@@ -21,12 +21,12 @@ function Navbar({ apiStatus, currentPath, onNavigate }) {
           <span className="mini-prism" />
         </span>
         <span>
-          <strong>El Oraculo VC</strong>
-          <small>Senal. Inteligencia. Ventaja.</small>
+          <strong>El Oráculo</strong>
+          <small>Señal. Inteligencia. Ventaja.</small>
         </span>
       </a>
 
-      <nav className="nav-links" aria-label="Navegacion principal">
+      <nav className="nav-links" aria-label="Navegación principal">
         {links.map(({ href, label, icon: Icon }) => (
           <a
             className={currentPath === href ? "active" : ""}

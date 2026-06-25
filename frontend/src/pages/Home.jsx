@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { createPrediction, getHealth, saveFeedback } from "../api";
+import { getHealth, predict, submitFeedback } from "../api";
 import Dashboard from "../components/Dashboard";
 import Footer from "../components/Footer";
 import ModelNotes from "../components/ModelNotes";
@@ -9,13 +9,13 @@ import OraclePrism from "../components/OraclePrism";
 import PipelineSteps from "../components/PipelineSteps";
 import PredictionForm from "../components/PredictionForm";
 import PredictionResult from "../components/PredictionResult";
-import { countries, industries, initialForm, valueProps } from "../data/modelMetrics";
+import { continents, countries, industries, initialForm, valueProps } from "../data/modelMetrics";
 
 const routeTitles = {
   "/": "Inicio",
-  "/dashboard": "Dashboard",
-  "/predict": "Prediccion",
-  "/methodology": "Metodologia",
+  "/dashboard": "Panel",
+  "/predict": "Predicción",
+  "/methodology": "Metodología",
   "/model": "Modelo",
 };
 
@@ -28,9 +28,8 @@ function Home() {
   const [form, setForm] = useState(initialForm);
   const [prediction, setPrediction] = useState(null);
   const [feedback, setFeedback] = useState({
-    feedback_score: "",
-    actual_valuation_b: "",
-    comments: "",
+    actual_valuation_usd: "",
+    comment: "",
   });
   const [apiStatus, setApiStatus] = useState("API offline");
   const [error, setError] = useState("");
@@ -40,7 +39,10 @@ function Home() {
 
   useEffect(() => {
     getHealth()
-      .then((body) => setApiStatus(`API ${body.status} | ${body.model_mode}`))
+      .then((body) => {
+        const modelState = body.model_loaded ? "modelo cargado" : "modelo no cargado";
+        setApiStatus(`API ${body.status} | ${modelState}`);
+      })
       .catch(() => setApiStatus("API offline"));
   }, []);
 
@@ -65,10 +67,10 @@ function Home() {
 
   function updateField(event) {
     const { name, value } = event.target;
-    const numericFields = ["join_year", "join_month", "investor_count"];
+    const numericFields = ["year_founded", "funding_usd", "company_age"];
     setForm((current) => ({
       ...current,
-      [name]: numericFields.includes(name) ? Number(value) : value,
+      [name]: numericFields.includes(name) && value !== "" ? Number(value) : value,
     }));
   }
 
@@ -86,10 +88,8 @@ function Home() {
     setFeedbackMessage("");
     setLoading(true);
 
-    const { startup_name: _startupName, ...payload } = form;
-
     try {
-      const body = await createPrediction(payload);
+      const body = await predict(form);
       setPrediction(body);
     } catch (requestError) {
       setPrediction(null);
@@ -101,25 +101,25 @@ function Home() {
 
   async function handleFeedback(event) {
     event.preventDefault();
-    if (!prediction?.request_id) return;
+    if (!prediction) return;
 
     setError("");
     setFeedbackMessage("");
     setLoading(true);
 
     const payload = {
-      request_id: prediction.request_id,
-      feedback_score: feedback.feedback_score ? Number(feedback.feedback_score) : null,
-      actual_valuation_b: feedback.actual_valuation_b
-        ? Number(feedback.actual_valuation_b)
+      ...form,
+      predicted_valuation_usd: prediction.valuation_usd,
+      actual_valuation_usd: feedback.actual_valuation_usd
+        ? Number(feedback.actual_valuation_usd)
         : null,
-      comments: feedback.comments || null,
+      comment: feedback.comment || null,
     };
 
     try {
-      const body = await saveFeedback(payload);
-      setFeedbackMessage(body.message);
-      setFeedback({ feedback_score: "", actual_valuation_b: "", comments: "" });
+      const body = await submitFeedback(payload);
+      setFeedbackMessage(`Retroalimentación registrada con ID ${body.id}.`);
+      setFeedback({ actual_valuation_usd: "", comment: "" });
     } catch (requestError) {
       setError(requestError.message);
     } finally {
@@ -137,19 +137,19 @@ function Home() {
             <div className="hero-title-lockup">
               <OraclePrism className="hero-prism-bg" />
               <p className="eyebrow">Motor predictivo de venture intelligence</p>
-              <h1>El Oraculo de Venture Capital</h1>
+              <h1>El Oráculo de Capital Riesgo</h1>
             </div>
 
             <p>
-              Prediccion basada en datos para detectar senales tempranas de
-              valoracion en startups unicornio.
+              Predicción basada en datos para detectar señales tempranas de
+              valoración en startups unicornio.
             </p>
             <div className="hero-actions">
               <a className="primary-action" href="/predict" onClick={(event) => navigate(event, "/predict")}>
-                Consultar el Oraculo
+                Consultar el Oráculo
               </a>
               <a className="ghost-action" href="/methodology" onClick={(event) => navigate(event, "/methodology")}>
-                Ver metodologia
+                Ver metodología
               </a>
             </div>
           </div>
@@ -171,11 +171,12 @@ function Home() {
         <section className="route-page predict-page">
           <div className="route-heading">
             <p className="eyebrow">Consulta predictiva</p>
-            <h1>Convierte datos de deal flow en una lectura inicial de valoracion.</h1>
+            <h1>Convierte datos de oportunidades de inversión en una lectura inicial de valoración.</h1>
           </div>
 
           <div className="predict-grid">
             <PredictionForm
+              continents={continents}
               countries={countries}
               form={form}
               industries={industries}

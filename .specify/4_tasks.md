@@ -690,7 +690,7 @@ Antes de comenzar cualquier tarea:
   - Existe `submitFeedback()` apuntando a `POST /feedback`.
   - Eliminar campos legacy: `city`, `join_year`, `join_month`, `investor_count`.
 - **Verificación:** `grep -E "city|join_year|join_month|investor_count" frontend/src/api.js` no devuelve resultados.
-- [ ] Estado: pendiente
+- [x] Estado: completado — `frontend/src/api.js` usa `BASE_URL`, expone `predict()` y `submitFeedback()`, conserva alias compatibles y no contiene campos legacy. Verificado con búsqueda de campos obsoletos y `npm.cmd run build`.
 
 ---
 
@@ -707,7 +707,7 @@ Antes de comenzar cualquier tarea:
   ```
   Actualizar los componentes que consuman este módulo para llamar `fetchMetrics()` en un `useEffect`.
 - **Verificación:** `grep -E "r2.*0\.|mae.*[0-9]{8}" frontend/src/data/modelMetrics.js` no devuelve valores hardcodeados.
-- [ ] Estado: pendiente
+- [x] Estado: completado — `modelMetrics.js` exporta `fetchMetrics()` contra `GET /metrics`; `Dashboard.jsx` carga métricas con `useEffect` y muestra estado de carga/error. Verificado sin valores hardcodeados prohibidos y con `npm.cmd run build`.
 
 ---
 
@@ -716,7 +716,7 @@ Antes de comenzar cualquier tarea:
 - **Archivo(s):** `frontend/src/components/PredictionForm.jsx`
 - **Acción:** Los campos del formulario deben ser exactamente: `year_founded`, `funding_usd`, `company_age`, `industry`, `country`, `continent`. Eliminar: `city`, `join_year`, `join_month`, `investor_count`.
 - **Verificación:** `grep -E "city|join_year|join_month|investor_count" frontend/src/components/PredictionForm.jsx` no devuelve resultados.
-- [ ] Estado: pendiente
+- [x] Estado: completado — `PredictionForm.jsx` usa exactamente `year_founded`, `funding_usd`, `company_age`, `industry`, `country`, `continent`; `Home.jsx` y `initialForm` quedan alineados con esos campos. Verificado sin campos legacy y con `npm.cmd run build`.
 
 ---
 
@@ -731,7 +731,7 @@ Antes de comenzar cualquier tarea:
   grep -n "Ã\|Â" frontend/src/components/PredictionResult.jsx
   ```
 - **Verificación:** El comando anterior no devuelve resultados.
-- [ ] Estado: pendiente
+- [x] Estado: completado — `PredictionResult.jsx` muestra `valuation_b` como `$X.XXB` y `valuation_usd` como cifra completa; se corrigieron textos visibles, mojibake y payload de retroalimentación para alinearlo con `POST /feedback`. Verificado con búsqueda de mojibake/campos legacy y `npm.cmd run build`.
 
 ---
 
@@ -980,12 +980,12 @@ Antes de comenzar cualquier tarea:
 | Fase 2 — Rutas y Configuración | 10 | 10 | 0  | ✅ Completada |
 | Fase 3 — Tests + Modelo T1-T3  | 7  | 7  | 0  | ✅ Completada |
 | Fase 4 — API + PostgreSQL      | 10 | 10 | 0  | ✅ Completada |
-| Fase 5 — Frontend + Docker     | 8  | 0  | 8  | ▶ **Activa** |
+| Fase 5 — Frontend + Docker     | 8  | 4  | 4  | ▶ **Activa** |
 | Fase 6 — Documentación         | 6  | 0  | 6  | Bloqueada |
 | Fase 7 — Optimización Post-MVP | 1  | 0  | 1  | 🧊 Congelada |
-| **Total**                      | **56** | **43** | **13** | |
+| **Total**                      | **56** | **47** | **9** | |
 
-> **Siguiente ticket:** `[T-5.1]` Verificar `frontend/src/api.js`.
+> **Siguiente ticket:** `[T-5.5]` Búsqueda y corrección global de mojibake.
 
 ---
 
