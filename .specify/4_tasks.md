@@ -680,7 +680,7 @@ Antes de comenzar cualquier tarea:
 
 ## Fase 5 — Frontend React + Docker Compose (activa)
 
-> **Estado:** activa — Fase 4 completada. Tickets `[T-5.1]` a `[T-5.5]` completados. Continuar con `[T-5.6]`.
+> **Estado:** activa — Fase 4 completada. Tickets `[T-5.1]` a `[T-5.6]` completados. Continuar con `[T-5.7]`.
 
 ### [T-5.1] Verificar `frontend/src/api.js` — BASE_URL y payloads
 
@@ -795,7 +795,7 @@ Antes de comenzar cualquier tarea:
   sleep 2 && curl -s http://localhost:5173 | grep -c "<!DOCTYPE html"
   ```
   Devuelve `1` (el HTML se sirve correctamente).
-- [ ] Estado: pendiente
+- [x] Estado: completado — `frontend/Dockerfile` multi-stage creado con etapa `builder` en Node 20 Alpine y etapa `runner` en Nginx 1.27 Alpine. `frontend/nginx.conf` sirve la SPA con `try_files` y añade `/health` para comprobaciones rápidas. `frontend/.dockerignore` evita copiar `node_modules`, `dist`, variables de entorno y archivos innecesarios al contexto Docker. Verificado con `npm.cmd run build`, `docker build -t unicorn-frontend ./frontend`, contenedor temporal en `http://127.0.0.1:5174`, `/health` con HTTP 200 y `/` devolviendo HTML con `<!doctype html>`.
 
 ---
 
@@ -1008,12 +1008,12 @@ Antes de comenzar cualquier tarea:
 | Fase 2 — Rutas y Configuración | 10 | 10 | 0  | ✅ Completada |
 | Fase 3 — Tests + Modelo T1-T3  | 7  | 7  | 0  | ✅ Completada |
 | Fase 4 — API + PostgreSQL      | 10 | 10 | 0  | ✅ Completada |
-| Fase 5 — Frontend + Docker     | 9  | 5  | 4  | ▶ **Activa** |
+| Fase 5 — Frontend + Docker     | 9  | 6  | 3  | ▶ **Activa** |
 | Fase 6 — Documentación         | 6  | 0  | 6  | Bloqueada |
 | Fase 7 — Optimización Post-MVP | 1  | 0  | 1  | 🧊 Congelada |
-| **Total**                      | **57** | **48** | **9** | |
+| **Total**                      | **57** | **49** | **8** | |
 
-> **Siguiente ticket:** `[T-5.6]` Crear Dockerfile multi-stage para el frontend.
+> **Siguiente ticket:** `[T-5.7]` Escribir `docker-compose.yml` con healthcheck y depends_on condicional.
 
 ---
 
