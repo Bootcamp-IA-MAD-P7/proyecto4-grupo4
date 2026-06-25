@@ -12,7 +12,8 @@
 | Fase 2 | `[T-2.0]`–`[T-2.9]` | ✅ Completados |
 | Fase 3 | `[T-3.x]` | ✅ Completados |
 | Fase 4 | `[T-4.1]`–`[T-4.10]` | ✅ Completados |
-| Fases 5–6 | `[T-5.x]`–`[T-6.x]` | Bloqueadas |
+| Fase 5 | `[T-5.1]`–`[T-5.9]` | ▶ Activa |
+| Fase 6 | `[T-6.x]` | Bloqueada |
 
 ---
 
@@ -679,7 +680,7 @@ Antes de comenzar cualquier tarea:
 
 ## Fase 5 — Frontend React + Docker Compose (activa)
 
-> **Estado:** activa — Fase 4 completada. Iniciar con `[T-5.1]`.
+> **Estado:** activa — Fase 4 completada. Tickets `[T-5.1]` a `[T-5.4]` completados. Continuar con `[T-5.5]`.
 
 ### [T-5.1] Verificar `frontend/src/api.js` — BASE_URL y payloads
 
@@ -731,7 +732,7 @@ Antes de comenzar cualquier tarea:
   grep -n "Ã\|Â" frontend/src/components/PredictionResult.jsx
   ```
 - **Verificación:** El comando anterior no devuelve resultados.
-- [x] Estado: completado — `PredictionResult.jsx` muestra `valuation_b` como `$X.XXB` y `valuation_usd` como cifra completa; se corrigieron textos visibles, mojibake y payload de retroalimentación para alinearlo con `POST /feedback`. Verificado con búsqueda de mojibake/campos legacy y `npm.cmd run build`.
+- [x] Estado: completado — `PredictionResult.jsx` muestra `valuation_b` como `$X.XXB` y `valuation_usd` como cifra completa. También se corrigió la integración de retroalimentación: el frontend dejó de enviar campos legacy (`request_id`, `feedback_score`, `actual_valuation_b`, `comments`) y ahora construye el payload esperado por `POST /feedback` (`features + predicted_valuation_usd + actual_valuation_usd + comment`). Además se normalizaron textos visibles en los componentes tocados: español consistente, tildes, `ñ`, eliminación de mojibake y sustitución de términos mixtos (`Dashboard` → `Panel`, `Feedback` → `Retroalimentación`, `Funding` → `Financiación`). El campo técnico `continent` se mantiene para el backend, pero la UI lo muestra como `Región geográfica` con etiquetas visibles (`América del Norte`, `América del Sur`, etc.). Verificado con búsqueda de mojibake/campos legacy y `npm.cmd run build`.
 
 ---
 
@@ -744,6 +745,12 @@ Antes de comenzar cualquier tarea:
                    --include="*.jsx" --include="*.js" --include="*.yaml" .
   ```
   Reemplazos comunes: `PredicciÃ³n` → `Predicción`, `RÂ²` → `R²`, `valoraciÃ³n` → `valoración`.
+  Además, documentar y completar la limpieza iniciada en `[T-5.4]`:
+  - Revisar textos visibles del frontend para que estén en español consistente.
+  - Corregir tildes, `ñ`, signos y términos de negocio.
+  - Evitar mezclas innecesarias de español/inglés en la UI (`Dashboard`, `Feedback`, `Funding`, `mock_model`, `USD Billions`).
+  - Mantener nombres técnicos internos cuando sean contrato de API (`continent`, `funding_usd`, `valuation_usd`), pero traducir la etiqueta visible.
+  - Confirmar que `continent` se muestra como `Región geográfica`, con valores visibles como `América del Norte` y `América del Sur`, sin alterar los valores enviados al backend.
 - **Verificación:** El comando de búsqueda no devuelve resultados.
 - [ ] Estado: pendiente
 
@@ -868,6 +875,27 @@ Antes de comenzar cualquier tarea:
 
 ---
 
+### [T-5.9] Ajustes estructurales y UX del frontend
+
+> **Nota:** iniciar después de `[T-5.8]`, cuando funcionalidad, API, Docker y smoke test completo estén validados. El objetivo es mejorar claridad y experiencia sin cambiar el contrato de API.
+
+- **Archivo(s):** `frontend/src/**`, eventualmente `frontend/src/styles.css`
+- **Acción:**
+  - Revisar estructura de componentes y responsabilidades (`pages/`, `components/`, `data/`, `api.js`).
+  - Evaluar si conviene separar helpers de formato, constantes de opciones y construcción de métricas en módulos más claros.
+  - Revisar navegación, jerarquía visual, orden de secciones, claridad del formulario y estados de carga/error/éxito.
+  - Mantener coherencia de idioma español, tildes, `ñ`, accesibilidad básica (`aria-label`, labels asociados, textos de botones) y el criterio `Región geográfica` para el campo técnico `continent`.
+  - No introducir cambios de modelo, endpoints ni nombres del contrato backend.
+- **Verificación:**
+  ```bash
+  cd frontend
+  npm.cmd run build
+  ```
+  Revisión manual en `http://127.0.0.1:5173` de navegación, formulario, panel, resultado y retroalimentación.
+- [ ] Estado: pendiente
+
+---
+
 ## Fase 6 — Documentación y Cierre (pendiente)
 
 > **Estado:** bloqueada — no iniciar hasta completar Fase 5.
@@ -980,10 +1008,10 @@ Antes de comenzar cualquier tarea:
 | Fase 2 — Rutas y Configuración | 10 | 10 | 0  | ✅ Completada |
 | Fase 3 — Tests + Modelo T1-T3  | 7  | 7  | 0  | ✅ Completada |
 | Fase 4 — API + PostgreSQL      | 10 | 10 | 0  | ✅ Completada |
-| Fase 5 — Frontend + Docker     | 8  | 4  | 4  | ▶ **Activa** |
+| Fase 5 — Frontend + Docker     | 9  | 4  | 5  | ▶ **Activa** |
 | Fase 6 — Documentación         | 6  | 0  | 6  | Bloqueada |
 | Fase 7 — Optimización Post-MVP | 1  | 0  | 1  | 🧊 Congelada |
-| **Total**                      | **56** | **47** | **9** | |
+| **Total**                      | **57** | **47** | **10** | |
 
 > **Siguiente ticket:** `[T-5.5]` Búsqueda y corrección global de mojibake.
 

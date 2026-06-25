@@ -260,9 +260,10 @@ seaborn>=0.13.0
 optuna>=3.6.0
 pytest>=8.0.0
 httpx>=0.27.0
+pyarrow>=14.0.0
 ```
 
-> `streamlit` y `kagglehub` son eliminados. `httpx` es necesario para los tests de la API con `TestClient`. `psycopg2-binary` es el driver PostgreSQL para SQLAlchemy; no se requiere ningún driver SQLite adicional porque SQLite queda fuera del stack de producción.
+> `streamlit` y `kagglehub` son eliminados. `httpx` es necesario para los tests de la API con `TestClient`. `psycopg2-binary` es el driver PostgreSQL para SQLAlchemy. `pyarrow` es obligatorio para leer/escribir `backend/data/processed/dataset.parquet` con pandas. No se requiere ningún driver SQLite adicional porque SQLite queda fuera del stack de producción.
 
 ---
 
@@ -282,6 +283,46 @@ httpx>=0.27.0
 
 ---
 
-## 8. Codificación
+## 8. Contrato de Interfaz Frontend
+
+La interfaz React debe estar alineada con el contrato de la API, pero no está obligada a mostrar los nombres técnicos al usuario final.
+
+### Reglas de idioma y terminología
+
+- Todo texto visible de la aplicación debe estar en español.
+- Usar tildes, `ñ` y signos correctos: `Predicción`, `Métricas`, `Valoración`, `Señal`, `Compañía`, `Metodología`, `Oráculo`.
+- Evitar mezclar inglés y español en textos visibles. Términos como `Dashboard`, `Feedback` o `Funding` deben mostrarse como `Panel`, `Retroalimentación` y `Financiación`, salvo que formen parte de código, endpoints o nombres técnicos internos.
+- No mostrar textos desactualizados del stack eliminado (`mock_model`, SQLite, Streamlit).
+
+### Separación entre valor técnico y etiqueta visible
+
+Los payloads enviados a FastAPI mantienen los nombres canónicos del contrato:
+
+```json
+{
+  "year_founded": 2015,
+  "funding_usd": 50000000.0,
+  "company_age": 9,
+  "industry": "Fintech",
+  "country": "United States",
+  "continent": "North America"
+}
+```
+
+La UI puede traducir etiquetas sin alterar el valor enviado. Ejemplo obligatorio para `continent`:
+
+| Valor enviado al backend | Etiqueta visible en frontend |
+|--------------------------|------------------------------|
+| `North America`          | `América del Norte`          |
+| `South America`          | `América del Sur`            |
+| `Europe`                 | `Europa`                     |
+| `Africa`                 | `África`                     |
+| `Oceania`                | `Oceanía`                    |
+
+En la interfaz, el campo debe mostrarse como **Región geográfica**, no como "continente", para evitar el error conceptual de presentar América del Norte y América del Sur como continentes separados.
+
+---
+
+## 9. Codificación
 
 Todos los archivos `.py`, `.md`, `.yaml`, `.json`, `.jsx` usan **UTF-8 sin BOM**. Cualquier cadena con mojibake (`PredicciÃ³n`, `RÂ²`) debe ser corregida a su forma correcta (`Predicción`, `R²`).

@@ -294,84 +294,70 @@ curl -s http://localhost:8000/health
 
 ---
 
-## Fase 5 — Frontend React (pendiente)
+## Fase 5 — Frontend React + Docker Compose (activa)
 
-> **Estado:** bloqueada — no iniciar hasta completar Fase 4.
+> **Estado:** activa — Fase 4 completada. Prioridad: funcionalidad e integración antes de ajustes estéticos profundos.
 
 ### 5.1 Verificar `frontend/src/api.js`
 
-- [ ] `BASE_URL` apunta a `http://localhost:8000`
-- [ ] Función `predict(payload)` usa el esquema de `2_spec.md`
-- [ ] Función `submitFeedback(payload)` usa el endpoint `/feedback`
+- [x] `BASE_URL` apunta a `http://localhost:8000` o se configura con `VITE_API_URL`.
+- [x] `predict(payload)` usa el esquema de `2_spec.md`.
+- [x] `submitFeedback(payload)` usa el endpoint `/feedback`.
+- [x] El payload elimina campos legacy (`city`, `join_year`, `join_month`, `investor_count`).
 
-### 5.2 Verificar `frontend/src/data/modelMetrics.js`
+### 5.2 Reemplazar métricas hardcodeadas
 
-- [ ] Sustituir métricas hardcodeadas por una llamada al endpoint `GET /metrics`
-- [ ] El componente `MetricCard` recibe R² dinámico desde la API
+- [x] `frontend/src/data/modelMetrics.js` exporta `fetchMetrics()` contra `GET /metrics`.
+- [x] `Dashboard.jsx` consume métricas con `useEffect`.
+- [x] El dashboard muestra estado de carga/error si el backend todavía no tiene `models/metrics.json`.
 
-### 5.3 Actualizar `frontend/src/components/PredictionForm.jsx`
+### 5.3 Actualizar formulario de predicción
 
-- [ ] Los campos del formulario coinciden con `PredictRequest`: `year_founded`, `funding_usd`, `company_age`, `industry`, `country`, `continent`
-- [ ] Eliminar cualquier campo legacy (`city`, `join_year`, `join_month`, `investor_count`)
+- [x] Los campos del formulario coinciden con `PredictRequest`: `year_founded`, `funding_usd`, `company_age`, `industry`, `country`, `continent`.
+- [x] Eliminar cualquier campo legacy (`city`, `join_year`, `join_month`, `investor_count`).
+- [x] La UI muestra el campo técnico `continent` como **Región geográfica**.
 
-### 5.4 Actualizar `frontend/src/components/PredictionResult.jsx`
+### 5.4 Actualizar resultado y retroalimentación
 
-- [ ] Mostrar `valuation_b` formateado (ej: `$1.25B`) y `valuation_usd` completo
-- [ ] Corregir cualquier texto con mojibake (`Predicción`, `R²`)
+- [x] Mostrar `valuation_b` formateado (ej: `$1.25B`) y `valuation_usd` completo.
+- [x] Corregir `PredictionResult.jsx` para dejar de usar nombres legacy (`prediction_billion_usd`, `model_used`, `request_id`).
+- [x] Alinear el payload de retroalimentación con `POST /feedback`: features originales + `predicted_valuation_usd`, `actual_valuation_usd`, `comment`.
+- [x] Corregir textos visibles, tildes, `ñ`, mojibake y coherencia español/inglés en los componentes tocados.
 
-### 5.5 Verificar build
+### 5.5 Búsqueda y corrección global de mojibake
 
-```bash
-cd frontend && npm install && npm run build
-```
+- [ ] Ejecutar búsqueda global en `.py`, `.md`, `.jsx`, `.js`, `.yaml`.
+- [ ] Corregir mojibake restante (`Ã`, `Â`, `PredicciÃ³n`, `RÃ‚Â²`, etc.).
+- [ ] Documentar explícitamente los criterios de idioma aplicados al frontend: español visible, tildes, `ñ`, términos coherentes y separación entre valor técnico y etiqueta visible.
 
-- [ ] Build sin errores ni warnings críticos
+### 5.6 Crear Dockerfile multi-stage para frontend
 
-### 5.6 Actualizar `docker-compose.yml` — incluir servicio `db` (PostgreSQL)
+- [ ] Crear/reescribir `frontend/Dockerfile` con build Node + serve Nginx.
+- [ ] Crear `frontend/nginx.conf` con soporte SPA.
+- [ ] Verificar build de imagen y servicio estático en puerto `5173`.
 
-El `docker-compose.yml` debe definir exactamente tres servicios:
+### 5.7 Actualizar `docker-compose.yml`
 
-```yaml
-services:
-  db:
-    image: postgres:15-alpine
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: unicorn_user
-      POSTGRES_PASSWORD: unicorn_pass
-      POSTGRES_DB: unicorns
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+- [ ] Incluir servicios `db`, `api` y `frontend`.
+- [ ] Añadir `healthcheck` en PostgreSQL.
+- [ ] Usar `depends_on.condition: service_healthy` para la API.
+- [ ] Verificar `docker compose config`.
 
-  api:
-    build: ./backend
-    restart: unless-stopped
-    ports:
-      - "8000:8000"
-    environment:
-      DATABASE_URL: postgresql://unicorn_user:unicorn_pass@db:5432/unicorns
-    depends_on:
-      - db
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+### 5.8 Smoke test completo con Docker Compose
 
-  frontend:
-    build: ./frontend
-    restart: unless-stopped
-    ports:
-      - "5173:80"
-    depends_on:
-      - api
+- [ ] Ejecutar `docker compose up --build -d`.
+- [ ] Verificar `db`, `api` y `frontend` en estado running.
+- [ ] Probar `GET /health`, `GET /metrics`, `POST /predict` y flujo visual del frontend.
 
-volumes:
-  postgres_data:
-```
+### 5.9 Ajustes estructurales y UX del frontend
 
-- [ ] Escribir el bloque anterior en `docker-compose.yml` (reemplazar contenido existente)
-- [ ] Eliminar cualquier servicio `streamlit` que pudiera existir
-- [ ] Eliminar cualquier volumen de `storage/` que hacía referencia a `app.db`
-- [ ] Verificar que `docker compose config` no lanza errores de sintaxis
+> **Estado:** pendiente — iniciar después de validar funcionalidad e integración con Docker.
+
+- [ ] Revisar estructura de componentes y responsabilidades (`pages/`, `components/`, `data/`, `api.js`).
+- [ ] Revisar jerarquía visual, navegación, orden de secciones y claridad del formulario.
+- [ ] Mejorar estados vacíos, carga, error y éxito sin alterar el contrato de API.
+- [ ] Mantener consistencia de idioma y accesibilidad básica (`aria-label`, labels, textos de botones).
+- [ ] Verificar con `npm.cmd run build` y revisión manual en `localhost:5173`.
 
 ---
 
