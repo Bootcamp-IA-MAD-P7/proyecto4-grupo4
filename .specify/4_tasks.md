@@ -10,7 +10,9 @@
 | Fase 0 | `[T-0.1]`–`[T-0.3]` | ✅ Completados |
 | Fase 1 | `[T-1.1]`–`[T-1.11]` | ✅ Completados |
 | Fase 2 | `[T-2.0]`–`[T-2.9]` | ✅ Completados |
-| Fases 3–6 | `[T-3.x]`–`[T-6.x]` | Bloqueadas |
+| Fase 3 | `[T-3.x]` | ✅ Completados |
+| Fase 4 | `[T-4.1]`–`[T-4.10]` | ✅ Completados |
+| Fases 5–6 | `[T-5.x]`–`[T-6.x]` | Bloqueadas |
 
 ---
 
@@ -675,9 +677,9 @@ Antes de comenzar cualquier tarea:
 
 ---
 
-## Fase 5 — Frontend React + Docker Compose (pendiente)
+## Fase 5 — Frontend React + Docker Compose (activa)
 
-> **Estado:** bloqueada — no iniciar hasta completar Fase 4.
+> **Estado:** activa — Fase 4 completada. Iniciar con `[T-5.1]`.
 
 ### [T-5.1] Verificar `frontend/src/api.js` — BASE_URL y payloads
 
@@ -977,13 +979,13 @@ Antes de comenzar cualquier tarea:
 | Fase 1 — Limpieza              | 11 | 11 | 0  | ✅ Completada |
 | Fase 2 — Rutas y Configuración | 10 | 10 | 0  | ✅ Completada |
 | Fase 3 — Tests + Modelo T1-T3  | 7  | 7  | 0  | ✅ Completada |
-| Fase 4 — API + PostgreSQL      | 10 | 6  | 4  | ▶ **Activa** |
-| Fase 5 — Frontend + Docker     | 8  | 0  | 8  | Bloqueada |
+| Fase 4 — API + PostgreSQL      | 10 | 10 | 0  | ✅ Completada |
+| Fase 5 — Frontend + Docker     | 8  | 0  | 8  | ▶ **Activa** |
 | Fase 6 — Documentación         | 6  | 0  | 6  | Bloqueada |
 | Fase 7 — Optimización Post-MVP | 1  | 0  | 1  | 🧊 Congelada |
-| **Total**                      | **56** | **33** | **23** | |
+| **Total**                      | **56** | **43** | **13** | |
 
-> **Siguiente ticket:** `[T-4.3]` Definir schemas Pydantic en `backend/app/input_schema.py`.
+> **Siguiente ticket:** `[T-5.1]` Verificar `frontend/src/api.js`.
 
 ---
 
