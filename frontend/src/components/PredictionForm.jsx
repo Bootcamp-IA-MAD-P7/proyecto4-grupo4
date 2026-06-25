@@ -1,7 +1,7 @@
 import React from "react";
 import { RefreshCw, Send } from "lucide-react";
 
-function PredictionForm({ continents, countries, form, industries, loading, onChange, onSubmit }) {
+function PredictionForm({ continentLabel, countries, form, industries, loading, onChange, onSubmit }) {
   return (
     <form className="panel prediction-form" id="predict" onSubmit={onSubmit}>
       <div className="section-heading">
@@ -72,13 +72,7 @@ function PredictionForm({ continents, countries, form, industries, loading, onCh
 
         <label>
           Región geográfica
-          <select name="continent" onChange={onChange} value={form.continent} required>
-            {continents.map((continent) => (
-              <option key={continent.value} value={continent.value}>
-                {continent.label}
-              </option>
-            ))}
-          </select>
+          <input name="continent" readOnly type="text" value={continentLabel} />
         </label>
       </div>
 

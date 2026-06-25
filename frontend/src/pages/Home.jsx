@@ -9,7 +9,14 @@ import OraclePrism from "../components/OraclePrism";
 import PipelineSteps from "../components/PipelineSteps";
 import PredictionForm from "../components/PredictionForm";
 import PredictionResult from "../components/PredictionResult";
-import { continents, countries, industries, initialForm, valueProps } from "../data/modelMetrics";
+import {
+  countries,
+  getContinentForCountry,
+  getContinentLabel,
+  industries,
+  initialForm,
+  valueProps,
+} from "../data/modelMetrics";
 
 const routeTitles = {
   "/": "Inicio",
@@ -68,6 +75,16 @@ function Home() {
   function updateField(event) {
     const { name, value } = event.target;
     const numericFields = ["year_founded", "funding_usd", "company_age"];
+
+    if (name === "country") {
+      setForm((current) => ({
+        ...current,
+        country: value,
+        continent: getContinentForCountry(value),
+      }));
+      return;
+    }
+
     setForm((current) => ({
       ...current,
       [name]: numericFields.includes(name) && value !== "" ? Number(value) : value,
@@ -176,7 +193,7 @@ function Home() {
 
           <div className="predict-grid">
             <PredictionForm
-              continents={continents}
+              continentLabel={getContinentLabel(form.continent)}
               countries={countries}
               form={form}
               industries={industries}

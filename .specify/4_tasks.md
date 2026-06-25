@@ -12,8 +12,8 @@
 | Fase 2 | `[T-2.0]`–`[T-2.9]` | ✅ Completados |
 | Fase 3 | `[T-3.x]` | ✅ Completados |
 | Fase 4 | `[T-4.1]`–`[T-4.10]` | ✅ Completados |
-| Fase 5 | `[T-5.1]`–`[T-5.9]` | ▶ Activa |
-| Fase 6 | `[T-6.x]` | Bloqueada |
+| Fase 5 | `[T-5.1]`–`[T-5.9]` | ✅ Completados |
+| Fase 6 | `[T-6.x]` | Pendiente |
 
 ---
 
@@ -678,9 +678,9 @@ Antes de comenzar cualquier tarea:
 
 ---
 
-## Fase 5 — Frontend React + Docker Compose (activa)
+## Fase 5 — Frontend React + Docker Compose ✅ COMPLETADA
 
-> **Estado:** activa — Fase 4 completada. Tickets `[T-5.1]` a `[T-5.8]` completados. Continuar con `[T-5.9]`.
+> **Estado:** tickets `[T-5.1]` a `[T-5.9]` completados y verificados. Continuar con `[T-6.1]`.
 
 ### [T-5.1] Verificar `frontend/src/api.js` — BASE_URL y payloads
 
@@ -892,13 +892,13 @@ Antes de comenzar cualquier tarea:
   npm.cmd run build
   ```
   Revisión manual en `http://127.0.0.1:5173` de navegación, formulario, panel, resultado y retroalimentación.
-- [ ] Estado: pendiente
+- [x] Estado: completado — ajustes estructurales y UX aplicados sin cambiar el contrato de API. El footer dejó de duplicar el navbar y ahora muestra contexto institucional/académico, stack y aviso de uso responsable. La jerarquía visual de `Predicción` se igualó con `Panel`, `Metodología` y `Modelo`. El formulario automatiza `Región geográfica`: el usuario selecciona `País`, el frontend completa `continent` desde una tabla ampliada de países tomada del dataset y mantiene el valor técnico enviado al backend; se corrige la anomalía `South Africa` → `Africa` para no heredar el error del CSV. Se mejoró el contraste del verde en fondos claros con `--color-primary-strong`. Se descartó filtrar las métricas superiores por sector porque `/metrics` entrega métricas globales del modelo, no segmentadas por industria; mostrar filtros ahí sería engañoso hasta que exista soporte backend. Verificado con `npm.cmd run build`, reconstrucción de `frontend` en Docker, `docker compose ps`, revisión en `http://127.0.0.1:5173`, autocompletado `Argentina` → `América del Sur`, métricas cargadas desde API y tamaños de encabezado consistentes.
 
 ---
 
 ## Fase 6 — Documentación y Cierre (pendiente)
 
-> **Estado:** bloqueada — no iniciar hasta completar Fase 5.
+> **Estado:** pendiente — Fase 5 completada. Continuar con `[T-6.1]`.
 
 ### [T-6.1] Actualizar árbol de directorios en `backend/README.md`
 
@@ -1008,12 +1008,12 @@ Antes de comenzar cualquier tarea:
 | Fase 2 — Rutas y Configuración | 10 | 10 | 0  | ✅ Completada |
 | Fase 3 — Tests + Modelo T1-T3  | 7  | 7  | 0  | ✅ Completada |
 | Fase 4 — API + PostgreSQL      | 10 | 10 | 0  | ✅ Completada |
-| Fase 5 — Frontend + Docker     | 9  | 8  | 1  | ▶ **Activa** |
-| Fase 6 — Documentación         | 6  | 0  | 6  | Bloqueada |
+| Fase 5 — Frontend + Docker     | 9  | 9  | 0  | ✅ Completada |
+| Fase 6 — Documentación         | 6  | 0  | 6  | Pendiente |
 | Fase 7 — Optimización Post-MVP | 1  | 0  | 1  | 🧊 Congelada |
-| **Total**                      | **57** | **51** | **6** | |
+| **Total**                      | **57** | **50** | **7** | |
 
-> **Siguiente ticket:** `[T-5.9]` Ajustes estructurales y UX del frontend.
+> **Siguiente ticket:** `[T-6.1]` Actualizar árbol de directorios en `backend/README.md`.
 
 ---
 
