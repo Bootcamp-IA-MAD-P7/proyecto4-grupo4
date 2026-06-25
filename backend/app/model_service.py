@@ -1,3 +1,4 @@
+import json
 import numpy as np
 import os
 from functools import lru_cache
@@ -15,6 +16,7 @@ from src.models.train import LogTargetRegressor
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
 MODEL_PATH = os.getenv("MODEL_PATH", "models/best_model.joblib")
+METRICS_PATH = ROOT_DIR / "models" / "metrics.json"
 
 
 def get_model_path() -> Path:
@@ -31,8 +33,31 @@ def load_model() -> Any | None:
     return joblib.load(model_path)
 
 
+def is_model_loaded() -> bool:
+    return get_model_path().exists()
+
+
 def get_model_mode() -> str:
-    return "trained_model" if get_model_path().exists() else "not_loaded"
+    return "trained_model" if is_model_loaded() else "not_loaded"
+
+
+def get_model_r2() -> float | None:
+    if not METRICS_PATH.exists():
+        return None
+    try:
+        data = json.loads(METRICS_PATH.read_text(encoding="utf-8"))
+        return data.get("validation", {}).get("r2")
+    except Exception:
+        return None
+
+
+def get_metrics() -> dict[str, Any] | None:
+    if not METRICS_PATH.exists():
+        return None
+    try:
+        return json.loads(METRICS_PATH.read_text(encoding="utf-8"))
+    except Exception:
+        return None
 
 
 @lru_cache(maxsize=1)

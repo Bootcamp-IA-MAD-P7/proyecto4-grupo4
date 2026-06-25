@@ -1,10 +1,12 @@
+from __future__ import annotations
+
 from typing import Optional
 
 from pydantic import BaseModel, Field, field_validator
 
 
-class PredictionInput(BaseModel):
-    year_founded: int = Field(..., ge=1800, le=2026, examples=[2015])
+class PredictRequest(BaseModel):
+    year_founded: int = Field(..., ge=1800, le=2030, examples=[2015])
     funding_usd: float = Field(..., ge=0, examples=[50_000_000.0])
     company_age: int = Field(..., ge=0, examples=[9])
     industry: str = Field(..., min_length=1, examples=["fintech"])
@@ -20,23 +22,25 @@ class PredictionInput(BaseModel):
         return cleaned
 
 
-PredictRequest = PredictionInput
+# Backwards-compat alias used by model_service.py
+PredictionInput = PredictRequest
 
 
-class PredictionResponse(BaseModel):
+class PredictResponse(BaseModel):
     valuation_usd: float
     valuation_b: float
     model_version: str
     timestamp: str
 
 
-PredictResponse = PredictionResponse
+# Backwards-compat alias
+PredictionResponse = PredictResponse
 
 
-class FeedbackInput(PredictionInput):
+class FeedbackRequest(PredictRequest):
     predicted_valuation_usd: float = Field(..., ge=0)
     actual_valuation_usd: Optional[float] = Field(default=None, ge=0)
-    comment: Optional[str] = Field(default=None, max_length=500)
+    comment: Optional[str] = Field(default=None, max_length=1000)
 
     @field_validator("comment")
     @classmethod
@@ -47,7 +51,8 @@ class FeedbackInput(PredictionInput):
         return cleaned or None
 
 
-FeedbackRequest = FeedbackInput
+# Backwards-compat alias used by feedback_service.py
+FeedbackInput = FeedbackRequest
 
 
 class FeedbackResponse(BaseModel):
@@ -58,4 +63,5 @@ class FeedbackResponse(BaseModel):
 
 class HealthResponse(BaseModel):
     status: str
-    model_mode: str
+    model_loaded: bool
+    model_r2: Optional[float] = None

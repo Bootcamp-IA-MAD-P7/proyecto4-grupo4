@@ -517,9 +517,9 @@ Antes de comenzar cualquier tarea:
 
 ---
 
-## Fase 4 — Estabilizar la API FastAPI + PostgreSQL (pendiente)
+## Fase 4 — Estabilizar la API FastAPI + PostgreSQL ▶ ACTIVA
 
-> **Estado:** bloqueada — no iniciar hasta completar Fase 3.
+> **Estado:** activa — Fase 3 completada con esquema T1-T3 estable. Optimización del modelo congelada hasta Fase 7.
 
 ### [T-4.1] Actualizar `backend/requirements.txt`
 
@@ -543,7 +543,7 @@ Antes de comenzar cualquier tarea:
   httpx>=0.27.0
   ```
 - **Verificación:** `grep -E "streamlit|kagglehub" backend/requirements.txt` no devuelve resultados. `grep "psycopg2" backend/requirements.txt` devuelve la línea correcta.
-- [ ] Estado: pendiente
+- [x] Estado: completado — `streamlit` y `kagglehub` eliminados; `psycopg2-binary`, `fastapi`, `uvicorn`, `pydantic`, `httpx` añadidos.
 
 ---
 
@@ -555,7 +555,7 @@ Antes de comenzar cualquier tarea:
   cd backend && pip install -r requirements.txt
   ```
 - **Verificación:** Sin errores de conflicto. `python -c "import fastapi, pydantic, uvicorn, psycopg2"` no lanza `ImportError`.
-- [ ] Estado: pendiente
+- [x] Estado: completado — `psycopg2-binary 2.9.12` instalado. Verificación: `fastapi 0.138.0 | pydantic 2.13.4 | uvicorn 0.49.0 | psycopg2 2.9.12`.
 
 ---
 
@@ -572,7 +572,7 @@ Antes de comenzar cualquier tarea:
   cd backend && python -c "from app.input_schema import PredictRequest, PredictResponse, FeedbackRequest, FeedbackResponse; print('OK')"
   ```
   Imprime `OK`.
-- [ ] Estado: pendiente
+- [x] Estado: completado — clases canónicas definidas; aliases de compatibilidad `PredictionInput`/`FeedbackInput` preservados. `HealthResponse` actualizado con `model_loaded: bool` y `model_r2: float | None`.
 
 ---
 
@@ -587,7 +587,7 @@ Antes de comenzar cualquier tarea:
   - CORS habilitado para `http://localhost:5173`
   - Sin ninguna referencia a Streamlit
 - **Verificación:** `grep -i "streamlit" backend/app/main.py` no devuelve resultados.
-- [ ] Estado: pendiente
+- [x] Estado: completado — 4 endpoints registrados. `GET /metrics` lee `models/metrics.json`. CORS configurado. Sin Streamlit.
 
 ---
 
@@ -601,7 +601,7 @@ Antes de comenzar cualquier tarea:
   4. Definir `Base = declarative_base()`.
   5. Ninguna referencia a `sqlite:///` ni a `storage/app.db`.
 - **Verificación:** `grep -E "sqlite|storage/app" backend/app/database.py` no devuelve resultados.
-- [ ] Estado: pendiente
+- [x] Estado: completado — SQLAlchemy con engine lazy (`get_engine()`), `Base` + ORM `Prediction` definidos, `RuntimeError` si `DATABASE_URL` no está en entorno. `tests/conftest.py` inyecta `DATABASE_URL=sqlite:///...` para la suite de tests.
 
 ---
 
@@ -614,7 +614,7 @@ Antes de comenzar cualquier tarea:
   DATABASE_URL=postgresql://unicorn_user:unicorn_pass@db:5432/unicorns
   ```
 - **Verificación:** El archivo existe. `grep "DATABASE_URL" backend/.env.example` devuelve la línea de ejemplo.
-- [ ] Estado: pendiente
+- [x] Estado: completado — archivo creado y verificado.
 
 ---
 
@@ -976,10 +976,34 @@ Antes de comenzar cualquier tarea:
 | Fase 0 — Preparación           | 3  | 3  | 0  | ✅ Completada |
 | Fase 1 — Limpieza              | 11 | 11 | 0  | ✅ Completada |
 | Fase 2 — Rutas y Configuración | 10 | 10 | 0  | ✅ Completada |
-| Fase 3 — Tests                 | 7  | 7  | 0  | ✅ Completada |
-| Fase 4 — API + PostgreSQL      | 10 | 0  | 10 | ▶ **Activa** |
+| Fase 3 — Tests + Modelo T1-T3  | 7  | 7  | 0  | ✅ Completada |
+| Fase 4 — API + PostgreSQL      | 10 | 6  | 4  | ▶ **Activa** |
 | Fase 5 — Frontend + Docker     | 8  | 0  | 8  | Bloqueada |
 | Fase 6 — Documentación         | 6  | 0  | 6  | Bloqueada |
-| **Total**                      | **55** | **22** | **33** | |
+| Fase 7 — Optimización Post-MVP | 1  | 0  | 1  | 🧊 Congelada |
+| **Total**                      | **56** | **33** | **23** | |
 
-> Actualizar esta tabla al completar cada fase. **Siguiente ticket:** `[T-4.1]` Actualizar `backend/requirements.txt`.
+> **Siguiente ticket:** `[T-4.3]` Definir schemas Pydantic en `backend/app/input_schema.py`.
+
+---
+
+## Fase 7 — Optimización Post-MVP (Deuda Técnica)
+
+> **Estado:** 🧊 congelada — no iniciar hasta completar el MVP funcional (Fases 4–6).
+> **Motivo de congelación:** el objetivo estratégico es entregar el extremo a extremo antes de iterar sobre la calidad del modelo.
+
+### [T-7.1] Refactorizar target de entrenamiento a Múltiplo de Valoración
+
+- **Contexto:** El modelo actual (features T1-T3) presenta sesgo sistemático de subestimación en la cola alta (+1.5 B/B de error residual). El target absoluto `valuation_usd` tiene una distribución muy comprimida que el modelo no puede capturar con los datos disponibles (~1 062 muestras, <5% en el rango >$10B).
+- **Acción:** Cambiar el target de entrenamiento de `valuation_usd` (dólares absolutos) a `valuation_multiple = valuation_usd / funding_usd` (múltiplo de valoración). El output de la API sigue siendo en dólares absolutos: `predicted_valuation_usd = predicted_multiple × funding_usd`.
+- **Archivos afectados:**
+  - `backend/src/models/train.py` — cambiar `uses_log_target()` / `fit_model()` / `predict_absolute()`
+  - `backend/config.yaml` — nuevo campo `target_transform: "multiple"` o similar
+  - `backend/scripts/train.py` — ajustar `enforce_quality_gate` si el umbral de R² cambia
+  - `backend/tests/test_pipeline.py` — actualizar `test_train_meets_min_r2` con nuevo umbral esperado
+- **Criterio de éxito:**
+  - R² validación > baseline T1-T3 actual (~0.18–0.22)
+  - Pendiente del Residual Plot < +0.8 B/B (reducción ≥ 50% del sesgo)
+  - El endpoint `POST /predict` sigue devolviendo `valuation_usd` en dólares absolutos
+- **Prerequisito:** MVP completo (Fases 4–6 cerradas), dataset en PostgreSQL operativo.
+- [ ] Estado: pendiente
