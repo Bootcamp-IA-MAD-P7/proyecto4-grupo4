@@ -94,7 +94,7 @@ def build_estimator(model_type: str | None = None, **params: Any) -> RegressorMi
             max_depth=params.get("max_depth", 5),
             min_samples_leaf=params.get("min_samples_leaf", 12),
             random_state=config["project"]["random_state"],
-            n_jobs=-1,
+            n_jobs=1,
         )
     if model_type == "gradient_boosting":
         return GradientBoostingRegressor(

@@ -81,10 +81,9 @@ def save_prediction(record: dict[str, Any], db_path: Path | None = None) -> None
 
 
 def update_feedback(
-    request_id: str,
-    feedback_score: int | None,
-    actual_valuation_b: float | None,
-    comments: str | None,
+    prediction_id: str,
+    actual_valuation_usd: float | None,
+    comment: str | None,
     updated_at: str,
     db_path: Path | None = None,
 ) -> bool:
@@ -98,11 +97,9 @@ def update_feedback(
             WHERE id = :request_id
             """,
             {
-                "request_id": request_id,
-                "actual_valuation_usd": (
-                    actual_valuation_b * 1_000_000_000 if actual_valuation_b is not None else None
-                ),
-                "comment": comments,
+                "request_id": prediction_id,
+                "actual_valuation_usd": actual_valuation_usd,
+                "comment": comment,
             },
         )
         return result.rowcount > 0

@@ -1,11 +1,11 @@
 export const initialForm = {
   startup_name: "Nova Signal",
   country: "United States",
-  city: "San Francisco",
+  continent: "North America",
   industry: "Fintech",
-  join_year: 2021,
-  join_month: 7,
-  investor_count: 3,
+  year_founded: 2015,
+  funding_usd: 50000000,
+  company_age: 11,
 };
 
 export const countries = [
@@ -34,6 +34,15 @@ export const industries = [
   "Other",
 ];
 
+export const continents = [
+  "North America",
+  "Asia",
+  "Europe",
+  "South America",
+  "Oceania",
+  "Africa",
+];
+
 export const metricCards = [
   {
     label: "Startups analizadas",
@@ -46,21 +55,21 @@ export const metricCards = [
     detail: "Dominancia geográfica en la muestra",
   },
   {
-    label: "MAE modelo lineal",
-    value: "$1.52B",
-    detail: "Error medio absoluto de referencia",
+    label: "Features operativas",
+    value: "6",
+    detail: "Fundacion, funding, edad, industria, pais y continente",
   },
   {
-    label: "R2 test",
-    value: "0.0286",
-    detail: "Señal positiva, con limitaciones",
+    label: "R2 validacion",
+    value: "0.2207",
+    detail: "Gradient Boosting ganador sin sobreajuste",
   },
 ];
 
 export const marketSignals = [
   { label: "Sector dominante", value: "Fintech", tone: "signal" },
-  { label: "RMSE lineal", value: "$2.92B", tone: "neutral" },
-  { label: "Mejora vs baseline", value: "4.4%", tone: "signal" },
+  { label: "MAE validacion", value: "$1.68B", tone: "neutral" },
+  { label: "CV R2 medio", value: "0.2757", tone: "signal" },
   { label: "Riesgo estructural", value: "Outliers", tone: "risk" },
 ];
 
@@ -68,7 +77,7 @@ export const pipelineSteps = [
   "Datos crudos",
   "Feature Engineering",
   "Preprocesamiento",
-  "LinearRegression / RidgeCV",
+  "Ridge / Random Forest / Gradient Boosting",
   "Valor predictivo",
 ];
 
@@ -102,13 +111,13 @@ export const dataSources = [
   },
   {
     label: "Metricas visibles",
-    value: "Brief y presentacion del proyecto",
-    note: "Las cards del dashboard estan fijadas en frontend como referencias de negocio.",
+    value: "Backend models/metrics.json",
+    note: "El entrenamiento genera RMSE, MAE, R2, validacion cruzada y control de overfitting.",
   },
   {
     label: "Prediccion",
     value: "Backend FastAPI /predict",
-    note: "Usa mock_model si todavia no existe models/current_model.pkl.",
+    note: "Requiere models/best_model.joblib y usa las features actuales del pipeline.",
   },
   {
     label: "Feedback",

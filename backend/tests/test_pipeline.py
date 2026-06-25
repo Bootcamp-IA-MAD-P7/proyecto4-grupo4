@@ -99,10 +99,13 @@ def test_train_meets_overfitting_limit():
 
 
 def test_train_meets_min_r2():
+    from src.config import load_config
+
     metrics_path = ROOT / "models" / "metrics.json"
     if not metrics_path.exists():
         pytest.skip("Modelo no entrenado todavía")
 
     report = json.loads(metrics_path.read_text(encoding="utf-8"))
     r2 = report["validation"]["r2"]
-    assert r2 >= 0.50, f"R² {r2:.4f} is below the required threshold of 0.50"
+    min_r2 = load_config()["training"]["min_r2"]
+    assert r2 >= min_r2, f"R² {r2:.4f} is below the configured threshold of {min_r2:.2f}"

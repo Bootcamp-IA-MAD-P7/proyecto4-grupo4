@@ -11,7 +11,7 @@ from sklearn.inspection import permutation_importance
 
 from src.config import load_config, resolve_path
 from src.data.load import load_processed_dataset, prepare_modeling_frame
-from src.models.train import compute_metrics, load_pipeline
+from src.models.train import compute_metrics, load_pipeline, predict_absolute
 
 
 def load_metrics_report() -> dict:
@@ -65,7 +65,7 @@ def generate_report_assets(output_dir: Path | None = None) -> dict:
     featured = load_processed_dataset()
     x, y = prepare_modeling_frame(featured)
     pipeline = load_pipeline()
-    predictions = pipeline.predict(x)
+    predictions = predict_absolute(pipeline, x)
 
     metrics = compute_metrics(y.to_numpy(), predictions)
     plot_target_distribution(y, output_dir / "target_distribution.png")
@@ -78,7 +78,7 @@ def generate_report_assets(output_dir: Path | None = None) -> dict:
         y,
         n_repeats=10,
         random_state=config["project"]["random_state"],
-        n_jobs=-1,
+        n_jobs=1,
     )
     importance_df = pd.DataFrame(
         {"feature": x.columns, "importance": perm.importances_mean}

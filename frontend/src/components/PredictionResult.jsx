@@ -5,7 +5,7 @@ import SignalBadge from "./SignalBadge";
 
 function getSignal(prediction) {
   if (!prediction) return { signal: "Pendiente", risk: "Sin lectura", tone: "neutral" };
-  const value = prediction.prediction_billion_usd;
+  const value = prediction.valuation_b;
   if (value >= 5) return { signal: "Alta señal", risk: "Riesgo alto", tone: "risk" };
   if (value >= 2.5) return { signal: "Señal positiva", risk: "Moderado", tone: "signal" };
   return { signal: "Señal inicial", risk: "Controlado", tone: "neutral" };
@@ -21,7 +21,7 @@ function PredictionResult({
   prediction,
 }) {
   const reading = getSignal(prediction);
-  const canSendFeedback = Boolean(prediction?.request_id);
+  const canSendFeedback = Boolean(prediction?.valuation_usd);
 
   return (
     <aside className="result-stack">
@@ -29,7 +29,7 @@ function PredictionResult({
         <div className="result-header">
           <div>
             <p>Valoracion predictiva estimada</p>
-            <h2>{prediction ? `$${prediction.prediction_billion_usd.toFixed(2)}B` : "$--"}</h2>
+            <h2>{prediction ? `$${prediction.valuation_b.toFixed(2)}B` : "$--"}</h2>
           </div>
           <SignalBadge tone={reading.tone}>{reading.signal}</SignalBadge>
         </div>
@@ -50,7 +50,7 @@ function PredictionResult({
         <dl className="model-meta">
           <div>
             <dt>Modelo</dt>
-            <dd>{prediction?.model_used ?? "mock_model"}</dd>
+            <dd>{prediction?.model_used ?? "sin modelo cargado"}</dd>
           </div>
           <div>
             <dt>Unidad</dt>
@@ -67,28 +67,15 @@ function PredictionResult({
 
         <div className="feedback-grid">
           <label>
-            Score
-            <input
-              disabled={!canSendFeedback}
-              max="5"
-              min="1"
-              name="feedback_score"
-              onChange={onFeedbackChange}
-              type="number"
-              value={feedback.feedback_score}
-            />
-          </label>
-
-          <label>
-            Valor real
+            Valor real (USD)
             <input
               disabled={!canSendFeedback}
               min="0"
-              name="actual_valuation_b"
+              name="actual_valuation_usd"
               onChange={onFeedbackChange}
-              step="0.01"
+              step="1000000"
               type="number"
-              value={feedback.actual_valuation_b}
+              value={feedback.actual_valuation_usd}
             />
           </label>
         </div>
@@ -98,10 +85,10 @@ function PredictionResult({
           <textarea
             disabled={!canSendFeedback}
             maxLength="500"
-            name="comments"
+            name="comment"
             onChange={onFeedbackChange}
             rows="3"
-            value={feedback.comments}
+            value={feedback.comment}
           />
         </label>
 

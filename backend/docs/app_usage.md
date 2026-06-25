@@ -1,13 +1,29 @@
 # App usage
 
-Este modulo corresponde a la rama `feature/member-4-app-feedback`.
-
 ## Arquitectura
 
-- Frontend: React con Vite y Bootstrap.
+- Frontend: React con Vite.
 - Backend: FastAPI.
-- Persistencia inicial: SQLite en `data/feedback/predictions.sqlite3`.
-- Modelo: `models/best_model.joblib` (requerido; sin fallback mock).
+- Persistencia de feedback: SQLite en `backend/data/feedback/predictions.sqlite3`.
+- Modelo: `backend/models/best_model.joblib`.
+- Metricas: `backend/models/metrics.json`.
+
+## Entrenamiento
+
+Desde la carpeta `backend/`:
+
+```bash
+python scripts/train.py --report
+```
+
+El entrenamiento:
+
+- genera `data/processed/dataset.pkl`;
+- compara Ridge, Random Forest y Gradient Boosting;
+- aplica validacion cruzada K-Fold;
+- controla overfitting con el limite de `config.yaml`;
+- guarda el mejor modelo en `models/best_model.joblib`;
+- genera graficos de distribucion, residuos, prediccion vs real y feature importance.
 
 ## Contrato de prediccion
 
@@ -21,12 +37,12 @@ Payload:
 
 ```json
 {
-  "country": "United States",
-  "city": "San Francisco",
+  "year_founded": 2015,
+  "funding_usd": 50000000,
+  "company_age": 11,
   "industry": "Fintech",
-  "join_year": 2021,
-  "join_month": 7,
-  "investor_count": 3
+  "country": "United States",
+  "continent": "North America"
 }
 ```
 
@@ -34,11 +50,12 @@ Respuesta:
 
 ```json
 {
-  "request_id": "uuid",
-  "prediction_billion_usd": 3.25,
-  "unit": "billion_usd",
+  "valuation_usd": 1331072782.758,
+  "valuation_b": 1.3311,
+  "model_version": "best_model.joblib",
   "model_used": "trained_model",
-  "message": "Prediction generated successfully."
+  "message": "Prediction generated successfully.",
+  "timestamp": "2026-06-24T20:37:40.574476+00:00"
 }
 ```
 
@@ -54,54 +71,51 @@ Payload:
 
 ```json
 {
-  "request_id": "uuid",
-  "feedback_score": 4,
-  "actual_valuation_b": 3.5,
-  "comments": "Close estimate"
+  "year_founded": 2015,
+  "funding_usd": 50000000,
+  "company_age": 11,
+  "industry": "Fintech",
+  "country": "United States",
+  "continent": "North America",
+  "predicted_valuation_usd": 1331072782.758,
+  "actual_valuation_usd": 1100000000,
+  "comment": "Close estimate"
 }
 ```
 
-## Backend
+Respuesta:
 
-Instalar dependencias Python si aun no estan disponibles:
-
-```bash
-python -m pip install fastapi "uvicorn[standard]" pydantic pandas numpy scikit-learn joblib python-dotenv pytest httpx
+```json
+{
+  "id": 1,
+  "status": "recorded",
+  "message": "Feedback recorded successfully.",
+  "timestamp": "2026-06-24T20:37:40.709902+00:00"
+}
 ```
 
-Ejecutar API:
+## Ejecucion local
+
+Backend:
 
 ```bash
+cd backend
+python -m pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
-Comprobar salud:
+Frontend:
 
 ```bash
-curl http://127.0.0.1:8000/health
-```
-
-## Frontend
-
-Desde `frontend/`:
-
-```bash
-npm install
+cd frontend
+npm ci
 npm run dev
 ```
 
-Por defecto el frontend espera la API en:
-
-```text
-http://127.0.0.1:8000
-```
-
-Para cambiarlo, crear `frontend/.env` usando `frontend/.env.example`.
+Por defecto el frontend espera la API en `http://127.0.0.1:8000`.
 
 ## Tests
 
-Desde la raiz del repo:
-
 ```bash
-pytest
+python -m pytest backend/tests -q
 ```

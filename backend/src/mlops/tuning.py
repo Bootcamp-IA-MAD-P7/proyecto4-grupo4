@@ -37,7 +37,7 @@ def optimize_hyperparameters(n_trials: int = 30) -> dict[str, Any]:
             y,
             cv=config["training"]["cv_folds"],
             scoring="neg_root_mean_squared_error",
-            n_jobs=-1,
+            n_jobs=1,
         )
         return float(scores.mean())
 

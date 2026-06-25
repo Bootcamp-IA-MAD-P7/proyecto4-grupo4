@@ -1,0 +1,32 @@
+{
+  "model_type": "gradient_boosting",
+  "params": {
+    "selected_type": "gradient_boosting",
+    "n_estimators": 120,
+    "max_depth": 2,
+    "min_samples_leaf": 30,
+    "learning_rate": 0.03
+  },
+  "n_samples": 1062,
+  "train": {
+    "rmse": 7853464804.510827,
+    "mae": 1824464829.1943579,
+    "r2": 0.2197764123920739
+  },
+  "validation": {
+    "rmse": 6401795124.33019,
+    "mae": 1684871661.2328603,
+    "r2": 0.220727414843099
+  },
+  "overfitting": {
+    "mae_gap_pct": 0.0,
+    "rmse_gap_pct": 0.0,
+    "r2_gap_pct": 0.0,
+    "max_gap_pct": 0.0,
+    "within_limit": true
+  },
+  "cross_validation": {
+    "cv_r2_mean": 0.27569542546433906,
+    "cv_r2_std": 0.11817230351608475
+  }
+}

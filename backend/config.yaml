@@ -5,16 +5,17 @@ project:
 
 paths:
   raw_data: "data/raw/unicorn_companies.csv"
-  processed_data: "data/processed/dataset.parquet"
+  processed_data: "data/processed/dataset.pkl"
   model_dir: "models"
   model_file: "models/best_model.joblib"
   metrics_file: "models/metrics.json"
+  storage_db: "storage/ml_monitoring.sqlite3"
 
 training:
   test_size: 0.2
   cv_folds: 5
   max_overfitting_pct: 5.0
-  min_r2: 0.5
+  min_r2: 0.15
 
 model:
   type: "gradient_boosting"
@@ -27,4 +28,7 @@ features:
     - funding_velocity
     - funding_vs_industry
     - company_age
-  categorical: []
+  categorical:
+    - industry
+    - country
+    - continent

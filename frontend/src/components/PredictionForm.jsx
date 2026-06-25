@@ -1,7 +1,7 @@
 import React from "react";
 import { RefreshCw, Send } from "lucide-react";
 
-function PredictionForm({ countries, form, industries, loading, onChange, onSubmit }) {
+function PredictionForm({ continents, countries, form, industries, loading, onChange, onSubmit }) {
   return (
     <form className="panel prediction-form" id="predict" onSubmit={onSubmit}>
       <div className="section-heading">
@@ -32,8 +32,14 @@ function PredictionForm({ countries, form, industries, loading, onChange, onSubm
         </label>
 
         <label>
-          Ciudad
-          <input name="city" onChange={onChange} type="text" value={form.city} required />
+          Continente
+          <select name="continent" onChange={onChange} value={form.continent} required>
+            {continents.map((continent) => (
+              <option key={continent} value={continent}>
+                {continent}
+              </option>
+            ))}
+          </select>
         </label>
 
         <label>
@@ -48,40 +54,39 @@ function PredictionForm({ countries, form, industries, loading, onChange, onSubm
         </label>
 
         <label>
-          Año de ingreso
+          Año de fundación
           <input
             max="2026"
-            min="2007"
-            name="join_year"
+            min="1800"
+            name="year_founded"
             onChange={onChange}
             type="number"
-            value={form.join_year}
+            value={form.year_founded}
             required
           />
         </label>
 
         <label>
-          Mes
+          Funding acumulado (USD)
           <input
-            max="12"
-            min="1"
-            name="join_month"
-            onChange={onChange}
-            type="number"
-            value={form.join_month}
-            required
-          />
-        </label>
-
-        <label>
-          Inversores
-          <input
-            max="20"
             min="0"
-            name="investor_count"
+            name="funding_usd"
             onChange={onChange}
             type="number"
-            value={form.investor_count}
+            step="1000000"
+            value={form.funding_usd}
+            required
+          />
+        </label>
+
+        <label>
+          Edad de la empresa
+          <input
+            min="0"
+            name="company_age"
+            onChange={onChange}
+            type="number"
+            value={form.company_age}
             required
           />
         </label>

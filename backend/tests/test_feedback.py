@@ -1,8 +1,16 @@
+from pathlib import Path
+from uuid import uuid4
+
 from app.database import fetch_prediction, init_db, save_feedback
 
 
-def test_save_feedback_and_fetch_record(tmp_path):
-    db_path = tmp_path / "feedback.sqlite3"
+def make_test_db_path() -> Path:
+    root = Path(__file__).resolve().parents[1]
+    return root / "data" / "feedback" / f"test_feedback_{uuid4().hex}.sqlite3"
+
+
+def test_save_feedback_and_fetch_record():
+    db_path = make_test_db_path()
     init_db(db_path)
 
     record_id = save_feedback(
@@ -31,8 +39,8 @@ def test_save_feedback_and_fetch_record(tmp_path):
     assert record["comment"] == "Close estimate"
 
 
-def test_fetch_prediction_returns_none_for_missing_record(tmp_path):
-    db_path = tmp_path / "feedback.sqlite3"
+def test_fetch_prediction_returns_none_for_missing_record():
+    db_path = make_test_db_path()
 
     record = fetch_prediction("999", db_path)
 

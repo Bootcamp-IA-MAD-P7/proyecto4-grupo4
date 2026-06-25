@@ -39,11 +39,13 @@ def health() -> HealthResponse:
 
 @app.post("/predict", response_model=PredictionResponse)
 def predict(payload: PredictionInput) -> PredictionResponse:
-    valuation_usd, _model_used = predict_valuation(payload)
+    valuation_usd, model_used = predict_valuation(payload)
     return PredictionResponse(
         valuation_usd=valuation_usd,
         valuation_b=round(valuation_usd / 1_000_000_000, 4),
         model_version="best_model.joblib",
+        model_used=model_used,
+        message="Prediction generated successfully.",
         timestamp=utc_now_iso(),
     )
 
@@ -56,5 +58,6 @@ def feedback(payload: FeedbackInput) -> FeedbackResponse:
     return FeedbackResponse(
         id=feedback_id,
         status="recorded",
+        message="Feedback recorded successfully.",
         timestamp=utc_now_iso(),
     )

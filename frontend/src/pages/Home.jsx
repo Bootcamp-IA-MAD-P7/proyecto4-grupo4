@@ -9,7 +9,7 @@ import OraclePrism from "../components/OraclePrism";
 import PipelineSteps from "../components/PipelineSteps";
 import PredictionForm from "../components/PredictionForm";
 import PredictionResult from "../components/PredictionResult";
-import { countries, industries, initialForm, valueProps } from "../data/modelMetrics";
+import { continents, countries, industries, initialForm, valueProps } from "../data/modelMetrics";
 
 const routeTitles = {
   "/": "Inicio",
@@ -28,9 +28,8 @@ function Home() {
   const [form, setForm] = useState(initialForm);
   const [prediction, setPrediction] = useState(null);
   const [feedback, setFeedback] = useState({
-    feedback_score: "",
-    actual_valuation_b: "",
-    comments: "",
+    actual_valuation_usd: "",
+    comment: "",
   });
   const [apiStatus, setApiStatus] = useState("API offline");
   const [error, setError] = useState("");
@@ -65,7 +64,7 @@ function Home() {
 
   function updateField(event) {
     const { name, value } = event.target;
-    const numericFields = ["join_year", "join_month", "investor_count"];
+    const numericFields = ["year_founded", "funding_usd", "company_age"];
     setForm((current) => ({
       ...current,
       [name]: numericFields.includes(name) ? Number(value) : value,
@@ -101,25 +100,26 @@ function Home() {
 
   async function handleFeedback(event) {
     event.preventDefault();
-    if (!prediction?.request_id) return;
+    if (!prediction?.valuation_usd) return;
 
     setError("");
     setFeedbackMessage("");
     setLoading(true);
 
     const payload = {
-      request_id: prediction.request_id,
-      feedback_score: feedback.feedback_score ? Number(feedback.feedback_score) : null,
-      actual_valuation_b: feedback.actual_valuation_b
-        ? Number(feedback.actual_valuation_b)
+      ...form,
+      predicted_valuation_usd: prediction.valuation_usd,
+      actual_valuation_usd: feedback.actual_valuation_usd
+        ? Number(feedback.actual_valuation_usd)
         : null,
-      comments: feedback.comments || null,
+      comment: feedback.comment || null,
     };
+    delete payload.startup_name;
 
     try {
       const body = await saveFeedback(payload);
       setFeedbackMessage(body.message);
-      setFeedback({ feedback_score: "", actual_valuation_b: "", comments: "" });
+      setFeedback({ actual_valuation_usd: "", comment: "" });
     } catch (requestError) {
       setError(requestError.message);
     } finally {
@@ -176,6 +176,7 @@ function Home() {
 
           <div className="predict-grid">
             <PredictionForm
+              continents={continents}
               countries={countries}
               form={form}
               industries={industries}

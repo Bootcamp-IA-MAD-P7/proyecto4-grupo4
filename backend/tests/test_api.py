@@ -1,4 +1,5 @@
 from unittest.mock import MagicMock, patch
+import numpy as np
 
 from fastapi.testclient import TestClient
 
@@ -18,7 +19,7 @@ def test_health_endpoint():
 @patch("app.model_service.load_model")
 def test_predict_and_feedback_flow(mock_load_model):
     mock_model = MagicMock()
-    mock_model.predict.return_value = [1_250_000_000.0]
+    mock_model.predict.return_value = [np.log1p(1_250_000_000.0)]
     mock_load_model.return_value = mock_model
 
     prediction_response = client.post("/predict", json=PREDICT_PAYLOAD)
@@ -28,6 +29,7 @@ def test_predict_and_feedback_flow(mock_load_model):
     assert prediction_body["valuation_usd"] > 0
     assert prediction_body["valuation_b"] > 0
     assert prediction_body["valuation_b"] == prediction_body["valuation_usd"] / 1_000_000_000
+    assert prediction_body["model_used"] == "trained_model"
 
     feedback_response = client.post(
         "/feedback",
@@ -42,4 +44,5 @@ def test_predict_and_feedback_flow(mock_load_model):
     assert feedback_response.status_code == 201
     feedback_body = feedback_response.json()
     assert feedback_body["status"] == "recorded"
+    assert feedback_body["message"] == "Feedback recorded successfully."
     assert feedback_body["id"] > 0

@@ -45,7 +45,13 @@ def load_processed_dataset(path: Path | None = None) -> pd.DataFrame:
             f"Processed dataset not found at {data_path}. "
             "Run build_and_save_processed_dataset() first."
         )
-    return pd.read_parquet(data_path)
+    if data_path.suffix == ".parquet":
+        return pd.read_parquet(data_path)
+    if data_path.suffix in {".pkl", ".pickle"}:
+        return pd.read_pickle(data_path)
+    if data_path.suffix == ".csv":
+        return pd.read_csv(data_path)
+    raise ValueError(f"Unsupported processed dataset format: {data_path.suffix}")
 
 
 def build_and_save_processed_dataset(path: Path | None = None) -> Path:
@@ -53,7 +59,14 @@ def build_and_save_processed_dataset(path: Path | None = None) -> Path:
     output_path = path or resolve_path(config["paths"]["processed_data"])
     featured = build_features(load_raw_dataset())
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    featured.to_parquet(output_path, index=False)
+    if output_path.suffix == ".parquet":
+        featured.to_parquet(output_path, index=False)
+    elif output_path.suffix in {".pkl", ".pickle"}:
+        featured.to_pickle(output_path)
+    elif output_path.suffix == ".csv":
+        featured.to_csv(output_path, index=False)
+    else:
+        raise ValueError(f"Unsupported processed dataset format: {output_path.suffix}")
     return output_path
 
 

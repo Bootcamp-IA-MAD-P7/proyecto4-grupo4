@@ -1,96 +1,50 @@
 # Dataset Notes - Unicorn Startups
 
 ## Fuente
-- **Kaggle:** [ramjasmaurya/unicorn-startups](https://www.kaggle.com/datasets/ramjasmaurya/unicorn-startups)
-- **Versión:** 14 (última disponible)
-- **Periodo:** Startups unicornio hasta septiembre 2022
 
-## Estructura Original (Cruda)
+- **Kaggle:** `ramjasmaurya/unicorn-startups`
+- **Problema:** regresion de la valoracion de startups unicornio.
+- **Target:** `valuation_usd`.
 
-| Columna | Tipo | Descripción | Nulos |
-|---------|------|-------------|-------|
-| Company | str | Nombre de la empresa | 0 |
-| Valuation ($B) | str | Valuación en miles de millones USD (con $) | 0 |
-| Date Joined | str | Fecha en que se convirtió en unicornio (M/D/YYYY) | 0 |
-| Country | str | País de origen | 0 |
-| City | str | Ciudad (tiene encoding \\xa0 en nombre) | 0 |
-| Industry | str | Sector industrial | 0 |
-| Investors | str | Lista de inversores separados por coma | 18 |
+## Columnas crudas principales
 
-**Total:** 1186 filas, 7 columnas
+| Columna | Descripcion |
+|---|---|
+| `Company` | Nombre de la startup |
+| `Valuation` | Valoracion como texto monetario (`$140B`, `$572M`) |
+| `Funding` | Financiacion acumulada como texto monetario |
+| `Year Founded` | Año de fundacion |
+| `Industry` | Sector |
+| `Country` | Pais |
+| `Continent` | Continente |
 
-## Estructura Limpia (Procesada)
+## Dataset procesado
 
-| Columna | Tipo | Descripción |
-|---------|------|-------------|
-| company | str | Nombre de la empresa |
-| valuation_b | float64 | Valuación en miles de millones USD |
-| date_joined | datetime | Fecha de inclusión como unicornio |
-| country | str | País de origen |
-| city | str | Ciudad |
-| industry | str | Sector industrial |
-| investors | str | Lista de inversores (original) |
-| join_year | Int64 | Año de inclusión |
-| join_month | Int64 | Mes de inclusión |
-| investor_count | int64 | Cantidad de inversores |
+El pipeline genera `data/processed/dataset.pkl` con estas variables clave:
 
-## Transformaciones Aplicadas
+| Columna | Descripcion |
+|---|---|
+| `valuation_usd` | Target numerico en dolares |
+| `funding_usd` | Funding numerico en dolares |
+| `year_founded` | Año de fundacion numerico |
+| `company_age` | Edad aproximada de la empresa |
+| `log_funding_usd` | Transformacion logaritmica del funding |
+| `funding_velocity` | Funding dividido por edad de empresa |
+| `funding_vs_industry` | Funding relativo a la mediana del sector |
+| `industry` | Sector agrupando categorias raras como `Other` |
+| `country` | Pais agrupando categorias raras como `Other` |
+| `continent` | Continente |
 
-1. **Limpieza de columnas:** Se elimina `\\xa0` del nombre `City`
-2. **Valuación:** Se extrae `$` y `,`, se convierte a float64
-3. **Fecha:** Se parsea string a datetime, se extraen `join_year` y `join_month`
-4. **Inversores:** Se cuenta la cantidad de inversores por coma
+## Features del modelo
 
-## Calidad de Datos
+Las features activas estan definidas en `config.yaml`:
 
-### Duplicados
-- **0 filas duplicadas** exactas
-- **0 empresas duplicadas** (cada startup aparece una vez)
+- Numericas: `year_founded`, `log_funding_usd`, `funding_velocity`, `funding_vs_industry`, `company_age`.
+- Categoricas: `industry`, `country`, `continent`.
 
-### Nulos
-- **18 filas** con `Investors` = NaN (1.5% del dataset)
-- Sin nulos en otras columnas críticas
-- Las filas sin inversores se marcan como `investor_count = 0`
+## Calidad y limitaciones
 
-### Outliers
-- **~150 outliers** en `valuation_b` (por encima de IQR * 1.5)
-- ByteDance ($140B), SpaceX ($127B), SHEIN ($100B) son los más extremos
-- La distribución es **muy sesgada a la derecha**
-
-## Limitaciones del Dataset
-
-1. **Fecha de corte:** Solo incluye startups hasta septiembre 2022
-2. **Valuación autodeclarada:** No hay verificación independiente
-3. **Sin fecha de fundación:** Solo se tiene la fecha de inclusión como unicornio
-4. **Inversores no estructurados:** El campo es texto libre, dificulta análisis
-5. **Encoding inconsistente:** La columna City tiene caracteres no-ASCII
-6. **Sin series de tiempo:** No hay datos históricos de valuación
-
-## Uso del Dataset
-
-### Para Integrante 2 (Pipeline)
-```python
-from src.data.load_data import download_dataset
-from src.preprocessing.preprocessing_pipeline import save_clean_data
-
-csv_path = download_dataset()
-output_path, df_clean = save_clean_data(csv_path)
-```
-
-### Para Validación
-```python
-from src.data.data_validation import run_all_checks_clean
-
-checks = run_all_checks_clean(df_clean)
-```
-
-## Estadísticas Clave
-
-- **Total startups:** 1186
-- **Países:** 48
-- **Industrias:** 34
-- **Valuación mediana:** $1.6B
-- **Valuación promedio:** $3.25B
-- **Valuación máxima:** $140B (ByteDance)
-- **País con más startups:** United States (636)
-- **Industria con más startups:** Fintech (239)
+- El target esta fuertemente sesgado por outliers de alta valoracion.
+- El modelo mejora respecto a baselines simples, pero la señal disponible no explica toda la variabilidad.
+- Las empresas con valoraciones extremas tienden a producir residuos mayores.
+- El feedback de la aplicacion se guarda para monitorizar predicciones reales y alimentar futuros reentrenamientos.

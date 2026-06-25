@@ -1,167 +1,131 @@
-# Proyecto 4 - Grupo 4: Unicorn Startups
+# Proyecto 4 - Grupo 4: Unicorn Valuation
 
-Predicción de la valuación de startups unicornio utilizando datos de Kaggle.
+Prediccion de la valoracion de startups unicornio como problema de regresion.
 
-## Estructura del Proyecto
+## Estado actual
 
-```
-proyecto4-grupo4/
-├── data/
-│   ├── raw/
-│   │   └── dataset_raw.csv            # Dataset crudo descargado de Kaggle
-│   └── dataset.parquet                # Dataset procesado (parquet, esquema definitivo)
-├── models/
-│   └── best_model.joblib              # Modelo pipeline guardado
-├── notebooks/
-│   ├── 01_eda.ipynb                   # Análisis exploratorio y calidad de datos
-│   └── 02_preprocessing_baseline.ipynb # Pipeline de preprocesamiento y baselines
-├── src/
-│   ├── data/
-│   │   ├── load_data.py               # Descarga y carga del dataset
-│   │   └── data_validation.py         # Checks reutilizables de calidad
-│   ├── preprocessing/
-│   │   └── preprocessing_pipeline.py  # Feature engineering + ColumnTransformer
-│   └── models/
-│       ├── train.py                   # Entrenamiento de modelos baseline
-│       └── evaluate.py                # Métricas y detección de overfitting
-├── tests/
-│   └── test_preprocessing.py          # Tests unitarios del pipeline
-├── docs/
-│   └── data_notes.md                  # Documentación del dataset
-├── requirements.txt
-└── README.md
-```
+- Dataset local: `data/raw/unicorn_companies.csv`.
+- Dataset procesado: `data/processed/dataset.pkl`.
+- Modelo entrenado: `models/best_model.joblib`.
+- Metricas: `models/metrics.json`.
+- API: FastAPI con endpoints `/health`, `/predict` y `/feedback`.
+- Frontend: React/Vite conectado al contrato actual de la API.
+- Persistencia de feedback: SQLite.
+- Tests backend: `20 passed`.
 
-## Integrantes y Responsabilidades
+## Modelo
 
-### Integrante 1 - Dataset, Calidad y EDA
-- Carga y validación del dataset crudo
-- Limpieza de columnas (nombres, encoding)
-- Detección de nulos, duplicados, outliers
-- Feature engineering básico (fechas, inversores)
-- Visualizaciones: distribución del target, países, industrias, años
-- Validaciones reutilizables en `src/data/data_validation.py`
-- Documentación en `docs/data_notes.md`
+El entrenamiento compara:
 
-### Integrante 2 - Preprocesamiento y Baseline
-- Pipeline de preprocesamiento con `Pipeline` y `ColumnTransformer`
-- Imputación, escalado (numéricas) y OneHotEncoder (categóricas)
-- Entrenamiento de DummyRegressor, LinearRegression y Ridge
-- Cálculo de métricas: MAE, MSE, RMSE, R2
-- Control de overfitting (comparación train/test)
-- Guardado del modelo con `joblib`
+- Ridge
+- Random Forest
+- Gradient Boosting
 
-## Flujo de Trabajo
+El modelo ganador actual es `gradient_boosting`.
 
-### 1. Instalación
+Metricas de validacion actuales:
+
+| Metrica | Valor |
+|---|---:|
+| RMSE | 6.40B USD |
+| MAE | 1.68B USD |
+| R2 | 0.2207 |
+| Overfitting max gap | 0.0% |
+| CV R2 medio | 0.2757 |
+
+## Features
+
+Features numericas:
+
+- `year_founded`
+- `log_funding_usd`
+- `funding_velocity`
+- `funding_vs_industry`
+- `company_age`
+
+Features categoricas:
+
+- `industry`
+- `country`
+- `continent`
+
+El target es `valuation_usd`.
+
+## Entrenamiento
 
 ```bash
-# Crear entorno virtual
-python -m venv venvp4g4
-venvp4g4\Scripts\activate        # Windows
-# source venvp4g4/bin/activate   # Linux/Mac
-
-# Instalar dependencias
-pip install -r requirements.txt
+cd backend
+python -m pip install -r requirements.txt
+python scripts/train.py --report
 ```
 
-### 2. Ejecución del EDA (Integrante 1)
+Esto genera:
+
+- `data/processed/dataset.pkl`
+- `models/best_model.joblib`
+- `models/metrics.json`
+- `reports/target_distribution.png`
+- `reports/pred_vs_actual.png`
+- `reports/residuals.png`
+- `reports/feature_importance.png`
+
+## API
 
 ```bash
-# Abrir Jupyter desde la raíz del proyecto
-jupyter notebook notebooks/01_eda.ipynb
+cd backend
+uvicorn app.main:app --reload
 ```
 
-Este notebook:
-- Descarga el dataset de Kaggle automáticamente
-- Guarda el crudo en `data/raw/dataset_raw.csv`
-- Ejecuta validaciones de calidad
-- Genera visualizaciones inline (6 figuras)
-- Guarda el procesado en `data/processed/dataset.parquet`
+Ejemplo de prediccion:
 
-### 3. Ejecución del Pipeline y Entrenamiento (Integrante 2)
+```json
+{
+  "year_founded": 2015,
+  "funding_usd": 50000000,
+  "company_age": 11,
+  "industry": "Fintech",
+  "country": "United States",
+  "continent": "North America"
+}
+```
+
+Respuesta:
+
+```json
+{
+  "valuation_usd": 1331072782.758,
+  "valuation_b": 1.3311,
+  "model_version": "best_model.joblib",
+  "model_used": "trained_model",
+  "message": "Prediction generated successfully.",
+  "timestamp": "2026-06-24T20:37:40.574476+00:00"
+}
+```
+
+## Frontend
 
 ```bash
-# Ejecutar el notebook
-jupyter notebook notebooks/02_preprocessing_baseline.ipynb
-
-# O ejecutar desde línea de comandos
-python -m src.models.train
+cd frontend
+npm ci
+npm run dev
 ```
 
-Este flujo:
-- Descarga el dataset de Kaggle
-- Aplica FeatureEngineering (fechas, inversores, limpieza)
-- Guarda `data/processed/dataset.parquet`
-- Entrena 3 modelos baseline
-- Guarda el mejor en `models/best_model.joblib`
+El frontend usa `VITE_API_URL`; por defecto apunta a `http://127.0.0.1:8000`.
 
-### 4. Ejecución de Tests
+## Tests
 
 ```bash
-python -m pytest tests/ -v
+python -m pytest backend/tests -q
 ```
 
-## Pipeline de Preprocesamiento
+## Docker
 
-El pipeline completo (`preprocessing_pipeline.py`) consta de:
-
-**FeatureEngineer** (custom transformer):
-1. Limpieza de nombres de columnas (elimina `\xa0`)
-2. Extracción de features desde `Date Joined`: `join_year`, `join_month`, `years_since_joined`
-3. Conteo de inversores: `investor_count`
-4. Limpieza de `Valuation ($B)`: elimina `$` y `,`, convierte a float -> `valuation_b`
-5. Elimina columnas originales (`Company`, `Date Joined`, `Investors`, `Valuation ($B)`)
-
-**Preprocessor** (ColumnTransformer):
-- Numéricas (`join_year`, `join_month`, `years_since_joined`, `investor_count`): `SimpleImputer(median)` + `StandardScaler`
-- Categóricas (`Country`, `Industry`): `SimpleImputer(most_frequent)` + `OneHotEncoder`
-
-## Modelos Entrenados
-
-| Modelo | Descripción |
-|--------|-------------|
-| DummyRegressor | Baseline mínimo (predice la media) |
-| LinearRegression | Regresión lineal simple |
-| Ridge | Regresión lineal con regularización L2 |
-
-## Métricas
-
-- **MAE** - Error absoluto promedio
-- **MSE** - Error cuadrático medio
-- **RMSE** - Raíz del error cuadrático medio
-- **R2** - Coeficiente de determinación
-
-## Uso del Modelo Guardado
-
-```python
-import joblib
-import pandas as pd
-
-# Cargar el pipeline completo
-pipe = joblib.load('models/best_model.joblib')
-
-# Predecir con datos crudos (el pipeline hace todo el preprocesamiento)
-nuevos_datos = pd.DataFrame({
-    'Company': ['MiStartup'],
-    'Valuation ($B)': ['$5'],
-    'Date Joined': ['1/1/2020'],
-    'Country': ['United States'],
-    'City ': ['San Francisco'],
-    'Industry': ['Fintech'],
-    'Investors': ['VC1, VC2, VC3'],
-})
-
-prediccion = pipe.predict(nuevos_datos)
-print('Valuación estimada: ${:.2f}B'.format(prediccion[0]))
+```bash
+docker compose up --build
 ```
 
-## Dataset
+La imagen espera que exista `models/best_model.joblib`. Para regenerarlo, ejecutar primero el entrenamiento.
 
-- **Fuente:** [Kaggle - Unicorn Startups](https://www.kaggle.com/datasets/ramjasmaurya/unicorn-startups)
-- **Registros:** 1186 startups unicornio
-- **Periodo:** Hasta septiembre 2022
-- **Target:** `valuation_b` (valuación en miles de millones USD)
-- **Features:** país, ciudad, industria, año/mes de inclusión, cantidad de inversores
+## Notas de rendimiento
 
-Más detalles en `docs/data_notes.md`.
+El dataset tiene outliers severos y una cola alta dificil de aprender con las variables disponibles. Por eso el objetivo principal es mantener un modelo funcional, validado, sin overfitting superior al 5%, con metricas transparentes y una aplicacion capaz de recoger feedback para futuras mejoras.

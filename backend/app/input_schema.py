@@ -27,6 +27,8 @@ class PredictionResponse(BaseModel):
     valuation_usd: float
     valuation_b: float
     model_version: str
+    model_used: str
+    message: str
     timestamp: str
 
 
@@ -53,6 +55,7 @@ FeedbackRequest = FeedbackInput
 class FeedbackResponse(BaseModel):
     id: int
     status: str
+    message: str
     timestamp: str
 
 

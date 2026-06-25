@@ -21,8 +21,10 @@ from src.config import load_config, resolve_path
 from src.data.load import build_and_save_processed_dataset, load_processed_dataset, prepare_modeling_frame
 from src.models.evaluate import generate_report_assets
 from src.models.train import predict_absolute, train_and_evaluate
-from src.mlops.tuning import optimize_hyperparameters
-from src.storage.db import save_metric_snapshot
+try:
+    from src.storage.db import save_metric_snapshot
+except ModuleNotFoundError:
+    save_metric_snapshot = None
 from sklearn.metrics import r2_score
 from sklearn.model_selection import train_test_split
 
@@ -144,7 +146,7 @@ def analyze_residual_pattern(y_true: np.ndarray, y_pred: np.ndarray) -> dict[str
 
 
 def run_stress_test() -> dict[str, Any]:
-    print("🔬 Stress test: entrenamiento diagnóstico (sin guardar artefactos)\n")
+    print("Stress test: entrenamiento diagnostico (sin guardar artefactos)\n")
     models_to_compare = [
         ("gradient_boosting", {"n_estimators": 120, "max_depth": 2, "min_samples_leaf": 30, "learning_rate": 0.03}),
         ("ridge", {}),
@@ -158,7 +160,7 @@ def run_stress_test() -> dict[str, Any]:
     summary: dict[str, float] = {}
 
     for model_name, params in models_to_compare:
-        print(f"🔄 Evaluando: {model_name}...")
+        print(f"Evaluando: {model_name}...")
         trained = train_and_evaluate(model_name, **params)
         r2_val = trained["report"]["validation"]["r2"]
         summary[model_name] = r2_val
@@ -224,6 +226,8 @@ def main() -> None:
     from src.models.train import save_artifacts
 
     if args.optimize:
+        from src.mlops.tuning import optimize_hyperparameters
+
         result = optimize_hyperparameters(n_trials=args.trials)
         report = result["report"]
         print(json.dumps(result, indent=2, default=str))
@@ -231,14 +235,14 @@ def main() -> None:
         save_artifacts(result["pipeline"], report)
     else:
         if args.model is not None:
-            print(f"🎯 Ejecución individual: Entrenando únicamente '{args.model}'...")
+            print(f"Ejecucion individual: Entrenando unicamente '{args.model}'...")
             trained = train_and_evaluate(args.model)
             enforce_quality_gate(trained["report"])
             save_artifacts(trained["pipeline"], trained["report"])
             report = trained["report"]
             print(json.dumps(report, indent=2))
         else:
-            print("🤖 Modo automático activado: Iniciando comparación de modelos...\n")
+            print("Modo automatico activado: Iniciando comparacion de modelos...\n")
             models_to_compare = ["ridge", "random_forest", "gradient_boosting"]
 
             best_r2 = -float("inf")
@@ -248,7 +252,7 @@ def main() -> None:
             summary_results = {}
 
             for model_name in models_to_compare:
-                print(f"🔄 Entrenando y evaluando: {model_name}...")
+                print(f"Entrenando y evaluando: {model_name}...")
                 trained = train_and_evaluate(model_name)
 
                 r2_val = trained["report"]["validation"]["r2"]
@@ -266,20 +270,23 @@ def main() -> None:
             for model, r2 in summary_results.items():
                 print(f"{model:<25} | {r2:.4f}")
             print("=" * 45)
-            print(f"🏆 GANADOR: {best_model_name.upper()} con R² = {best_r2:.4f}")
+            print(f"GANADOR: {best_model_name.upper()} con R2 = {best_r2:.4f}")
             print("=" * 45 + "\n")
 
-            print(f"💾 Guardando artefactos del ganador ({best_model_name})...")
+            print(f"Guardando artefactos del ganador ({best_model_name})...")
             enforce_quality_gate(best_report)
             save_artifacts(best_pipeline, best_report)
 
             report = best_report
 
-    save_metric_snapshot(
-        model_version=report["model_type"],
-        metrics=report["validation"],
-        is_champion=report["overfitting"]["within_limit"],
-    )
+    if save_metric_snapshot is not None:
+        save_metric_snapshot(
+            model_version=report["model_type"],
+            metrics=report["validation"],
+            is_champion=report["overfitting"]["within_limit"],
+        )
+    else:
+        print("WARNING: SQLAlchemy no disponible; snapshot de métricas no guardado en base de datos.")
 
     if not report["overfitting"]["within_limit"]:
         print(

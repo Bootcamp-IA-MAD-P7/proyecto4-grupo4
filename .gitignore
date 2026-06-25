@@ -2,20 +2,22 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
+pytest-cache-files-*/
+backend/.pytest-tmp/
 .venv/
 venv/
 venvp4g4/
 .ipynb_checkpoints/
 frontend/dist/
 frontend/node_modules/
+frontend/.npm-cache/
 
-# ML Artifacts — never version these
-backend/models/*.joblib
+# ML artifacts for this academic delivery are versioned when small/reproducible.
 backend/models/*.pkl
-backend/models/metrics.json
-backend/reports/*.png
 backend/reports/*.pdf
-backend/data/processed/
+backend/data/processed/*
+!backend/data/processed/.gitkeep
+!backend/data/processed/dataset.pkl
 backend/data/dataset_clean.csv
 
 # Databases — never version these (production uses PostgreSQL)

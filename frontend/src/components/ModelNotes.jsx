@@ -25,8 +25,9 @@ function ModelNotes() {
         <p>
           El Oraculo identifica senales, no certezas. Las metricas visibles explican
           el rendimiento de referencia del proyecto y la prediccion operativa se obtiene
-          del backend. Hasta que el modelo real este disponible, la API responde con una
-          estimacion mock para poder desarrollar la interfaz y el flujo de feedback.
+          del backend. El modelo activo es un Gradient Boosting entrenado sobre funding,
+          edad de la empresa, industria, pais y continente; el feedback se guarda para
+          monitorizar futuras mejoras y reentrenamientos.
         </p>
       </article>
     </section>
