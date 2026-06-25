@@ -52,8 +52,8 @@ function PredictionForm({ continents, countries, form, industries, loading, onCh
           Industria
           <select name="industry" onChange={onChange} value={form.industry} required>
             {industries.map((industry) => (
-              <option key={industry} value={industry}>
-                {industry}
+              <option key={industry.value} value={industry.value}>
+                {industry.label}
               </option>
             ))}
           </select>
@@ -63,8 +63,8 @@ function PredictionForm({ continents, countries, form, industries, loading, onCh
           País
           <select name="country" onChange={onChange} value={form.country} required>
             {countries.map((country) => (
-              <option key={country} value={country}>
-                {country}
+              <option key={country.value} value={country.value}>
+                {country.label}
               </option>
             ))}
           </select>

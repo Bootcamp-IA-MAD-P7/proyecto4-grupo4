@@ -680,7 +680,7 @@ Antes de comenzar cualquier tarea:
 
 ## Fase 5 — Frontend React + Docker Compose (activa)
 
-> **Estado:** activa — Fase 4 completada. Tickets `[T-5.1]` a `[T-5.4]` completados. Continuar con `[T-5.5]`.
+> **Estado:** activa — Fase 4 completada. Tickets `[T-5.1]` a `[T-5.5]` completados. Continuar con `[T-5.6]`.
 
 ### [T-5.1] Verificar `frontend/src/api.js` — BASE_URL y payloads
 
@@ -752,7 +752,7 @@ Antes de comenzar cualquier tarea:
   - Mantener nombres técnicos internos cuando sean contrato de API (`continent`, `funding_usd`, `valuation_usd`), pero traducir la etiqueta visible.
   - Confirmar que `continent` se muestra como `Región geográfica`, con valores visibles como `América del Norte` y `América del Sur`, sin alterar los valores enviados al backend.
 - **Verificación:** El comando de búsqueda no devuelve resultados.
-- [ ] Estado: pendiente
+- [x] Estado: completado — búsqueda global ejecutada en `.py`, `.md`, `.jsx`, `.js`, `.yaml` y `.yml`, excluyendo carpetas generadas (`node_modules`, `dist`, `.venv`, `.git`). No quedan ocurrencias reales de mojibake (`Ã`, `Â`, `â`, `ð`, `�`) en archivos fuente relevantes. Se completó la limpieza visible iniciada en `[T-5.4]`: países, industrias y región geográfica muestran etiquetas en español sin alterar los valores técnicos enviados al backend; se reemplazaron textos visibles como `Deal flow`, `Baseline`, `API offline` y `venture intelligence`. Verificado con búsqueda global y `npm.cmd run build`.
 
 ---
 
@@ -1008,12 +1008,12 @@ Antes de comenzar cualquier tarea:
 | Fase 2 — Rutas y Configuración | 10 | 10 | 0  | ✅ Completada |
 | Fase 3 — Tests + Modelo T1-T3  | 7  | 7  | 0  | ✅ Completada |
 | Fase 4 — API + PostgreSQL      | 10 | 10 | 0  | ✅ Completada |
-| Fase 5 — Frontend + Docker     | 9  | 4  | 5  | ▶ **Activa** |
+| Fase 5 — Frontend + Docker     | 9  | 5  | 4  | ▶ **Activa** |
 | Fase 6 — Documentación         | 6  | 0  | 6  | Bloqueada |
 | Fase 7 — Optimización Post-MVP | 1  | 0  | 1  | 🧊 Congelada |
-| **Total**                      | **57** | **47** | **10** | |
+| **Total**                      | **57** | **48** | **9** | |
 
-> **Siguiente ticket:** `[T-5.5]` Búsqueda y corrección global de mojibake.
+> **Siguiente ticket:** `[T-5.6]` Crear Dockerfile multi-stage para el frontend.
 
 ---
 

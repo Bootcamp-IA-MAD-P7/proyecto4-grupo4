@@ -31,7 +31,7 @@ function Home() {
     actual_valuation_usd: "",
     comment: "",
   });
-  const [apiStatus, setApiStatus] = useState("API offline");
+  const [apiStatus, setApiStatus] = useState("API sin conexión");
   const [error, setError] = useState("");
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -43,7 +43,7 @@ function Home() {
         const modelState = body.model_loaded ? "modelo cargado" : "modelo no cargado";
         setApiStatus(`API ${body.status} | ${modelState}`);
       })
-      .catch(() => setApiStatus("API offline"));
+      .catch(() => setApiStatus("API sin conexión"));
   }, []);
 
   useEffect(() => {
@@ -136,7 +136,7 @@ function Home() {
           <div className="hero-copy">
             <div className="hero-title-lockup">
               <OraclePrism className="hero-prism-bg" />
-              <p className="eyebrow">Motor predictivo de venture intelligence</p>
+              <p className="eyebrow">Motor predictivo de inteligencia de inversión</p>
               <h1>El Oráculo de Capital Riesgo</h1>
             </div>
 

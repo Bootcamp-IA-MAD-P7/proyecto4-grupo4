@@ -10,29 +10,29 @@ export const initialForm = {
 };
 
 export const countries = [
-  "United States",
-  "China",
-  "India",
-  "United Kingdom",
-  "Germany",
-  "France",
-  "Israel",
-  "Canada",
-  "Brazil",
-  "Singapore",
+  { value: "United States", label: "Estados Unidos" },
+  { value: "China", label: "China" },
+  { value: "India", label: "India" },
+  { value: "United Kingdom", label: "Reino Unido" },
+  { value: "Germany", label: "Alemania" },
+  { value: "France", label: "Francia" },
+  { value: "Israel", label: "Israel" },
+  { value: "Canada", label: "Canadá" },
+  { value: "Brazil", label: "Brasil" },
+  { value: "Singapore", label: "Singapur" },
 ];
 
 export const industries = [
-  "Fintech",
-  "Internet software & services",
-  "E-commerce & direct-to-consumer",
-  "Health",
-  "Artificial intelligence",
-  "Supply chain, logistics, & delivery",
-  "Cybersecurity",
-  "Data management & analytics",
-  "Auto & transportation",
-  "Other",
+  { value: "Fintech", label: "Fintech" },
+  { value: "Internet software & services", label: "Software y servicios de internet" },
+  { value: "E-commerce & direct-to-consumer", label: "Comercio electrónico y venta directa" },
+  { value: "Health", label: "Salud" },
+  { value: "Artificial intelligence", label: "Inteligencia artificial" },
+  { value: "Supply chain, logistics, & delivery", label: "Cadena de suministro, logística y entregas" },
+  { value: "Cybersecurity", label: "Ciberseguridad" },
+  { value: "Data management & analytics", label: "Gestión y análisis de datos" },
+  { value: "Auto & transportation", label: "Automoción y transporte" },
+  { value: "Other", label: "Otro" },
 ];
 
 export const continents = [
@@ -143,7 +143,7 @@ export const sectorMix = [
   { label: "Fintech", value: 42 },
   { label: "SaaS", value: 28 },
   { label: "Healthtech", value: 17 },
-  { label: "E-commerce", value: 13 },
+  { label: "Comercio electrónico", value: 13 },
 ];
 
 export const valueProps = [
@@ -152,11 +152,11 @@ export const valueProps = [
     copy: "Analiza señales históricas y reduce el peso de la intuición aislada.",
   },
   {
-    title: "Deal flow escalable",
+    title: "Flujo de oportunidades escalable",
     copy: "Prioriza grandes volúmenes de startups antes de una evaluación profunda.",
   },
   {
-    title: "Baseline predictivo",
+    title: "Referencia predictiva",
     copy: "Genera una estimación inicial basada en patrones del mercado unicornio.",
   },
 ];
