@@ -1,3 +1,4 @@
+import math
 from unittest.mock import MagicMock, patch
 
 from fastapi.testclient import TestClient
@@ -6,6 +7,11 @@ from app.main import app
 from tests.conftest import PREDICT_PAYLOAD
 
 client = TestClient(app)
+
+# The real model stores targets in log1p-scale and predict() returns log-scale values.
+# expm1(LOG_SCALE_PREDICTION) ≈ 1 250 000 000
+_EXPECTED_VALUATION = 1_250_000_000.0
+_LOG_SCALE_PREDICTION = math.log1p(_EXPECTED_VALUATION)
 
 
 def test_health_endpoint():
@@ -18,7 +24,7 @@ def test_health_endpoint():
 @patch("app.model_service.load_model")
 def test_predict_and_feedback_flow(mock_load_model):
     mock_model = MagicMock()
-    mock_model.predict.return_value = [1_250_000_000.0]
+    mock_model.predict.return_value = [_LOG_SCALE_PREDICTION]
     mock_load_model.return_value = mock_model
 
     prediction_response = client.post("/predict", json=PREDICT_PAYLOAD)

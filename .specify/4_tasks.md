@@ -10,7 +10,9 @@
 | Fase 0 | `[T-0.1]`–`[T-0.3]` | ✅ Completados |
 | Fase 1 | `[T-1.1]`–`[T-1.11]` | ✅ Completados |
 | Fase 2 | `[T-2.0]`–`[T-2.9]` | ✅ Completados |
-| Fases 3–6 | `[T-3.x]`–`[T-6.x]` | Bloqueadas |
+| Fase 3 | `[T-3.x]` | ✅ Completados |
+| Fase 4 | `[T-4.1]`–`[T-4.10]` | ✅ Completados |
+| Fases 5–6 | `[T-5.x]`–`[T-6.x]` | Bloqueadas |
 
 ---
 
@@ -517,9 +519,9 @@ Antes de comenzar cualquier tarea:
 
 ---
 
-## Fase 4 — Estabilizar la API FastAPI + PostgreSQL (pendiente)
+## Fase 4 — Estabilizar la API FastAPI + PostgreSQL ▶ ACTIVA
 
-> **Estado:** bloqueada — no iniciar hasta completar Fase 3.
+> **Estado:** activa — Fase 3 completada con esquema T1-T3 estable. Optimización del modelo congelada hasta Fase 7.
 
 ### [T-4.1] Actualizar `backend/requirements.txt`
 
@@ -543,7 +545,7 @@ Antes de comenzar cualquier tarea:
   httpx>=0.27.0
   ```
 - **Verificación:** `grep -E "streamlit|kagglehub" backend/requirements.txt` no devuelve resultados. `grep "psycopg2" backend/requirements.txt` devuelve la línea correcta.
-- [ ] Estado: pendiente
+- [x] Estado: completado — `streamlit` y `kagglehub` eliminados; `psycopg2-binary`, `fastapi`, `uvicorn`, `pydantic`, `httpx` añadidos.
 
 ---
 
@@ -555,7 +557,7 @@ Antes de comenzar cualquier tarea:
   cd backend && pip install -r requirements.txt
   ```
 - **Verificación:** Sin errores de conflicto. `python -c "import fastapi, pydantic, uvicorn, psycopg2"` no lanza `ImportError`.
-- [ ] Estado: pendiente
+- [x] Estado: completado — `psycopg2-binary 2.9.12` instalado. Verificación: `fastapi 0.138.0 | pydantic 2.13.4 | uvicorn 0.49.0 | psycopg2 2.9.12`.
 
 ---
 
@@ -572,7 +574,7 @@ Antes de comenzar cualquier tarea:
   cd backend && python -c "from app.input_schema import PredictRequest, PredictResponse, FeedbackRequest, FeedbackResponse; print('OK')"
   ```
   Imprime `OK`.
-- [ ] Estado: pendiente
+- [x] Estado: completado — clases canónicas definidas; aliases de compatibilidad `PredictionInput`/`FeedbackInput` preservados. `HealthResponse` actualizado con `model_loaded: bool` y `model_r2: float | None`.
 
 ---
 
@@ -587,7 +589,7 @@ Antes de comenzar cualquier tarea:
   - CORS habilitado para `http://localhost:5173`
   - Sin ninguna referencia a Streamlit
 - **Verificación:** `grep -i "streamlit" backend/app/main.py` no devuelve resultados.
-- [ ] Estado: pendiente
+- [x] Estado: completado — 4 endpoints registrados. `GET /metrics` lee `models/metrics.json`. CORS configurado. Sin Streamlit.
 
 ---
 
@@ -601,7 +603,7 @@ Antes de comenzar cualquier tarea:
   4. Definir `Base = declarative_base()`.
   5. Ninguna referencia a `sqlite:///` ni a `storage/app.db`.
 - **Verificación:** `grep -E "sqlite|storage/app" backend/app/database.py` no devuelve resultados.
-- [ ] Estado: pendiente
+- [x] Estado: completado — SQLAlchemy con engine lazy (`get_engine()`), `Base` + ORM `Prediction` definidos, `RuntimeError` si `DATABASE_URL` no está en entorno. `tests/conftest.py` inyecta `DATABASE_URL=sqlite:///...` para la suite de tests.
 
 ---
 
@@ -614,7 +616,7 @@ Antes de comenzar cualquier tarea:
   DATABASE_URL=postgresql://unicorn_user:unicorn_pass@db:5432/unicorns
   ```
 - **Verificación:** El archivo existe. `grep "DATABASE_URL" backend/.env.example` devuelve la línea de ejemplo.
-- [ ] Estado: pendiente
+- [x] Estado: completado — archivo creado y verificado.
 
 ---
 
@@ -625,7 +627,7 @@ Antes de comenzar cualquier tarea:
   - Usar la sesión de `backend/app/database.py` para persistir registros en la tabla `predictions`.
   - Ninguna referencia a rutas de archivo SQLite (`backend/storage/app.db`, `sqlite:///`).
 - **Verificación:** `grep -E "sqlite|storage/app|data/feedback" backend/app/feedback_service.py` no devuelve resultados.
-- [ ] Estado: pendiente
+- [x] Estado: completado — `save_feedback` importa de `app.database` (ORM SQLAlchemy); cero referencias a SQLite. Tests `test_feedback.py` en verde.
 
 ---
 
@@ -634,7 +636,7 @@ Antes de comenzar cualquier tarea:
 - **Archivo(s):** `backend/app/database.py`
 - **Acción:** Confirmar que el modelo `Prediction` (o equivalente) mapea la tabla `predictions` con todos los campos de `2_spec.md` sección 5. Confirmar que `Base.metadata.create_all(engine)` se invoca en el startup para crear la tabla si no existe en PostgreSQL.
 - **Verificación:** `cd backend && DATABASE_URL=postgresql://unicorn_user:unicorn_pass@localhost:5432/unicorns python -c "from app.database import Base, engine; Base.metadata.create_all(engine); print('OK')"` imprime `OK` (requiere `DATABASE_URL` activa).
-- [ ] Estado: pendiente
+- [x] Estado: completado — `Prediction` ORM mapea los 10 campos de `2_spec.md` §5. `created_at` corregido a `DateTime(timezone=True)`. `init_db()` llama `Base.metadata.create_all(engine)`. Tests `test_feedback.py` en verde.
 
 ---
 
@@ -643,7 +645,7 @@ Antes de comenzar cualquier tarea:
 - **Archivo(s):** `app/model_service.py`
 - **Acción:** Confirmar que el modelo se carga una sola vez al arrancar la aplicación (usando `lifespan` o `@app.on_event("startup")`). Si no hay modelo en `models/best_model.joblib`, lanzar `RuntimeError` descriptivo.
 - **Verificación:** Al lanzar sin el archivo del modelo, la app falla con mensaje claro (no silencia el error).
-- [ ] Estado: pendiente
+- [x] Estado: completado — `preload_model()` en `model_service.py` lanza `RuntimeError` descriptivo si falta el joblib. `lifespan` en `main.py` llama `preload_model()` al arranque. `_cached_model` evita recargas. Tests en verde (18 passed, baseline preservado).
 
 ---
 
@@ -671,13 +673,13 @@ Antes de comenzar cualquier tarea:
   curl -s http://localhost:8000/health
   ```
 - **Verificación:** Respuesta de `/predict` contiene `valuation_usd` (número). Respuesta de `/health` contiene `"status":"ok"`.
-- [ ] Estado: pendiente
+- [x] Estado: completado — `/health` → `{"status":"ok","model_loaded":true,"model_r2":0.2207}`. `/predict` → `{"valuation_usd":1331072782.758,"valuation_b":1.3311,...}`. `/feedback` → `{"id":1,"status":"recorded"}`. Zero errores SQLAlchemy en log de uvicorn. Notas: (1) puerto 5432 ocupado → DB dockerizada en 5434; (2) `best_model.joblib` regenerado con schema definitivo (+ categoriales `industry/country/continent`); (3) `test_best_model_predicts_with_definitive_schema` pasa por primera vez.
 
 ---
 
-## Fase 5 — Frontend React + Docker Compose (pendiente)
+## Fase 5 — Frontend React + Docker Compose (activa)
 
-> **Estado:** bloqueada — no iniciar hasta completar Fase 4.
+> **Estado:** activa — Fase 4 completada. Iniciar con `[T-5.1]`.
 
 ### [T-5.1] Verificar `frontend/src/api.js` — BASE_URL y payloads
 
@@ -976,10 +978,34 @@ Antes de comenzar cualquier tarea:
 | Fase 0 — Preparación           | 3  | 3  | 0  | ✅ Completada |
 | Fase 1 — Limpieza              | 11 | 11 | 0  | ✅ Completada |
 | Fase 2 — Rutas y Configuración | 10 | 10 | 0  | ✅ Completada |
-| Fase 3 — Tests                 | 7  | 7  | 0  | ✅ Completada |
-| Fase 4 — API + PostgreSQL      | 10 | 0  | 10 | ▶ **Activa** |
-| Fase 5 — Frontend + Docker     | 8  | 0  | 8  | Bloqueada |
+| Fase 3 — Tests + Modelo T1-T3  | 7  | 7  | 0  | ✅ Completada |
+| Fase 4 — API + PostgreSQL      | 10 | 10 | 0  | ✅ Completada |
+| Fase 5 — Frontend + Docker     | 8  | 0  | 8  | ▶ **Activa** |
 | Fase 6 — Documentación         | 6  | 0  | 6  | Bloqueada |
-| **Total**                      | **55** | **22** | **33** | |
+| Fase 7 — Optimización Post-MVP | 1  | 0  | 1  | 🧊 Congelada |
+| **Total**                      | **56** | **43** | **13** | |
 
-> Actualizar esta tabla al completar cada fase. **Siguiente ticket:** `[T-4.1]` Actualizar `backend/requirements.txt`.
+> **Siguiente ticket:** `[T-5.1]` Verificar `frontend/src/api.js`.
+
+---
+
+## Fase 7 — Optimización Post-MVP (Deuda Técnica)
+
+> **Estado:** 🧊 congelada — no iniciar hasta completar el MVP funcional (Fases 4–6).
+> **Motivo de congelación:** el objetivo estratégico es entregar el extremo a extremo antes de iterar sobre la calidad del modelo.
+
+### [T-7.1] Refactorizar target de entrenamiento a Múltiplo de Valoración
+
+- **Contexto:** El modelo actual (features T1-T3) presenta sesgo sistemático de subestimación en la cola alta (+1.5 B/B de error residual). El target absoluto `valuation_usd` tiene una distribución muy comprimida que el modelo no puede capturar con los datos disponibles (~1 062 muestras, <5% en el rango >$10B).
+- **Acción:** Cambiar el target de entrenamiento de `valuation_usd` (dólares absolutos) a `valuation_multiple = valuation_usd / funding_usd` (múltiplo de valoración). El output de la API sigue siendo en dólares absolutos: `predicted_valuation_usd = predicted_multiple × funding_usd`.
+- **Archivos afectados:**
+  - `backend/src/models/train.py` — cambiar `uses_log_target()` / `fit_model()` / `predict_absolute()`
+  - `backend/config.yaml` — nuevo campo `target_transform: "multiple"` o similar
+  - `backend/scripts/train.py` — ajustar `enforce_quality_gate` si el umbral de R² cambia
+  - `backend/tests/test_pipeline.py` — actualizar `test_train_meets_min_r2` con nuevo umbral esperado
+- **Criterio de éxito:**
+  - R² validación > baseline T1-T3 actual (~0.18–0.22)
+  - Pendiente del Residual Plot < +0.8 B/B (reducción ≥ 50% del sesgo)
+  - El endpoint `POST /predict` sigue devolviendo `valuation_usd` en dólares absolutos
+- **Prerequisito:** MVP completo (Fases 4–6 cerradas), dataset en PostgreSQL operativo.
+- [ ] Estado: pendiente
