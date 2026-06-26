@@ -1,9 +1,11 @@
 import { BASE_URL } from "../api";
 
+const currentYear = new Date().getFullYear();
+
 export const initialForm = {
   year_founded: 2015,
   funding_usd: 50_000_000,
-  company_age: 9,
+  company_age: currentYear - 2015,
   industry: "Fintech",
   country: "United States",
   continent: "North America",
