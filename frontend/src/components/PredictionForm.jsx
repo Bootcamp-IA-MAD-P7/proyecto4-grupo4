@@ -1,7 +1,18 @@
 import React from "react";
 import { RefreshCw, Send } from "lucide-react";
 
-function PredictionForm({ continents, countries, form, industries, loading, onChange, onSubmit }) {
+import { formatIntegerInput } from "../utils/numberFormat";
+
+function PredictionForm({
+  continentLabel,
+  countries,
+  form,
+  industries,
+  loading,
+  maxFoundedYear,
+  onChange,
+  onSubmit,
+}) {
   return (
     <form className="panel prediction-form" id="predict" onSubmit={onSubmit}>
       <div className="section-heading">
@@ -13,7 +24,7 @@ function PredictionForm({ continents, countries, form, industries, loading, onCh
         <label>
           Año de fundación
           <input
-            max="2030"
+            max={maxFoundedYear}
             min="1800"
             name="year_founded"
             onChange={onChange}
@@ -26,12 +37,13 @@ function PredictionForm({ continents, countries, form, industries, loading, onCh
         <label>
           Financiación total (USD)
           <input
-            min="0"
+            className="numeric-input"
+            inputMode="numeric"
             name="funding_usd"
             onChange={onChange}
-            step="1000000"
-            type="number"
-            value={form.funding_usd}
+            pattern="[0-9.]*"
+            type="text"
+            value={formatIntegerInput(form.funding_usd)}
             required
           />
         </label>
@@ -41,8 +53,8 @@ function PredictionForm({ continents, countries, form, industries, loading, onCh
           <input
             min="0"
             name="company_age"
-            onChange={onChange}
-            type="number"
+            readOnly
+            type="text"
             value={form.company_age}
             required
           />
@@ -72,13 +84,7 @@ function PredictionForm({ continents, countries, form, industries, loading, onCh
 
         <label>
           Región geográfica
-          <select name="continent" onChange={onChange} value={form.continent} required>
-            {continents.map((continent) => (
-              <option key={continent.value} value={continent.value}>
-                {continent.label}
-              </option>
-            ))}
-          </select>
+          <input name="continent" readOnly type="text" value={continentLabel} />
         </label>
       </div>
 

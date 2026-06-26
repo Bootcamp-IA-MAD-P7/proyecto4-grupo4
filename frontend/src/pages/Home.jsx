@@ -9,7 +9,17 @@ import OraclePrism from "../components/OraclePrism";
 import PipelineSteps from "../components/PipelineSteps";
 import PredictionForm from "../components/PredictionForm";
 import PredictionResult from "../components/PredictionResult";
-import { continents, countries, industries, initialForm, valueProps } from "../data/modelMetrics";
+import {
+  countries,
+  getContinentForCountry,
+  getContinentLabel,
+  industries,
+  initialForm,
+  valueProps,
+} from "../data/modelMetrics";
+import { isGreaterThanOne, parseIntegerInput } from "../utils/numberFormat";
+
+const CURRENT_YEAR = new Date().getFullYear();
 
 const routeTitles = {
   "/": "Inicio",
@@ -67,15 +77,50 @@ function Home() {
 
   function updateField(event) {
     const { name, value } = event.target;
-    const numericFields = ["year_founded", "funding_usd", "company_age"];
+
+    if (name === "country") {
+      setForm((current) => ({
+        ...current,
+        country: value,
+        continent: getContinentForCountry(value),
+      }));
+      return;
+    }
+
+    if (name === "year_founded") {
+      const numericValue = value === "" ? "" : Math.min(Number(value), CURRENT_YEAR);
+      setForm((current) => ({
+        ...current,
+        year_founded: numericValue,
+        company_age: numericValue === "" ? "" : Math.max(CURRENT_YEAR - numericValue, 0),
+      }));
+      return;
+    }
+
+    if (name === "funding_usd") {
+      setForm((current) => ({
+        ...current,
+        funding_usd: parseIntegerInput(value),
+      }));
+      return;
+    }
+
     setForm((current) => ({
       ...current,
-      [name]: numericFields.includes(name) && value !== "" ? Number(value) : value,
+      [name]: value,
     }));
   }
 
   function updateFeedback(event) {
     const { name, value } = event.target;
+    if (name === "actual_valuation_usd") {
+      setFeedback((current) => ({
+        ...current,
+        actual_valuation_usd: parseIntegerInput(value),
+      }));
+      return;
+    }
+
     setFeedback((current) => ({
       ...current,
       [name]: value,
@@ -86,6 +131,12 @@ function Home() {
     event.preventDefault();
     setError("");
     setFeedbackMessage("");
+
+    if (!isGreaterThanOne(form.funding_usd)) {
+      setError("La financiación total debe ser mayor que 1 USD.");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -105,14 +156,18 @@ function Home() {
 
     setError("");
     setFeedbackMessage("");
+
+    if (feedback.actual_valuation_usd !== "" && !isGreaterThanOne(feedback.actual_valuation_usd)) {
+      setError("El valor real observado debe ser mayor que 1 USD.");
+      return;
+    }
+
     setLoading(true);
 
     const payload = {
       ...form,
       predicted_valuation_usd: prediction.valuation_usd,
-      actual_valuation_usd: feedback.actual_valuation_usd
-        ? Number(feedback.actual_valuation_usd)
-        : null,
+      actual_valuation_usd: feedback.actual_valuation_usd || null,
       comment: feedback.comment || null,
     };
 
@@ -171,16 +226,17 @@ function Home() {
         <section className="route-page predict-page">
           <div className="route-heading">
             <p className="eyebrow">Consulta predictiva</p>
-            <h1>Convierte datos de oportunidades de inversión en una lectura inicial de valoración.</h1>
+            <h1>Convierte datos de oportunidades de inversión en una lectura inicial de valoración</h1>
           </div>
 
           <div className="predict-grid">
             <PredictionForm
-              continents={continents}
+              continentLabel={getContinentLabel(form.continent)}
               countries={countries}
               form={form}
               industries={industries}
               loading={loading}
+              maxFoundedYear={CURRENT_YEAR}
               onChange={updateField}
               onSubmit={handlePredict}
             />

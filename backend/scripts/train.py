@@ -47,11 +47,17 @@ def log_target_training_message() -> None:
         print("WARNING: log_target disabled in config.yaml.")
 
 
-def enforce_quality_gate(report: dict[str, Any]) -> None:
+def enforce_quality_gate(report: dict[str, Any], allow_low_r2_artifact: bool = False) -> None:
     cfg = load_config()
     min_r2 = cfg["training"]["min_r2"]
     val_r2 = report["validation"]["r2"]
     if val_r2 < min_r2:
+        if allow_low_r2_artifact:
+            print(
+                f"[WARN] R²={val_r2:.4f} < threshold {min_r2}. "
+                "Saving artifact for MVP runtime; CI gate remains unchanged."
+            )
+            return
         print(f"[FAIL] R²={val_r2:.4f} < threshold {min_r2}. Training rejected.")
         sys.exit(1)
     print(f"[OK] R²={val_r2:.4f} >= threshold {min_r2}. Model saved.")
@@ -207,6 +213,11 @@ def main() -> None:
     parser.add_argument("--trials", type=int, default=30)
     parser.add_argument("--report", action="store_true", help="Genera gráficos de evaluación")
     parser.add_argument(
+        "--allow-low-r2-artifact",
+        action="store_true",
+        help="Guarda artefactos aunque no superen min_r2. Usar solo para runtime MVP/Docker.",
+    )
+    parser.add_argument(
         "--stress-test",
         action="store_true",
         help="Entrena, genera Residual Plot y analiza patrón sin guardar el modelo",
@@ -227,13 +238,13 @@ def main() -> None:
         result = optimize_hyperparameters(n_trials=args.trials)
         report = result["report"]
         print(json.dumps(result, indent=2, default=str))
-        enforce_quality_gate(report)
+        enforce_quality_gate(report, allow_low_r2_artifact=args.allow_low_r2_artifact)
         save_artifacts(result["pipeline"], report)
     else:
         if args.model is not None:
             print(f"🎯 Ejecución individual: Entrenando únicamente '{args.model}'...")
             trained = train_and_evaluate(args.model)
-            enforce_quality_gate(trained["report"])
+            enforce_quality_gate(trained["report"], allow_low_r2_artifact=args.allow_low_r2_artifact)
             save_artifacts(trained["pipeline"], trained["report"])
             report = trained["report"]
             print(json.dumps(report, indent=2))
@@ -270,7 +281,7 @@ def main() -> None:
             print("=" * 45 + "\n")
 
             print(f"💾 Guardando artefactos del ganador ({best_model_name})...")
-            enforce_quality_gate(best_report)
+            enforce_quality_gate(best_report, allow_low_r2_artifact=args.allow_low_r2_artifact)
             save_artifacts(best_pipeline, best_report)
 
             report = best_report

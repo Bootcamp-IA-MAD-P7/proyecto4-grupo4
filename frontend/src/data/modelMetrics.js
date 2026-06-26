@@ -1,25 +1,63 @@
 import { BASE_URL } from "../api";
 
+const currentYear = new Date().getFullYear();
+
 export const initialForm = {
   year_founded: 2015,
   funding_usd: 50_000_000,
-  company_age: 9,
+  company_age: currentYear - 2015,
   industry: "Fintech",
   country: "United States",
   continent: "North America",
 };
 
 export const countries = [
-  { value: "United States", label: "Estados Unidos" },
-  { value: "China", label: "China" },
-  { value: "India", label: "India" },
-  { value: "United Kingdom", label: "Reino Unido" },
-  { value: "Germany", label: "Alemania" },
-  { value: "France", label: "Francia" },
-  { value: "Israel", label: "Israel" },
-  { value: "Canada", label: "Canadá" },
-  { value: "Brazil", label: "Brasil" },
-  { value: "Singapore", label: "Singapur" },
+  { value: "Germany", label: "Alemania", continent: "Europe" },
+  { value: "Argentina", label: "Argentina", continent: "South America" },
+  { value: "Australia", label: "Australia", continent: "Oceania" },
+  { value: "Austria", label: "Austria", continent: "Europe" },
+  { value: "Bahamas", label: "Bahamas", continent: "North America" },
+  { value: "Belgium", label: "Bélgica", continent: "Europe" },
+  { value: "Bermuda", label: "Bermudas", continent: "North America" },
+  { value: "Brazil", label: "Brasil", continent: "South America" },
+  { value: "Canada", label: "Canadá", continent: "North America" },
+  { value: "Chile", label: "Chile", continent: "South America" },
+  { value: "China", label: "China", continent: "Asia" },
+  { value: "Colombia", label: "Colombia", continent: "South America" },
+  { value: "South Korea", label: "Corea del Sur", continent: "Asia" },
+  { value: "Croatia", label: "Croacia", continent: "Europe" },
+  { value: "Denmark", label: "Dinamarca", continent: "Europe" },
+  { value: "United Arab Emirates", label: "Emiratos Árabes Unidos", continent: "Asia" },
+  { value: "Spain", label: "España", continent: "Europe" },
+  { value: "United States", label: "Estados Unidos", continent: "North America" },
+  { value: "Estonia", label: "Estonia", continent: "Europe" },
+  { value: "Philippines", label: "Filipinas", continent: "Asia" },
+  { value: "Finland", label: "Finlandia", continent: "Europe" },
+  { value: "France", label: "Francia", continent: "Europe" },
+  { value: "Hong Kong", label: "Hong Kong", continent: "Asia" },
+  { value: "India", label: "India", continent: "Asia" },
+  { value: "Indonesia", label: "Indonesia", continent: "Asia" },
+  { value: "Ireland", label: "Irlanda", continent: "Europe" },
+  { value: "Israel", label: "Israel", continent: "Asia" },
+  { value: "Italy", label: "Italia", continent: "Europe" },
+  { value: "Japan", label: "Japón", continent: "Asia" },
+  { value: "Lithuania", label: "Lituania", continent: "Europe" },
+  { value: "Luxembourg", label: "Luxemburgo", continent: "Europe" },
+  { value: "Malaysia", label: "Malasia", continent: "Asia" },
+  { value: "Mexico", label: "México", continent: "North America" },
+  { value: "Nigeria", label: "Nigeria", continent: "Africa" },
+  { value: "Norway", label: "Noruega", continent: "Europe" },
+  { value: "Netherlands", label: "Países Bajos", continent: "Europe" },
+  { value: "United Kingdom", label: "Reino Unido", continent: "Europe" },
+  { value: "Czech Republic", label: "República Checa", continent: "Europe" },
+  { value: "Senegal", label: "Senegal", continent: "Africa" },
+  { value: "Singapore", label: "Singapur", continent: "Asia" },
+  { value: "South Africa", label: "Sudáfrica", continent: "Africa" },
+  { value: "Sweden", label: "Suecia", continent: "Europe" },
+  { value: "Switzerland", label: "Suiza", continent: "Europe" },
+  { value: "Thailand", label: "Tailandia", continent: "Asia" },
+  { value: "Turkey", label: "Turquía", continent: "Europe" },
+  { value: "Vietnam", label: "Vietnam", continent: "Asia" },
 ];
 
 export const industries = [
@@ -43,6 +81,14 @@ export const continents = [
   { value: "Africa", label: "África" },
   { value: "Oceania", label: "Oceanía" },
 ];
+
+export function getContinentForCountry(countryValue) {
+  return countries.find((country) => country.value === countryValue)?.continent ?? initialForm.continent;
+}
+
+export function getContinentLabel(continentValue) {
+  return continents.find((continent) => continent.value === continentValue)?.label ?? continentValue;
+}
 
 export async function fetchMetrics() {
   const res = await fetch(`${BASE_URL}/metrics`);
