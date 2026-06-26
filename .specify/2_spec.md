@@ -116,6 +116,8 @@ training:
 > **Estado actual del modelo (post Fase 4):** El modelo GradientBoosting con schema definitivo (5 features numéricas + categoriales `industry`, `country`, `continent`) alcanza R²=0.22 en validación. El umbral de 0.50 no se ha alcanzado; `test_train_meets_min_r2` falla en CI de forma esperada y documentada.
 >
 > **Deuda técnica diferida a Fase 7:** La optimización del R² y la corrección del sesgo sistemático de heterocedasticidad (+1.5 B/B de residuo, ratio 5×) se han diferido a **Fase 7 (Post-MVP)** mediante la estrategia de *target múltiplo de valoración* (`multiple = valuation_usd / funding_usd`). Decisión completa en `backend/docs/architecture_decision_target.md` (ADR-001). El MVP se entrega con el modelo estable T1-T3 (R²≈0.22), suficiente para demostrar el flujo extremo a extremo. El umbral de CI (0.50) **no se baja**; permanece como gate bloqueante hasta que `[T-7.1]` se implemente.
+>
+> **Runtime Docker MVP:** para que el contenedor de la API pueda arrancar y servir el flujo extremo a extremo mientras `[T-7.1]` permanece pendiente, `backend/Dockerfile` genera el artefacto con `python scripts/train.py --report --allow-low-r2-artifact`. Esta bandera solo permite guardar el modelo T1-T3 actual dentro de la imagen Docker; el comportamiento por defecto de `scripts/train.py` mantiene el gate bloqueante de `min_r2: 0.50`.
 
 ---
 
