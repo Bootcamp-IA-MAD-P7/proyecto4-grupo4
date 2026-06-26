@@ -763,6 +763,10 @@ input[readonly] {
   background: #eef3f6;
 }
 
+.numeric-input {
+  font-variant-numeric: tabular-nums;
+}
+
 button:disabled,
 input:disabled,
 textarea:disabled {
@@ -781,6 +785,12 @@ textarea:disabled {
     linear-gradient(135deg, rgba(57, 255, 136, 0.11), rgba(56, 189, 248, 0.06)),
     var(--color-card-dark);
   border-color: rgba(57, 255, 136, 0.22);
+}
+
+.result-panel .signal-badge.neutral {
+  color: #eafff3;
+  border-color: rgba(57, 255, 136, 0.42);
+  background: rgba(57, 255, 136, 0.16);
 }
 
 .result-header {

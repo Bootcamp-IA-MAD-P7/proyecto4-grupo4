@@ -2,6 +2,7 @@ import React from "react";
 import { Database, ShieldCheck } from "lucide-react";
 
 import SignalBadge from "./SignalBadge";
+import { formatIntegerInput } from "../utils/numberFormat";
 
 function formatUsd(value) {
   return typeof value === "number"
@@ -83,13 +84,14 @@ function PredictionResult({
         <label>
           Valor real observado (USD)
           <input
+            className="numeric-input"
             disabled={!canSendFeedback}
-            min="0"
+            inputMode="numeric"
             name="actual_valuation_usd"
             onChange={onFeedbackChange}
-            step="1000000"
-            type="number"
-            value={feedback.actual_valuation_usd}
+            pattern="[0-9.]*"
+            type="text"
+            value={formatIntegerInput(feedback.actual_valuation_usd)}
           />
         </label>
 
