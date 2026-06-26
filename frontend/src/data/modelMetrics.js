@@ -1,72 +1,185 @@
+import { BASE_URL } from "../api";
+
+const currentYear = new Date().getFullYear();
+
 export const initialForm = {
-  startup_name: "Nova Signal",
-  country: "United States",
-  city: "San Francisco",
+  year_founded: 2015,
+  funding_usd: 50_000_000,
+  company_age: currentYear - 2015,
   industry: "Fintech",
-  join_year: 2021,
-  join_month: 7,
-  investor_count: 3,
+  country: "United States",
+  continent: "North America",
 };
 
 export const countries = [
-  "United States",
-  "China",
-  "India",
-  "United Kingdom",
-  "Germany",
-  "France",
-  "Israel",
-  "Canada",
-  "Brazil",
-  "Singapore",
+  { value: "Germany", label: "Alemania", continent: "Europe" },
+  { value: "Argentina", label: "Argentina", continent: "South America" },
+  { value: "Australia", label: "Australia", continent: "Oceania" },
+  { value: "Austria", label: "Austria", continent: "Europe" },
+  { value: "Bahamas", label: "Bahamas", continent: "North America" },
+  { value: "Belgium", label: "Bélgica", continent: "Europe" },
+  { value: "Bermuda", label: "Bermudas", continent: "North America" },
+  { value: "Brazil", label: "Brasil", continent: "South America" },
+  { value: "Canada", label: "Canadá", continent: "North America" },
+  { value: "Chile", label: "Chile", continent: "South America" },
+  { value: "China", label: "China", continent: "Asia" },
+  { value: "Colombia", label: "Colombia", continent: "South America" },
+  { value: "South Korea", label: "Corea del Sur", continent: "Asia" },
+  { value: "Croatia", label: "Croacia", continent: "Europe" },
+  { value: "Denmark", label: "Dinamarca", continent: "Europe" },
+  { value: "United Arab Emirates", label: "Emiratos Árabes Unidos", continent: "Asia" },
+  { value: "Spain", label: "España", continent: "Europe" },
+  { value: "United States", label: "Estados Unidos", continent: "North America" },
+  { value: "Estonia", label: "Estonia", continent: "Europe" },
+  { value: "Philippines", label: "Filipinas", continent: "Asia" },
+  { value: "Finland", label: "Finlandia", continent: "Europe" },
+  { value: "France", label: "Francia", continent: "Europe" },
+  { value: "Hong Kong", label: "Hong Kong", continent: "Asia" },
+  { value: "India", label: "India", continent: "Asia" },
+  { value: "Indonesia", label: "Indonesia", continent: "Asia" },
+  { value: "Ireland", label: "Irlanda", continent: "Europe" },
+  { value: "Israel", label: "Israel", continent: "Asia" },
+  { value: "Italy", label: "Italia", continent: "Europe" },
+  { value: "Japan", label: "Japón", continent: "Asia" },
+  { value: "Lithuania", label: "Lituania", continent: "Europe" },
+  { value: "Luxembourg", label: "Luxemburgo", continent: "Europe" },
+  { value: "Malaysia", label: "Malasia", continent: "Asia" },
+  { value: "Mexico", label: "México", continent: "North America" },
+  { value: "Nigeria", label: "Nigeria", continent: "Africa" },
+  { value: "Norway", label: "Noruega", continent: "Europe" },
+  { value: "Netherlands", label: "Países Bajos", continent: "Europe" },
+  { value: "United Kingdom", label: "Reino Unido", continent: "Europe" },
+  { value: "Czech Republic", label: "República Checa", continent: "Europe" },
+  { value: "Senegal", label: "Senegal", continent: "Africa" },
+  { value: "Singapore", label: "Singapur", continent: "Asia" },
+  { value: "South Africa", label: "Sudáfrica", continent: "Africa" },
+  { value: "Sweden", label: "Suecia", continent: "Europe" },
+  { value: "Switzerland", label: "Suiza", continent: "Europe" },
+  { value: "Thailand", label: "Tailandia", continent: "Asia" },
+  { value: "Turkey", label: "Turquía", continent: "Europe" },
+  { value: "Vietnam", label: "Vietnam", continent: "Asia" },
 ];
 
 export const industries = [
-  "Fintech",
-  "Internet software & services",
-  "E-commerce & direct-to-consumer",
-  "Health",
-  "Artificial intelligence",
-  "Supply chain, logistics, & delivery",
-  "Cybersecurity",
-  "Data management & analytics",
-  "Auto & transportation",
-  "Other",
+  { value: "Fintech", label: "Fintech" },
+  { value: "Internet software & services", label: "Software y servicios de internet" },
+  { value: "E-commerce & direct-to-consumer", label: "Comercio electrónico y venta directa" },
+  { value: "Health", label: "Salud" },
+  { value: "Artificial intelligence", label: "Inteligencia artificial" },
+  { value: "Supply chain, logistics, & delivery", label: "Cadena de suministro, logística y entregas" },
+  { value: "Cybersecurity", label: "Ciberseguridad" },
+  { value: "Data management & analytics", label: "Gestión y análisis de datos" },
+  { value: "Auto & transportation", label: "Automoción y transporte" },
+  { value: "Other", label: "Otro" },
 ];
 
-export const metricCards = [
-  {
-    label: "Startups analizadas",
-    value: "1.186",
-    detail: "Dataset Kaggle hasta septiembre de 2022",
-  },
-  {
-    label: "Concentracion USA",
-    value: "53.6%",
-    detail: "Dominancia geográfica en la muestra",
-  },
-  {
-    label: "MAE modelo lineal",
-    value: "$1.52B",
-    detail: "Error medio absoluto de referencia",
-  },
-  {
-    label: "R2 test",
-    value: "0.0286",
-    detail: "Señal positiva, con limitaciones",
-  },
+export const continents = [
+  { value: "North America", label: "América del Norte" },
+  { value: "Asia", label: "Asia" },
+  { value: "Europe", label: "Europa" },
+  { value: "South America", label: "América del Sur" },
+  { value: "Africa", label: "África" },
+  { value: "Oceania", label: "Oceanía" },
 ];
 
-export const marketSignals = [
-  { label: "Sector dominante", value: "Fintech", tone: "signal" },
-  { label: "RMSE lineal", value: "$2.92B", tone: "neutral" },
-  { label: "Mejora vs baseline", value: "4.4%", tone: "signal" },
-  { label: "Riesgo estructural", value: "Outliers", tone: "risk" },
-];
+export function getContinentForCountry(countryValue) {
+  return countries.find((country) => country.value === countryValue)?.continent ?? initialForm.continent;
+}
+
+export function getContinentLabel(continentValue) {
+  return continents.find((continent) => continent.value === continentValue)?.label ?? continentValue;
+}
+
+export async function fetchMetrics() {
+  const res = await fetch(`${BASE_URL}/metrics`);
+  if (!res.ok) throw new Error("No se pudieron obtener las métricas");
+  return res.json();
+}
+
+function formatNumber(value, digits = 4) {
+  return typeof value === "number" ? value.toFixed(digits) : "No disponible";
+}
+
+function formatInteger(value) {
+  return typeof value === "number" ? value.toLocaleString("es-ES") : "No disponible";
+}
+
+function formatUsdBillions(value) {
+  return typeof value === "number"
+    ? `$${(value / 1_000_000_000).toFixed(2)}B`
+    : "No disponible";
+}
+
+function formatModelName(value) {
+  return typeof value === "string" ? value.replaceAll("_", " ") : "No disponible";
+}
+
+function formatOverfitting(value) {
+  if (value === true) return "Controlado";
+  if (value === false) return "Revisar";
+  return "No disponible";
+}
+
+function getR2Tone(value) {
+  if (typeof value !== "number") return "neutral";
+  if (value >= 0.5) return "signal";
+  if (value >= 0) return "neutral";
+  return "risk";
+}
+
+function getOverfittingTone(value) {
+  if (value === true) return "signal";
+  if (value === false) return "risk";
+  return "neutral";
+}
+
+export function buildMetricCards(metrics) {
+  const validation = metrics?.validation ?? {};
+  const crossValidation = metrics?.cross_validation ?? {};
+
+  return [
+    {
+      label: "Muestras",
+      value: formatInteger(metrics?.n_samples),
+      detail: "Registros usados durante el entrenamiento",
+    },
+    {
+      label: "R² de validación",
+      value: formatNumber(validation.r2),
+      detail: "Capacidad explicativa sobre datos no vistos",
+    },
+    {
+      label: "MAE de validación",
+      value: formatUsdBillions(validation.mae),
+      detail: "Error medio absoluto del modelo",
+    },
+    {
+      label: "R² medio en validación cruzada",
+      value: formatNumber(crossValidation.cv_r2_mean),
+      detail: "Promedio de validación cruzada",
+    },
+  ];
+}
+
+export function buildMarketSignals(metrics) {
+  const validation = metrics?.validation ?? {};
+  const overfitting = metrics?.overfitting ?? {};
+
+  return [
+    { label: "Modelo", value: formatModelName(metrics?.model_type), tone: "signal" },
+    { label: "R² de validación", value: formatNumber(validation.r2), tone: getR2Tone(validation.r2) },
+    {
+      label: "Sobreajuste",
+      value: formatOverfitting(overfitting.within_limit),
+      tone: getOverfittingTone(overfitting.within_limit),
+    },
+    { label: "RMSE de validación", value: formatUsdBillions(validation.rmse), tone: "neutral" },
+  ];
+}
 
 export const pipelineSteps = [
   "Datos crudos",
-  "Feature Engineering",
+  "Ingeniería de variables",
   "Preprocesamiento",
   "LinearRegression / RidgeCV",
   "Valor predictivo",
@@ -76,21 +189,21 @@ export const sectorMix = [
   { label: "Fintech", value: 42 },
   { label: "SaaS", value: 28 },
   { label: "Healthtech", value: 17 },
-  { label: "E-commerce", value: 13 },
+  { label: "Comercio electrónico", value: 13 },
 ];
 
 export const valueProps = [
   {
-    title: "Evaluacion objetiva",
-    copy: "Analiza senales historicas y reduce el peso de la intuicion aislada.",
+    title: "Evaluación objetiva",
+    copy: "Analiza señales históricas y reduce el peso de la intuición aislada.",
   },
   {
-    title: "Deal flow escalable",
-    copy: "Prioriza grandes volumenes de startups antes de una due diligence profunda.",
+    title: "Flujo de oportunidades escalable",
+    copy: "Prioriza grandes volúmenes de startups antes de una evaluación profunda.",
   },
   {
-    title: "Baseline predictivo",
-    copy: "Genera una estimacion inicial basada en patrones del mercado unicornio.",
+    title: "Referencia predictiva",
+    copy: "Genera una estimación inicial basada en patrones del mercado unicornio.",
   },
 ];
 
@@ -98,21 +211,21 @@ export const dataSources = [
   {
     label: "Dataset",
     value: "Kaggle: ramjasmaurya/unicorn-startups",
-    note: "La muestra contiene 1.186 startups hasta septiembre de 2022.",
+    note: "La muestra contiene startups unicornio hasta septiembre de 2022.",
   },
   {
-    label: "Metricas visibles",
-    value: "Brief y presentacion del proyecto",
-    note: "Las cards del dashboard estan fijadas en frontend como referencias de negocio.",
+    label: "Métricas visibles",
+    value: "Backend FastAPI /metrics",
+    note: "El frontend solicita las métricas al backend para evitar valores duplicados.",
   },
   {
-    label: "Prediccion",
+    label: "Predicción",
     value: "Backend FastAPI /predict",
-    note: "Usa mock_model si todavia no existe models/current_model.pkl.",
+    note: "Usa el modelo versionado en models/best_model.joblib cuando está disponible.",
   },
   {
-    label: "Feedback",
+    label: "Retroalimentación",
     value: "Backend FastAPI /feedback",
-    note: "Cuando la API esta activa, se guarda en SQLite dentro de data/feedback.",
+    note: "Cuando la API está activa, se guarda en PostgreSQL vía DATABASE_URL.",
   },
 ];

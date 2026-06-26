@@ -1,7 +1,18 @@
 import React from "react";
 import { RefreshCw, Send } from "lucide-react";
 
-function PredictionForm({ countries, form, industries, loading, onChange, onSubmit }) {
+import { formatIntegerInput } from "../utils/numberFormat";
+
+function PredictionForm({
+  continentLabel,
+  countries,
+  form,
+  industries,
+  loading,
+  maxFoundedYear,
+  onChange,
+  onSubmit,
+}) {
   return (
     <form className="panel prediction-form" id="predict" onSubmit={onSubmit}>
       <div className="section-heading">
@@ -11,79 +22,69 @@ function PredictionForm({ countries, form, industries, loading, onChange, onSubm
 
       <div className="form-grid">
         <label>
-          Startup
+          Año de fundación
           <input
-            name="startup_name"
+            max={maxFoundedYear}
+            min="1800"
+            name="year_founded"
             onChange={onChange}
-            type="text"
-            value={form.startup_name}
+            type="number"
+            value={form.year_founded}
+            required
           />
         </label>
 
         <label>
-          Pais
-          <select name="country" onChange={onChange} value={form.country} required>
-            {countries.map((country) => (
-              <option key={country} value={country}>
-                {country}
-              </option>
-            ))}
-          </select>
+          Financiación total (USD)
+          <input
+            className="numeric-input"
+            inputMode="numeric"
+            name="funding_usd"
+            onChange={onChange}
+            pattern="[0-9.]*"
+            type="text"
+            value={formatIntegerInput(form.funding_usd)}
+            required
+          />
         </label>
 
         <label>
-          Ciudad
-          <input name="city" onChange={onChange} type="text" value={form.city} required />
+          Edad de la compañía
+          <input
+            min="0"
+            name="company_age"
+            readOnly
+            type="text"
+            value={form.company_age}
+            required
+          />
         </label>
 
         <label>
           Industria
           <select name="industry" onChange={onChange} value={form.industry} required>
             {industries.map((industry) => (
-              <option key={industry} value={industry}>
-                {industry}
+              <option key={industry.value} value={industry.value}>
+                {industry.label}
               </option>
             ))}
           </select>
         </label>
 
         <label>
-          Año de ingreso
-          <input
-            max="2026"
-            min="2007"
-            name="join_year"
-            onChange={onChange}
-            type="number"
-            value={form.join_year}
-            required
-          />
+          País
+          <select name="country" onChange={onChange} value={form.country} required>
+            {countries.map((country) => (
+              <option key={country.value} value={country.value}>
+                {country.label}
+              </option>
+            ))}
+          </select>
         </label>
 
         <label>
-          Mes
-          <input
-            max="12"
-            min="1"
-            name="join_month"
-            onChange={onChange}
-            type="number"
-            value={form.join_month}
-            required
-          />
-        </label>
-
-        <label>
-          Inversores
-          <input
-            max="20"
-            min="0"
-            name="investor_count"
-            onChange={onChange}
-            type="number"
-            value={form.investor_count}
-            required
-          />
+          Región geográfica
+          <input name="continent" readOnly type="text" value={continentLabel} />
         </label>
       </div>
 

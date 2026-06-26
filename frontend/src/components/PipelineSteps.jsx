@@ -22,7 +22,7 @@ function PipelineSteps() {
       <p className="method-copy" id="model">
         El modelo transforma variables disponibles en etapas tempranas en señales
         numéricas y categóricas. A partir de ellas estima una valoración esperada
-        y compara su desempeño contra un baseline simple.
+        y compara su desempeño contra una referencia simple.
       </p>
     </section>
   );
