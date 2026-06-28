@@ -1,8 +1,28 @@
 #!/usr/bin/env python3
+"""Main training script.
+
+Phase-7 flow
+------------
+1. Load processed dataset.
+2. Run Optuna K-Fold search via ``run_optuna_kfold(df, cfg)`` from
+   ``src.mlops.tuning``.  Target is ``log1p(valuation_usd / funding_usd)``
+   when ``training.target_transform == "multiple"``.
+3. Build the final pipeline with the best hyper-parameters and fit it on
+   the full training split.
+4. Evaluate on a held-out validation split.
+5. Persist artefacts:
+   - If ``best_model.joblib`` does NOT exist  → save as production model.
+   - If ``best_model.joblib`` already exists  → save as ``candidate_model.joblib``
+     (A/B candidate; the auto-replacement gate runs in a later MLOps step).
+6. Enforce the quality gate:
+   - Hard gate: ``val_r2 < min_r2``  → ``sys.exit(1)``.
+   - Soft gate: ``overfitting_gap >= max_overfitting_gap`` → warn only.
+"""
 from __future__ import annotations
 
 import argparse
 import json
+import logging
 import sys
 from pathlib import Path
 from typing import Any
@@ -18,14 +38,28 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from src.config import load_config, resolve_path
-from src.data.load import build_and_save_processed_dataset, load_processed_dataset, prepare_modeling_frame
+from src.data.load import (
+    build_and_save_processed_dataset,
+    load_processed_dataset,
+    prepare_modeling_frame,
+)
+from src.mlops.tuning import _build_gb_pipeline, predict_absolute, run_optuna_kfold
 from src.models.evaluate import generate_report_assets
-from src.models.train import predict_absolute, train_and_evaluate
-from src.mlops.tuning import optimize_hyperparameters
+from src.models.train import (
+    compute_metrics,
+    load_pipeline,
+)
 from sklearn.metrics import r2_score
 from sklearn.model_selection import train_test_split
+import joblib
+
+logging.basicConfig(level=logging.INFO, format="%(levelname)s | %(name)s | %(message)s")
+logger = logging.getLogger(__name__)
 
 STRESS_PLOT_PATH = resolve_path("reports/figures/residual_stress_plot.png")
+
+
+# ── dataset helpers ────────────────────────────────────────────────────────
 
 
 def ensure_processed_dataset() -> None:
@@ -37,19 +71,73 @@ def ensure_processed_dataset() -> None:
 
 def log_target_training_message() -> None:
     cfg = load_config()
-    if cfg["model"].get("log_target", True):
-        print(
-            "Target transform: np.log1p(valuation_usd) during training; "
-            "metrics and API output in absolute USD via np.expm1."
-        )
+    transform = cfg["training"].get("target_transform", "absolute")
+    if transform == "multiple":
+        print("Target transform: log1p(valuation_usd / funding_usd). API reconverts via expm1 * funding_usd.")
     else:
-        print("WARNING: log_target disabled in config.yaml.")
+        print("Target transform: log1p(valuation_usd). API reconverts via expm1.")
 
 
-def enforce_quality_gate(report: dict[str, Any], allow_low_r2_artifact: bool = False) -> None:
+# ── artifact saving ────────────────────────────────────────────────────────
+
+
+def _model_dir() -> Path:
+    cfg = load_config()
+    path = resolve_path(cfg["paths"]["model_dir"])
+    path.mkdir(parents=True, exist_ok=True)
+    return path
+
+
+def save_artifacts(
+    pipeline: Any,
+    report: dict[str, Any],
+    *,
+    force_production: bool = False,
+) -> str:
+    """Persist the trained pipeline and metrics.
+
+    Returns the role under which the model was saved: ``"production"`` or
+    ``"candidate"``.
+    """
+    cfg = load_config()
+    model_dir = _model_dir()
+    best_path = model_dir / "best_model.joblib"
+    candidate_path = model_dir / "candidate_model.joblib"
+    metrics_path = resolve_path(cfg["paths"]["metrics_file"])
+
+    if best_path.exists() and not force_production:
+        joblib.dump(pipeline, candidate_path)
+        role = "candidate"
+        logger.info("Production model already exists. Saved new model as candidate: %s", candidate_path)
+        print(f"[INFO] Saved as CANDIDATE model (A/B): {candidate_path}")
+    else:
+        joblib.dump(pipeline, best_path)
+        role = "production"
+        logger.info("Saved as production model: %s", best_path)
+        print(f"[INFO] Saved as PRODUCTION model: {best_path}")
+
+    metrics_path.parent.mkdir(parents=True, exist_ok=True)
+    metrics_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
+
+    return role
+
+
+# ── quality gate ───────────────────────────────────────────────────────────
+
+
+def enforce_quality_gate(
+    metrics: dict[str, Any],
+    *,
+    allow_low_r2_artifact: bool = False,
+) -> None:
+    """Hard gate on val R² and soft gate on overfitting gap."""
     cfg = load_config()
     min_r2 = cfg["training"]["min_r2"]
-    val_r2 = report["validation"]["r2"]
+    max_gap = cfg["training"]["max_overfitting_gap"]
+
+    val_r2: float = metrics["validation"]["r2_mean"]
+    gap: float = metrics.get("overfitting_gap", 0.0)
+
     if val_r2 < min_r2:
         if allow_low_r2_artifact:
             print(
@@ -59,33 +147,112 @@ def enforce_quality_gate(report: dict[str, Any], allow_low_r2_artifact: bool = F
             return
         print(f"[FAIL] R²={val_r2:.4f} < threshold {min_r2}. Training rejected.")
         sys.exit(1)
-    print(f"[OK] R²={val_r2:.4f} >= threshold {min_r2}. Model saved.")
+
+    print(f"[OK] R²={val_r2:.4f} >= threshold {min_r2}.")
+
+    if gap >= max_gap:
+        print(
+            f"[WARN] Overfitting alto (gap={gap:.3f} >= {max_gap}). "
+            "Modelo guardado como candidato A/B."
+        )
+    else:
+        print(f"[OK] Overfitting gap={gap:.3f} within limit {max_gap}.")
 
 
-def _validation_holdout() -> tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
-    config = load_config()
-    featured = load_processed_dataset()
-    x, y = prepare_modeling_frame(featured)
+# ── training ───────────────────────────────────────────────────────────────
+
+
+def _build_target_series(df: pd.DataFrame, cfg: dict[str, Any]) -> pd.Series:
+    """Return the training target series aligned with ``df``."""
+    transform = cfg["training"].get("target_transform", "absolute")
+    if transform == "multiple":
+        y = np.log1p(df["valuation_usd"] / df["funding_usd"].clip(lower=1.0))
+        return pd.Series(y.values, index=df.index, name="log_multiple")
+    target_col = cfg["project"]["target"]
+    return pd.Series(np.log1p(df[target_col].values), index=df.index, name="log_valuation")
+
+
+def _validation_holdout(
+    df: pd.DataFrame,
+    cfg: dict[str, Any],
+) -> tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
+    x, _y_raw = prepare_modeling_frame(df)
+    y = _build_target_series(df.loc[x.index], cfg)
+
     y_bins = pd.qcut(y, q=5, duplicates="drop")
     return train_test_split(
         x,
         y,
-        test_size=config["training"]["test_size"],
-        random_state=config["project"]["random_state"],
+        test_size=cfg["training"]["test_size"],
+        random_state=cfg["project"]["random_state"],
         stratify=y_bins,
     )
 
 
+def run_optuna_training(
+    df: pd.DataFrame,
+    cfg: dict[str, Any],
+    *,
+    allow_low_r2_artifact: bool = False,
+) -> dict[str, Any]:
+    """Run Optuna K-Fold and build the final pipeline."""
+    print(f"\n[Optuna] Starting search (n_trials={cfg['optuna']['n_trials']}, cv_folds={cfg['optuna']['cv_folds']})...")
+    optuna_result = run_optuna_kfold(df, cfg)
+
+    best_params: dict[str, Any] = optuna_result["best_params"]
+    r2_mean: float = optuna_result["r2_mean"]
+    r2_std: float = optuna_result["r2_std"]
+    trial_number: int = optuna_result["trial_number"]
+
+    print(
+        f"[Optuna] Best trial #{trial_number}: R²={r2_mean:.4f} ± {r2_std:.4f}  params={best_params}"
+    )
+
+    random_state = cfg["project"]["random_state"]
+    x_train, x_val, y_train, y_val = _validation_holdout(df, cfg)
+
+    # Fit the final pipeline on the training split with the best hyper-params
+    final_pipeline = _build_gb_pipeline(best_params, random_state=random_state)
+    final_pipeline.fit(x_train, y_train)
+
+    # Evaluate on both splits (predictions are still in log-space)
+    train_r2 = float(r2_score(y_train, final_pipeline.predict(x_train)))
+    val_r2 = float(r2_score(y_val, final_pipeline.predict(x_val)))
+    overfitting_gap = max(0.0, train_r2 - val_r2)
+
+    metrics = {
+        "target": cfg["training"].get("target_transform", "absolute"),
+        "cv_folds": cfg["optuna"]["cv_folds"],
+        "optuna_trials": cfg["optuna"]["n_trials"],
+        "best_trial_number": trial_number,
+        "best_params": best_params,
+        "validation": {
+            "r2_mean": r2_mean,
+            "r2_std": r2_std,
+            "r2_train_split": train_r2,
+            "r2_val_split": val_r2,
+        },
+        "overfitting_gap": overfitting_gap,
+    }
+
+    return {"pipeline": final_pipeline, "metrics": metrics}
+
+
+# ── residual stress analysis ───────────────────────────────────────────────
+
+
 def plot_residual_stress(y_true: np.ndarray, y_pred: np.ndarray, output_path: Path) -> None:
     residuals = y_true - y_pred
+    pred_b = y_pred / 1e9
+    resid_b = residuals / 1e9
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
 
-    axes[0].scatter(y_pred / 1e9, residuals / 1e9, alpha=0.55, edgecolors="none")
+    axes[0].scatter(pred_b, resid_b, alpha=0.55, edgecolors="none")
     axes[0].axhline(0, color="red", linestyle="--", linewidth=1)
-    z = np.polyfit(y_pred / 1e9, residuals / 1e9, 1)
-    trend_x = np.linspace(y_pred.min() / 1e9, y_pred.max() / 1e9, 100)
+    z = np.polyfit(pred_b, resid_b, 1)
+    trend_x = np.linspace(pred_b.min(), pred_b.max(), 100)
     axes[0].plot(trend_x, np.poly1d(z)(trend_x), color="orange", linewidth=2, label="Tendencia lineal")
     axes[0].set_xlabel("Predicción (B USD)")
     axes[0].set_ylabel("Error / Residuo (B USD)")
@@ -104,112 +271,11 @@ def plot_residual_stress(y_true: np.ndarray, y_pred: np.ndarray, output_path: Pa
     plt.close()
 
 
-def analyze_residual_pattern(y_true: np.ndarray, y_pred: np.ndarray) -> dict[str, Any]:
-    residuals = y_true - y_pred
-    pred_b = y_pred / 1e9
-    resid_b = residuals / 1e9
-
-    corr = float(np.corrcoef(pred_b, resid_b)[0, 1]) if len(pred_b) > 1 else 0.0
-    slope, intercept = np.polyfit(pred_b, resid_b, 1)
-    r2_val = float(r2_score(y_true, y_pred))
-
-    abs_resid = np.abs(resid_b)
-    low_pred = pred_b <= np.percentile(pred_b, 33)
-    high_pred = pred_b >= np.percentile(pred_b, 67)
-    hetero_ratio = float(abs_resid[high_pred].mean() / max(abs_resid[low_pred].mean(), 1e-9))
-
-    if abs(corr) >= 0.25 or abs(slope) >= 0.15:
-        verdict = "pattern"
-        interpretation = (
-            "Hay patrón sistemático: los residuos dependen de la predicción "
-            "(tendencia lineal o sesgo por rango). Falta señal o transformación."
-        )
-    elif hetero_ratio >= 2.0:
-        verdict = "pattern"
-        interpretation = (
-            "Hay patrón de heterocedasticidad: el error crece con la magnitud predicha. "
-            "El modelo no captura bien la cola alta."
-        )
-    else:
-        verdict = "random_cloud"
-        interpretation = (
-            "La nube de errores es aproximadamente aleatoria alrededor de cero. "
-            "El modelo ya extrae la señal disponible; R²≈0.50 probablemente inalcanzable con estos datos."
-        )
-
-    return {
-        "validation_r2": r2_val,
-        "corr_prediction_error": corr,
-        "residual_trend_slope": float(slope),
-        "residual_trend_intercept": float(intercept),
-        "heteroscedasticity_ratio": hetero_ratio,
-        "verdict": verdict,
-        "interpretation": interpretation,
-    }
-
-
-def run_stress_test() -> dict[str, Any]:
-    print("🔬 Stress test: entrenamiento diagnóstico (sin guardar artefactos)\n")
-    models_to_compare = [
-        ("gradient_boosting", {"n_estimators": 120, "max_depth": 2, "min_samples_leaf": 30, "learning_rate": 0.03}),
-        ("ridge", {}),
-        ("random_forest", {}),
-    ]
-
-    best_name = None
-    best_pipeline = None
-    best_report = None
-    best_r2 = -float("inf")
-    summary: dict[str, float] = {}
-
-    for model_name, params in models_to_compare:
-        print(f"🔄 Evaluando: {model_name}...")
-        trained = train_and_evaluate(model_name, **params)
-        r2_val = trained["report"]["validation"]["r2"]
-        summary[model_name] = r2_val
-        if r2_val > best_r2:
-            best_r2 = r2_val
-            best_name = model_name
-            best_pipeline = trained["pipeline"]
-            best_report = trained["report"]
-
-    x_train, x_val, y_train, y_val = _validation_holdout()
-    y_pred = predict_absolute(best_pipeline, x_val)
-    analysis = analyze_residual_pattern(y_val.to_numpy(), y_pred)
-    plot_residual_stress(y_val.to_numpy(), y_pred, STRESS_PLOT_PATH)
-
-    print("\n" + "=" * 45)
-    print(f"{'MODELO':<25} | {'R² VALIDACIÓN':<15}")
-    print("=" * 45)
-    for model, r2 in summary.items():
-        marker = " ← diagnóstico" if model == best_name else ""
-        print(f"{model:<25} | {r2:.4f}{marker}")
-    print("=" * 45)
-    print(f"Modelo usado para residual plot: {best_name.upper()} (R²={best_r2:.4f})\n")
-
-    print("--- Residual Plot Analysis ---")
-    print(f"  R² validación:              {analysis['validation_r2']:.4f}")
-    print(f"  corr(predicción, error):    {analysis['corr_prediction_error']:+.4f}")
-    print(f"  pendiente tendencia error:  {analysis['residual_trend_slope']:+.4f} B USD / B USD predicho")
-    print(f"  ratio heterocedasticidad:   {analysis['heteroscedasticity_ratio']:.2f}x")
-    print(f"  Veredicto:                  {analysis['verdict'].upper()}")
-    print(f"  {analysis['interpretation']}")
-    print(f"\n  Gráfico guardado en: {STRESS_PLOT_PATH}")
-
-    return {
-        "best_model": best_name,
-        "summary": summary,
-        "report": best_report,
-        "analysis": analysis,
-        "plot_path": str(STRESS_PLOT_PATH),
-    }
+# ── entry point ────────────────────────────────────────────────────────────
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Entrena el modelo de regresión.")
-    parser.add_argument("--model", default=None, help="ridge | random_forest | gradient_boosting")
-    parser.add_argument("--optimize", action="store_true", help="Optimiza hiperparámetros con Optuna")
-    parser.add_argument("--trials", type=int, default=30)
+    parser = argparse.ArgumentParser(description="Entrena el modelo de regresión (Phase-7 MLOps).")
     parser.add_argument("--report", action="store_true", help="Genera gráficos de evaluación")
     parser.add_argument(
         "--allow-low-r2-artifact",
@@ -217,80 +283,26 @@ def main() -> None:
         help="Guarda artefactos aunque no superen min_r2. Usar solo para runtime MVP/Docker.",
     )
     parser.add_argument(
-        "--stress-test",
+        "--force-production",
         action="store_true",
-        help="Entrena, genera Residual Plot y analiza patrón sin guardar el modelo",
+        help="Guarda directamente como best_model.joblib aunque ya exista uno.",
     )
     args = parser.parse_args()
 
     ensure_processed_dataset()
     log_target_training_message()
 
-    if args.stress_test:
-        run_stress_test()
-        print("\n[STRESS TEST] Artefactos NO guardados (diagnóstico only).")
-        return
+    cfg = load_config()
+    df = load_processed_dataset()
 
-    from src.models.train import save_artifacts
+    result = run_optuna_training(df, cfg, allow_low_r2_artifact=args.allow_low_r2_artifact)
 
-    if args.optimize:
-        result = optimize_hyperparameters(n_trials=args.trials)
-        report = result["report"]
-        print(json.dumps(result, indent=2, default=str))
-        enforce_quality_gate(report, allow_low_r2_artifact=args.allow_low_r2_artifact)
-        save_artifacts(result["pipeline"], report)
-    else:
-        if args.model is not None:
-            print(f"🎯 Ejecución individual: Entrenando únicamente '{args.model}'...")
-            trained = train_and_evaluate(args.model)
-            enforce_quality_gate(trained["report"], allow_low_r2_artifact=args.allow_low_r2_artifact)
-            save_artifacts(trained["pipeline"], trained["report"])
-            report = trained["report"]
-            print(json.dumps(report, indent=2))
-        else:
-            print("🤖 Modo automático activado: Iniciando comparación de modelos...\n")
-            models_to_compare = ["ridge", "random_forest", "gradient_boosting"]
+    enforce_quality_gate(result["metrics"], allow_low_r2_artifact=args.allow_low_r2_artifact)
 
-            best_r2 = -float("inf")
-            best_pipeline = None
-            best_report = None
-            best_model_name = None
-            summary_results = {}
+    role = save_artifacts(result["pipeline"], result["metrics"], force_production=args.force_production)
 
-            for model_name in models_to_compare:
-                print(f"🔄 Entrenando y evaluando: {model_name}...")
-                trained = train_and_evaluate(model_name)
-
-                r2_val = trained["report"]["validation"]["r2"]
-                summary_results[model_name] = r2_val
-
-                if r2_val > best_r2:
-                    best_r2 = r2_val
-                    best_pipeline = trained["pipeline"]
-                    best_report = trained["report"]
-                    best_model_name = model_name
-
-            print("\n" + "=" * 45)
-            print(f"{'MODELO':<25} | {'R² VALIDACIÓN':<15}")
-            print("=" * 45)
-            for model, r2 in summary_results.items():
-                print(f"{model:<25} | {r2:.4f}")
-            print("=" * 45)
-            print(f"🏆 GANADOR: {best_model_name.upper()} con R² = {best_r2:.4f}")
-            print("=" * 45 + "\n")
-
-            print(f"💾 Guardando artefactos del ganador ({best_model_name})...")
-            enforce_quality_gate(best_report, allow_low_r2_artifact=args.allow_low_r2_artifact)
-            save_artifacts(best_pipeline, best_report)
-
-            report = best_report
-
-    if not report["overfitting"]["within_limit"]:
-        print(
-            f"WARNING: overfitting max gap {report['overfitting']['max_gap_pct']:.2f}% "
-            f"supera el límite configurado.",
-            file=sys.stderr,
-        )
+    print(f"\n[DONE] Model saved as: {role.upper()}")
+    print(json.dumps(result["metrics"], indent=2))
 
     if args.report:
         assets = generate_report_assets()

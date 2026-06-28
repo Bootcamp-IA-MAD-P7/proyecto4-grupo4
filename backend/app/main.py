@@ -75,11 +75,11 @@ def metrics() -> dict:
 
 @app.post("/predict", response_model=PredictResponse)
 def predict(payload: PredictRequest) -> PredictResponse:
-    valuation_usd, _model_used = predict_valuation(payload)
+    valuation_usd, _predicted_multiple, model_version = predict_valuation(payload)
     return PredictResponse(
         valuation_usd=valuation_usd,
         valuation_b=round(valuation_usd / 1_000_000_000, 4),
-        model_version="best_model.joblib",
+        model_version=model_version,
         timestamp=utc_now_iso(),
     )
 

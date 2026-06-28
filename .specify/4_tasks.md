@@ -1236,7 +1236,7 @@ Antes de comenzar cualquier tarea:
   python -c "from src.mlops.tuning import run_optuna_kfold, predict_absolute; print('OK')"
   python -c "from src.mlops.drift import detect_drift; print('OK')"  # preparar para T-7.7
   ```
-- [ ] Estado: pendiente
+- [x] Estado: completado — `run_optuna_kfold(df, cfg)` y `predict_absolute(pipeline, X, funding_usd_series, cfg)` implementados en `src/mlops/tuning.py`; `backend/scripts/train.py` refactorizado: usa target múltiplo, Optuna K-Fold, guarda como `candidate_model.joblib` si ya existe `best_model.joblib`, quality gate compuesto (hard R² + soft gap). `src/mlops/drift.py` creado con `detect_drift()` (preparatorio T-7.7). Verificado con todas las aserciones del ticket.
 
 ---
 
@@ -1268,7 +1268,7 @@ Antes de comenzar cualquier tarea:
 - **Verificación:**
   - `grep "candidate_model" backend/app/model_service.py` devuelve la lógica A/B.
   - Con ambos modelos presentes: 100 llamadas → ≈20% `"candidate"` en campo `model_version`.
-- [ ] Estado: pendiente
+- [x] Estado: completado — `model_service.py` refactorizado con `_prod_model`, `_candidate_model`, `_cfg`; `preload_model()` carga ambos modelos (candidato opcional, log); `_select_model()` enruta por peso A/B (`candidate_weight=0.2`); `predict_valuation()` devuelve `(valuation_usd, predicted_multiple, model_version)` con reconversión `expm1 * funding_usd`; `main.py` actualizado para consumir 3-tuple y propagar `model_version`. Verificado: `grep "candidate_model" backend/app/model_service.py` devuelve la lógica A/B.
 
 ---
 
