@@ -15,6 +15,7 @@
 | Fase 5 | `[T-5.1]`–`[T-5.9]` | ✅ Completados |
 | Fase 6 | `[T-6.x]` | ✅ Completados |
 | **Fase 7** | **`[T-7.1]`–`[T-7.10]`** | **✅ Completados** |
+| **Fase 7 (follow-up)** | **`[T-7.11]`–`[T-7.13]`** | **⏸ Pendientes** |
 | Fase 8 | `[T-8.1]`–`[T-8.5]` | ✅ Completados |
 
 ---
@@ -1485,3 +1486,77 @@ Antes de comenzar cualquier tarea:
   - [x] `docker compose up --build -d` → los tres contenedores en `running`
   - [x] `cd frontend && npm run build` sin errores
 - [x] Estado: completado
+
+---
+
+## Fase 7 — Follow-up MLOps (pendiente)
+
+> **Ejecutar solo cuando el pipeline esté en verde** (deploy EC2 estable + `pytest` + `npm run build`).
+> **Motivación:** cerrar gaps detectados en producción: feedback no alimenta entrenamiento, falta modal de confirmación en retrain, auto-reemplazo §3.1.5 incompleto.
+
+---
+
+### [T-7.11] Feedback como datos de entrenamiento — Cerrar loop MLOps
+
+- **Archivo(s):** `backend/src/mlops/feedback_merge.py` (nuevo), `backend/scripts/train.py`, `backend/tests/test_mlops.py`
+- **Prerequisito:** `[T-7.1]`–`[T-7.10]` completados; pipeline en verde.
+- **Problema:** Hoy `PUT /predictions/{id}` guarda el valor real, pero `train.py` entrena **solo** con `dataset.parquet` (Kaggle). El feedback es inútil para mejorar el modelo.
+- **Acción:**
+  1. Crear `merge_feedback_into_dataset(df_kaggle, cfg) -> pd.DataFrame` en `feedback_merge.py`.
+  2. Consultar `predictions WHERE actual_valuation_usd IS NOT NULL`.
+  3. Mapear cada fila: features del registro + target = `actual_valuation_usd`.
+  4. Deduplicar por `(year_founded, funding_usd, industry, country)` — gana el feedback más reciente.
+  5. Si `n_feedback >= 5`: concatenar al dataset Kaggle antes de `run_optuna_kfold()`.
+  6. Si `n_feedback < 5`: entrenar solo con Kaggle (comportamiento actual, log informativo).
+  7. Persistir en `metrics.json`: `n_feedback_samples_merged`, `feedback_merge_enabled`.
+- **Verificación:**
+  ```bash
+  # Insertar 3+ filas con actual_valuation_usd via PUT /predictions/{id}
+  curl -s -X POST http://localhost:8000/retrain
+  # → logs muestran "Merged N feedback samples into training dataset"
+  cd backend && pytest tests/test_mlops.py::test_feedback_merge_adds_rows -v
+  ```
+- [ ] Estado: pendiente
+
+---
+
+### [T-7.12] Modal de confirmación antes de reentrenar
+
+- **Archivo(s):** `frontend/src/components/MLOpsPanel.jsx`, `frontend/src/styles.css`
+- **Prerequisito:** `[T-7.9]` completado.
+- **Problema:** El botón "Reentrenar Modelo" lanza `POST /retrain` sin avisar al usuario que puede alterar el modelo en producción.
+- **Acción:**
+  1. Interceptar click del botón → abrir modal (no llamar API aún).
+  2. Contenido del modal (español):
+     - **Título:** "¿Iniciar reentrenamiento?"
+     - **Cuerpo:** "El proceso corre en segundo plano (2–5 min). Se ejecutará Optuna + K-Fold sobre el dataset de entrenamiento. Según el quality gate, el resultado puede: (a) promoverse a producción, (b) quedar como candidato A/B, o (c) descartarse. El modelo actual no se elimina de inmediato."
+     - **Botones:** "Cancelar" | "Confirmar reentrenamiento"
+  3. Solo en "Confirmar" → `POST /retrain` + toast existente.
+  4. Cerrar modal con Escape o click fuera.
+- **Verificación:**
+  ```bash
+  cd frontend && npm run build
+  # Manual: /mlops → click retrain → modal visible → Cancelar no llama API → Confirmar lanza retrain
+  ```
+- [x] Estado: completado — modal de confirmación con Escape, backdrop click y botones Cancelar/Confirmar antes de `POST /retrain`.
+
+---
+
+### [T-7.13] Auto-reemplazo CASO A/B/C y versionado de artefactos
+
+- **Archivo(s):** `backend/app/main.py` (`_run_retrain_background`), `backend/scripts/train.py`
+- **Prerequisito:** `[T-7.3]`, `[T-7.6]` completados.
+- **Problema:** La spec §3.1.5 define promoción/descarte por R²; hoy si `best_model.joblib` existe, el retrain **siempre** guarda como `candidate_model.joblib` sin comparar métricas.
+- **Acción:**
+  1. Tras entrenamiento, leer `metrics.json` (prod) y métricas del candidato recién entrenado.
+  2. Aplicar CASO A/B/C:
+     - **A:** `new_r2 > current_r2 AND gap < 0.05` → `best_model.joblib ← candidate`, backup prod anterior en `models/archive/{timestamp}/`.
+     - **B:** `new_r2 > current_r2 AND gap >= 0.05` → mantener candidato para A/B.
+     - **C:** `new_r2 <= current_r2` → eliminar candidato, prod intacto.
+  3. Log estructurado: `"decision": "promoted" | "candidate" | "discarded"`.
+  4. Tests en `test_mlops.py`.
+- **Verificación:**
+  ```bash
+  cd backend && pytest tests/test_mlops.py -v -k "retrain_promote or retrain_discard"
+  ```
+- [ ] Estado: pendiente

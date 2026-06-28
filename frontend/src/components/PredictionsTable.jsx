@@ -45,8 +45,8 @@ function RowEditor({ row, onSaved }) {
   return (
     <tr className="mlops-tr">
       <td className="mlops-td mlops-td-mono">{row.id}</td>
-      <td className="mlops-td">{row.industry ?? "—"}</td>
-      <td className="mlops-td">{row.country ?? "—"}</td>
+      <td className="mlops-td mlops-td-hide-sm">{row.industry ?? "—"}</td>
+      <td className="mlops-td mlops-td-hide-sm">{row.country ?? "—"}</td>
       <td className="mlops-td mlops-td-num">{fmtUSD(row.funding_usd)}</td>
       <td className="mlops-td mlops-td-num">{fmtUSD(row.predicted_valuation_usd)}</td>
       <td className="mlops-td mlops-td-num">{fmt(row.predicted_multiple)}×</td>
@@ -86,7 +86,7 @@ function RowEditor({ row, onSaved }) {
           {status === "saving" ? "Guardando…" : status === "ok" ? "✓ Guardado" : status === "error" ? "✗ Error" : "Guardar"}
         </button>
       </td>
-      <td className="mlops-td mlops-td-mono">
+      <td className="mlops-td mlops-td-mono mlops-td-hide-sm">
         {row.created_at ? new Date(row.created_at).toLocaleDateString("es-ES") : "—"}
       </td>
     </tr>
@@ -126,7 +126,9 @@ function PredictionsTable() {
     <div className="mlops-card">
       <div className="mlops-card-header">
         <h3 className="mlops-card-title">Historial de Predicciones</h3>
-        <span className="mlops-hint">Introduce el valor real para calcular el múltiplo real y alimentar el reentrenamiento.</span>
+        <span className="mlops-hint mlops-hint-block">
+          Introduce el valor real observado por fila. Puedes guardar <strong>las veces que quieras</strong> en la misma fila (actualiza el registro). Cada nueva predicción en /predict crea una fila distinta.
+        </span>
       </div>
 
       {loadStatus === "loading" && (
@@ -147,8 +149,8 @@ function PredictionsTable() {
               <thead>
                 <tr>
                   <th className="mlops-th">ID</th>
-                  <th className="mlops-th">Industria</th>
-                  <th className="mlops-th">País</th>
+                  <th className="mlops-th mlops-th-hide-sm">Industria</th>
+                  <th className="mlops-th mlops-th-hide-sm">País</th>
                   <th className="mlops-th">Financiación</th>
                   <th className="mlops-th">Val. Predicha</th>
                   <th className="mlops-th">Múltiplo pred.</th>
@@ -156,7 +158,7 @@ function PredictionsTable() {
                   <th className="mlops-th">Val. Real (USD)</th>
                   <th className="mlops-th">Comentario</th>
                   <th className="mlops-th">Acción</th>
-                  <th className="mlops-th">Fecha</th>
+                  <th className="mlops-th mlops-th-hide-sm">Fecha</th>
                 </tr>
               </thead>
               <tbody>

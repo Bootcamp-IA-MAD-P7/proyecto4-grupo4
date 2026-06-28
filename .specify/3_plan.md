@@ -16,7 +16,7 @@
 | Fase 4 — API + PostgreSQL | ✅ Completada |
 | Fase 5 — Frontend React + Docker | ✅ Completada |
 | **Fase 6 — Documentación** | **✅ Completada** |
-| **Fase 7 — MLOps Nivel Experto** | **✅ Completada** |
+| **Fase 7 — MLOps Nivel Experto** | **✅ Completada** (follow-up `[T-7.11]`–`[T-7.13]` pendiente) |
 | Fase 8 — CI/CD y Despliegue EC2 | ✅ Completada |
 
 ---
@@ -387,7 +387,7 @@ git push origin refactor/stabilize-architecture
 
 ## Fase 7 — MLOps Nivel Experto: Múltiplo + K-Fold + Optuna + A/B Testing + Data Drift ✅ COMPLETADA
 
-> **Estado:** ✅ completada — MVP desplegado en EC2 (Fase 8 completada). Ciclo MLOps experto implementado y verificado (28 tests pytest + build frontend).
+> **Estado:** ✅ completada (MVP MLOps) — follow-up pendiente en `[T-7.11]`–`[T-7.13]` para cerrar loop de feedback, modal UX y auto-reemplazo.
 > **Decisión arquitectónica:** `backend/docs/architecture_decision_target.md` (ADR-001, 2026-06-25).
 > **Contrato técnico completo:** `2_spec.md §3.1` (arquitectura MLOps, A/B Testing, Data Drift, Retrain).
 > **Tickets de ejecución:** `[T-7.1]`–`[T-7.10]` en `4_tasks.md`.
@@ -606,6 +606,53 @@ curl -s -X POST http://localhost:8000/retrain | python -c "import sys,json; d=js
 - [x] Frontend: pestaña "Panel MLOps" carga, tabla editable funciona, botón retrain responde
 - [x] `docker compose up --build -d` → los tres contenedores en `running`
 - [x] `npm run build` del frontend sin errores
+
+---
+
+### 7.11 Feedback como datos de entrenamiento — Cerrar el loop MLOps ⏸ PENDIENTE
+
+> **Prerequisito:** Pipeline en verde (`pytest` + deploy EC2 estable). `[T-7.1]`–`[T-7.10]` completados.
+> **Motivación:** Sin este ticket, el feedback capturado en la tabla `predictions` solo sirve para drift y métricas A/B, pero **no mejora el modelo**. Cierra el ciclo MLOps de verdad.
+
+- [ ] Crear `backend/src/mlops/feedback_merge.py` con `merge_feedback_into_dataset(df_kaggle, cfg) -> pd.DataFrame`.
+- [ ] Consultar `predictions` con `actual_valuation_usd IS NOT NULL` (mínimo 5 filas para activar merge).
+- [ ] Mapear filas de feedback al esquema de entrenamiento: features + target `actual_valuation_usd`.
+- [ ] Deduplicar por `(year_founded, funding_usd, industry, country)` priorizando feedback más reciente.
+- [ ] Integrar en `scripts/train.py`: si hay feedback suficiente, concatenar antes de `run_optuna_kfold()`.
+- [ ] Añadir a `metrics.json`: `n_feedback_samples_merged`, `feedback_merge_enabled`.
+- [ ] Test: `test_feedback_merge_adds_rows_to_training_dataset` en `test_mlops.py`.
+- [ ] Verificar: retrain con 3+ filas de feedback en BD → log muestra `Merged N feedback samples`.
+
+---
+
+### 7.12 Modal de confirmación antes de reentrenar ✅ COMPLETADO
+
+> **Prerequisito:** `[T-7.9]` completado (Panel MLOps operativo).
+> **Motivación:** Un retrain puede alterar el modelo en producción; el usuario debe confirmar explícitamente.
+
+- [x] En `MLOpsPanel.jsx`, interceptar el click del botón "Reentrenar Modelo" **antes** de llamar `POST /retrain`.
+- [x] Mostrar modal (overlay) con:
+  - Título: "¿Iniciar reentrenamiento?"
+  - Texto explicativo: proceso en background (2–5 min), puede generar candidato A/B o promover a producción según quality gate, el modelo actual no se borra de inmediato.
+  - Botones: "Cancelar" (cierra modal) y "Confirmar reentrenamiento" (lanza `POST /retrain`).
+- [x] Tras confirmar, mantener el toast de éxito/error existente.
+- [x] Verificar: `npm run build` sin errores; revisión manual en `/mlops`.
+
+---
+
+### 7.13 Auto-reemplazo y versionado de artefactos ⏸ PENDIENTE
+
+> **Prerequisito:** `[T-7.3]`, `[T-7.6]` completados.
+> **Motivación:** La spec §3.1.5 define CASO A/B/C de promoción/descarte; hoy el retrain siempre guarda como `candidate_model.joblib` si ya existe prod, sin comparar R².
+
+- [ ] Implementar la lógica CASO A/B/C en `_run_retrain_background()` o en `train.py`:
+  - **CASO A:** `new_r2 > current_r2 AND gap < 0.05` → promover candidato a `best_model.joblib`.
+  - **CASO B:** `new_r2 > current_r2 AND gap >= 0.05` → mantener como candidato A/B.
+  - **CASO C:** `new_r2 <= current_r2` → descartar candidato.
+- [ ] Guardar snapshot opcional en `models/archive/{timestamp}/` antes de promover (backup del prod anterior).
+- [ ] Log estructurado con decisión tomada (promoted / candidate / discarded).
+- [ ] Test: `test_retrain_promotes_when_r2_improves` y `test_retrain_discards_when_r2_worse`.
+- [ ] Actualizar `EVALUATION_RUBRIC.md` con el comportamiento real post-implementación.
 
 ---
 

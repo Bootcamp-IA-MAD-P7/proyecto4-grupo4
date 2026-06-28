@@ -278,6 +278,13 @@ El reentrenamiento **continúa independientemente** del resultado del drift; el 
 
 #### 3.1.5 Reglas MLOps del Reentrenamiento Automático (`POST /retrain`)
 
+> **Estado de implementación (2026-06-28):**
+> - ✅ Drift check + entrenamiento Optuna K-Fold en background.
+> - ✅ Guardado dual `best_model.joblib` (prod) / `candidate_model.joblib` (A/B).
+> - ⚠️ **Gap conocido:** el feedback de la tabla `predictions` **no se fusiona** aún en el dataset de entrenamiento; solo alimenta drift y métricas A/B. Ver ticket `[T-7.11]`.
+> - ⚠️ **Gap conocido:** la regla de auto-reemplazo CASO A/B/C (abajo) está **parcialmente implementada** — hoy un retrain con `best_model.joblib` existente siempre guarda como candidato, sin comparar R² ni promover/descartar. Ver ticket `[T-7.13]`.
+> - ⚠️ **Gap UX:** falta modal de confirmación antes de lanzar retrain. Ver ticket `[T-7.12]`.
+
 El endpoint dispara la siguiente lógica en `BackgroundTasks`:
 
 ```
@@ -312,6 +319,37 @@ El endpoint dispara la siguiente lógica en `BackgroundTasks`:
        log: "Candidato descartado (R²: {new_r2:.3f} <= {current_r2:.3f})"
 ```
 
+**Versionado de artefactos (estado actual):**
+
+| Artefacto | Comportamiento |
+|-----------|----------------|
+| `best_model.joblib` | Modelo en producción; sirve el 80 % del tráfico A/B |
+| `candidate_model.joblib` | Modelo candidato; sirve el 20 % del tráfico A/B (si existe) |
+| `metrics.json` | Se **sobrescribe** en cada entrenamiento (no hay historial de versiones) |
+| `predictions.model_version` | Trazabilidad por predicción: `"prod"` o `"candidate"` |
+| Archivo histórico (`models/archive/`) | **No implementado** — pendiente en `[T-7.13]` |
+
+Un retrain **puede alterar** el modelo activo (promoción prod o nuevo candidato). Por eso el frontend debe mostrar un **modal de confirmación** antes de llamar `POST /retrain` (`[T-7.12]`).
+
+#### 3.1.6 Feedback como datos de entrenamiento (`[T-7.11]` — pendiente)
+
+El feedback capturado vía `PUT /predictions/{id}` debe incorporarse al ciclo de reentrenamiento para cerrar el loop MLOps:
+
+```
+1. Consultar predictions WHERE actual_valuation_usd IS NOT NULL
+2. Construir filas de entrenamiento:
+     features  → year_founded, funding_usd, company_age, industry, country, continent
+     target    → actual_valuation_usd (o actual_multiple derivado)
+3. Concatenar con dataset.parquet (Kaggle) → dataset_augmented
+4. Pasar dataset_augmented a run_optuna_kfold() en train.py
+5. Registrar en metrics.json: n_feedback_samples_merged, feedback_merge_enabled: true
+```
+
+**Reglas:**
+- Mínimo 5 filas con feedback confirmado para activar el merge; si no, entrenar solo con Kaggle (comportamiento actual).
+- Deduplicar por `(year_founded, funding_usd, industry, country)` priorizando feedback más reciente.
+- El merge ocurre **solo** en retrain (`POST /retrain` / `train.py --report`), no en el entrenamiento inicial del Docker build.
+
 ---
 
 #### Archivos involucrados en Fase 7
@@ -328,6 +366,9 @@ El endpoint dispara la siguiente lógica en `BackgroundTasks`:
 | `[T-7.8]` | `backend/tests/test_mlops.py` (nuevo) | Tests para nuevos endpoints, A/B Testing y drift |
 | `[T-7.9]` | `frontend/src/` | Nueva pestaña "Panel MLOps" con tabla interactiva y panel de control |
 | `[T-7.10]` | `backend/scripts/train.py` + `backend/models/` | Reentrenar con K-Fold+Optuna, validar R² ≥ 0.50, cerrar Fase 7 |
+| `[T-7.11]` | `backend/scripts/train.py`, `backend/src/mlops/feedback_merge.py` (nuevo) | Fusionar feedback confirmado (`actual_valuation_usd`) en dataset de entrenamiento |
+| `[T-7.12]` | `frontend/src/components/MLOpsPanel.jsx` | Modal de confirmación/información antes de `POST /retrain` |
+| `[T-7.13]` | `backend/app/main.py`, `backend/scripts/train.py` | Auto-reemplazo CASO A/B/C (§3.1.5) + versionado opcional de artefactos |
 
 ---
 
@@ -658,7 +699,11 @@ La interfaz React añade una pestaña dedicada "Panel MLOps" con dos componentes
 
 **8.2 Panel de control MLOps:**
 
-- **Botón "Reentrenar modelo":** llama `POST /retrain`. Muestra estado `"reentrenando..."` durante el proceso y notifica al completar.
+- **Botón "Reentrenar modelo":** llama `POST /retrain`. **Antes de ejecutar**, muestra un modal de confirmación/información (`[T-7.12]`) explicando que:
+  - El proceso corre en segundo plano (2–5 min).
+  - Puede generar un nuevo modelo candidato o reemplazar el de producción según las reglas de §3.1.5.
+  - El modelo actual (`best_model.joblib`) no se borra de inmediato; el resultado depende del quality gate.
+  - Tras confirmar, muestra estado `"reentrenando..."` y toast al completar.
 - **Sección "Estado del Data Drift":** consume `GET /metrics` (que incluirá un campo `drift_report_path`) y muestra si hay drift detectado por feature, con indicadores visuales.
 - **Sección "Métricas A/B Testing":** calcula en el cliente (desde `GET /predictions`) el MAE medio por `model_version` y muestra la comparativa producción vs candidato.
 - **Sección "Métricas del Modelo Actual":** muestra `r2_mean`, `r2_std`, `overfitting_gap`, `optuna_trials` y `best_params` del `metrics.json`.

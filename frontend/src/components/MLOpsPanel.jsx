@@ -36,9 +36,55 @@ function Toast({ message, type }) {
   );
 }
 
+function RetrainConfirmModal({ open, loading, onCancel, onConfirm }) {
+  useEffect(() => {
+    if (!open) return undefined;
+    function onKeyDown(event) {
+      if (event.key === "Escape" && !loading) onCancel();
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open, loading, onCancel]);
+
+  if (!open) return null;
+
+  return (
+    <div className="mlops-modal-backdrop" role="presentation" onClick={onCancel}>
+      <div
+        className="mlops-modal"
+        role="dialog"
+        aria-labelledby="retrain-modal-title"
+        aria-modal="true"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h3 className="mlops-modal-title" id="retrain-modal-title">
+          ¿Iniciar reentrenamiento?
+        </h3>
+        <div className="mlops-modal-body">
+          <p>El proceso corre en <strong>segundo plano</strong> (2–5 min) y no interrumpe las predicciones.</p>
+          <ul>
+            <li>Se ejecutará Optuna + K-Fold sobre el dataset de entrenamiento.</li>
+            <li>Según el quality gate, el resultado puede promoverse a producción, quedar como candidato A/B o descartarse.</li>
+            <li>El modelo actual <strong>no se elimina de inmediato</strong>; se conserva hasta que el gate decida.</li>
+          </ul>
+        </div>
+        <div className="mlops-modal-actions">
+          <button className="mlops-btn" disabled={loading} onClick={onCancel} type="button">
+            Cancelar
+          </button>
+          <button className="mlops-btn mlops-btn-primary" disabled={loading} onClick={onConfirm} type="button">
+            {loading ? "Iniciando…" : "Confirmar reentrenamiento"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function RetrainSection({ onRetrained }) {
   const [status, setStatus] = useState("idle");
   const [toast, setToast] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   async function handleRetrain() {
     setStatus("loading");
@@ -46,6 +92,7 @@ function RetrainSection({ onRetrained }) {
     try {
       const res = await postRetrain();
       setStatus("idle");
+      setModalOpen(false);
       setToast({ message: `✓ ${res.message ?? "Reentrenamiento iniciado en segundo plano."}`, type: "success" });
       if (onRetrained) onRetrained();
       setTimeout(() => setToast(null), 6000);
@@ -58,16 +105,23 @@ function RetrainSection({ onRetrained }) {
 
   return (
     <div className="mlops-card">
+      <RetrainConfirmModal
+        loading={status === "loading"}
+        open={modalOpen}
+        onCancel={() => status !== "loading" && setModalOpen(false)}
+        onConfirm={handleRetrain}
+      />
       <div className="mlops-card-header">
         <h3 className="mlops-card-title">Control de Reentrenamiento</h3>
       </div>
-      <p className="mlops-hint" style={{ marginBottom: "1rem" }}>
+      <p className="mlops-hint mlops-hint-block">
         Lanza un reentrenamiento completo con K-Fold + Optuna en segundo plano sin interrumpir el servicio.
       </p>
       <button
         className="mlops-btn mlops-btn-primary"
         disabled={status === "loading"}
-        onClick={handleRetrain}
+        onClick={() => setModalOpen(true)}
+        type="button"
       >
         {status === "loading" ? "Iniciando reentrenamiento…" : "⟳ Reentrenar Modelo (Optuna + K-Fold)"}
       </button>
@@ -181,7 +235,7 @@ function ModelMetricsSection({ metricsData, metricsStatus }) {
       <div className="mlops-metrics-grid">
         <div className="mlops-metric-item">
           <span className="mlops-metric-label">R² medio (CV)</span>
-          <span className="mlops-metric-value">
+          <span className="mlops-metric-value mlops-metric-default">
             {r2Mean != null ? fmt(r2Mean, 4) : "—"}
             {r2Std != null ? <small> ± {fmt(r2Std, 4)}</small> : null}
           </span>
