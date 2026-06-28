@@ -7,6 +7,25 @@
 
 ---
 
+## Evaluación y Rúbrica
+
+Este proyecto cumple los **cuatro niveles** de la rúbrica académica (Esencial → Medio → Avanzado → **Experto**). La trazabilidad completa de cada requisito frente a la implementación está documentada en:
+
+**→ [backend/docs/EVALUATION_RUBRIC.md](backend/docs/EVALUATION_RUBRIC.md)**
+
+Resumen por nivel:
+
+| Nivel | Cumplimiento | Destacado |
+|-------|-------------|-----------|
+| **Esencial** | ✅ | Regresión sobre múltiplo de valoración, EDA en notebooks, control de overfitting, FastAPI + React, R² = 0.42 (techo empírico documentado) |
+| **Medio** | ✅ | Gradient Boosting, K-Fold (K=5), Optuna (50 trials), feedback real vía `PUT /predictions/{id}` |
+| **Avanzado** | ✅ | Docker Compose multi-stage, PostgreSQL, AWS EC2, **28 tests Pytest** en verde |
+| **Experto** | ✅ | A/B Testing, Data Drift (KS), reentrenamiento en background, **Dashboard MLOps interactivo** |
+
+El **Panel MLOps** (`/mlops`) permite al tribunal evaluar directamente las capacidades de nivel experto: historial editable de predicciones, botón de reentrenamiento con Optuna + K-Fold, indicadores A/B por versión de modelo y métricas de rendimiento en tiempo real.
+
+---
+
 ## ¿Qué problema resuelve?
 
 El ecosistema de capital riesgo carece de herramientas accesibles para estimar rápidamente el potencial de valoración de una startup. Los analistas dependen de comparables manuales o modelos de hoja de cálculo que no escalan ni aprenden de datos históricos.
@@ -51,8 +70,8 @@ proyecto4-grupo4/
 │
 ├── frontend/                    # SPA React + Vite + Bootstrap
 │   ├── src/
-│   │   ├── pages/               # Predicción, Panel de métricas, Metodología
-│   │   ├── components/          # Formulario, ResultCard, MetricsPanel…
+│   │   ├── pages/               # Predicción, Panel, Metodología, Panel MLOps
+│   │   ├── components/          # Formulario, PredictionsTable, MLOpsPanel…
 │   │   └── api.js               # Cliente HTTP hacia la API (VITE_API_URL)
 │   ├── Dockerfile               # Multi-stage: builder Node 20 → runner Nginx
 │   └── nginx.conf
@@ -60,8 +79,8 @@ proyecto4-grupo4/
 ├── backend/                     # API FastAPI + Pipeline ML
 │   ├── app/                     # Endpoints, schemas Pydantic, servicios
 │   ├── src/                     # Pipeline ML (datos, modelos, preprocesamiento)
-│   ├── scripts/train.py         # Entrenamiento con quality gate R²≥0.50
-│   ├── tests/                   # Suite pytest (19 tests activos)
+│   ├── scripts/train.py         # Entrenamiento K-Fold + Optuna con quality gate
+│   ├── tests/                   # Suite pytest (28 tests)
 │   ├── models/                  # best_model.joblib — generado en build, no versionado
 │   ├── data/raw/                # unicorn_companies.csv (dataset Kaggle)
 │   ├── Dockerfile               # Entrena el modelo en build y sirve con uvicorn
@@ -169,7 +188,7 @@ cd backend
 PYTHONPATH=. python -m pytest tests/ -v --tb=short
 ```
 
-**19 de 20 tests pasan en verde.** El test `test_train_meets_min_r2` está marcado como skip temporal — el modelo actual alcanza R²≈0.22 frente al umbral de 0.50. Esto es deuda técnica documentada (ADR-001) que se resolverá en la Fase 7 con una estrategia de target mejorada.
+**28 tests en verde.** La suite cubre endpoints API, pipeline ML, integridad de datos y el módulo MLOps completo (`test_mlops.py`: predicciones, retrain, drift, A/B Testing, concurrencia).
 
 ---
 
@@ -202,6 +221,9 @@ El pipeline CI/CD en `.github/workflows/deployment.yml` realiza automáticamente
 | `GET` | `/metrics` | Métricas del modelo (R², MAE, RMSE) |
 | `POST` | `/predict` | Predicción de valoración |
 | `POST` | `/feedback` | Registro de feedback del usuario |
+| `GET` | `/predictions` | Historial de predicciones (paginado) |
+| `PUT` | `/predictions/{id}` | Actualizar valoración real observada |
+| `POST` | `/retrain` | Lanzar reentrenamiento en background (202) |
 
 Documentación interactiva Swagger: [http://34.235.130.33:8004/docs](http://34.235.130.33:8004/docs)
 

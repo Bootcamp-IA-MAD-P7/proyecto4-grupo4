@@ -10,7 +10,18 @@ Base = declarative_base()
 
 
 class Prediction(Base):
-    """ORM model for the predictions table (PostgreSQL in production)."""
+    """ORM model for the predictions table (PostgreSQL in production).
+
+    Phase-7 additions:
+      - ``predicted_multiple``: ratio valuation_usd / funding_usd predicted by
+        the model at inference time.  Stored as a non-nullable float (default
+        0.0 used only as a DB-level safety net; application code always
+        provides a real value).
+      - ``actual_multiple``: ratio computed from the ground-truth valuation
+        supplied via PUT /predictions/{id}.  Nullable until feedback arrives.
+      - ``model_version``: slug that identifies which model variant produced
+        the prediction ("prod" or "candidate"), enabling A/B metric tracking.
+    """
 
     __tablename__ = "predictions"
 
@@ -25,6 +36,20 @@ class Prediction(Base):
     actual_valuation_usd = Column(Float, nullable=True)
     comment = Column(Text, nullable=True)
     created_at = Column(DateTime(timezone=True), nullable=False)
+
+    # ── Phase-7 MLOps columns ──────────────────────────────────────────────
+    predicted_multiple: Column = Column(
+        Float, nullable=False, default=0.0,
+        comment="valuation_usd / funding_usd predicted by the model",
+    )
+    actual_multiple: Column = Column(
+        Float, nullable=True,
+        comment="valuation_usd / funding_usd from ground-truth feedback",
+    )
+    model_version: Column = Column(
+        String(50), nullable=False, default="prod",
+        comment="model variant that produced the prediction: 'prod' or 'candidate'",
+    )
 
 
 _engine = None
@@ -68,6 +93,15 @@ def save_feedback(record: dict[str, Any]) -> int | None:
     except Exception:
         session.rollback()
         raise
+    finally:
+        session.close()
+
+
+def get_db():
+    """FastAPI dependency: yield a DB session and close it on exit."""
+    session = get_session()
+    try:
+        yield session
     finally:
         session.close()
 

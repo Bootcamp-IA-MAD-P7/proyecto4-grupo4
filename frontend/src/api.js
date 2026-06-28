@@ -52,3 +52,22 @@ export function getHealth() {
 
 export const createPrediction = predict;
 export const saveFeedback = submitFeedback;
+
+export function getPredictions(limit = 50, offset = 0) {
+  return request(`/predictions?limit=${limit}&offset=${offset}`);
+}
+
+export function updatePrediction(id, payload) {
+  return request(`/predictions/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function postRetrain() {
+  return request("/retrain", { method: "POST" });
+}
+
+export function getMetrics() {
+  return request("/metrics");
+}
