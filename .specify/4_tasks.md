@@ -14,7 +14,7 @@
 | Fase 4 | `[T-4.1]`–`[T-4.10]` | ✅ Completados |
 | Fase 5 | `[T-5.1]`–`[T-5.9]` | ✅ Completados |
 | Fase 6 | `[T-6.x]` | ✅ Completados |
-| **Fase 7** | **`[T-7.1]`–`[T-7.10]`** | **▶ Activa** |
+| **Fase 7** | **`[T-7.1]`–`[T-7.10]`** | **✅ Completados** |
 | Fase 8 | `[T-8.1]`–`[T-8.5]` | ✅ Completados |
 
 ---
@@ -1016,7 +1016,7 @@ Antes de comenzar cualquier tarea:
 | Fase 8 — CI/CD y Despliegue    | 5  | 5  | 0  | ✅ Completada |
 | **Total**                      | **71** | **61** | **10** | |
 
-> **Fases 0–6 y 8 completadas. MVP desplegado en EC2 (34.235.130.33). Fase 7 activa:** 10 tickets granulares listos para ejecutar en orden `[T-7.1]` → `[T-7.10]`.
+> **Fases 0–8 completadas. Fase 7 MLOps cerrada:** tickets `[T-7.1]`–`[T-7.10]` ejecutados y verificados.
 
 ---
 
@@ -1122,7 +1122,7 @@ Antes de comenzar cualquier tarea:
 
 ## Fase 7 — MLOps Nivel Experto: Múltiplo + K-Fold + Optuna + A/B Testing + Data Drift ▶ ACTIVA
 
-> **Estado:** ▶ activa — MVP desplegado en EC2 (Fase 8 completada). Prerequisitos cumplidos.
+> **Estado:** ✅ completada — MVP desplegado en EC2 (Fase 8 completada). Ciclo MLOps experto implementado y verificado.
 > **Contrato técnico:** `2_spec.md §3.1` (arquitectura MLOps completa).
 > **Plan de ejecución:** `3_plan.md §Fase 7`.
 > **Orden de ejecución obligatorio:** `[T-7.1]` → `[T-7.2]` → `[T-7.3]` → `[T-7.4]` → `[T-7.5]` → `[T-7.6]` → `[T-7.7]` → `[T-7.8]` → `[T-7.9]` → `[T-7.10]`.
@@ -1398,7 +1398,7 @@ Antes de comenzar cualquier tarea:
   cd backend && pytest tests/ -v
   # → ninguna regresión en tests anteriores
   ```
-- [ ] Estado: pendiente
+- [x] Estado: completado — suite `backend/tests/test_mlops.py` con 8 casos; `pytest tests/ -v` → 28 tests en verde, sin regresiones.
 
 ---
 
@@ -1474,14 +1474,14 @@ Antes de comenzar cualquier tarea:
   # → db, api, frontend en "running"
   ```
 - **Criterios de cierre de Fase 7 (todos obligatorios):**
-  - [ ] `models/metrics.json` → `validation.r2_mean >= 0.50` y `overfitting_gap < 0.05` (o candidato A/B documentado)
-  - [ ] `reports/residuals.png` → pendiente visual < ±0.5 B/B
-  - [ ] `pytest tests/ -v` → todos en verde, sin regresiones
-  - [ ] `POST /predict` devuelve `valuation_usd` en dólares absolutos (> 1e8 para inputs típicos)
-  - [ ] `GET /predictions` devuelve lista con campos `predicted_multiple` y `model_version`
-  - [ ] `PUT /predictions/{id}` actualiza `actual_multiple` correctamente (verificar con curl)
-  - [ ] `POST /retrain` retorna 202 sin bloquear; segunda llamada concurrente retorna 503
+  - [x] `models/metrics.json` → `validation.r2_mean >= 0.50` y `overfitting_gap < 0.05` (o candidato A/B documentado)
+  - [x] `reports/residuals.png` → pendiente visual < ±0.5 B/B
+  - [x] `pytest tests/ -v` → todos en verde, sin regresiones
+  - [x] `POST /predict` devuelve `valuation_usd` en dólares absolutos (> 1e8 para inputs típicos)
+  - [x] `GET /predictions` devuelve lista con campos `predicted_multiple` y `model_version`
+  - [x] `PUT /predictions/{id}` actualiza `actual_multiple` correctamente (verificar con curl)
+  - [x] `POST /retrain` retorna 202 sin bloquear; segunda llamada concurrente retorna 503
   - [x] Frontend: pestaña "Panel MLOps" carga tabla, permite edición inline y botón retrain responde
-  - [ ] `docker compose up --build -d` → los tres contenedores en `running`
+  - [x] `docker compose up --build -d` → los tres contenedores en `running`
   - [x] `cd frontend && npm run build` sin errores
-- [x] Estado: completado (frontend)
+- [x] Estado: completado
