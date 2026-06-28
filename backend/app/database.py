@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+import logging
 import os
 from typing import Any
 
-from sqlalchemy import Column, DateTime, Float, Integer, String, Text, create_engine
+from sqlalchemy import Column, DateTime, Float, Integer, String, Text, create_engine, text
 from sqlalchemy.orm import Session, declarative_base, sessionmaker
+
+logger = logging.getLogger(__name__)
 
 Base = declarative_base()
 
@@ -75,9 +78,29 @@ def get_session() -> Session:
     return SessionLocal()
 
 
+_PHASE7_MIGRATION = [
+    "ALTER TABLE predictions ADD COLUMN IF NOT EXISTS predicted_multiple DOUBLE PRECISION NOT NULL DEFAULT 0.0",
+    "ALTER TABLE predictions ADD COLUMN IF NOT EXISTS actual_multiple DOUBLE PRECISION",
+    "ALTER TABLE predictions ADD COLUMN IF NOT EXISTS model_version VARCHAR(50) NOT NULL DEFAULT 'prod'",
+]
+
+
 def init_db() -> None:
-    """Create all tables if they do not already exist."""
-    Base.metadata.create_all(get_engine())
+    """Create all tables if they do not already exist, then apply Phase-7 migration.
+
+    ``create_all`` only creates missing tables; it never alters existing ones.
+    The explicit ALTER TABLE statements below are idempotent (``ADD COLUMN IF
+    NOT EXISTS``) so they are safe to run on every startup against both fresh
+    and pre-existing databases.
+    """
+    engine = get_engine()
+    Base.metadata.create_all(engine)
+    with engine.begin() as conn:
+        for stmt in _PHASE7_MIGRATION:
+            try:
+                conn.execute(text(stmt))
+            except Exception as exc:
+                logger.warning("Migration statement skipped (%s): %s", stmt[:60], exc)
 
 
 def save_feedback(record: dict[str, Any]) -> int | None:
