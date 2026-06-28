@@ -1315,7 +1315,7 @@ Antes de comenzar cualquier tarea:
   print('OK')
   "
   ```
-- [ ] Estado: pendiente
+- [x] Estado: completado — `PredictionRecord` (con `ConfigDict(from_attributes=True)`, `created_at: datetime`), `UpdatePredictionRequest`, `UpdatePredictionResponse`, `RetrainResponse` añadidos a `backend/app/input_schema.py`. Verificado: importación de los 4 schemas OK.
 
 ---
 
@@ -1349,7 +1349,7 @@ Antes de comenzar cualquier tarea:
     -H "Content-Type: application/json" \
     -d '{"actual_valuation_usd": 1e9}' # → 404
   ```
-- [ ] Estado: pendiente
+- [x] Estado: completado — `get_db()` generator añadido a `database.py`; `GET /predictions` (response_model=List[PredictionRecord], paginación limit/offset), `PUT /predictions/{prediction_id}` (404 si no existe, calcula `actual_multiple`, commit), `POST /retrain` (flag `_retrain_in_progress`, retorna 202 inmediatamente, 503 si ya en curso, `_run_retrain_background()` ejecuta detect_drift → train.py → preload_model) implementados en `main.py`. Rutas verificadas: `/predictions`, `/predictions/{prediction_id}`, `/retrain` en router de FastAPI.
 
 ---
 
@@ -1374,7 +1374,7 @@ Antes de comenzar cualquier tarea:
   cd backend && python -c "from src.mlops.drift import detect_drift; print('OK')"
   # Ejecutar con datos sintéticos mínimos para verificar que genera drift_report.json
   ```
-- [ ] Estado: pendiente
+- [x] Estado: completado — `drift.py` reescrito con `detect_drift(cfg) -> dict`: carga referencia desde `cfg["paths"]["processed_data"]` (parquet), consulta feedback con `actual_valuation_usd IS NOT NULL` desde DB, early-exit si `n_feedback_samples < 30` (note "insufficient_data"), KS-test + mean-pct por feature (`funding_usd`, `year_founded`, `company_age`), serializa a `{model_dir}/drift_report.json`. Retorna `{drift_detected, n_feedback_samples, features, timestamp}`. Verificado: `from src.mlops.drift import detect_drift` OK.
 
 ---
 

@@ -97,6 +97,15 @@ def save_feedback(record: dict[str, Any]) -> int | None:
         session.close()
 
 
+def get_db():
+    """FastAPI dependency: yield a DB session and close it on exit."""
+    session = get_session()
+    try:
+        yield session
+    finally:
+        session.close()
+
+
 def fetch_prediction(record_id: int) -> dict[str, Any] | None:
     """Return a prediction row by id, or None if it does not exist."""
     init_db()
