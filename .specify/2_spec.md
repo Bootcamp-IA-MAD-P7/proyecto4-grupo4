@@ -281,7 +281,7 @@ El reentrenamiento **continúa independientemente** del resultado del drift; el 
 > **Estado de implementación (2026-06-28):**
 > - ✅ Drift check + entrenamiento Optuna K-Fold en background.
 > - ✅ Guardado dual `best_model.joblib` (prod) / `candidate_model.joblib` (A/B).
-> - ⚠️ **Gap conocido:** el feedback de la tabla `predictions` **no se fusiona** aún en el dataset de entrenamiento; solo alimenta drift y métricas A/B. Ver ticket `[T-7.11]`.
+> - ✅ **Implementado (`[T-7.11]`):** el feedback con `actual_valuation_usd` se fusiona al dataset en retrain cuando hay ≥5 filas confirmadas.
 > - ⚠️ **Gap conocido:** la regla de auto-reemplazo CASO A/B/C (abajo) está **parcialmente implementada** — hoy un retrain con `best_model.joblib` existente siempre guarda como candidato, sin comparar R² ni promover/descartar. Ver ticket `[T-7.13]`.
 > - ⚠️ **Gap UX:** falta modal de confirmación antes de lanzar retrain. Ver ticket `[T-7.12]`.
 
@@ -331,7 +331,7 @@ El endpoint dispara la siguiente lógica en `BackgroundTasks`:
 
 Un retrain **puede alterar** el modelo activo (promoción prod o nuevo candidato). Por eso el frontend debe mostrar un **modal de confirmación** antes de llamar `POST /retrain` (`[T-7.12]`).
 
-#### 3.1.6 Feedback como datos de entrenamiento (`[T-7.11]` — pendiente)
+#### 3.1.6 Feedback como datos de entrenamiento (`[T-7.11]` — ✅ implementado)
 
 El feedback capturado vía `PUT /predictions/{id}` debe incorporarse al ciclo de reentrenamiento para cerrar el loop MLOps:
 

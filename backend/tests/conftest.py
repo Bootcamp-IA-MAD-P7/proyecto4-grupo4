@@ -6,16 +6,16 @@ from pathlib import Path
 
 import pytest
 
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 # Set DATABASE_URL before any app imports so database.py doesn't raise RuntimeError.
 # Tests use a file-based SQLite; production uses the PostgreSQL URL from the environment.
 _TEST_DB = Path(__file__).resolve().parent / "test_feedback.db"
 os.environ.setdefault("DATABASE_URL", f"sqlite:///{_TEST_DB}")
 
 from src.data.load import get_feature_columns, make_model_feature_frame
-
-ROOT = Path(__file__).resolve().parents[1]
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
 
 MODEL_PATH = ROOT / "models" / "best_model.joblib"
 

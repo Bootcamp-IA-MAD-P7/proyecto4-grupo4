@@ -16,7 +16,7 @@
 | Fase 4 — API + PostgreSQL | ✅ Completada |
 | Fase 5 — Frontend React + Docker | ✅ Completada |
 | **Fase 6 — Documentación** | **✅ Completada** |
-| **Fase 7 — MLOps Nivel Experto** | **✅ Completada** (follow-up `[T-7.11]`–`[T-7.13]` pendiente) |
+| **Fase 7 — MLOps Nivel Experto** | **✅ Completada** (follow-up `[T-7.13]` pendiente) |
 | Fase 8 — CI/CD y Despliegue EC2 | ✅ Completada |
 
 ---
@@ -387,7 +387,7 @@ git push origin refactor/stabilize-architecture
 
 ## Fase 7 — MLOps Nivel Experto: Múltiplo + K-Fold + Optuna + A/B Testing + Data Drift ✅ COMPLETADA
 
-> **Estado:** ✅ completada (MVP MLOps) — follow-up pendiente en `[T-7.11]`–`[T-7.13]` para cerrar loop de feedback, modal UX y auto-reemplazo.
+> **Estado:** ✅ completada (MVP MLOps) — follow-up pendiente en `[T-7.13]` para auto-reemplazo CASO A/B/C.
 > **Decisión arquitectónica:** `backend/docs/architecture_decision_target.md` (ADR-001, 2026-06-25).
 > **Contrato técnico completo:** `2_spec.md §3.1` (arquitectura MLOps, A/B Testing, Data Drift, Retrain).
 > **Tickets de ejecución:** `[T-7.1]`–`[T-7.10]` en `4_tasks.md`.
@@ -609,19 +609,19 @@ curl -s -X POST http://localhost:8000/retrain | python -c "import sys,json; d=js
 
 ---
 
-### 7.11 Feedback como datos de entrenamiento — Cerrar el loop MLOps ⏸ PENDIENTE
+### 7.11 Feedback como datos de entrenamiento — Cerrar el loop MLOps ✅
 
 > **Prerequisito:** Pipeline en verde (`pytest` + deploy EC2 estable). `[T-7.1]`–`[T-7.10]` completados.
 > **Motivación:** Sin este ticket, el feedback capturado en la tabla `predictions` solo sirve para drift y métricas A/B, pero **no mejora el modelo**. Cierra el ciclo MLOps de verdad.
 
-- [ ] Crear `backend/src/mlops/feedback_merge.py` con `merge_feedback_into_dataset(df_kaggle, cfg) -> pd.DataFrame`.
-- [ ] Consultar `predictions` con `actual_valuation_usd IS NOT NULL` (mínimo 5 filas para activar merge).
-- [ ] Mapear filas de feedback al esquema de entrenamiento: features + target `actual_valuation_usd`.
-- [ ] Deduplicar por `(year_founded, funding_usd, industry, country)` priorizando feedback más reciente.
-- [ ] Integrar en `scripts/train.py`: si hay feedback suficiente, concatenar antes de `run_optuna_kfold()`.
-- [ ] Añadir a `metrics.json`: `n_feedback_samples_merged`, `feedback_merge_enabled`.
-- [ ] Test: `test_feedback_merge_adds_rows_to_training_dataset` en `test_mlops.py`.
-- [ ] Verificar: retrain con 3+ filas de feedback en BD → log muestra `Merged N feedback samples`.
+- [x] Crear `backend/src/mlops/feedback_merge.py` con `merge_feedback_into_dataset(df_kaggle, cfg) -> pd.DataFrame`.
+- [x] Consultar `predictions` con `actual_valuation_usd IS NOT NULL` (mínimo 5 filas para activar merge).
+- [x] Mapear filas de feedback al esquema de entrenamiento: features + target `actual_valuation_usd`.
+- [x] Deduplicar por `(year_founded, funding_usd, industry, country)` priorizando feedback más reciente.
+- [x] Integrar en `scripts/train.py`: si hay feedback suficiente, concatenar antes de `run_optuna_kfold()`.
+- [x] Añadir a `metrics.json`: `n_feedback_samples_merged`, `feedback_merge_enabled`.
+- [x] Test: `test_feedback_merge_adds_rows_to_training_dataset` en `test_mlops.py`.
+- [x] Verificar: retrain con 3+ filas de feedback en BD → log muestra `Merged N feedback samples`.
 
 ---
 

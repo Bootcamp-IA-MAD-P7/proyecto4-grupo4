@@ -43,13 +43,14 @@ from src.data.load import (
     load_processed_dataset,
     prepare_modeling_frame,
 )
+from src.mlops.feedback_merge import merge_feedback_into_dataset
 from src.mlops.tuning import _build_gb_pipeline, predict_absolute, run_optuna_kfold
 from src.models.evaluate import generate_report_assets
 from src.models.train import (
     compute_metrics,
     load_pipeline,
 )
-from sklearn.metrics import r2_score
+from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 from sklearn.model_selection import train_test_split
 import joblib
 
@@ -189,11 +190,29 @@ def _validation_holdout(
     )
 
 
+def _validation_usd_metrics(
+    pipeline: Any,
+    x_val: pd.DataFrame,
+    df: pd.DataFrame,
+    cfg: dict[str, Any],
+) -> dict[str, float]:
+    """Compute MAE/RMSE on the validation holdout in absolute USD."""
+    val_idx = x_val.index
+    funding = df.loc[val_idx, "funding_usd"]
+    y_true_usd = df.loc[val_idx, "valuation_usd"].to_numpy(dtype=float)
+    y_pred_usd = predict_absolute(pipeline, x_val, funding, cfg)
+    return {
+        "mae": float(mean_absolute_error(y_true_usd, y_pred_usd)),
+        "rmse": float(np.sqrt(mean_squared_error(y_true_usd, y_pred_usd))),
+    }
+
+
 def run_optuna_training(
     df: pd.DataFrame,
     cfg: dict[str, Any],
     *,
     allow_low_r2_artifact: bool = False,
+    merge_meta: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Run Optuna K-Fold and build the final pipeline."""
     print(f"\n[Optuna] Starting search (n_trials={cfg['optuna']['n_trials']}, cv_folds={cfg['optuna']['cv_folds']})...")
@@ -219,9 +238,11 @@ def run_optuna_training(
     train_r2 = float(r2_score(y_train, final_pipeline.predict(x_train)))
     val_r2 = float(r2_score(y_val, final_pipeline.predict(x_val)))
     overfitting_gap = max(0.0, train_r2 - val_r2)
+    usd_metrics = _validation_usd_metrics(final_pipeline, x_val, df, cfg)
 
     metrics = {
         "target": cfg["training"].get("target_transform", "absolute"),
+        "model_type": "gradient_boosting",
         "cv_folds": cfg["optuna"]["cv_folds"],
         "optuna_trials": cfg["optuna"]["n_trials"],
         "best_trial_number": trial_number,
@@ -231,9 +252,13 @@ def run_optuna_training(
             "r2_std": r2_std,
             "r2_train_split": train_r2,
             "r2_val_split": val_r2,
+            "mae": usd_metrics["mae"],
+            "rmse": usd_metrics["rmse"],
         },
         "overfitting_gap": overfitting_gap,
     }
+    if merge_meta:
+        metrics.update(merge_meta)
 
     return {"pipeline": final_pipeline, "metrics": metrics}
 
@@ -293,9 +318,15 @@ def main() -> None:
     log_target_training_message()
 
     cfg = load_config()
-    df = load_processed_dataset()
+    df_kaggle = load_processed_dataset()
+    df, merge_meta = merge_feedback_into_dataset(df_kaggle, cfg)
 
-    result = run_optuna_training(df, cfg, allow_low_r2_artifact=args.allow_low_r2_artifact)
+    result = run_optuna_training(
+        df,
+        cfg,
+        allow_low_r2_artifact=args.allow_low_r2_artifact,
+        merge_meta=merge_meta,
+    )
 
     enforce_quality_gate(result["metrics"], allow_low_r2_artifact=args.allow_low_r2_artifact)
 

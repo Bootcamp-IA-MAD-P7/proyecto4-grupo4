@@ -15,7 +15,7 @@
 | Fase 5 | `[T-5.1]`–`[T-5.9]` | ✅ Completados |
 | Fase 6 | `[T-6.x]` | ✅ Completados |
 | **Fase 7** | **`[T-7.1]`–`[T-7.10]`** | **✅ Completados** |
-| **Fase 7 (follow-up)** | **`[T-7.11]`–`[T-7.13]`** | **⏸ Pendientes** |
+| **Fase 7 (follow-up)** | **`[T-7.11]` ✅ · `[T-7.13]`** | **`[T-7.13]` pendiente** |
 | Fase 8 | `[T-8.1]`–`[T-8.5]` | ✅ Completados |
 
 ---
@@ -1516,7 +1516,7 @@ Antes de comenzar cualquier tarea:
   # → logs muestran "Merged N feedback samples into training dataset"
   cd backend && pytest tests/test_mlops.py::test_feedback_merge_adds_rows -v
   ```
-- [ ] Estado: pendiente
+- [x] Estado: completado — `feedback_merge.py` fusiona feedback confirmado (≥5 filas) en dataset de entrenamiento; métricas `n_feedback_samples_merged` y `feedback_merge_enabled` en `metrics.json`; test `test_feedback_merge_adds_rows` en verde.
 
 ---
 
