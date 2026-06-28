@@ -43,6 +43,7 @@ from src.data.load import (
     load_processed_dataset,
     prepare_modeling_frame,
 )
+from src.mlops.auto_replacement import apply_auto_replacement
 from src.mlops.feedback_merge import merge_feedback_into_dataset
 from src.mlops.tuning import _build_gb_pipeline, predict_absolute, run_optuna_kfold
 from src.models.evaluate import generate_report_assets
@@ -97,6 +98,10 @@ def save_artifacts(
 ) -> str:
     """Persist the trained pipeline and metrics.
 
+    When a production model already exists the new artefact is stored as a
+    candidate alongside ``metrics_candidate.json`` so the auto-replacement gate
+    can compare against the untouched production ``metrics.json``.
+
     Returns the role under which the model was saved: ``"production"`` or
     ``"candidate"``.
     """
@@ -105,20 +110,22 @@ def save_artifacts(
     best_path = model_dir / "best_model.joblib"
     candidate_path = model_dir / "candidate_model.joblib"
     metrics_path = resolve_path(cfg["paths"]["metrics_file"])
+    candidate_metrics_path = model_dir / "metrics_candidate.json"
 
     if best_path.exists() and not force_production:
         joblib.dump(pipeline, candidate_path)
+        candidate_metrics_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
         role = "candidate"
         logger.info("Production model already exists. Saved new model as candidate: %s", candidate_path)
         print(f"[INFO] Saved as CANDIDATE model (A/B): {candidate_path}")
     else:
         joblib.dump(pipeline, best_path)
+        metrics_path.parent.mkdir(parents=True, exist_ok=True)
+        metrics_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
+        candidate_metrics_path.unlink(missing_ok=True)
         role = "production"
         logger.info("Saved as production model: %s", best_path)
         print(f"[INFO] Saved as PRODUCTION model: {best_path}")
-
-    metrics_path.parent.mkdir(parents=True, exist_ok=True)
-    metrics_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
 
     return role
 
@@ -332,8 +339,14 @@ def main() -> None:
 
     role = save_artifacts(result["pipeline"], result["metrics"], force_production=args.force_production)
 
+    replacement_report: dict[str, Any] | None = None
+    if role == "candidate":
+        replacement_report = apply_auto_replacement(cfg)
+
     print(f"\n[DONE] Model saved as: {role.upper()}")
     print(json.dumps(result["metrics"], indent=2))
+    if replacement_report is not None:
+        print(json.dumps({"auto_replacement": replacement_report}, indent=2))
 
     if args.report:
         assets = generate_report_assets()

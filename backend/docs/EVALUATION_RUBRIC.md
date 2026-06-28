@@ -246,7 +246,8 @@ Persistir (predicted_multiple, model_version) en PostgreSQL
 | Endpoint asíncrono | `POST /retrain` → 202 Accepted inmediato; trabajo en `BackgroundTasks` de FastAPI | `backend/app/main.py` |
 | Protección contra concurrencia | Flag `_retrain_in_progress`: segunda llamada → 503 `"Reentrenamiento ya en curso"` | Test `test_post_retrain_concurrent_blocked` |
 | Pipeline de fondo | 1) `detect_drift()` → 2) `scripts/train.py --report` (Optuna K-Fold) → 3) `preload_model()` (hot-reload) | `_run_retrain_background()` |
-| Auto-reemplazo de modelo | Si el nuevo modelo pasa el quality gate, reemplaza `best_model.joblib`; si no, se guarda como candidato A/B | Lógica en `train.py` |
+| Auto-reemplazo de modelo | CASO A/B/C en `apply_auto_replacement()`: promueve si `new_r2 > current_r2` y gap < 0.05 (backup en `models/archive/{timestamp}/`), mantiene candidato A/B si gap ≥ 0.05, descarta si R² no mejora | `backend/src/mlops/auto_replacement.py`, invocado al final de `train.py` |
+| Métricas de candidato | El retrain guarda `metrics_candidate.json` sin sobrescribir `metrics.json` de producción hasta la decisión | `backend/scripts/train.py` → `save_artifacts()` |
 | Trigger desde frontend | Botón "Reentrenar Modelo (Optuna + K-Fold)" en Panel MLOps con toast de confirmación | `frontend/src/components/MLOpsPanel.jsx` |
 
 **Diagrama del ciclo MLOps:**
@@ -261,11 +262,15 @@ Panel MLOps → POST /retrain (202 Accepted)
                      ▼
             ┌───────────────────┐
             │ 2. train.py       │ → Optuna 50 trials × K-Fold 5
-            │    --report       │ → metrics.json, best_model.joblib
+            │    --report       │ → candidate_model.joblib + metrics_candidate.json
             └────────┬──────────┘
                      ▼
             ┌───────────────────┐
-            │ 3. preload_model()│ → hot-reload sin downtime
+            │ 3. auto_replace   │ → promoted | candidate | discarded
+            └────────┬──────────┘
+                     ▼
+            ┌───────────────────┐
+            │ 4. preload_model()│ → hot-reload sin downtime
             └───────────────────┘
 ```
 

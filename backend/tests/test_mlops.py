@@ -22,6 +22,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
+import json
 import numpy as np
 import pytest
 import yaml
@@ -238,3 +239,78 @@ def test_feedback_merge_adds_rows():
     assert meta["feedback_merge_enabled"] is True
     assert meta["n_feedback_samples_merged"] >= 5
     assert len(merged_df) == len(kaggle_df) + meta["n_feedback_samples_merged"]
+
+
+def _write_metrics(path: Path, *, r2_mean: float, r2_train: float, gap: float | None = None) -> None:
+    payload = {
+        "validation": {
+            "r2_mean": r2_mean,
+            "r2_train_split": r2_train,
+        },
+        "overfitting_gap": gap if gap is not None else max(0.0, r2_train - r2_mean),
+    }
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+
+def test_retrain_promotes_when_r2_improves(tmp_path):
+    from src.mlops.auto_replacement import apply_auto_replacement
+
+    model_dir = tmp_path / "models"
+    model_dir.mkdir()
+    best_path = model_dir / "best_model.joblib"
+    candidate_path = model_dir / "candidate_model.joblib"
+    best_path.write_bytes(b"prod-model")
+    candidate_path.write_bytes(b"candidate-model")
+
+    _write_metrics(model_dir / "metrics.json", r2_mean=0.40, r2_train=0.44)
+    _write_metrics(model_dir / "metrics_candidate.json", r2_mean=0.50, r2_train=0.52)
+
+    report = apply_auto_replacement(_CFG, model_dir=model_dir)
+
+    assert report["decision"] == "promoted"
+    assert best_path.read_bytes() == b"candidate-model"
+    assert not candidate_path.exists()
+    assert (model_dir / "metrics_candidate.json").exists() is False
+    assert any(model_dir.joinpath("archive").rglob("best_model.joblib"))
+
+
+def test_retrain_discards_when_r2_worse(tmp_path):
+    from src.mlops.auto_replacement import apply_auto_replacement
+
+    model_dir = tmp_path / "models"
+    model_dir.mkdir()
+    best_path = model_dir / "best_model.joblib"
+    candidate_path = model_dir / "candidate_model.joblib"
+    best_path.write_bytes(b"prod-model")
+    candidate_path.write_bytes(b"candidate-model")
+
+    _write_metrics(model_dir / "metrics.json", r2_mean=0.55, r2_train=0.60)
+    _write_metrics(model_dir / "metrics_candidate.json", r2_mean=0.50, r2_train=0.54)
+
+    report = apply_auto_replacement(_CFG, model_dir=model_dir)
+
+    assert report["decision"] == "discarded"
+    assert best_path.read_bytes() == b"prod-model"
+    assert not candidate_path.exists()
+    assert not (model_dir / "metrics_candidate.json").exists()
+
+
+def test_retrain_keeps_candidate_when_overfitting_high(tmp_path):
+    from src.mlops.auto_replacement import apply_auto_replacement
+
+    model_dir = tmp_path / "models"
+    model_dir.mkdir()
+    best_path = model_dir / "best_model.joblib"
+    candidate_path = model_dir / "candidate_model.joblib"
+    best_path.write_bytes(b"prod-model")
+    candidate_path.write_bytes(b"candidate-model")
+
+    _write_metrics(model_dir / "metrics.json", r2_mean=0.40, r2_train=0.44)
+    _write_metrics(model_dir / "metrics_candidate.json", r2_mean=0.50, r2_train=0.70, gap=0.20)
+
+    report = apply_auto_replacement(_CFG, model_dir=model_dir)
+
+    assert report["decision"] == "candidate"
+    assert best_path.read_bytes() == b"prod-model"
+    assert candidate_path.read_bytes() == b"candidate-model"
+    assert (model_dir / "metrics_candidate.json").exists()

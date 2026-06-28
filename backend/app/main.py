@@ -178,6 +178,12 @@ def _run_retrain_background() -> None:
         )
         if result.returncode == 0:
             logger.info("Retrain completed successfully.\n%s", result.stdout)
+            if '"decision": "promoted"' in result.stdout:
+                logger.info("Auto-replacement: candidate promoted to production.")
+            elif '"decision": "discarded"' in result.stdout:
+                logger.info("Auto-replacement: candidate discarded.")
+            elif '"decision": "candidate"' in result.stdout:
+                logger.info("Auto-replacement: candidate kept for A/B testing.")
             try:
                 preload_model()
             except Exception as exc:

@@ -16,7 +16,7 @@
 | Fase 4 — API + PostgreSQL | ✅ Completada |
 | Fase 5 — Frontend React + Docker | ✅ Completada |
 | **Fase 6 — Documentación** | **✅ Completada** |
-| **Fase 7 — MLOps Nivel Experto** | **✅ Completada** (follow-up `[T-7.13]` pendiente) |
+| **Fase 7 — MLOps Nivel Experto** | **✅ Completada** (follow-up cerrado) |
 | Fase 8 — CI/CD y Despliegue EC2 | ✅ Completada |
 
 ---
@@ -387,7 +387,7 @@ git push origin refactor/stabilize-architecture
 
 ## Fase 7 — MLOps Nivel Experto: Múltiplo + K-Fold + Optuna + A/B Testing + Data Drift ✅ COMPLETADA
 
-> **Estado:** ✅ completada (MVP MLOps) — follow-up pendiente en `[T-7.13]` para auto-reemplazo CASO A/B/C.
+> **Estado:** ✅ completada (MVP MLOps + follow-up `[T-7.11]`–`[T-7.13]` cerrado).
 > **Decisión arquitectónica:** `backend/docs/architecture_decision_target.md` (ADR-001, 2026-06-25).
 > **Contrato técnico completo:** `2_spec.md §3.1` (arquitectura MLOps, A/B Testing, Data Drift, Retrain).
 > **Tickets de ejecución:** `[T-7.1]`–`[T-7.10]` en `4_tasks.md`.
@@ -640,19 +640,19 @@ curl -s -X POST http://localhost:8000/retrain | python -c "import sys,json; d=js
 
 ---
 
-### 7.13 Auto-reemplazo y versionado de artefactos ⏸ PENDIENTE
+### 7.13 Auto-reemplazo y versionado de artefactos ✅
 
 > **Prerequisito:** `[T-7.3]`, `[T-7.6]` completados.
 > **Motivación:** La spec §3.1.5 define CASO A/B/C de promoción/descarte; hoy el retrain siempre guarda como `candidate_model.joblib` si ya existe prod, sin comparar R².
 
-- [ ] Implementar la lógica CASO A/B/C en `_run_retrain_background()` o en `train.py`:
+- [x] Implementar la lógica CASO A/B/C en `_run_retrain_background()` o en `train.py`:
   - **CASO A:** `new_r2 > current_r2 AND gap < 0.05` → promover candidato a `best_model.joblib`.
   - **CASO B:** `new_r2 > current_r2 AND gap >= 0.05` → mantener como candidato A/B.
   - **CASO C:** `new_r2 <= current_r2` → descartar candidato.
-- [ ] Guardar snapshot opcional en `models/archive/{timestamp}/` antes de promover (backup del prod anterior).
-- [ ] Log estructurado con decisión tomada (promoted / candidate / discarded).
-- [ ] Test: `test_retrain_promotes_when_r2_improves` y `test_retrain_discards_when_r2_worse`.
-- [ ] Actualizar `EVALUATION_RUBRIC.md` con el comportamiento real post-implementación.
+- [x] Guardar snapshot opcional en `models/archive/{timestamp}/` antes de promover (backup del prod anterior).
+- [x] Log estructurado con decisión tomada (promoted / candidate / discarded).
+- [x] Test: `test_retrain_promotes_when_r2_improves` y `test_retrain_discards_when_r2_worse`.
+- [x] Actualizar `EVALUATION_RUBRIC.md` con el comportamiento real post-implementación.
 
 ---
 
