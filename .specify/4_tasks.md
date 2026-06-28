@@ -1491,7 +1491,7 @@ Antes de comenzar cualquier tarea:
 
 ## Fase 7 — Follow-up MLOps ✅
 
-> **Estado:** cerrado — `[T-7.11]` feedback merge, `[T-7.12]` modal retrain, `[T-7.13]` auto-reemplazo CASO A/B/C, banner `GET /retrain/status` en Panel MLOps.
+> **Estado:** cerrado — `[T-7.11]`–`[T-7.14]` completados (feedback merge, modal, auto-reemplazo, banner retrain).
 
 ---
 
@@ -1559,3 +1559,11 @@ Antes de comenzar cualquier tarea:
   cd backend && pytest tests/test_mlops.py -v -k "retrain_promote or retrain_discard"
   ```
 - [x] Estado: completado — `auto_replacement.py` aplica CASO A/B/C; backup en `models/archive/{timestamp}/`; tests de promoción, descarte y candidato A/B en verde.
+
+---
+
+### [T-7.14] Banner de estado del retrain en Panel MLOps
+
+- **Archivo(s):** `backend/app/retrain_status.py`, `backend/app/main.py`, `frontend/src/components/MLOpsPanel.jsx`
+- **Acción:** `GET /retrain/status` + polling + banner con fase y decisión CASO A/B/C en español.
+- [x] Estado: completado — operador ve progreso y resultado sin leer logs; hot-reload explicado en UI.
