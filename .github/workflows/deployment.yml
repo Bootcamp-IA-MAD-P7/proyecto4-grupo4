@@ -37,7 +37,9 @@ jobs:
 
       - name: Run pytest
         working-directory: backend
-        run: pytest tests/ -v --tb=short
+        env:
+          PYTHONPATH: ${{ github.workspace }}/backend
+        run: python -m pytest tests/ -v --tb=short
 
   # ───────────────────────────────────────────────────────────────────────────
   # JOB 2 — Build Docker images and push to Docker Hub
