@@ -139,6 +139,9 @@ function normalizeMetrics(metrics) {
     validation.r2_mean ??
     null;
 
+  const cvR2Std = validation.r2_std ?? null;
+  const overfittingGap = metrics.overfitting_gap ?? null;
+
   let withinLimit = overfitting.within_limit;
   if (withinLimit == null && typeof metrics.overfitting_gap === "number") {
     withinLimit = metrics.overfitting_gap < 0.05;
@@ -153,12 +156,14 @@ function normalizeMetrics(metrics) {
     model_type: modelType,
     optuna_trials: metrics.optuna_trials ?? null,
     cv_folds: metrics.cv_folds ?? null,
+    overfitting_gap: overfittingGap,
     validation: {
       r2,
       mae: validation.mae ?? null,
       rmse: validation.rmse ?? null,
+      r2_std: cvR2Std,
     },
-    cross_validation: { cv_r2_mean: cvR2Mean },
+    cross_validation: { cv_r2_mean: cvR2Mean, cv_r2_std: cvR2Std },
     overfitting: { within_limit: withinLimit },
   };
 }
@@ -214,8 +219,8 @@ export function buildMetricCards(metrics) {
     },
     {
       label: "MAE de validación",
-      value: m.validation.mae != null ? formatUsdBillions(m.validation.mae) : "N/D",
-      detail: m.validation.mae != null ? "Error medio absoluto del modelo" : "No aplica al target múltiplo (Fase 7)",
+      value: m.validation.mae != null ? formatUsdBillions(m.validation.mae) : "No disponible",
+      detail: "Error medio absoluto en USD (holdout de validación)",
     },
     {
       label: "R² medio en validación cruzada",
@@ -246,8 +251,18 @@ export function buildMarketSignals(metrics) {
     },
     {
       label: "RMSE de validación",
-      value: m.validation.rmse != null ? formatUsdBillions(m.validation.rmse) : "N/D",
+      value: m.validation.rmse != null ? formatUsdBillions(m.validation.rmse) : "No disponible",
       tone: "info",
+    },
+    {
+      label: "Desv. R² CV",
+      value: formatNumber(m.validation.r2_std),
+      tone: "neutral",
+    },
+    {
+      label: "Gap sobreajuste",
+      value: typeof m.overfitting_gap === "number" ? formatNumber(m.overfitting_gap) : "No disponible",
+      tone: m.overfitting_gap != null && m.overfitting_gap >= 0.05 ? "risk" : "neutral",
     },
   ];
 }

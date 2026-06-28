@@ -61,7 +61,7 @@ function Dashboard() {
       </div>
 
       <div className="analysis-grid">
-        <article className="panel light-panel">
+        <article className="panel light-panel signal-panel">
           <h3>Lectura de señal</h3>
           <div className="signal-list">
             {marketSignals.map((item) => (

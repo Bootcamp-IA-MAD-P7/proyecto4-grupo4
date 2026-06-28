@@ -81,31 +81,33 @@ function PredictionResult({
           <h2>Registro para mejora continua</h2>
         </div>
 
-        <label>
-          Valor real observado (USD)
-          <input
-            className="numeric-input"
-            disabled={!canSendFeedback}
-            inputMode="numeric"
-            name="actual_valuation_usd"
-            onChange={onFeedbackChange}
-            pattern="[0-9.]*"
-            type="text"
-            value={formatIntegerInput(feedback.actual_valuation_usd)}
-          />
-        </label>
+        <div className="feedback-fields">
+          <label>
+            Valor real observado (USD)
+            <input
+              className="numeric-input"
+              disabled={!canSendFeedback}
+              inputMode="numeric"
+              name="actual_valuation_usd"
+              onChange={onFeedbackChange}
+              pattern="[0-9.]*"
+              type="text"
+              value={formatIntegerInput(feedback.actual_valuation_usd)}
+            />
+          </label>
 
-        <label>
-          Comentario
-          <textarea
-            disabled={!canSendFeedback}
-            maxLength="1000"
-            name="comment"
-            onChange={onFeedbackChange}
-            rows="3"
-            value={feedback.comment}
-          />
-        </label>
+          <label>
+            Comentario
+            <textarea
+              disabled={!canSendFeedback}
+              maxLength="1000"
+              name="comment"
+              onChange={onFeedbackChange}
+              rows="3"
+              value={feedback.comment}
+            />
+          </label>
+        </div>
 
         <button className="secondary-action" disabled={!canSendFeedback || loading} type="submit">
           <Database size={18} aria-hidden="true" />

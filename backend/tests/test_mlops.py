@@ -187,3 +187,54 @@ def test_predicted_multiple_persisted(client):
     matching = [r for r in records if r["id"] == row_id]
     assert len(matching) == 1, f"Row {row_id} not found in /predictions response"
     assert matching[0]["predicted_multiple"] > 0
+
+
+def test_feedback_merge_adds_rows():
+    """Confirmed feedback rows are merged when at least five exist."""
+    from datetime import datetime, timezone
+
+    import pandas as pd
+
+    from app.database import init_db, save_feedback
+    from src.mlops.feedback_merge import merge_feedback_into_dataset
+
+    init_db()
+
+    kaggle_df = pd.DataFrame(
+        {
+            "year_founded": [2010, 2012],
+            "funding_usd": [100_000_000.0, 200_000_000.0],
+            "company_age": [16, 14],
+            "industry": ["fintech", "Other"],
+            "country": ["United States", "Germany"],
+            "continent": ["North America", "Europe"],
+            "valuation_usd": [1_000_000_000.0, 2_000_000_000.0],
+            "log_funding_usd": [18.4, 19.1],
+            "funding_velocity": [6_250_000.0, 14_285_714.0],
+            "funding_vs_industry": [1.0, 1.0],
+        }
+    )
+
+    base_ts = datetime(2026, 1, 1, tzinfo=timezone.utc)
+    for idx in range(5):
+        save_feedback(
+            {
+                "year_founded": 2015 + idx,
+                "funding_usd": 50_000_000.0 + idx * 1_000_000,
+                "company_age": 11,
+                "industry": "fintech",
+                "country": "United States",
+                "continent": "North America",
+                "predicted_valuation_usd": 900_000_000.0,
+                "actual_valuation_usd": 1_000_000_000.0 + idx * 10_000_000,
+                "predicted_multiple": 18.0,
+                "model_version": "prod",
+                "created_at": base_ts.replace(day=1 + idx),
+            }
+        )
+
+    merged_df, meta = merge_feedback_into_dataset(kaggle_df, _CFG)
+
+    assert meta["feedback_merge_enabled"] is True
+    assert meta["n_feedback_samples_merged"] >= 5
+    assert len(merged_df) == len(kaggle_df) + meta["n_feedback_samples_merged"]
