@@ -13,6 +13,12 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import os
+from sqlalchemy import create_engine
+def load_feedback_from_db() -> pd.DataFrame:
+    db_url = os.getenv("DATABASE_URL")
+    engine = create_engine(db_url)
+    return pd.read_sql("SELECT * FROM feedback", engine)
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
