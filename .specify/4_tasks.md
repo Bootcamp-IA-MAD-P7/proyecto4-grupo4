@@ -1489,10 +1489,9 @@ Antes de comenzar cualquier tarea:
 
 ---
 
-## Fase 7 — Follow-up MLOps (pendiente)
+## Fase 7 — Follow-up MLOps ✅
 
-> **Ejecutar solo cuando el pipeline esté en verde** (deploy EC2 estable + `pytest` + `npm run build`).
-> **Motivación:** cerrar gaps detectados en producción: feedback no alimenta entrenamiento, falta modal de confirmación en retrain, auto-reemplazo §3.1.5 incompleto.
+> **Estado:** cerrado — `[T-7.11]`–`[T-7.14]` completados (feedback merge, modal, auto-reemplazo, banner retrain).
 
 ---
 
@@ -1560,3 +1559,11 @@ Antes de comenzar cualquier tarea:
   cd backend && pytest tests/test_mlops.py -v -k "retrain_promote or retrain_discard"
   ```
 - [x] Estado: completado — `auto_replacement.py` aplica CASO A/B/C; backup en `models/archive/{timestamp}/`; tests de promoción, descarte y candidato A/B en verde.
+
+---
+
+### [T-7.14] Banner de estado del retrain en Panel MLOps
+
+- **Archivo(s):** `backend/app/retrain_status.py`, `backend/app/main.py`, `frontend/src/components/MLOpsPanel.jsx`
+- **Acción:** `GET /retrain/status` + polling + banner con fase y decisión CASO A/B/C en español.
+- [x] Estado: completado — operador ve progreso y resultado sin leer logs; hot-reload explicado en UI.

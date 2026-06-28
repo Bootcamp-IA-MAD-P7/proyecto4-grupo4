@@ -1193,6 +1193,97 @@ textarea:disabled {
   line-height: 1.45;
 }
 
+.mlops-shell {
+  display: grid;
+  gap: 16px;
+}
+
+.mlops-retrain-banner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 18px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.mlops-retrain-banner-copy {
+  display: grid;
+  gap: 6px;
+}
+
+.mlops-retrain-banner-copy strong {
+  font-size: 1rem;
+}
+
+.mlops-retrain-banner-copy p {
+  margin: 0;
+  color: rgba(248, 250, 252, 0.82);
+  line-height: 1.45;
+  font-size: 0.92rem;
+}
+
+.mlops-retrain-banner-hint {
+  color: rgba(248, 250, 252, 0.62) !important;
+  font-size: 0.84rem !important;
+}
+
+.mlops-retrain-banner-hint-warn {
+  color: var(--color-risk) !important;
+}
+
+.mlops-retrain-banner-running {
+  border-color: rgba(56, 189, 248, 0.45);
+  background: rgba(56, 189, 248, 0.1);
+  animation: mlops-pulse 2s ease-in-out infinite;
+}
+
+.mlops-retrain-banner-success {
+  border-color: rgba(34, 197, 94, 0.45);
+  background: rgba(34, 197, 94, 0.12);
+}
+
+.mlops-retrain-banner-warn {
+  border-color: rgba(251, 191, 36, 0.45);
+  background: rgba(251, 191, 36, 0.12);
+}
+
+.mlops-retrain-banner-neutral {
+  border-color: rgba(148, 163, 184, 0.35);
+  background: rgba(148, 163, 184, 0.1);
+}
+
+.mlops-retrain-banner-error {
+  border-color: rgba(255, 107, 95, 0.45);
+  background: rgba(255, 107, 95, 0.12);
+}
+
+.mlops-retrain-banner-dismiss {
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  color: rgba(248, 250, 252, 0.72);
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.84rem;
+}
+
+.mlops-retrain-banner-dismiss:hover {
+  color: #fff;
+}
+
+@keyframes mlops-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.88;
+  }
+}
+
 .mlops-status {
   font-size: 0.88rem;
   color: var(--color-text-muted);

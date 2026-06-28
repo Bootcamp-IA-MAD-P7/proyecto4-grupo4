@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
-import { getMetrics, getPredictions, postRetrain } from "../api";
+import { getMetrics, getPredictions, getRetrainStatus, postRetrain } from "../api";
 
 function fmt(value, decimals = 4) {
   if (value == null) return "—";
@@ -36,6 +36,61 @@ function Toast({ message, type }) {
   );
 }
 
+const DECISION_LABELS = {
+  promoted: "Promovido a producción",
+  candidate: "Candidato A/B",
+  discarded: "Descartado",
+  skipped: "Completado",
+};
+
+function RetrainStatusBanner({ status, onDismiss }) {
+  if (!status || status.status === "idle") return null;
+
+  const tone =
+    status.status === "failed"
+      ? "error"
+      : status.status === "running"
+        ? "running"
+        : status.decision === "promoted"
+          ? "success"
+          : status.decision === "candidate"
+            ? "warn"
+            : status.decision === "discarded"
+              ? "neutral"
+              : "success";
+
+  const title =
+    status.status === "running"
+      ? "Reentrenamiento en curso"
+      : status.status === "failed"
+        ? "Reentrenamiento fallido"
+        : DECISION_LABELS[status.decision] ?? "Reentrenamiento finalizado";
+
+  return (
+    <div className={`mlops-retrain-banner mlops-retrain-banner-${tone}`} role="status" aria-live="polite">
+      <div className="mlops-retrain-banner-copy">
+        <strong>{title}</strong>
+        <p>{status.message}</p>
+        {status.status === "running" ? (
+          <p className="mlops-retrain-banner-hint">
+            Puedes seguir usando la app. La API recargará el modelo al terminar — no hace falta reiniciar contenedores.
+          </p>
+        ) : null}
+        {status.status === "completed" && status.details?.model_reloaded === false ? (
+          <p className="mlops-retrain-banner-hint mlops-retrain-banner-hint-warn">
+            No se pudo recargar el modelo en memoria. Reinicia el contenedor API para aplicar cambios.
+          </p>
+        ) : null}
+      </div>
+      {status.status !== "running" && onDismiss ? (
+        <button className="mlops-retrain-banner-dismiss" onClick={onDismiss} type="button">
+          Cerrar
+        </button>
+      ) : null}
+    </div>
+  );
+}
+
 function RetrainConfirmModal({ open, loading, onCancel, onConfirm }) {
   useEffect(() => {
     if (!open) return undefined;
@@ -63,9 +118,10 @@ function RetrainConfirmModal({ open, loading, onCancel, onConfirm }) {
         <div className="mlops-modal-body">
           <p>El proceso corre en <strong>segundo plano</strong> (2–5 min) y no interrumpe las predicciones.</p>
           <ul>
-            <li>Se ejecutará Optuna + K-Fold sobre el dataset de entrenamiento.</li>
-            <li>Según el quality gate, el resultado puede promoverse a producción, quedar como candidato A/B o descartarse.</li>
-            <li>El modelo actual <strong>no se elimina de inmediato</strong>; se conserva hasta que el gate decida.</li>
+            <li>Verás un <strong>banner de progreso</strong> arriba del panel con el resultado final.</li>
+            <li>Se ejecutará Optuna + K-Fold (con feedback real si hay ≥5 filas confirmadas).</li>
+            <li>Según el quality gate: promoción a producción, candidato A/B o descarte.</li>
+            <li>La API recarga el modelo al terminar — <strong>no hace falta reiniciar contenedores</strong> en condiciones normales.</li>
           </ul>
         </div>
         <div className="mlops-modal-actions">
@@ -81,7 +137,7 @@ function RetrainConfirmModal({ open, loading, onCancel, onConfirm }) {
   );
 }
 
-function RetrainSection({ onRetrained }) {
+function RetrainSection({ onRetrained, onRetrainStarted, retrainRunning }) {
   const [status, setStatus] = useState("idle");
   const [toast, setToast] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -93,9 +149,13 @@ function RetrainSection({ onRetrained }) {
       const res = await postRetrain();
       setStatus("idle");
       setModalOpen(false);
-      setToast({ message: `✓ ${res.message ?? "Reentrenamiento iniciado en segundo plano."}`, type: "success" });
+      setToast({
+        message: `✓ ${res.message ?? "Reentrenamiento iniciado."} Ver progreso arriba.`,
+        type: "success",
+      });
+      if (onRetrainStarted) onRetrainStarted();
       if (onRetrained) onRetrained();
-      setTimeout(() => setToast(null), 6000);
+      setTimeout(() => setToast(null), 8000);
     } catch (err) {
       setStatus("idle");
       setToast({ message: `✗ ${err.message}`, type: "error" });
@@ -115,15 +175,20 @@ function RetrainSection({ onRetrained }) {
         <h3 className="mlops-card-title">Control de Reentrenamiento</h3>
       </div>
       <p className="mlops-hint mlops-hint-block">
-        Lanza un reentrenamiento completo con K-Fold + Optuna en segundo plano sin interrumpir el servicio.
+        Lanza un reentrenamiento completo con K-Fold + Optuna en segundo plano. El banner superior
+        mostrará el progreso y el resultado (promovido, candidato A/B o descartado).
       </p>
       <button
         className="mlops-btn mlops-btn-primary"
-        disabled={status === "loading"}
+        disabled={status === "loading" || retrainRunning}
         onClick={() => setModalOpen(true)}
         type="button"
       >
-        {status === "loading" ? "Iniciando reentrenamiento…" : "⟳ Reentrenar Modelo (Optuna + K-Fold)"}
+        {retrainRunning
+          ? "Reentrenamiento en curso…"
+          : status === "loading"
+            ? "Iniciando reentrenamiento…"
+            : "⟳ Reentrenar Modelo (Optuna + K-Fold)"}
       </button>
       {toast && <Toast message={toast.message} type={toast.type} />}
     </div>
@@ -270,6 +335,8 @@ function MLOpsPanel() {
   const [predictions, setPredictions] = useState([]);
   const [metricsData, setMetricsData] = useState(null);
   const [metricsStatus, setMetricsStatus] = useState("loading");
+  const [retrainStatus, setRetrainStatus] = useState(null);
+  const [bannerDismissed, setBannerDismissed] = useState(false);
 
   async function loadPredictions() {
     try {
@@ -280,28 +347,70 @@ function MLOpsPanel() {
     }
   }
 
-  useEffect(() => {
-    loadPredictions();
+  async function loadMetrics() {
+    try {
+      const data = await getMetrics();
+      setMetricsData(data);
+      setMetricsStatus("ready");
+    } catch {
+      setMetricsStatus("error");
+    }
+  }
 
-    getMetrics()
-      .then((data) => {
-        setMetricsData(data);
-        setMetricsStatus("ready");
-      })
-      .catch(() => {
-        setMetricsStatus("error");
-      });
+  const refreshRetrainStatus = useCallback(async () => {
+    try {
+      const data = await getRetrainStatus();
+      setRetrainStatus(data);
+      if (data.status === "running") {
+        setBannerDismissed(false);
+      }
+      if (data.status === "completed") {
+        await loadMetrics();
+        await loadPredictions();
+      }
+    } catch {
+      /* ignore polling errors */
+    }
   }, []);
 
+  useEffect(() => {
+    loadPredictions();
+    loadMetrics();
+    refreshRetrainStatus();
+  }, [refreshRetrainStatus]);
+
+  useEffect(() => {
+    const isRunning = retrainStatus?.status === "running";
+    if (!isRunning) return undefined;
+
+    const timer = window.setInterval(refreshRetrainStatus, 4000);
+    return () => window.clearInterval(timer);
+  }, [retrainStatus?.status, refreshRetrainStatus]);
+
+  const showBanner = retrainStatus && retrainStatus.status !== "idle" && !bannerDismissed;
+
   return (
-    <div className="mlops-panels-grid">
-      <div className="mlops-panels-row">
-        <RetrainSection onRetrained={loadPredictions} />
-        <ModelVersionSection predictions={predictions} metricsData={metricsData} />
-      </div>
-      <div className="mlops-panels-row">
-        <ModelMetricsSection metricsData={metricsData} metricsStatus={metricsStatus} />
-        <ABMetricsSection predictions={predictions} />
+    <div className="mlops-shell">
+      {showBanner ? (
+        <RetrainStatusBanner
+          status={retrainStatus}
+          onDismiss={() => setBannerDismissed(true)}
+        />
+      ) : null}
+
+      <div className="mlops-panels-grid">
+        <div className="mlops-panels-row">
+          <RetrainSection
+            onRetrainStarted={refreshRetrainStatus}
+            onRetrained={loadPredictions}
+            retrainRunning={retrainStatus?.status === "running"}
+          />
+          <ModelVersionSection predictions={predictions} metricsData={metricsData} />
+        </div>
+        <div className="mlops-panels-row">
+          <ModelMetricsSection metricsData={metricsData} metricsStatus={metricsStatus} />
+          <ABMetricsSection predictions={predictions} />
+        </div>
       </div>
     </div>
   );

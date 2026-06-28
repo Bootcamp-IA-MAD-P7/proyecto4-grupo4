@@ -68,6 +68,10 @@ export function postRetrain() {
   return request("/retrain", { method: "POST" });
 }
 
+export function getRetrainStatus() {
+  return request("/retrain/status");
+}
+
 export function getMetrics() {
   return request("/metrics");
 }
