@@ -1089,3 +1089,338 @@ textarea:disabled {
     flex-direction: column;
   }
 }
+
+/* ── MLOps Dashboard ──────────────────────────────────────────────────────── */
+
+.mlops-page {
+  max-width: 1200px;
+}
+
+.mlops-subtitle {
+  color: var(--color-text-muted);
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+
+.mlops-panels-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+.mlops-card {
+  background: var(--color-card-dark);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+}
+
+.mlops-card-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.mlops-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text-light);
+}
+
+.mlops-hint {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.mlops-status {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  padding: 0.5rem 0;
+}
+
+.mlops-status-error {
+  color: var(--color-risk);
+}
+
+/* Buttons */
+.mlops-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 1rem;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.07);
+  color: var(--color-text-light);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.mlops-btn:hover:not(:disabled) {
+  background: rgba(255,255,255,0.13);
+}
+
+.mlops-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.mlops-btn-primary {
+  background: var(--color-primary);
+  border-color: var(--color-primary-strong);
+  color: #fff;
+  font-size: 0.95rem;
+  padding: 0.6rem 1.4rem;
+}
+
+.mlops-btn-primary:hover:not(:disabled) {
+  background: var(--color-primary-strong);
+}
+
+.mlops-btn-sm {
+  padding: 0.3rem 0.7rem;
+  font-size: 0.78rem;
+}
+
+/* Toast */
+.mlops-toast {
+  margin-top: 0.75rem;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.mlops-toast-success {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid var(--color-success);
+  color: var(--color-success);
+}
+
+.mlops-toast-error {
+  background: rgba(255, 107, 95, 0.12);
+  border: 1px solid var(--color-risk);
+  color: var(--color-risk);
+}
+
+/* A/B chips */
+.mlops-ab-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.mlops-ab-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.12);
+  min-width: 140px;
+}
+
+.mlops-ab-label {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.mlops-ab-version {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.mlops-ab-count {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+/* Badges */
+.mlops-badge {
+  display: inline-block;
+  padding: 0.18rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.mlops-badge-prod {
+  background: rgba(0,176,80,0.18);
+  color: var(--color-primary-glow);
+  border: 1px solid rgba(0,176,80,0.4);
+}
+
+.mlops-badge-candidate {
+  background: rgba(56,189,248,0.15);
+  color: var(--color-accent);
+  border: 1px solid rgba(56,189,248,0.4);
+}
+
+/* Model metrics grid */
+.mlops-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.mlops-metric-item {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mlops-metric-label {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.mlops-metric-value {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.mlops-good { color: var(--color-success); }
+.mlops-warn { color: var(--color-warning); }
+
+.mlops-meta {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.mlops-meta-item {
+  display: block;
+}
+
+/* Params pre */
+.mlops-params {
+  margin-top: 0.75rem;
+}
+
+.mlops-params-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  margin-bottom: 0.4rem;
+}
+
+.mlops-params-pre {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.78rem;
+  color: var(--color-accent);
+  overflow-x: auto;
+  white-space: pre-wrap;
+}
+
+/* Table */
+.mlops-table-wrap {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.07);
+}
+
+.mlops-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.83rem;
+}
+
+.mlops-table-compact {
+  font-size: 0.85rem;
+}
+
+.mlops-th {
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.73rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  background: rgba(255,255,255,0.04);
+  white-space: nowrap;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.mlops-tr:nth-child(even) {
+  background: rgba(255,255,255,0.02);
+}
+
+.mlops-td {
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  color: var(--color-text-light);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.mlops-td-mono {
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.mlops-td-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Inline inputs */
+.mlops-input {
+  min-height: unset;
+  height: 32px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #475569;
+  background: #1e293b;
+  color: var(--color-text-light);
+  font-size: 0.8rem;
+  width: 120px;
+}
+
+.mlops-input-wide {
+  width: 180px;
+}
+
+.mlops-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* Pagination */
+.mlops-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.mlops-page-info {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 640px) {
+  .mlops-panels-grid {
+    grid-template-columns: 1fr;
+  }
+}

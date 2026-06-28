@@ -548,19 +548,19 @@ El contrato externo de `POST /predict` no cambia. El frontend añade una pestañ
 
 > **Prerequisito:** `[T-7.6]` completado (endpoints disponibles).
 
-- [ ] Añadir pestaña "Panel MLOps" en la navegación principal (`frontend/src/`).
-- [ ] Componente `PredictionsTable.jsx`:
+- [x] Añadir pestaña "Panel MLOps" en la navegación principal (`frontend/src/`).
+- [x] Componente `PredictionsTable.jsx`:
   - Consume `GET /predictions` con `useEffect`.
   - Tabla con columnas definidas en `2_spec.md §8.1`.
   - Celdas "Valoración real" y "Comentario" editables inline.
   - Al confirmar edición: llamar `PUT /predictions/{id}` con el payload correspondiente.
   - Estados de carga, error y éxito con feedback visual.
-- [ ] Componente `MLOpsPanel.jsx`:
+- [x] Componente `MLOpsPanel.jsx`:
   - Botón "Reentrenar modelo" → llama `POST /retrain` → muestra progreso con texto explicativo.
   - Sección "Data Drift": muestra indicadores por feature desde `drift_report.json` (o desde un campo en `GET /metrics`).
   - Sección "A/B Testing": calcula MAE por `model_version` desde el listado de predicciones.
   - Sección "Métricas del modelo": muestra `r2_mean`, `r2_std`, `overfitting_gap`, `best_params`.
-- [ ] Verificar: `cd frontend && npm run build` sin errores. Revisión manual en `http://127.0.0.1:5173`.
+- [x] Verificar: `cd frontend && npm run build` sin errores. Revisión manual en `http://127.0.0.1:5173`.
 
 ---
 
@@ -603,9 +603,9 @@ curl -s -X POST http://localhost:8000/retrain | python -c "import sys,json; d=js
 - [ ] `GET /predictions` devuelve lista con campos `predicted_multiple` y `model_version`
 - [ ] `PUT /predictions/{id}` actualiza `actual_multiple` correctamente
 - [ ] `POST /retrain` retorna 202 sin bloquear
-- [ ] Frontend: pestaña "Panel MLOps" carga, tabla editable funciona, botón retrain responde
+- [x] Frontend: pestaña "Panel MLOps" carga, tabla editable funciona, botón retrain responde
 - [ ] `docker compose up --build -d` → los tres contenedores en `running`
-- [ ] `npm run build` del frontend sin errores
+- [x] `npm run build` del frontend sin errores
 
 ---
 

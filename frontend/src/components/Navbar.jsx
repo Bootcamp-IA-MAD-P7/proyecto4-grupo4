@@ -1,11 +1,12 @@
 import React from "react";
-import { BarChart3, BrainCircuit, LineChart, Target } from "lucide-react";
+import { BarChart3, BrainCircuit, Cpu, LineChart, Target } from "lucide-react";
 
 const links = [
   { href: "/dashboard", label: "Panel", icon: BarChart3 },
   { href: "/predict", label: "Predicción", icon: Target },
   { href: "/methodology", label: "Metodología", icon: BrainCircuit },
   { href: "/model", label: "Modelo", icon: LineChart },
+  { href: "/mlops", label: "Panel MLOps", icon: Cpu },
 ];
 
 function Navbar({ apiStatus, currentPath, onNavigate }) {

@@ -1431,7 +1431,7 @@ Antes de comenzar cualquier tarea:
   # → tabla carga predicciones y permite edición
   # → botón retrain devuelve respuesta visible
   ```
-- [ ] Estado: pendiente
+- [x] Estado: completado
 
 ---
 
@@ -1481,7 +1481,7 @@ Antes de comenzar cualquier tarea:
   - [ ] `GET /predictions` devuelve lista con campos `predicted_multiple` y `model_version`
   - [ ] `PUT /predictions/{id}` actualiza `actual_multiple` correctamente (verificar con curl)
   - [ ] `POST /retrain` retorna 202 sin bloquear; segunda llamada concurrente retorna 503
-  - [ ] Frontend: pestaña "Panel MLOps" carga tabla, permite edición inline y botón retrain responde
+  - [x] Frontend: pestaña "Panel MLOps" carga tabla, permite edición inline y botón retrain responde
   - [ ] `docker compose up --build -d` → los tres contenedores en `running`
-  - [ ] `cd frontend && npm run build` sin errores
-- [ ] Estado: pendiente
+  - [x] `cd frontend && npm run build` sin errores
+- [x] Estado: completado (frontend)
