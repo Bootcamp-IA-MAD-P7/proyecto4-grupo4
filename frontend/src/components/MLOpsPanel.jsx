@@ -241,10 +241,14 @@ function MLOpsPanel() {
 
   return (
     <div className="mlops-panels-grid">
-      <RetrainSection onRetrained={loadPredictions} />
-      <ModelVersionSection predictions={predictions} metricsData={metricsData} />
-      <ABMetricsSection predictions={predictions} />
-      <ModelMetricsSection metricsData={metricsData} metricsStatus={metricsStatus} />
+      <div className="mlops-panels-row">
+        <RetrainSection onRetrained={loadPredictions} />
+        <ModelVersionSection predictions={predictions} metricsData={metricsData} />
+      </div>
+      <div className="mlops-panels-row">
+        <ModelMetricsSection metricsData={metricsData} metricsStatus={metricsStatus} />
+        <ABMetricsSection predictions={predictions} />
+      </div>
     </div>
   );
 }

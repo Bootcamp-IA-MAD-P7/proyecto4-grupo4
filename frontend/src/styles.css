@@ -1103,9 +1103,16 @@ textarea:disabled {
 }
 
 .mlops-panels-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 1.25rem;
+}
+
+.mlops-panels-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  align-items: start;
 }
 
 .mlops-card {
@@ -1420,7 +1427,7 @@ textarea:disabled {
 }
 
 @media (max-width: 640px) {
-  .mlops-panels-grid {
+  .mlops-panels-row {
     grid-template-columns: 1fr;
   }
 }
