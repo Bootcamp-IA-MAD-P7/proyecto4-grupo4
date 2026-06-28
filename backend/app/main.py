@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from contextlib import asynccontextmanager
 from datetime import UTC, datetime
 from typing import AsyncIterator
@@ -7,6 +8,7 @@ from typing import AsyncIterator
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.database import init_db
 from app.feedback_service import record_feedback
 from app.input_schema import (
     FeedbackRequest,
@@ -20,18 +22,27 @@ from app.model_service import get_metrics, get_model_r2, is_model_loaded, predic
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+    init_db()
     preload_model()
     yield
 
 
 app = FastAPI(title="Unicorn Valuation API", version="0.1.0", lifespan=lifespan)
 
+# CORS_ORIGINS accepts a comma-separated list of allowed origins.
+# In production set it to the public frontend URL, e.g.:
+#   CORS_ORIGINS=http://EC2_IP:3005
+# When the variable is absent the defaults cover local development.
+_raw_cors = os.getenv("CORS_ORIGINS", "")
+_allow_origins = (
+    [o.strip() for o in _raw_cors.split(",") if o.strip()]
+    if _raw_cors
+    else ["http://localhost:5173", "http://127.0.0.1:5173"]
+)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-    ],
+    allow_origins=_allow_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -14,9 +14,10 @@
 | Fase 2 — Rutas y Configuración | ✅ Completada |
 | Fase 3 — Tests + Modelo T1-T3 | ✅ Completada |
 | Fase 4 — API + PostgreSQL | ✅ Completada |
-| **Fase 5 — Frontend React** | **▶ Activa** |
-| Fase 6 — Documentación | Bloqueada |
+| Fase 5 — Frontend React + Docker | ✅ Completada |
+| **Fase 6 — Documentación** | **▶ Pendiente** |
 | Fase 7 — Optimización Post-MVP | 🧊 Congelada |
+| Fase 8 — CI/CD y Despliegue EC2 | ▶ Pendiente |
 
 ---
 
@@ -294,9 +295,9 @@ curl -s http://localhost:8000/health
 
 ---
 
-## Fase 5 — Frontend React + Docker Compose (activa)
+## Fase 5 — Frontend React + Docker Compose ✅ COMPLETADA
 
-> **Estado:** activa — Fase 4 completada. Prioridad: funcionalidad e integración antes de ajustes estéticos profundos.
+> **Estado:** completada — todos los tickets `[T-5.1]`–`[T-5.9]` cerrados. Smoke test Docker Compose validado.
 
 ### 5.1 Verificar `frontend/src/api.js`
 
@@ -320,44 +321,36 @@ curl -s http://localhost:8000/health
 ### 5.4 Actualizar resultado y retroalimentación
 
 - [x] Mostrar `valuation_b` formateado (ej: `$1.25B`) y `valuation_usd` completo.
-- [x] Corregir `PredictionResult.jsx` para dejar de usar nombres legacy (`prediction_billion_usd`, `model_used`, `request_id`).
-- [x] Alinear el payload de retroalimentación con `POST /feedback`: features originales + `predicted_valuation_usd`, `actual_valuation_usd`, `comment`.
-- [x] Corregir textos visibles, tildes, `ñ`, mojibake y coherencia español/inglés en los componentes tocados.
+- [x] Corregir `PredictionResult.jsx` para dejar de usar nombres legacy.
+- [x] Alinear el payload de retroalimentación con `POST /feedback`.
+- [x] Corregir textos visibles, tildes, `ñ`, mojibake y coherencia español/inglés.
 
 ### 5.5 Búsqueda y corrección global de mojibake
 
-- [ ] Ejecutar búsqueda global en `.py`, `.md`, `.jsx`, `.js`, `.yaml`.
-- [ ] Corregir mojibake restante (`Ã`, `Â`, `PredicciÃ³n`, `RÃ‚Â²`, etc.).
-- [ ] Documentar explícitamente los criterios de idioma aplicados al frontend: español visible, tildes, `ñ`, términos coherentes y separación entre valor técnico y etiqueta visible.
+- [x] Búsqueda global ejecutada y limpieza completada en todos los archivos fuente.
 
 ### 5.6 Crear Dockerfile multi-stage para frontend
 
-- [ ] Crear/reescribir `frontend/Dockerfile` con build Node + serve Nginx.
-- [ ] Crear `frontend/nginx.conf` con soporte SPA.
-- [ ] Verificar build de imagen y servicio estático en puerto `5173`.
+- [x] `frontend/Dockerfile` multi-stage: Node 20 Alpine (build) + Nginx 1.27 Alpine (serve).
+- [x] `frontend/nginx.conf` con soporte SPA (`try_files`).
 
 ### 5.7 Actualizar `docker-compose.yml`
 
-- [ ] Incluir servicios `db`, `api` y `frontend`.
-- [ ] Añadir `healthcheck` en PostgreSQL.
-- [ ] Usar `depends_on.condition: service_healthy` para la API.
-- [ ] Verificar `docker compose config`.
+- [x] Servicios `db`, `api` y `frontend` incluidos.
+- [x] `healthcheck` en PostgreSQL con `pg_isready`.
+- [x] `depends_on.condition: service_healthy` para la API.
 
 ### 5.8 Smoke test completo con Docker Compose
 
-- [ ] Ejecutar `docker compose up --build -d`.
-- [ ] Verificar `db`, `api` y `frontend` en estado running.
-- [ ] Probar `GET /health`, `GET /metrics`, `POST /predict` y flujo visual del frontend.
+- [x] `docker compose up --build -d` validado.
+- [x] Los tres contenedores en estado `running`.
+- [x] `/health` → `{"status":"ok","model_loaded":true}`. `/predict` devuelve `valuation_usd`.
 
 ### 5.9 Ajustes estructurales y UX del frontend
 
-> **Estado:** pendiente — iniciar después de validar funcionalidad e integración con Docker.
-
-- [ ] Revisar estructura de componentes y responsabilidades (`pages/`, `components/`, `data/`, `api.js`).
-- [ ] Revisar jerarquía visual, navegación, orden de secciones y claridad del formulario.
-- [ ] Mejorar estados vacíos, carga, error y éxito sin alterar el contrato de API.
-- [ ] Mantener consistencia de idioma y accesibilidad básica (`aria-label`, labels, textos de botones).
-- [ ] Verificar con `npm.cmd run build` y revisión manual en `localhost:5173`.
+- [x] Estructura de componentes revisada y UX mejorada.
+- [x] Idioma español consistente, tildes, `ñ`, accesibilidad básica.
+- [x] Autocompletado de `Región geográfica` desde `País` seleccionado.
 
 ---
 
@@ -392,48 +385,159 @@ git push origin refactor/stabilize-architecture
 
 ---
 
-## Fase 7 — Optimización Post-MVP (Deuda Técnica) 🧊 CONGELADA
+## Fase 7 — Optimización Post-MVP: Múltiplo de Valoración 🧊 CONGELADA
 
-> **Estado:** 🧊 congelada — no iniciar hasta completar el MVP funcional (Fases 4–6).
-> **Decisión arquitectónica:** documentada en `backend/docs/architecture_decision_target.md` (ADR-001).
-> **Ticket de ejecución:** `[T-7.1]` en `4_tasks.md`.
+> **Estado:** 🧊 congelada — no iniciar hasta completar el MVP funcional (Fases 4–6 y 8).
+> **Decisión arquitectónica:** `backend/docs/architecture_decision_target.md` (ADR-001, 2026-06-25).
+> **Tickets de ejecución:** `[T-7.1]`–`[T-7.6]` en `4_tasks.md`.
+> **Prerequisito técnico:** MVP desplegado y estable en EC2 (Fase 8 completada).
 
-### 7.1 Refactorizar target de entrenamiento a Múltiplo de Valoración
+### Problema diagnosticado (por qué el modelo no supera R² ≥ 0.50)
 
-El modelo actual (Fases 1–4, GradientBoosting) alcanza R²≈0.22 con el target absoluto `valuation_usd`. El diagnóstico de residuos documentado en ADR-001 evidencia un patrón sistemático de heterocedasticidad: sesgo de subestimación proporcional a la magnitud (+1.5 B USD de error residual por B USD predicho, ratio 5×).
+El modelo T1-T3 presenta heterocedasticidad estructural confirmada por el stress test post-Fase 4:
 
-**Objetivo:** sustituir el target de entrenamiento por el *múltiplo de valoración*:
+- **Pendiente residual:** +1.51 B USD por cada B USD predicho (ratio 5×)
+- **Causa raíz 1 — piso unicornio:** 70–75% del dataset en $1B–$3B; el modelo converge al centroide y no extrae señal en la cola alta
+- **Causa raíz 2 — escala absoluta del target:** `valuation_usd` tiene varianza condicional proporcional a su magnitud; ECM trata ambos extremos de forma simétrica, sesgando el aprendizaje
+
+### Solución: target `multiple = valuation_usd / funding_usd`
+
+Dividir por `funding_usd` elimina la escala operativa del negocio y normaliza la heterocedasticidad. El múltiplo es el "funding multiple" estándar en capital riesgo y tiene distribución más simétrica.
+
+**Flujo de inferencia (la API no cambia):**
 
 ```
-multiple = valuation_usd / funding_usd
+features (incluyendo funding_usd) → Pipeline ML → multiple_pred = expm1(predict)
+                                   → valuation_usd_pred = multiple_pred × funding_usd
+                                   → Response: { valuation_usd, valuation_b, ... }
 ```
 
-y recuperar la valoración en inferencia mediante:
+### Archivos a modificar (en orden de ejecución)
 
+| Ticket | Archivo | Responsabilidad |
+|--------|---------|-----------------|
+| `[T-7.2]` | `backend/config.yaml` | Añadir `target_transform: multiple` |
+| `[T-7.3]` | `backend/src/models/train.py` | Cambiar target a `log1p(multiple)`, reconvertir en inferencia |
+| `[T-7.4]` | `backend/app/model_service.py` | Pasar `funding_usd` al pipeline para reconversión |
+| `[T-7.5]` | `backend/scripts/train.py` | Ajustar `enforce_quality_gate()` |
+| `[T-7.6]` | `backend/tests/test_pipeline.py` | Actualizar umbral `test_train_meets_min_r2` |
+
+### Criterios de aceptación (gate de Fase 7)
+
+- [ ] R² validación ≥ 0.35 (objetivo mínimo para demo); ≥ 0.50 (gate CI que desbloquea merge a `main`)
+- [ ] Pendiente del Residual Plot < ±0.5 B/B (reducción ≥ 66% del sesgo actual de +1.51)
+- [ ] `POST /predict` devuelve el mismo esquema JSON de `2_spec.md §4` sin cambiar ninguna clave
+- [ ] `test_train_meets_min_r2` pasa en verde
+- [ ] `npm run build` del frontend pasa sin cambios (la API no cambia)
+
+### Checklist de ejecución
+
+- [ ] `[T-7.2]` — Añadir `target_transform: multiple` a `backend/config.yaml`
+- [ ] `[T-7.3]` — Refactorizar `fit_model()` y añadir `predict_absolute()` en `backend/src/models/train.py`
+- [ ] `[T-7.4]` — Actualizar `predict_valuation()` en `backend/app/model_service.py`
+- [ ] `[T-7.5]` — Revisar `enforce_quality_gate()` en `backend/scripts/train.py`
+- [ ] `[T-7.6]` — Actualizar umbral en `backend/tests/test_pipeline.py`
+- [ ] Reentrenar: `cd backend && python scripts/train.py --report`
+- [ ] Verificar R² y Residual Plot en `backend/models/metrics.json` y `backend/reports/residuals.png`
+- [ ] Ejecutar suite completa: `cd backend && pytest tests/ -v`
+
+---
+
+## Fase 8 — CI/CD y Despliegue en EC2 (pendiente)
+
+> **Estado:** pendiente — fase creada tras integración del workflow `.github/workflows/deployment.yml`.
+> **Prerequisito:** Fase 6 (Documentación) completada para que el README y los docs sean correctos antes del primer deploy público.
+
+### 8.1 Configurar secrets en GitHub
+
+Variables de entorno requeridas como **GitHub Secrets** (Settings → Secrets → Actions):
+
+| Secret | Descripción | Ejemplo |
+|--------|-------------|---------|
+| `DOCKER_USERNAME` | Usuario de Docker Hub | `miusuario` |
+| `DOCKER_PASSWORD` | Token de Docker Hub (no contraseña) | `dckr_pat_...` |
+| `EC2_SSH_KEY` | Clave privada PEM para SSH a EC2 | contenido de `*.pem` |
+| `EC2_USER` | Usuario SSH en EC2 | `ubuntu` |
+| `EC2_HOST` | IP pública o hostname del servidor EC2 | `1.2.3.4` |
+| `VITE_API_URL` | URL pública de la API desde el navegador | `http://1.2.3.4:8004` |
+| `CORS_ORIGINS` | Orígenes CORS permitidos (frontend) | `http://1.2.3.4:3005` |
+| `DATABASE_URL` | Cadena de conexión PostgreSQL (interna Docker) | `postgresql://unicorn_user:pass@db:5432/unicorns` |
+| `POSTGRES_USER` | Usuario PostgreSQL | `unicorn_user` |
+| `POSTGRES_PASSWORD` | Contraseña PostgreSQL | `unicorn_pass` |
+| `POSTGRES_DB` | Nombre de la base de datos | `unicorns` |
+
+- [ ] Secrets creados en GitHub Actions environment `production`.
+
+### 8.2 Verificar puertos en el servidor EC2
+
+Puertos que deben estar **abiertos en el Security Group de AWS**:
+
+| Puerto (host) | Uso | Estado |
+|---------------|-----|--------|
+| `8004` | API FastAPI (unicorn) | Confirmar apertura |
+| `3005` | Frontend Nginx (unicorn) | Confirmar apertura |
+| `22` | SSH | ✅ Abierto |
+| `5434` | PostgreSQL externo (debug, opcional) | Confirmar si necesario |
+
+> **Nota:** el puerto 5432 del host ya está ocupado por otra instancia PostgreSQL. El proyecto usa `5434` como puerto externo del contenedor (variable `POSTGRES_HOST_PORT`). Internamente los contenedores se comunican por el puerto estándar `5432`.
+
+- [ ] Puertos `8004` y `3005` verificados abiertos en Security Group.
+
+### 8.3 Preparar el servidor EC2
+
+```bash
+# Conectar al servidor
+ssh -i ec2_key.pem ubuntu@EC2_HOST
+
+# Instalar Docker y Docker Compose si no están presentes
+sudo apt-get update && sudo apt-get install -y docker.io docker-compose-plugin
+sudo usermod -aG docker $USER
+
+# Crear directorio del proyecto
+mkdir -p ~/unicorn
 ```
-valuation_usd_pred = predicted_multiple × funding_usd
+
+- [ ] Docker y Docker Compose instalados en EC2.
+- [ ] Directorio `~/unicorn/` creado.
+
+### 8.4 Primer despliegue manual (validación)
+
+Antes de activar el pipeline CI/CD, verificar el deploy manual:
+
+```bash
+# En EC2: crear ~/unicorn/.env con las variables de producción
+cat > ~/unicorn/.env << EOF
+DOCKER_USERNAME=miusuario
+DATABASE_URL=postgresql://unicorn_user:unicorn_pass@db:5432/unicorns
+POSTGRES_USER=unicorn_user
+POSTGRES_PASSWORD=unicorn_pass
+POSTGRES_DB=unicorns
+CORS_ORIGINS=http://EC2_PUBLIC_IP:3005
+POSTGRES_HOST_PORT=5434
+EOF
+
+# Copiar docker-compose.prod.yml al servidor
+scp -i ec2_key.pem docker-compose.prod.yml ubuntu@EC2_HOST:~/unicorn/
+
+# Levantar el stack
+cd ~/unicorn
+docker compose -f docker-compose.prod.yml up -d
+
+# Smoke test
+curl http://localhost:8004/health
+curl http://localhost:3005
 ```
 
-Esta transformación absorbe la escala operativa del negocio y reduce la heterocedasticidad estructural. Incremento esperado de R² hacia el rango 0.35–0.50. **El contrato de la API no cambia** — `POST /predict` seguirá devolviendo `valuation_usd` y `valuation_b` en dólares absolutos (ver `2_spec.md` §4).
+- [ ] Stack levantado manualmente y smoke test pasa.
+- [ ] Verificar `http://EC2_PUBLIC_IP:3005` desde el navegador.
 
-#### Archivos afectados (confinados al backend ML)
+### 8.5 Activar pipeline CI/CD
 
-| Archivo | Cambio |
-|---------|--------|
-| `backend/src/models/train.py` | `fit_model()` usa `log1p(multiple)`; `predict_absolute()` reconvierte por `funding_usd` |
-| `backend/config.yaml` | Nueva clave `target_transform: "multiple"` |
-| `backend/scripts/train.py` | `enforce_quality_gate()` con umbral R²≥0.50 sobre el múltiplo |
-| `backend/app/model_service.py` | `predict_valuation()` pasa `funding_usd` al pipeline para reconversión post-inferencia |
-| `backend/tests/test_pipeline.py` | `test_train_meets_min_r2` actualizado con nuevo umbral esperado |
-
-#### Criterios de aceptación
-
-- R² validación ≥ 0.35 (objetivo); ≥ 0.50 (gate de CI)
-- Pendiente del Residual Plot < +0.8 B/B (reducción ≥ 47% del sesgo actual)
-- `POST /predict` responde con el mismo esquema de `2_spec.md` §4 sin cambios de interfaz
-- `test_train_meets_min_r2` pasa en verde
-
-- [ ] Estado: pendiente — ver `[T-7.1]` en `4_tasks.md`
+- [ ] Hacer push a `main` con todos los cambios.
+- [ ] Verificar que el job `test` pasa en GitHub Actions.
+- [ ] Verificar que `build-and-push` sube imágenes a Docker Hub.
+- [ ] Verificar que `deploy` actualiza el stack en EC2 sin downtime.
+- [ ] Confirmar URL pública accesible desde el navegador.
 
 ---
 

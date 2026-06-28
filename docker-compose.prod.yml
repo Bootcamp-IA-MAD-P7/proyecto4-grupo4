@@ -1,0 +1,62 @@
+# Production Docker Compose — uses pre-built images from Docker Hub.
+# Do NOT use this file for local development (use docker-compose.yml instead).
+#
+# Required environment variables (set via GitHub Actions secrets or .env):
+#   DOCKER_USERNAME       Docker Hub account that owns the images
+#   DATABASE_URL          postgresql://user:pass@db:5432/dbname
+#   POSTGRES_USER         DB superuser (must match DATABASE_URL)
+#   POSTGRES_PASSWORD     DB password  (must match DATABASE_URL)
+#   POSTGRES_DB           DB name      (must match DATABASE_URL)
+#   CORS_ORIGINS          Comma-separated allowed origins, e.g. http://EC2_IP:3005
+#   POSTGRES_HOST_PORT    External host port for PostgreSQL (default: 5434)
+#                         Port 5432 on this server is occupied by another service.
+#
+# EC2 port mapping (must be open in the AWS security group):
+#   API      → host 8004  → container 8000
+#   Frontend → host 3005  → container 80
+#   DB       → host 5434  → container 5432  (debugging only; not needed by app)
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: unicorn_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-unicorn_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-unicorn_pass}
+      POSTGRES_DB: ${POSTGRES_DB:-unicorns}
+    ports:
+      - "${POSTGRES_HOST_PORT:-5434}:5432"
+    volumes:
+      - unicorn_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-unicorn_user} -d ${POSTGRES_DB:-unicorns}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  api:
+    image: ${DOCKER_USERNAME}/unicorn-api:latest
+    container_name: unicorn_api
+    restart: unless-stopped
+    ports:
+      - "8004:8000"
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql://unicorn_user:unicorn_pass@db:5432/unicorns}
+      CORS_ORIGINS: ${CORS_ORIGINS:-}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    image: ${DOCKER_USERNAME}/unicorn-frontend:latest
+    container_name: unicorn_frontend
+    restart: unless-stopped
+    ports:
+      - "3005:80"
+    depends_on:
+      - api
+
+volumes:
+  unicorn_postgres_data:

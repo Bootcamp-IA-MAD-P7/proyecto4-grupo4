@@ -1,167 +1,165 @@
-# Proyecto 4 - Grupo 4: Unicorn Startups
+# Backend — Unicorn Valuation API
 
-Predicción de la valuación de startups unicornio utilizando datos de Kaggle.
+API FastAPI que predice la valoracion de startups unicornio a partir de sus caracteristicas fundacionales.
 
-## Estructura del Proyecto
+## Estructura del Monorepo
 
 ```
 proyecto4-grupo4/
+├── backend/                         # API FastAPI, pipeline ML, tests, datos
+├── frontend/                        # SPA React (Vite)
+├── .specify/                        # Contrato, plan y tasks SDD
+├── .github/                         # Workflows CI/CD
+├── docker-compose.yml               # Stack de desarrollo local
+├── docker-compose.prod.yml          # Stack de produccion EC2
+└── .gitignore
+```
+
+## Estructura del Backend
+
+```
+backend/
+├── app/                             # FastAPI application
+│   ├── main.py                      # Entrypoint, rutas, CORS
+│   ├── database.py                  # Inicializacion PostgreSQL
+│   ├── input_schema.py              # Pydantic schemas (request/response)
+│   ├── model_service.py             # Carga y ejecucion del modelo
+│   └── feedback_service.py          # Registro de feedback en BD
+├── src/                             # Pipeline ML
+│   ├── data/
+│   │   ├── load_data.py
+│   │   └── data_validation.py
+│   ├── preprocessing/
+│   │   └── preprocessing_pipeline.py
+│   └── models/
+│       ├── train.py
+│       └── evaluate.py
+├── scripts/
+│   ├── train.py                     # Entrenamiento con quality gate (R2>=0.50)
+│   └── run_eda.py
+├── tests/                           # Suite pytest
+├── models/
+│   ├── best_model.joblib            # (generado por scripts/train.py, no versionado)
+│   └── metrics.json                 # (generado por scripts/train.py, no versionado)
 ├── data/
 │   ├── raw/
-│   │   └── dataset_raw.csv            # Dataset crudo descargado de Kaggle
-│   └── dataset.parquet                # Dataset procesado (parquet, esquema definitivo)
-├── models/
-│   └── best_model.joblib              # Modelo pipeline guardado
-├── notebooks/
-│   ├── 01_eda.ipynb                   # Análisis exploratorio y calidad de datos
-│   └── 02_preprocessing_baseline.ipynb # Pipeline de preprocesamiento y baselines
-├── src/
-│   ├── data/
-│   │   ├── load_data.py               # Descarga y carga del dataset
-│   │   └── data_validation.py         # Checks reutilizables de calidad
-│   ├── preprocessing/
-│   │   └── preprocessing_pipeline.py  # Feature engineering + ColumnTransformer
-│   └── models/
-│       ├── train.py                   # Entrenamiento de modelos baseline
-│       └── evaluate.py                # Métricas y detección de overfitting
-├── tests/
-│   └── test_preprocessing.py          # Tests unitarios del pipeline
+│   │   └── unicorn_companies.csv    # Dataset crudo de Kaggle
+│   └── processed/
+│       └── dataset.parquet          # Dataset procesado
 ├── docs/
-│   └── data_notes.md                  # Documentación del dataset
+│   ├── app_usage.md
+│   ├── data_notes.md
+│   └── experiment_log.md
+├── reports/                         # Graficas EDA (no versionadas)
+├── storage/                         # .gitkeep — sin SQLite
+├── config.yaml                      # Rutas y umbrales canonicos
 ├── requirements.txt
-└── README.md
+└── Dockerfile
 ```
 
-## Integrantes y Responsabilidades
+> La persistencia de feedback usa **PostgreSQL** via `DATABASE_URL`. No existe ningun archivo SQLite local.
+> El modelo `best_model.joblib` se genera en tiempo de build del Dockerfile y no se versiona en Git.
 
-### Integrante 1 - Dataset, Calidad y EDA
-- Carga y validación del dataset crudo
-- Limpieza de columnas (nombres, encoding)
-- Detección de nulos, duplicados, outliers
-- Feature engineering básico (fechas, inversores)
-- Visualizaciones: distribución del target, países, industrias, años
-- Validaciones reutilizables en `src/data/data_validation.py`
-- Documentación en `docs/data_notes.md`
+---
 
-### Integrante 2 - Preprocesamiento y Baseline
-- Pipeline de preprocesamiento con `Pipeline` y `ColumnTransformer`
-- Imputación, escalado (numéricas) y OneHotEncoder (categóricas)
-- Entrenamiento de DummyRegressor, LinearRegression y Ridge
-- Cálculo de métricas: MAE, MSE, RMSE, R2
-- Control de overfitting (comparación train/test)
-- Guardado del modelo con `joblib`
+## Instalacion y Ejecucion
 
-## Flujo de Trabajo
+### Opcion A — Stack completo con Docker (recomendado)
 
-### 1. Instalación
+Desde la raiz del repositorio:
 
 ```bash
-# Crear entorno virtual
-python -m venv venvp4g4
-venvp4g4\Scripts\activate        # Windows
-# source venvp4g4/bin/activate   # Linux/Mac
+# Desarrollo local (levanta db, api y frontend)
+docker compose up --build
 
-# Instalar dependencias
+# Solo el backend y la BD
+docker compose up --build db api
+```
+
+El API queda disponible en `http://localhost:8000`.
+
+### Opcion B — Desarrollo local sin Docker
+
+Requiere PostgreSQL local o contenedor DB activo.
+
+```bash
+cd backend
+
+# Crear entorno virtual e instalar dependencias
+python -m venv .venv
+source .venv/bin/activate          # Linux/Mac
+# .venv\Scripts\activate           # Windows
+
 pip install -r requirements.txt
+
+# Entrenar el modelo (genera models/best_model.joblib y models/metrics.json)
+python scripts/train.py --report --allow-low-r2-artifact
+
+# Iniciar la API (requiere DATABASE_URL en el entorno)
+export DATABASE_URL=postgresql://unicorn_user:unicorn_pass@localhost:5432/unicorns
+uvicorn app.main:app --reload
 ```
 
-### 2. Ejecución del EDA (Integrante 1)
+### Frontend
 
 ```bash
-# Abrir Jupyter desde la raíz del proyecto
-jupyter notebook notebooks/01_eda.ipynb
+cd frontend
+npm install
+npm run dev
 ```
 
-Este notebook:
-- Descarga el dataset de Kaggle automáticamente
-- Guarda el crudo en `data/raw/dataset_raw.csv`
-- Ejecuta validaciones de calidad
-- Genera visualizaciones inline (6 figuras)
-- Guarda el procesado en `data/processed/dataset.parquet`
+El frontend conecta al backend segun `VITE_API_URL` (por defecto `http://localhost:8000`).
+Copiar `frontend/.env.example` a `frontend/.env` para personalizar.
 
-### 3. Ejecución del Pipeline y Entrenamiento (Integrante 2)
+---
+
+## Endpoints
+
+| Metodo | Ruta       | Descripcion                                |
+|--------|------------|--------------------------------------------|
+| GET    | `/health`  | Estado del servicio y modelo               |
+| GET    | `/metrics` | Metricas del modelo entrenado              |
+| POST   | `/predict` | Prediccion de valoracion unicornio         |
+| POST   | `/feedback`| Registro de feedback sobre una prediccion  |
+
+Ejemplo de prediccion:
 
 ```bash
-# Ejecutar el notebook
-jupyter notebook notebooks/02_preprocessing_baseline.ipynb
-
-# O ejecutar desde línea de comandos
-python -m src.models.train
+curl -s -X POST http://localhost:8000/predict \
+  -H "Content-Type: application/json" \
+  -d '{
+    "year_founded": 2015,
+    "funding_usd": 50000000,
+    "company_age": 9,
+    "industry": "fintech",
+    "country": "United States",
+    "continent": "North America"
+  }' | python -m json.tool
 ```
 
-Este flujo:
-- Descarga el dataset de Kaggle
-- Aplica FeatureEngineering (fechas, inversores, limpieza)
-- Guarda `data/processed/dataset.parquet`
-- Entrena 3 modelos baseline
-- Guarda el mejor en `models/best_model.joblib`
+---
 
-### 4. Ejecución de Tests
+## Tests
 
 ```bash
-python -m pytest tests/ -v
+cd backend
+pytest tests/ -v
 ```
 
-## Pipeline de Preprocesamiento
+> El test `test_train_meets_min_r2` falla actualmente porque R²~0.22 < 0.50. Esto es deuda tecnica documentada (ADR-001, `docs/architecture_decision_target.md`) y se resolvera en Fase 7. El resto de tests deben pasar en verde.
 
-El pipeline completo (`preprocessing_pipeline.py`) consta de:
+---
 
-**FeatureEngineer** (custom transformer):
-1. Limpieza de nombres de columnas (elimina `\xa0`)
-2. Extracción de features desde `Date Joined`: `join_year`, `join_month`, `years_since_joined`
-3. Conteo de inversores: `investor_count`
-4. Limpieza de `Valuation ($B)`: elimina `$` y `,`, convierte a float -> `valuation_b`
-5. Elimina columnas originales (`Company`, `Date Joined`, `Investors`, `Valuation ($B)`)
+## Despliegue en Produccion (EC2)
 
-**Preprocessor** (ColumnTransformer):
-- Numéricas (`join_year`, `join_month`, `years_since_joined`, `investor_count`): `SimpleImputer(median)` + `StandardScaler`
-- Categóricas (`Country`, `Industry`): `SimpleImputer(most_frequent)` + `OneHotEncoder`
+Los puertos definitivos asignados en el Security Group de AWS:
 
-## Modelos Entrenados
+| Servicio         | Puerto Host | Puerto Contenedor |
+|------------------|-------------|-------------------|
+| API FastAPI       | **8004**    | 8000              |
+| Frontend Nginx    | **3005**    | 80                |
+| PostgreSQL (debug)| 5434        | 5432              |
 
-| Modelo | Descripción |
-|--------|-------------|
-| DummyRegressor | Baseline mínimo (predice la media) |
-| LinearRegression | Regresión lineal simple |
-| Ridge | Regresión lineal con regularización L2 |
+El pipeline CI/CD en `.github/workflows/deployment.yml` construye las imagenes, las sube a Docker Hub y las despliega en EC2 automaticamente en cada push a `main`.
 
-## Métricas
-
-- **MAE** - Error absoluto promedio
-- **MSE** - Error cuadrático medio
-- **RMSE** - Raíz del error cuadrático medio
-- **R2** - Coeficiente de determinación
-
-## Uso del Modelo Guardado
-
-```python
-import joblib
-import pandas as pd
-
-# Cargar el pipeline completo
-pipe = joblib.load('models/best_model.joblib')
-
-# Predecir con datos crudos (el pipeline hace todo el preprocesamiento)
-nuevos_datos = pd.DataFrame({
-    'Company': ['MiStartup'],
-    'Valuation ($B)': ['$5'],
-    'Date Joined': ['1/1/2020'],
-    'Country': ['United States'],
-    'City ': ['San Francisco'],
-    'Industry': ['Fintech'],
-    'Investors': ['VC1, VC2, VC3'],
-})
-
-prediccion = pipe.predict(nuevos_datos)
-print('Valuación estimada: ${:.2f}B'.format(prediccion[0]))
-```
-
-## Dataset
-
-- **Fuente:** [Kaggle - Unicorn Startups](https://www.kaggle.com/datasets/ramjasmaurya/unicorn-startups)
-- **Registros:** 1186 startups unicornio
-- **Periodo:** Hasta septiembre 2022
-- **Target:** `valuation_b` (valuación en miles de millones USD)
-- **Features:** país, ciudad, industria, año/mes de inclusión, cantidad de inversores
-
-Más detalles en `docs/data_notes.md`.
+Ver `docker-compose.prod.yml` para la configuracion completa de produccion.

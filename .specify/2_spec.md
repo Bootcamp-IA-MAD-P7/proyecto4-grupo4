@@ -113,11 +113,83 @@ training:
 - El test `backend/tests/test_pipeline.py` afirma `r2 >= 0.50` (no `>= 0.15`).
 - Ningún PR a `main` puede fusionarse si CI falla por este motivo.
 
-> **Estado actual del modelo (post Fase 4):** El modelo GradientBoosting con schema definitivo (5 features numéricas + categoriales `industry`, `country`, `continent`) alcanza R²=0.22 en validación. El umbral de 0.50 no se ha alcanzado; `test_train_meets_min_r2` falla en CI de forma esperada y documentada.
+> **Estado actual del modelo (post Fase 4):** El modelo GradientBoosting con schema definitivo alcanza R²≈0.18–0.22 en validación. El umbral de 0.50 no se ha alcanzado; `test_train_meets_min_r2` falla en CI de forma esperada y documentada.
 >
-> **Deuda técnica diferida a Fase 7:** La optimización del R² y la corrección del sesgo sistemático de heterocedasticidad (+1.5 B/B de residuo, ratio 5×) se han diferido a **Fase 7 (Post-MVP)** mediante la estrategia de *target múltiplo de valoración* (`multiple = valuation_usd / funding_usd`). Decisión completa en `backend/docs/architecture_decision_target.md` (ADR-001). El MVP se entrega con el modelo estable T1-T3 (R²≈0.22), suficiente para demostrar el flujo extremo a extremo. El umbral de CI (0.50) **no se baja**; permanece como gate bloqueante hasta que `[T-7.1]` se implemente.
+> **Deuda técnica diferida a Fase 7:** La optimización del R² se resuelve en Fase 7 con el múltiplo de valoración (ver sección 3.1). El umbral de CI (0.50) **no se baja**; permanece como gate bloqueante hasta que `[T-7.1]`–`[T-7.5]` se implementen.
 >
-> **Runtime Docker MVP:** para que el contenedor de la API pueda arrancar y servir el flujo extremo a extremo mientras `[T-7.1]` permanece pendiente, `backend/Dockerfile` genera el artefacto con `python scripts/train.py --report --allow-low-r2-artifact`. Esta bandera solo permite guardar el modelo T1-T3 actual dentro de la imagen Docker; el comportamiento por defecto de `scripts/train.py` mantiene el gate bloqueante de `min_r2: 0.50`.
+> **Runtime Docker MVP:** `backend/Dockerfile` genera el artefacto con `python scripts/train.py --report --allow-low-r2-artifact`. Esta bandera solo permite guardar el modelo T1-T3 dentro de la imagen Docker; el comportamiento por defecto de `scripts/train.py` mantiene el gate bloqueante.
+
+---
+
+### 3.1 Fase 7 — Estrategia del Múltiplo de Valoración (ADR-001)
+
+> **Referencia completa:** `backend/docs/architecture_decision_target.md` (ADR-001, 2026-06-25)
+
+#### Diagnóstico del modelo actual (bloqueante del R² ≥ 0.50)
+
+El modelo T1-T3 presenta un **patrón sistemático de heterocedasticidad** diagnosticado en el stress test post-Fase 4:
+
+| Métrica diagnóstica | Valor |
+|---|---|
+| R² validación | 0.18–0.22 |
+| R² cross-validation 5-fold | 0.24 ± 0.10 |
+| Pendiente del Residual Plot | **+1.51 B USD / B USD predicho** |
+| Ratio de heterocedasticidad | **5.05×** |
+
+El residuo medio no es cero condicional a la predicción — viola el supuesto de insesgadez del estimador. La causa estructural es doble:
+
+1. **Piso unicornio:** el 70–75% del dataset se concentra en $1B–$3B. El modelo aprende a predecir el centroide y generaliza mal fuera de esa banda.
+2. **Heterocedasticidad escalar:** la varianza del error crece proporcionalmente a la magnitud de la valoración. La función de pérdida ECM trata ambos extremos de forma simétrica, sesga el aprendizaje hacia la cola baja.
+
+#### Solución: target múltiplo de valoración
+
+En lugar de predecir `valuation_usd` (absoluto), el modelo predecirá el **múltiplo de valoración sobre el funding**:
+
+```
+multiple = valuation_usd / funding_usd
+```
+
+Este ratio es la métrica estándar de "funding multiple" en capital riesgo. Al dividir por `funding_usd` se elimina la mayor fuente de varianza condicional (la escala del negocio), normalizando la heterocedasticidad estructural.
+
+**Propiedades esperadas del nuevo target (`log1p(multiple)`):**
+
+| Propiedad | `log1p(valuation_usd)` actual | `log1p(multiple)` objetivo |
+|---|---|---|
+| Distribución | Sesgada derecha, pico en $1B | Más simétrica, normalizable |
+| Correlación con features | Moderada (R²≈0.22) | Superior (esperado 0.35–0.50) |
+| Heterocedasticidad | Alta (5×) | Reducida (funding absorbe escala) |
+| Penaliza escala absol. | Sí (sesgante) | No (el ratio es adimensional) |
+
+**Criterios de aceptación de Fase 7:**
+- R² validación ≥ 0.35 (objetivo) / ≥ 0.50 (gate CI)
+- Pendiente del Residual Plot < ±0.5 B/B (reducción ≥ 66% del sesgo actual de +1.51)
+- Eliminación del sesgo de compresión en el piso $1B–$3B
+
+#### Flujo de inferencia con el nuevo target (API transparente)
+
+El cambio es **completamente interno** al pipeline de ML. El contrato de `POST /predict` no cambia:
+
+```
+Input:  { funding_usd: 50_000_000, ... }
+           ↓
+        Pipeline ML predice: multiple_pred = expm1(model.predict(features))
+           ↓
+        Conversión interna: valuation_usd_pred = multiple_pred × funding_usd
+           ↓
+Output: { valuation_usd: 1_250_000_000.0, valuation_b: 1.25, ... }
+```
+
+El frontend, los tests de contrato y cualquier integración externa **no requieren ningún cambio** al implementar `[T-7.1]`–`[T-7.5]`.
+
+#### Archivos modificados en Fase 7 (confinados al backend ML)
+
+| Ticket | Archivo | Cambio |
+|---|---|---|
+| `[T-7.2]` | `backend/config.yaml` | Nueva clave `target_transform: multiple` |
+| `[T-7.3]` | `backend/src/models/train.py` | `fit_model()` usa `log1p(multiple)`; `predict_absolute()` reconvierte por `funding_usd` |
+| `[T-7.4]` | `backend/app/model_service.py` | `predict_valuation()` pasa `funding_usd` para reconversión post-inferencia |
+| `[T-7.5]` | `backend/scripts/train.py` | `enforce_quality_gate()` ajustado al umbral R² del múltiplo |
+| `[T-7.6]` | `backend/tests/test_pipeline.py` | `test_train_meets_min_r2` actualizado al baseline del múltiplo |
 
 ---
 

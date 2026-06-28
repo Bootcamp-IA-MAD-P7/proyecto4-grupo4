@@ -22,7 +22,6 @@ from src.data.load import build_and_save_processed_dataset, load_processed_datas
 from src.models.evaluate import generate_report_assets
 from src.models.train import predict_absolute, train_and_evaluate
 from src.mlops.tuning import optimize_hyperparameters
-from src.storage.db import save_metric_snapshot
 from sklearn.metrics import r2_score
 from sklearn.model_selection import train_test_split
 
@@ -285,12 +284,6 @@ def main() -> None:
             save_artifacts(best_pipeline, best_report)
 
             report = best_report
-
-    save_metric_snapshot(
-        model_version=report["model_type"],
-        metrics=report["validation"],
-        is_champion=report["overfitting"]["within_limit"],
-    )
 
     if not report["overfitting"]["within_limit"]:
         print(
