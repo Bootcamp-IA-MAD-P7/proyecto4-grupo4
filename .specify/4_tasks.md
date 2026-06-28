@@ -1538,7 +1538,7 @@ Antes de comenzar cualquier tarea:
   cd frontend && npm run build
   # Manual: /mlops → click retrain → modal visible → Cancelar no llama API → Confirmar lanza retrain
   ```
-- [ ] Estado: pendiente
+- [x] Estado: completado — modal de confirmación con Escape, backdrop click y botones Cancelar/Confirmar antes de `POST /retrain`.
 
 ---
 

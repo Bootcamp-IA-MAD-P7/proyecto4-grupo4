@@ -625,18 +625,18 @@ curl -s -X POST http://localhost:8000/retrain | python -c "import sys,json; d=js
 
 ---
 
-### 7.12 Modal de confirmación antes de reentrenar ⏸ PENDIENTE
+### 7.12 Modal de confirmación antes de reentrenar ✅ COMPLETADO
 
 > **Prerequisito:** `[T-7.9]` completado (Panel MLOps operativo).
 > **Motivación:** Un retrain puede alterar el modelo en producción; el usuario debe confirmar explícitamente.
 
-- [ ] En `MLOpsPanel.jsx`, interceptar el click del botón "Reentrenar Modelo" **antes** de llamar `POST /retrain`.
-- [ ] Mostrar modal (overlay) con:
+- [x] En `MLOpsPanel.jsx`, interceptar el click del botón "Reentrenar Modelo" **antes** de llamar `POST /retrain`.
+- [x] Mostrar modal (overlay) con:
   - Título: "¿Iniciar reentrenamiento?"
   - Texto explicativo: proceso en background (2–5 min), puede generar candidato A/B o promover a producción según quality gate, el modelo actual no se borra de inmediato.
   - Botones: "Cancelar" (cierra modal) y "Confirmar reentrenamiento" (lanza `POST /retrain`).
-- [ ] Tras confirmar, mantener el toast de éxito/error existente.
-- [ ] Verificar: `npm run build` sin errores; revisión manual en `/mlops`.
+- [x] Tras confirmar, mantener el toast de éxito/error existente.
+- [x] Verificar: `npm run build` sin errores; revisión manual en `/mlops`.
 
 ---
 

@@ -16,7 +16,7 @@ function MLOpsDashboard() {
 
       <MLOpsPanel />
 
-      <div style={{ marginTop: "2rem" }}>
+      <div className="mlops-page-spacer">
         <PredictionsTable />
       </div>
     </section>
