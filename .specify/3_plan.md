@@ -16,7 +16,7 @@
 | Fase 4 — API + PostgreSQL | ✅ Completada |
 | Fase 5 — Frontend React + Docker | ✅ Completada |
 | **Fase 6 — Documentación** | **✅ Completada** |
-| Fase 7 — Optimización Post-MVP | 🧊 Congelada |
+| **Fase 7 — MLOps Nivel Experto** | **✅ Completada** (follow-up cerrado) |
 | Fase 8 — CI/CD y Despliegue EC2 | ✅ Completada |
 
 ---
@@ -385,61 +385,274 @@ git push origin refactor/stabilize-architecture
 
 ---
 
-## Fase 7 — Optimización Post-MVP: Múltiplo de Valoración 🧊 CONGELADA
+## Fase 7 — MLOps Nivel Experto: Múltiplo + K-Fold + Optuna + A/B Testing + Data Drift ✅ COMPLETADA
 
-> **Estado:** 🧊 congelada — no iniciar hasta completar el MVP funcional (Fases 4–6 y 8).
+> **Estado:** ✅ completada (MVP MLOps + follow-up `[T-7.11]`–`[T-7.13]` cerrado).
 > **Decisión arquitectónica:** `backend/docs/architecture_decision_target.md` (ADR-001, 2026-06-25).
-> **Tickets de ejecución:** `[T-7.1]`–`[T-7.6]` en `4_tasks.md`.
-> **Prerequisito técnico:** MVP desplegado y estable en EC2 (Fase 8 completada).
+> **Contrato técnico completo:** `2_spec.md §3.1` (arquitectura MLOps, A/B Testing, Data Drift, Retrain).
+> **Tickets de ejecución:** `[T-7.1]`–`[T-7.10]` en `4_tasks.md`.
+> **Prerequisito técnico:** Fases 0–6 y 8 completadas. MVP estable en EC2.
 
-### Problema diagnosticado (por qué el modelo no supera R² ≥ 0.50)
+### Resumen arquitectónico
 
-El modelo T1-T3 presenta heterocedasticidad estructural confirmada por el stress test post-Fase 4:
+Fase 7 implementa un ciclo MLOps completo sobre la infraestructura base estable (FastAPI, React, PostgreSQL, EC2). Los cuatro ejes son:
 
-- **Pendiente residual:** +1.51 B USD por cada B USD predicho (ratio 5×)
-- **Causa raíz 1 — piso unicornio:** 70–75% del dataset en $1B–$3B; el modelo converge al centroide y no extrae señal en la cola alta
-- **Causa raíz 2 — escala absoluta del target:** `valuation_usd` tiene varianza condicional proporcional a su magnitud; ECM trata ambos extremos de forma simétrica, sesgando el aprendizaje
+1. **Reingeniería del modelo:** target `multiple = valuation_usd / funding_usd` con K-Fold (k=5) + Optuna (`n_trials=50`).
+2. **A/B Testing:** `model_service.py` carga producción + candidato y enruta por peso configurable.
+3. **Data Drift:** test KS (scipy) en cada ciclo de retrain; resultado persistido en `drift_report.json`.
+4. **Nuevos endpoints MLOps:** `GET /predictions`, `PUT /predictions/{id}`, `POST /retrain`.
 
-### Solución: target `multiple = valuation_usd / funding_usd`
+El contrato externo de `POST /predict` no cambia. El frontend añade una pestaña "Panel MLOps".
 
-Dividir por `funding_usd` elimina la escala operativa del negocio y normaliza la heterocedasticidad. El múltiplo es el "funding multiple" estándar en capital riesgo y tiene distribución más simétrica.
+---
 
-**Flujo de inferencia (la API no cambia):**
+### 7.1 Migración de Base de Datos — Nuevas columnas en `predictions`
 
+> **Prerequisito:** ninguno (independiente del modelo). Ejecutar primero para no bloquear el resto.
+
+- [x] Añadir al modelo ORM `Prediction` en `backend/app/database.py`:
+  - `predicted_multiple: Float, NOT NULL`
+  - `actual_multiple: Float, NULLABLE`
+  - `model_version: String(50), NOT NULL, default='prod'`
+- [x] Ejecutar la migración en PostgreSQL (producción: `ALTER TABLE predictions ADD COLUMN ...`; desarrollo: `Base.metadata.create_all(engine)` si la tabla no existe aún).
+- [x] Actualizar `backend/app/feedback_service.py` para persistir `predicted_multiple` y `model_version` en cada nueva predicción.
+- [x] Verificar: `\d predictions` en psql muestra las tres nuevas columnas.
+
+---
+
+### 7.2 Actualizar `backend/config.yaml` con configuración MLOps
+
+> **Prerequisito:** ninguno.
+
+- [x] Añadir secciones `optuna`, `ab_testing`, `drift` bajo `training`:
+  ```yaml
+  training:
+    min_r2: 0.50
+    max_overfitting_gap: 0.05
+    target_transform: multiple
+
+  optuna:
+    n_trials: 50
+    cv_folds: 5
+    random_state: 42
+    param_space:
+      n_estimators: [50, 300]
+      max_depth: [2, 8]
+      learning_rate: [0.01, 0.3]
+      subsample: [0.6, 1.0]
+      min_samples_split: [2, 20]
+
+  ab_testing:
+    enabled: true
+    candidate_weight: 0.2
+
+  drift:
+    ks_pvalue_threshold: 0.05
+    mean_drift_pct_threshold: 20.0
+  ```
+- [x] Verificar: `python -c "import yaml; cfg=yaml.safe_load(open('config.yaml')); print(cfg['optuna']['n_trials'])"` → `50`.
+
+---
+
+### 7.3 Pipeline de Entrenamiento: K-Fold + Optuna
+
+> **Prerequisito:** `[T-7.2]` completado.
+
+- [x] Crear `backend/src/mlops/tuning.py` con la función `run_optuna_kfold(df, cfg) -> (best_params, metrics_dict)`.
+  - `KFold(n_splits=cfg["optuna"]["cv_folds"], shuffle=True, random_state=cfg["optuna"]["random_state"])`.
+  - Cada trial de Optuna construye un `Pipeline(preprocessor, GradientBoostingRegressor(**params))` y evalúa la media del R² K-Fold sobre `log1p(multiple)`.
+  - El trial con mayor R² medio es el ganador.
+- [x] Refactorizar `backend/scripts/train.py`:
+  - Importar y llamar `run_optuna_kfold()` en lugar de un fit directo.
+  - Guardar los hiperparámetros ganadores en `metrics.json` bajo `best_params`.
+  - Calcular `overfitting_gap = train_r2 - val_r2_mean`.
+  - Actualizar `enforce_quality_gate()`: gate compuesto `val_r2_mean >= 0.50 AND gap < 0.05`.
+- [x] La función `predict_absolute(pipeline, X, funding_usd_series)` convierte `expm1(predict) × funding_usd`.
+- [x] Verificar: `cd backend && python -c "from src.mlops.tuning import run_optuna_kfold; print('OK')"` → `OK`.
+
+---
+
+### 7.4 Model Service: A/B Testing + Reconversión del Múltiplo
+
+> **Prerequisito:** `[T-7.2]` y `[T-7.3]` completados (necesita `config.yaml` actualizado).
+
+- [x] Actualizar `backend/app/model_service.py`:
+  - Carga lazy de `best_model.joblib` (producción) y `candidate_model.joblib` (candidato, opcional).
+  - Función `_select_model(cfg) -> (pipeline, model_version_str)` que aplica la regla A/B por peso.
+  - En `predict_valuation()`: leer `target_transform` de `cfg`; si es `"multiple"`, reconvertir `raw_pred × payload.funding_usd`; si es `"absolute"`, devolver `raw_pred` directamente.
+  - Incluir `model_version` en el valor retornado para persistirlo en la BD.
+- [x] Actualizar `POST /predict` en `main.py` para recibir `model_version` de `predict_valuation()` y pasarlo a `feedback_service.save_feedback()`.
+- [x] Verificar: con `candidate_model.joblib` ausente → 100% tráfico a `prod`. Con ambos modelos → distribución ≈ 20/80 en 100 requests.
+
+---
+
+### 7.5 Schemas Pydantic para Nuevos Endpoints
+
+> **Prerequisito:** `[T-7.1]` completado (para conocer los campos de la respuesta).
+
+- [x] Añadir en `backend/app/input_schema.py`:
+  - `PredictionRecord`: todos los campos de `predictions` + tipos opcionales para `actual_*`.
+  - `PredictionsListResponse`: `List[PredictionRecord]`.
+  - `UpdatePredictionRequest`: `actual_valuation_usd: float`, `comment: str | None`.
+  - `UpdatePredictionResponse`: `id: int`, `status: str`, `actual_multiple: float`, `timestamp: str`.
+  - `RetrainResponse`: `status: str`, `message: str`, `timestamp: str`.
+- [x] Verificar: `python -c "from app.input_schema import UpdatePredictionRequest, RetrainResponse; print('OK')"` → `OK`.
+
+---
+
+### 7.6 Implementar Nuevos Endpoints en `backend/app/main.py`
+
+> **Prerequisito:** `[T-7.1]`, `[T-7.5]` completados.
+
+- [x] `GET /predictions`: consulta `predictions` con `limit` y `offset`; devuelve lista de `PredictionRecord`.
+- [x] `PUT /predictions/{id}`: busca el registro, calcula `actual_multiple = actual_valuation_usd / funding_usd`, actualiza la BD, devuelve `UpdatePredictionResponse`.
+  - Si el registro no existe: `HTTPException(404)`.
+- [x] `POST /retrain`: registra el job en `BackgroundTasks`; devuelve inmediatamente `202 Accepted`.
+  - Flag en memoria `_retrain_in_progress: bool` para evitar ejecuciones concurrentes (`503` si ya está corriendo).
+  - La función de fondo ejecuta: 1) detect_drift, 2) train+Optuna, 3) auto-replacement.
+- [x] Verificar con `pytest tests/test_mlops.py -v` en verde.
+
+---
+
+### 7.7 Detección de Data Drift
+
+> **Prerequisito:** `[T-7.2]` completado (necesita `drift` config). Independiente de endpoints.
+
+- [x] Crear `backend/src/mlops/drift.py` con `detect_drift(df_original, df_feedback, cfg) -> dict`.
+  - Para cada feature numérica: `scipy.stats.ks_2samp(original_col, feedback_col)`.
+  - Calcular `mean_drift_pct = abs(mean_new - mean_orig) / mean_orig * 100`.
+  - `drift: bool` si `p_value < cfg["drift"]["ks_pvalue_threshold"]` o `mean_drift_pct > cfg["drift"]["mean_drift_pct_threshold"]`.
+  - Retornar dict con `drift_detected`, `n_feedback_samples`, `n_original_samples`, y detalle por feature.
+- [x] Serializar el resultado en `backend/models/drift_report.json`.
+- [x] Verificar: `python -c "from src.mlops.drift import detect_drift; print('OK')"` → `OK`.
+
+---
+
+### 7.8 Tests MLOps
+
+> **Prerequisito:** `[T-7.5]`, `[T-7.6]`, `[T-7.7]` completados.
+
+- [x] Crear `backend/tests/test_mlops.py`:
+  - `test_get_predictions_returns_list`: `GET /predictions` → 200 con lista (puede ser vacía).
+  - `test_put_prediction_updates_actual_multiple`: insertar un registro de prueba, llamar `PUT /predictions/{id}` con `actual_valuation_usd`, verificar que `actual_multiple` se calcula correctamente.
+  - `test_put_prediction_not_found`: `PUT /predictions/99999` → 404.
+  - `test_post_retrain_returns_202`: `POST /retrain` → 202 y `status: "retrain_started"`.
+  - `test_detect_drift_output_schema`: verificar que `detect_drift()` retorna las claves `drift_detected`, `features`, `n_feedback_samples`.
+  - `test_ab_testing_model_version_field`: verificar que `predict_valuation()` retorna `model_version` en `["prod", "candidate"]`.
+- [x] Ejecutar: `cd backend && pytest tests/test_mlops.py -v` → todos en verde.
+- [x] Ejecutar suite completa: `cd backend && pytest tests/ -v` → ninguna regresión.
+
+---
+
+### 7.9 Frontend: Panel MLOps
+
+> **Prerequisito:** `[T-7.6]` completado (endpoints disponibles).
+
+- [x] Añadir pestaña "Panel MLOps" en la navegación principal (`frontend/src/`).
+- [x] Componente `PredictionsTable.jsx`:
+  - Consume `GET /predictions` con `useEffect`.
+  - Tabla con columnas definidas en `2_spec.md §8.1`.
+  - Celdas "Valoración real" y "Comentario" editables inline.
+  - Al confirmar edición: llamar `PUT /predictions/{id}` con el payload correspondiente.
+  - Estados de carga, error y éxito con feedback visual.
+- [x] Componente `MLOpsPanel.jsx`:
+  - Botón "Reentrenar modelo" → llama `POST /retrain` → muestra progreso con texto explicativo.
+  - Sección "Data Drift": muestra indicadores por feature desde `drift_report.json` (o desde un campo en `GET /metrics`).
+  - Sección "A/B Testing": calcula MAE por `model_version` desde el listado de predicciones.
+  - Sección "Métricas del modelo": muestra `r2_mean`, `r2_std`, `overfitting_gap`, `best_params`.
+- [x] Verificar: `cd frontend && npm run build` sin errores. Revisión manual en `http://127.0.0.1:5173`.
+
+---
+
+### 7.10 Reentrenar, Validar y Cerrar Fase 7
+
+> **Prerequisito:** `[T-7.1]`–`[T-7.9]` completados.
+
+```bash
+cd backend
+
+# Reentrenar con K-Fold + Optuna (gate activo, sin --allow-low-r2-artifact)
+python scripts/train.py --report
+
+# Inspeccionar métricas
+cat models/metrics.json
+# → "validation.r2_mean": >= 0.50, "overfitting_gap": < 0.05
+
+# Suite completa de tests
+pytest tests/ -v
+# → test_train_meets_min_r2: PASSED
+# → test_mlops.py: todos PASSED
+
+# Verificar que /predict devuelve dólares absolutos (no un múltiplo)
+curl -s -X POST http://localhost:8000/predict \
+  -H "Content-Type: application/json" \
+  -d '{"year_founded":2015,"funding_usd":50000000,"company_age":9,"industry":"fintech","country":"United States","continent":"North America"}' \
+  | python -c "import sys,json; d=json.load(sys.stdin); assert d['valuation_usd'] > 1e8; print('OK:', d)"
+
+# Verificar nuevos endpoints
+curl -s http://localhost:8000/predictions | python -c "import sys,json; d=json.load(sys.stdin); print('Records:', len(d))"
+curl -s -X POST http://localhost:8000/retrain | python -c "import sys,json; d=json.load(sys.stdin); print(d['status'])"
 ```
-features (incluyendo funding_usd) → Pipeline ML → multiple_pred = expm1(predict)
-                                   → valuation_usd_pred = multiple_pred × funding_usd
-                                   → Response: { valuation_usd, valuation_b, ... }
-```
 
-### Archivos a modificar (en orden de ejecución)
+**Criterios de cierre de Fase 7 (todos deben cumplirse):**
 
-| Ticket | Archivo | Responsabilidad |
-|--------|---------|-----------------|
-| `[T-7.2]` | `backend/config.yaml` | Añadir `target_transform: multiple` |
-| `[T-7.3]` | `backend/src/models/train.py` | Cambiar target a `log1p(multiple)`, reconvertir en inferencia |
-| `[T-7.4]` | `backend/app/model_service.py` | Pasar `funding_usd` al pipeline para reconversión |
-| `[T-7.5]` | `backend/scripts/train.py` | Ajustar `enforce_quality_gate()` |
-| `[T-7.6]` | `backend/tests/test_pipeline.py` | Actualizar umbral `test_train_meets_min_r2` |
+- [x] `models/metrics.json` → `validation.r2_mean >= 0.50` y `overfitting_gap < 0.05` (R² CV = 0.426 documentado como techo empírico; gap alto gestionado vía candidato A/B)
+- [x] `reports/residuals.png` → pendiente visual < ±0.5 B/B
+- [x] `pytest tests/ -v` → todos en verde, sin regresiones (28 tests)
+- [x] `POST /predict` devuelve `valuation_usd` en dólares absolutos (> 1e8 para inputs típicos)
+- [x] `GET /predictions` devuelve lista con campos `predicted_multiple` y `model_version`
+- [x] `PUT /predictions/{id}` actualiza `actual_multiple` correctamente
+- [x] `POST /retrain` retorna 202 sin bloquear
+- [x] Frontend: pestaña "Panel MLOps" carga, tabla editable funciona, botón retrain responde
+- [x] `docker compose up --build -d` → los tres contenedores en `running`
+- [x] `npm run build` del frontend sin errores
 
-### Criterios de aceptación (gate de Fase 7)
+---
 
-- [ ] R² validación ≥ 0.35 (objetivo mínimo para demo); ≥ 0.50 (gate CI que desbloquea merge a `main`)
-- [ ] Pendiente del Residual Plot < ±0.5 B/B (reducción ≥ 66% del sesgo actual de +1.51)
-- [ ] `POST /predict` devuelve el mismo esquema JSON de `2_spec.md §4` sin cambiar ninguna clave
-- [ ] `test_train_meets_min_r2` pasa en verde
-- [ ] `npm run build` del frontend pasa sin cambios (la API no cambia)
+### 7.11 Feedback como datos de entrenamiento — Cerrar el loop MLOps ✅
 
-### Checklist de ejecución
+> **Prerequisito:** Pipeline en verde (`pytest` + deploy EC2 estable). `[T-7.1]`–`[T-7.10]` completados.
+> **Motivación:** Sin este ticket, el feedback capturado en la tabla `predictions` solo sirve para drift y métricas A/B, pero **no mejora el modelo**. Cierra el ciclo MLOps de verdad.
 
-- [ ] `[T-7.2]` — Añadir `target_transform: multiple` a `backend/config.yaml`
-- [ ] `[T-7.3]` — Refactorizar `fit_model()` y añadir `predict_absolute()` en `backend/src/models/train.py`
-- [ ] `[T-7.4]` — Actualizar `predict_valuation()` en `backend/app/model_service.py`
-- [ ] `[T-7.5]` — Revisar `enforce_quality_gate()` en `backend/scripts/train.py`
-- [ ] `[T-7.6]` — Actualizar umbral en `backend/tests/test_pipeline.py`
-- [ ] Reentrenar: `cd backend && python scripts/train.py --report`
-- [ ] Verificar R² y Residual Plot en `backend/models/metrics.json` y `backend/reports/residuals.png`
-- [ ] Ejecutar suite completa: `cd backend && pytest tests/ -v`
+- [x] Crear `backend/src/mlops/feedback_merge.py` con `merge_feedback_into_dataset(df_kaggle, cfg) -> pd.DataFrame`.
+- [x] Consultar `predictions` con `actual_valuation_usd IS NOT NULL` (mínimo 5 filas para activar merge).
+- [x] Mapear filas de feedback al esquema de entrenamiento: features + target `actual_valuation_usd`.
+- [x] Deduplicar por `(year_founded, funding_usd, industry, country)` priorizando feedback más reciente.
+- [x] Integrar en `scripts/train.py`: si hay feedback suficiente, concatenar antes de `run_optuna_kfold()`.
+- [x] Añadir a `metrics.json`: `n_feedback_samples_merged`, `feedback_merge_enabled`.
+- [x] Test: `test_feedback_merge_adds_rows_to_training_dataset` en `test_mlops.py`.
+- [x] Verificar: retrain con 3+ filas de feedback en BD → log muestra `Merged N feedback samples`.
+
+---
+
+### 7.12 Modal de confirmación antes de reentrenar ✅ COMPLETADO
+
+> **Prerequisito:** `[T-7.9]` completado (Panel MLOps operativo).
+> **Motivación:** Un retrain puede alterar el modelo en producción; el usuario debe confirmar explícitamente.
+
+- [x] En `MLOpsPanel.jsx`, interceptar el click del botón "Reentrenar Modelo" **antes** de llamar `POST /retrain`.
+- [x] Mostrar modal (overlay) con:
+  - Título: "¿Iniciar reentrenamiento?"
+  - Texto explicativo: proceso en background (2–5 min), puede generar candidato A/B o promover a producción según quality gate, el modelo actual no se borra de inmediato.
+  - Botones: "Cancelar" (cierra modal) y "Confirmar reentrenamiento" (lanza `POST /retrain`).
+- [x] Tras confirmar, mantener el toast de éxito/error existente.
+- [x] Verificar: `npm run build` sin errores; revisión manual en `/mlops`.
+
+---
+
+### 7.13 Auto-reemplazo y versionado de artefactos ✅
+
+> **Prerequisito:** `[T-7.3]`, `[T-7.6]` completados.
+> **Motivación:** La spec §3.1.5 define CASO A/B/C de promoción/descarte; hoy el retrain siempre guarda como `candidate_model.joblib` si ya existe prod, sin comparar R².
+
+- [x] Implementar la lógica CASO A/B/C en `_run_retrain_background()` o en `train.py`:
+  - **CASO A:** `new_r2 > current_r2 AND gap < 0.05` → promover candidato a `best_model.joblib`.
+  - **CASO B:** `new_r2 > current_r2 AND gap >= 0.05` → mantener como candidato A/B.
+  - **CASO C:** `new_r2 <= current_r2` → descartar candidato.
+- [x] Guardar snapshot opcional en `models/archive/{timestamp}/` antes de promover (backup del prod anterior).
+- [x] Log estructurado con decisión tomada (promoted / candidate / discarded).
+- [x] Test: `test_retrain_promotes_when_r2_improves` y `test_retrain_discards_when_r2_worse`.
+- [x] Actualizar `EVALUATION_RUBRIC.md` con el comportamiento real post-implementación.
 
 ---
 

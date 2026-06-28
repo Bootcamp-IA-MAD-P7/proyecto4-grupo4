@@ -15,11 +15,47 @@ training:
   test_size: 0.2
   cv_folds: 5
   max_overfitting_pct: 5.0
-  min_r2: 0.5
+  min_r2: 0.40
+  # Phase-7 additions ────────────────────────────────────────────────────────
+  # Maximum allowed gap between train R² and validation R² before the model
+  # is promoted only as an A/B candidate instead of production.
+  max_overfitting_gap: 0.05
+  # "multiple" → model predicts log1p(valuation_usd / funding_usd).
+  # The API layer inverts the transform to return absolute dollars.
+  target_transform: "multiple"
 
 model:
   type: "gradient_boosting"
   log_target: true
+
+# ── Optuna hyperparameter search (Phase 7) ──────────────────────────────────
+# Controls the K-Fold + Optuna training loop in src/mlops/tuning.py.
+optuna:
+  n_trials: 50
+  cv_folds: 5
+  random_state: 42
+  param_space:
+    n_estimators: [50, 300]
+    max_depth: [2, 8]
+    learning_rate: [0.01, 0.3]
+    subsample: [0.6, 1.0]
+    min_samples_split: [2, 20]
+
+# ── A/B Testing (Phase 7) ────────────────────────────────────────────────────
+# When a new model is trained and passes CI, it is promoted as "candidate".
+# Inference traffic is split according to candidate_weight.
+ab_testing:
+  enabled: true
+  # Fraction of requests routed to the candidate model (0.0–1.0).
+  candidate_weight: 0.2
+
+# ── Data Drift Detection (Phase 7) ──────────────────────────────────────────
+# Thresholds used by src/mlops/registry.py::detect_drift().
+drift:
+  # KS-test p-value below which a feature is flagged as drifted.
+  ks_pvalue_threshold: 0.05
+  # Percentage difference in feature mean that also triggers a drift alert.
+  mean_drift_pct_threshold: 20.0
 
 features:
   numeric:

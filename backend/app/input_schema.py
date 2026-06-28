@@ -1,8 +1,9 @@
 from __future__ import annotations
 
+from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class PredictRequest(BaseModel):
@@ -65,3 +66,56 @@ class HealthResponse(BaseModel):
     status: str
     model_loaded: bool
     model_r2: Optional[float] = None
+
+
+# ── Phase-7 MLOps schemas ────────────────────────────────────────────────────
+
+
+class PredictionRecord(BaseModel):
+    """ORM-backed schema returned by GET /predictions."""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    year_founded: int
+    funding_usd: float
+    company_age: int
+    industry: str
+    country: str
+    continent: str
+    predicted_valuation_usd: float
+    predicted_multiple: float
+    actual_valuation_usd: Optional[float] = None
+    actual_multiple: Optional[float] = None
+    comment: Optional[str] = None
+    model_version: str
+    created_at: datetime
+
+
+class UpdatePredictionRequest(BaseModel):
+    actual_valuation_usd: float = Field(..., gt=0)
+    comment: Optional[str] = Field(default=None, max_length=1000)
+
+
+class UpdatePredictionResponse(BaseModel):
+    id: int
+    status: str
+    actual_multiple: float
+    timestamp: str
+
+
+class RetrainResponse(BaseModel):
+    status: str
+    message: str
+    timestamp: str
+
+
+class RetrainStatusResponse(BaseModel):
+    status: str
+    phase: Optional[str] = None
+    message: str
+    started_at: Optional[str] = None
+    finished_at: Optional[str] = None
+    decision: Optional[str] = None
+    details: dict = Field(default_factory=dict)
+    error: Optional[str] = None

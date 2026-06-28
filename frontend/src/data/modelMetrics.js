@@ -120,6 +120,54 @@ function formatOverfitting(value) {
   return "No disponible";
 }
 
+/** Unifica métricas legacy (Fase 3) y Fase 7 (target múltiplo + Optuna). */
+function normalizeMetrics(metrics) {
+  if (!metrics) return null;
+
+  const validation = metrics.validation ?? {};
+  const crossValidation = metrics.cross_validation ?? {};
+  const overfitting = metrics.overfitting ?? {};
+
+  const r2 =
+    validation.r2 ??
+    validation.r2_mean ??
+    validation.r2_val_split ??
+    null;
+
+  const cvR2Mean =
+    crossValidation.cv_r2_mean ??
+    validation.r2_mean ??
+    null;
+
+  const cvR2Std = validation.r2_std ?? null;
+  const overfittingGap = metrics.overfitting_gap ?? null;
+
+  let withinLimit = overfitting.within_limit;
+  if (withinLimit == null && typeof metrics.overfitting_gap === "number") {
+    withinLimit = metrics.overfitting_gap < 0.05;
+  }
+
+  const modelType =
+    metrics.model_type ??
+    (metrics.target === "multiple" ? "gradient boosting" : null);
+
+  return {
+    n_samples: metrics.n_samples ?? null,
+    model_type: modelType,
+    optuna_trials: metrics.optuna_trials ?? null,
+    cv_folds: metrics.cv_folds ?? null,
+    overfitting_gap: overfittingGap,
+    validation: {
+      r2,
+      mae: validation.mae ?? null,
+      rmse: validation.rmse ?? null,
+      r2_std: cvR2Std,
+    },
+    cross_validation: { cv_r2_mean: cvR2Mean, cv_r2_std: cvR2Std },
+    overfitting: { within_limit: withinLimit },
+  };
+}
+
 function getR2Tone(value) {
   if (typeof value !== "number") return "neutral";
   if (value >= 0.5) return "signal";
@@ -134,46 +182,88 @@ function getOverfittingTone(value) {
 }
 
 export function buildMetricCards(metrics) {
-  const validation = metrics?.validation ?? {};
-  const crossValidation = metrics?.cross_validation ?? {};
+  const m = normalizeMetrics(metrics);
+  if (!m) {
+    return [
+      { label: "Muestras", value: "No disponible", detail: "Registros usados durante el entrenamiento" },
+      { label: "R² de validación", value: "No disponible", detail: "Capacidad explicativa sobre datos no vistos" },
+      { label: "MAE de validación", value: "No disponible", detail: "Error medio absoluto del modelo" },
+      { label: "R² medio en validación cruzada", value: "No disponible", detail: "Promedio de validación cruzada" },
+    ];
+  }
+
+  const samplesValue =
+    m.n_samples != null
+      ? formatInteger(m.n_samples)
+      : m.optuna_trials != null
+        ? `${m.optuna_trials} trials`
+        : "No disponible";
+
+  const samplesDetail =
+    m.n_samples != null
+      ? "Registros usados durante el entrenamiento"
+      : m.optuna_trials != null
+        ? `Optuna K-Fold (${m.cv_folds ?? 5} folds)`
+        : "Registros usados durante el entrenamiento";
 
   return [
     {
       label: "Muestras",
-      value: formatInteger(metrics?.n_samples),
-      detail: "Registros usados durante el entrenamiento",
+      value: samplesValue,
+      detail: samplesDetail,
     },
     {
       label: "R² de validación",
-      value: formatNumber(validation.r2),
+      value: formatNumber(m.validation.r2),
       detail: "Capacidad explicativa sobre datos no vistos",
     },
     {
       label: "MAE de validación",
-      value: formatUsdBillions(validation.mae),
-      detail: "Error medio absoluto del modelo",
+      value: m.validation.mae != null ? formatUsdBillions(m.validation.mae) : "No disponible",
+      detail: "Error medio absoluto en USD (holdout de validación)",
     },
     {
       label: "R² medio en validación cruzada",
-      value: formatNumber(crossValidation.cv_r2_mean),
+      value: formatNumber(m.cross_validation.cv_r2_mean),
       detail: "Promedio de validación cruzada",
     },
   ];
 }
 
 export function buildMarketSignals(metrics) {
-  const validation = metrics?.validation ?? {};
-  const overfitting = metrics?.overfitting ?? {};
+  const m = normalizeMetrics(metrics);
+  if (!m) {
+    return [
+      { label: "Modelo", value: "No disponible", tone: "neutral" },
+      { label: "R² de validación", value: "No disponible", tone: "neutral" },
+      { label: "Sobreajuste", value: "No disponible", tone: "neutral" },
+      { label: "RMSE de validación", value: "No disponible", tone: "info" },
+    ];
+  }
 
   return [
-    { label: "Modelo", value: formatModelName(metrics?.model_type), tone: "signal" },
-    { label: "R² de validación", value: formatNumber(validation.r2), tone: getR2Tone(validation.r2) },
+    { label: "Modelo", value: formatModelName(m.model_type), tone: "signal" },
+    { label: "R² de validación", value: formatNumber(m.validation.r2), tone: getR2Tone(m.validation.r2) },
     {
       label: "Sobreajuste",
-      value: formatOverfitting(overfitting.within_limit),
-      tone: getOverfittingTone(overfitting.within_limit),
+      value: formatOverfitting(m.overfitting.within_limit),
+      tone: getOverfittingTone(m.overfitting.within_limit),
     },
-    { label: "RMSE de validación", value: formatUsdBillions(validation.rmse), tone: "neutral" },
+    {
+      label: "RMSE de validación",
+      value: m.validation.rmse != null ? formatUsdBillions(m.validation.rmse) : "No disponible",
+      tone: "info",
+    },
+    {
+      label: "Desv. R² CV",
+      value: formatNumber(m.validation.r2_std),
+      tone: "neutral",
+    },
+    {
+      label: "Gap sobreajuste",
+      value: typeof m.overfitting_gap === "number" ? formatNumber(m.overfitting_gap) : "No disponible",
+      tone: m.overfitting_gap != null && m.overfitting_gap >= 0.05 ? "risk" : "neutral",
+    },
   ];
 }
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { getHealth, predict, submitFeedback } from "../api";
 import Dashboard from "../components/Dashboard";
+import MLOpsDashboard from "./MLOpsDashboard";
 import Footer from "../components/Footer";
 import ModelNotes from "../components/ModelNotes";
 import Navbar from "../components/Navbar";
@@ -27,6 +28,7 @@ const routeTitles = {
   "/predict": "Predicción",
   "/methodology": "Metodología",
   "/model": "Modelo",
+  "/mlops": "Panel MLOps",
 };
 
 function getInitialPath() {
@@ -256,6 +258,7 @@ function Home() {
 
       {currentPath === "/methodology" ? <PipelineSteps /> : null}
       {currentPath === "/model" ? <ModelNotes /> : null}
+      {currentPath === "/mlops" ? <MLOpsDashboard /> : null}
 
       <Footer onNavigate={navigate} />
     </main>
