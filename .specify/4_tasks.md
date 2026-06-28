@@ -1489,10 +1489,9 @@ Antes de comenzar cualquier tarea:
 
 ---
 
-## Fase 7 — Follow-up MLOps (pendiente)
+## Fase 7 — Follow-up MLOps ✅
 
-> **Ejecutar solo cuando el pipeline esté en verde** (deploy EC2 estable + `pytest` + `npm run build`).
-> **Motivación:** cerrar gaps detectados en producción: feedback no alimenta entrenamiento, falta modal de confirmación en retrain, auto-reemplazo §3.1.5 incompleto.
+> **Estado:** cerrado — `[T-7.11]` feedback merge, `[T-7.12]` modal retrain, `[T-7.13]` auto-reemplazo CASO A/B/C, banner `GET /retrain/status` en Panel MLOps.
 
 ---
 

@@ -137,13 +137,57 @@ def test_put_prediction_not_found(client):
 
 
 def test_post_retrain_returns_202(client):
+    from app import retrain_status as retrain_status_module
+
     main_module._retrain_in_progress = False
     with patch("app.main._run_retrain_background"):
         response = client.post("/retrain")
-    # Background task was mocked — reset the flag it would normally clear
     main_module._retrain_in_progress = False
+    retrain_status_module._status["status"] = "idle"
     assert response.status_code == 202
     assert response.json()["status"] == "retrain_started"
+
+
+def test_get_retrain_status_idle(client):
+    from app import retrain_status as retrain_status_module
+
+    retrain_status_module._status.update(
+        {
+            "status": "idle",
+            "phase": None,
+            "message": "Sin reentrenamientos recientes.",
+            "started_at": None,
+            "finished_at": None,
+            "decision": None,
+            "details": {},
+            "error": None,
+        }
+    )
+    response = client.get("/retrain/status")
+    assert response.status_code == 200
+    body = response.json()
+    assert body["status"] == "idle"
+
+
+def test_get_retrain_status_running(client):
+    from app import retrain_status as retrain_status_module
+
+    retrain_status_module._status.update(
+        {
+            "status": "running",
+            "phase": "training",
+            "message": "Entrenando…",
+            "started_at": "2026-06-28T12:00:00+00:00",
+            "finished_at": None,
+            "decision": None,
+            "details": {},
+            "error": None,
+        }
+    )
+    response = client.get("/retrain/status")
+    assert response.status_code == 200
+    assert response.json()["status"] == "running"
+    assert response.json()["phase"] == "training"
 
 
 def test_post_retrain_concurrent_blocked(client):

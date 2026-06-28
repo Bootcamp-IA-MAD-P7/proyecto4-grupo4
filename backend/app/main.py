@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import json
 import logging
 import os
+import re
 import subprocess
 import sys
 from contextlib import asynccontextmanager
@@ -23,10 +25,19 @@ from app.input_schema import (
     PredictResponse,
     PredictionRecord,
     RetrainResponse,
+    RetrainStatusResponse,
     UpdatePredictionRequest,
     UpdatePredictionResponse,
 )
 from app.model_service import get_metrics, get_model_r2, is_model_loaded, predict_valuation, preload_model
+from app.retrain_status import (
+    get_status as get_retrain_status_snapshot,
+    is_running as retrain_is_running,
+    mark_completed,
+    mark_failed,
+    mark_started,
+    set_phase,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -155,8 +166,29 @@ def update_prediction(
 _retrain_in_progress: bool = False
 
 
+def _parse_auto_replacement(stdout: str) -> dict | None:
+    for line in stdout.splitlines():
+        stripped = line.strip()
+        if '"auto_replacement"' not in stripped:
+            continue
+        try:
+            payload = json.loads(stripped)
+            report = payload.get("auto_replacement")
+            if isinstance(report, dict):
+                return report
+        except json.JSONDecodeError:
+            match = re.search(r'\{"auto_replacement":\s*(\{.*\})\s*\}', stripped)
+            if match:
+                try:
+                    return json.loads(match.group(0)).get("auto_replacement")
+                except json.JSONDecodeError:
+                    continue
+    return None
+
+
 def _run_retrain_background() -> None:
     global _retrain_in_progress
+    drift_detected: bool | None = None
     try:
         backend_dir = Path(__file__).resolve().parents[1]
 
@@ -166,10 +198,13 @@ def _run_retrain_background() -> None:
 
             cfg = load_config()
             drift_result = detect_drift(cfg)
-            logger.info("Drift detection result: drift_detected=%s", drift_result.get("drift_detected"))
+            drift_detected = bool(drift_result.get("drift_detected"))
+            logger.info("Drift detection result: drift_detected=%s", drift_detected)
+            set_phase("drift", extra={"drift_detected": drift_detected})
         except Exception as exc:
             logger.warning("Drift detection skipped (%s). Proceeding with retrain.", exc)
 
+        set_phase("training")
         result = subprocess.run(
             [sys.executable, "scripts/train.py", "--report"],
             cwd=backend_dir,
@@ -178,31 +213,50 @@ def _run_retrain_background() -> None:
         )
         if result.returncode == 0:
             logger.info("Retrain completed successfully.\n%s", result.stdout)
-            if '"decision": "promoted"' in result.stdout:
-                logger.info("Auto-replacement: candidate promoted to production.")
-            elif '"decision": "discarded"' in result.stdout:
-                logger.info("Auto-replacement: candidate discarded.")
-            elif '"decision": "candidate"' in result.stdout:
-                logger.info("Auto-replacement: candidate kept for A/B testing.")
+            replacement = _parse_auto_replacement(result.stdout)
+            decision = replacement.get("decision") if replacement else "skipped"
+
+            set_phase("reload")
+            model_reloaded = True
             try:
                 preload_model()
             except Exception as exc:
+                model_reloaded = False
                 logger.error("Could not reload model after retrain: %s", exc)
+
+            mark_completed(
+                decision=decision,
+                replacement=replacement,
+                drift_detected=drift_detected,
+                model_reloaded=model_reloaded,
+            )
+            logger.info("Retrain finished with decision=%s", decision)
         else:
-            logger.error("Retrain script exited with code %d.\n%s", result.returncode, result.stderr)
+            error_text = (result.stderr or result.stdout or "Unknown training error").strip()
+            logger.error("Retrain script exited with code %d.\n%s", result.returncode, error_text)
+            mark_failed(error_text[:500])
+    except Exception as exc:
+        logger.exception("Retrain background task failed")
+        mark_failed(str(exc))
     finally:
         _retrain_in_progress = False
+
+
+@app.get("/retrain/status", response_model=RetrainStatusResponse)
+def retrain_status() -> RetrainStatusResponse:
+    return RetrainStatusResponse(**get_retrain_status_snapshot())
 
 
 @app.post("/retrain", response_model=RetrainResponse, status_code=202)
 def retrain(background_tasks: BackgroundTasks) -> RetrainResponse:
     global _retrain_in_progress
-    if _retrain_in_progress:
+    if _retrain_in_progress or retrain_is_running():
         raise HTTPException(status_code=503, detail="Reentrenamiento ya en curso.")
     _retrain_in_progress = True
+    mark_started()
     background_tasks.add_task(_run_retrain_background)
     return RetrainResponse(
         status="retrain_started",
-        message="El reentrenamiento se ejecuta en segundo plano.",
+        message="Reentrenamiento iniciado. Consulta el estado en Panel MLOps.",
         timestamp=utc_now_iso(),
     )

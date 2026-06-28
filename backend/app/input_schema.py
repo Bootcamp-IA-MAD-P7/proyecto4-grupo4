@@ -108,3 +108,14 @@ class RetrainResponse(BaseModel):
     status: str
     message: str
     timestamp: str
+
+
+class RetrainStatusResponse(BaseModel):
+    status: str
+    phase: Optional[str] = None
+    message: str
+    started_at: Optional[str] = None
+    finished_at: Optional[str] = None
+    decision: Optional[str] = None
+    details: dict = Field(default_factory=dict)
+    error: Optional[str] = None
