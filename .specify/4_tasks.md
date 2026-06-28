@@ -15,7 +15,7 @@
 | Fase 5 | `[T-5.1]`–`[T-5.9]` | ✅ Completados |
 | Fase 6 | `[T-6.x]` | ✅ Completados |
 | Fase 7 | `[T-7.1]`–`[T-7.7]` | 🧊 Congelada (Post-MVP) |
-| Fase 8 | `[T-8.1]`–`[T-8.5]` | Pendiente |
+| Fase 8 | `[T-8.1]`–`[T-8.5]` | ✅ Completados |
 
 ---
 
@@ -1013,16 +1013,16 @@ Antes de comenzar cualquier tarea:
 | Fase 5 — Frontend + Docker     | 9  | 9  | 0  | ✅ Completada |
 | Fase 6 — Documentación         | 6  | 6  | 0  | ✅ Completada |
 | Fase 7 — Optimización Post-MVP | 7  | 0  | 7  | 🧊 Congelada |
-| Fase 8 — CI/CD y Despliegue    | 5  | 0  | 5  | Pendiente |
-| **Total**                      | **68** | **56** | **12** | |
+| Fase 8 — CI/CD y Despliegue    | 5  | 5  | 0  | ✅ Completada |
+| **Total**                      | **68** | **61** | **7** | |
 
-> **Fase 6 completada.** Siguiente bloque: `[T-8.1]` Configurar GitHub Secrets para despliegue en EC2 (puertos 8004/3005).
+> **Fases 0–6 y 8 completadas. MVP desplegado en EC2 (34.235.130.33).** Pendiente: Fase 7 (optimización post-MVP, congelada hasta nueva sesión).
 
 ---
 
-## Fase 8 — CI/CD y Despliegue en EC2 (pendiente)
+## Fase 8 — CI/CD y Despliegue en EC2 (✅ completada — aprobación manual)
 
-> **Estado:** pendiente — infraestructura base creada (`deployment.yml`, `docker-compose.prod.yml`). Requiere configurar secrets y verificar puertos EC2.
+> **Estado:** ✅ completada — infraestructura desplegada en EC2 (34.235.130.33). GitHub Secrets, Security Group, Docker e imágenes configurados por el equipo humano. Pipeline CI/CD activo en rama main.
 
 ### [T-8.1] Configurar GitHub Secrets para el pipeline de despliegue
 
@@ -1044,7 +1044,7 @@ Antes de comenzar cualquier tarea:
 | `POSTGRES_DB` | `unicorns` |
 
 - **Verificación:** El job `test` del workflow `deployment.yml` pasa en verde al hacer push a `main`.
-- [ ] Estado: pendiente
+- [x] Estado: completado (aprobación manual — operadores humanos)
 
 ---
 
@@ -1058,7 +1058,7 @@ Antes de comenzar cualquier tarea:
   - Puerto `5434` (PostgreSQL externo, solo si se necesita acceso de debug)
 - **Nota:** El puerto `5432` del host ya está ocupado por otra instancia PostgreSQL del servidor. El proyecto usa `POSTGRES_HOST_PORT=5434` para el mapeo externo. Los contenedores se comunican internamente por `db:5432`.
 - **Verificación:** `curl http://EC2_PUBLIC_IP:8004/health` desde el exterior devuelve `{"status":"ok"}`.
-- [ ] Estado: pendiente
+- [x] Estado: completado (aprobación manual — Security Group AWS confirmado)
 
 ---
 
@@ -1076,7 +1076,7 @@ Antes de comenzar cualquier tarea:
   mkdir -p ~/unicorn
   ```
 - **Verificación:** `docker --version` y `docker compose version` sin error.
-- [ ] Estado: pendiente
+- [x] Estado: completado (aprobación manual — Docker y Docker Compose instalados en EC2)
 
 ---
 
@@ -1102,7 +1102,7 @@ Antes de comenzar cualquier tarea:
        -d '{"year_founded":2015,"funding_usd":50000000,"company_age":9,"industry":"fintech","country":"United States","continent":"North America"}'
      ```
 - **Verificación:** `/health` → `{"status":"ok","model_loaded":true}`. `/predict` devuelve `valuation_usd`.
-- [ ] Estado: pendiente
+- [x] Estado: completado (aprobación manual — stack levantado y smoke test pasado)
 
 ---
 
@@ -1116,7 +1116,7 @@ Antes de comenzar cualquier tarea:
   4. Verificar que la URL pública `http://EC2_PUBLIC_IP:3005` carga el frontend desde el navegador.
   5. Realizar una predicción completa desde la UI para confirmar el flujo extremo a extremo.
 - **Verificación:** Pipeline verde end-to-end. URL pública funcional.
-- [ ] Estado: pendiente
+- [x] Estado: completado (aprobación manual — pipeline CI/CD verificado end-to-end)
 
 ---
 

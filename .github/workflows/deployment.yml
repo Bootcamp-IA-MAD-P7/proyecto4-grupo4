@@ -67,8 +67,8 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/unicorn-api:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/unicorn-api:${{ github.sha }}
 
-      # Frontend — VITE_API_URL baked into the static bundle at build time
-      # Set VITE_API_URL to http://<EC2_PUBLIC_IP>:8004 in GitHub secrets
+      # Frontend — VITE_API_URL is baked into the static bundle at build time.
+      # Secret VITE_API_URL must be set to http://34.235.130.33:8004
       - name: Build and push frontend image
         run: |
           docker build \
@@ -83,7 +83,9 @@ jobs:
   # JOB 3 — Deploy on EC2 via SSH
   # Pulls images from Docker Hub and (re)starts containers with docker compose
   #
-  # EC2 port mapping (must be open in the security group):
+  # EC2 production server: 34.235.130.33 (configured via secret EC2_HOST)
+  #
+  # Port mapping (Security Group must have these open as Inbound rules):
   #   API      → host 8004  → container 8000
   #   Frontend → host 3005  → container 80  (nginx)
   #   DB       → internal only (Docker network); external 5434 for debugging
@@ -145,8 +147,28 @@ jobs:
             POSTGRES_HOST_PORT=5434 \
               docker compose -f docker-compose.prod.yml up -d --remove-orphans
 
-            # ── Smoke test ────────────────────────────────────────────────────
-            sleep 10
+            # ── Internal smoke tests (from within EC2) ────────────────────────
+            sleep 15
+            echo "→ Checking API health on port 8004..."
             curl --fail --silent http://localhost:8004/health | grep '"status":"ok"'
-            echo "✅ Deployment successful — unicorn stack is live"
+            echo "→ Checking frontend on port 3005..."
+            curl --fail --silent --output /dev/null --write-out "%{http_code}" http://localhost:3005 | grep -E "^(200|301|302)$"
+            echo "✅ Internal smoke tests passed"
           ENDSSH
+
+      # ── External validation from GitHub Actions runner ────────────────────
+      # Confirms both services are reachable from the public internet.
+      # EC2_HOST = 34.235.130.33 (set in GitHub Secrets → environment: production)
+      - name: External smoke test (API :8004 + Frontend :3005)
+        run: |
+          echo "→ Verifying API externally on http://${{ secrets.EC2_HOST }}:8004/health ..."
+          curl --fail --silent --retry 3 --retry-delay 5 \
+            "http://${{ secrets.EC2_HOST }}:8004/health" | grep '"status":"ok"'
+
+          echo "→ Verifying frontend externally on http://${{ secrets.EC2_HOST }}:3005 ..."
+          STATUS=$(curl --silent --output /dev/null --write-out "%{http_code}" --retry 3 --retry-delay 5 \
+            "http://${{ secrets.EC2_HOST }}:3005")
+          echo "Frontend HTTP status: $STATUS"
+          [[ "$STATUS" =~ ^(200|301|302)$ ]] || (echo "Frontend not reachable" && exit 1)
+
+          echo "✅ Deployment successful — unicorn stack is live at http://${{ secrets.EC2_HOST }}:3005"
