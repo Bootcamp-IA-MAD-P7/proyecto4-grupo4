@@ -282,8 +282,8 @@ El reentrenamiento **continúa independientemente** del resultado del drift; el 
 > - ✅ Drift check + entrenamiento Optuna K-Fold en background.
 > - ✅ Guardado dual `best_model.joblib` (prod) / `candidate_model.joblib` (A/B).
 > - ✅ **Implementado (`[T-7.11]`):** el feedback con `actual_valuation_usd` se fusiona al dataset en retrain cuando hay ≥5 filas confirmadas.
-> - ⚠️ **Gap conocido:** la regla de auto-reemplazo CASO A/B/C (abajo) está **parcialmente implementada** — hoy un retrain con `best_model.joblib` existente siempre guarda como candidato, sin comparar R² ni promover/descartar. Ver ticket `[T-7.13]`.
-> - ⚠️ **Gap UX:** falta modal de confirmación antes de lanzar retrain. Ver ticket `[T-7.12]`.
+> - ✅ **Implementado (`[T-7.13]`):** auto-reemplazo CASO A/B/C compara `metrics.json` vs `metrics_candidate.json` y promueve, mantiene candidato A/B o descarta.
+> - ✅ **Implementado (`[T-7.12]`):** modal de confirmación antes de lanzar retrain.
 
 El endpoint dispara la siguiente lógica en `BackgroundTasks`:
 
@@ -327,7 +327,7 @@ El endpoint dispara la siguiente lógica en `BackgroundTasks`:
 | `candidate_model.joblib` | Modelo candidato; sirve el 20 % del tráfico A/B (si existe) |
 | `metrics.json` | Se **sobrescribe** en cada entrenamiento (no hay historial de versiones) |
 | `predictions.model_version` | Trazabilidad por predicción: `"prod"` o `"candidate"` |
-| Archivo histórico (`models/archive/`) | **No implementado** — pendiente en `[T-7.13]` |
+| Archivo histórico (`models/archive/`) | **Implementado (`[T-7.13]`)** — backup del prod anterior antes de promover |
 
 Un retrain **puede alterar** el modelo activo (promoción prod o nuevo candidato). Por eso el frontend debe mostrar un **modal de confirmación** antes de llamar `POST /retrain` (`[T-7.12]`).
 

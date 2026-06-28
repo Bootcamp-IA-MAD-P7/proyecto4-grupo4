@@ -15,7 +15,7 @@
 | Fase 5 | `[T-5.1]`–`[T-5.9]` | ✅ Completados |
 | Fase 6 | `[T-6.x]` | ✅ Completados |
 | **Fase 7** | **`[T-7.1]`–`[T-7.10]`** | **✅ Completados** |
-| **Fase 7 (follow-up)** | **`[T-7.11]` ✅ · `[T-7.13]`** | **`[T-7.13]` pendiente** |
+| **Fase 7 (follow-up)** | **`[T-7.11]`–`[T-7.13]`** | **✅ Completados** |
 | Fase 8 | `[T-8.1]`–`[T-8.5]` | ✅ Completados |
 
 ---
@@ -1559,4 +1559,4 @@ Antes de comenzar cualquier tarea:
   ```bash
   cd backend && pytest tests/test_mlops.py -v -k "retrain_promote or retrain_discard"
   ```
-- [ ] Estado: pendiente
+- [x] Estado: completado — `auto_replacement.py` aplica CASO A/B/C; backup en `models/archive/{timestamp}/`; tests de promoción, descarte y candidato A/B en verde.
