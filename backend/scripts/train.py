@@ -36,9 +36,18 @@ import pandas as pd
 import os
 from sqlalchemy import create_engine
 def load_feedback_from_db() -> pd.DataFrame:
-    db_url = os.getenv("DATABASE_URL")
-    engine = create_engine(db_url)
-    return pd.read_sql("SELECT * FROM feedback", engine)
+    """Intenta cargar feedback de la DB de forma segura."""
+    try:
+        db_url = os.getenv("DATABASE_URL")
+        if not db_url:
+            return pd.DataFrame()
+        engine = create_engine(db_url)
+        # Esto intenta hacer un SELECT rápido solo para comprobar si la tabla existe
+        return pd.read_sql("SELECT * FROM feedback", engine)
+    except Exception as e:
+        # Si la tabla no existe o hay error, esto evita que el script falle
+        print(f"INFO | Feedback: La tabla 'feedback' no está disponible. Omitiendo carga.")
+        return pd.DataFrame()
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -186,22 +195,17 @@ def _build_target_series(df: pd.DataFrame, cfg: dict[str, Any]) -> pd.Series:
     return pd.Series(np.log1p(df[target_col].values), index=df.index, name="log_valuation")
 
 
-def _validation_holdout(
-    df: pd.DataFrame,
-    cfg: dict[str, Any],
-) -> tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
-    x, _y_raw = prepare_modeling_frame(df)
-    y = _build_target_series(df.loc[x.index], cfg)
-
+# Ahora la función recibe el DataFrame y la configuración como argumentos
+def _validation_holdout(df: pd.DataFrame, config: dict):
+    # df ya llega con el feedback mergeado desde main()
+    x, y = prepare_modeling_frame(df)
     y_bins = pd.qcut(y, q=5, duplicates="drop")
     return train_test_split(
-        x,
-        y,
-        test_size=cfg["training"]["test_size"],
-        random_state=cfg["project"]["random_state"],
+        x, y,
+        test_size=config["training"]["test_size"],
+        random_state=config["project"]["random_state"],
         stratify=y_bins,
     )
-
 
 def _validation_usd_metrics(
     pipeline: Any,
@@ -209,11 +213,15 @@ def _validation_usd_metrics(
     df: pd.DataFrame,
     cfg: dict[str, Any],
 ) -> dict[str, float]:
-    """Compute MAE/RMSE on the validation holdout in absolute USD."""
+    """Compute MAE/RMSE con seguridad para evitar valores infinitos."""
     val_idx = x_val.index
     funding = df.loc[val_idx, "funding_usd"]
     y_true_usd = df.loc[val_idx, "valuation_usd"].to_numpy(dtype=float)
     y_pred_usd = predict_absolute(pipeline, x_val, funding, cfg)
+    
+    # NUEVO: Limitamos los valores para evitar errores de infinito
+    y_pred_usd = np.clip(y_pred_usd, -1e15, 1e15) 
+    
     return {
         "mae": float(mean_absolute_error(y_true_usd, y_pred_usd)),
         "rmse": float(np.sqrt(mean_squared_error(y_true_usd, y_pred_usd))),
